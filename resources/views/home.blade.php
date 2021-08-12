@@ -27,29 +27,7 @@
 @section('script')
 
 <script>
-  var ctx = document.getElementById("myChart").getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: @php echo json_encode($label); @endphp,
-      datasets: [{
-        label: 'Data Pengunjung',
-        data: <?php echo json_encode($data); ?>,
-        backgroundColor: '',
-        borderColor: '#176BB3',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero:true
-          }
-        }]
-      }
-    }
-  });
+
 </script>
 
 @endsection
