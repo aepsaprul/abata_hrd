@@ -126,7 +126,7 @@
 
 											<td class="nomor">{{ $key + 1 }}</td>
 
-											<td>{{ $loker->masterJabatan->nama_jabatanq }}</td>
+											<td>{{ $loker->masterJabatan->nama_jabatan }}</td>
 
 											<td class="text-center">
 

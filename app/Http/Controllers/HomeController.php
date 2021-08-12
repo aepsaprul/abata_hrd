@@ -25,24 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $antrianPengungjungs = AntrianPengunjung::select(DB::raw('count(nama_customer) AS jml'), DB::raw('tanggal'))
-        // ->groupBy(DB::raw('DATE(tanggal)'))
-        // ->get();
-
-        // $jml = [];
-        // $tgl = [];
-
-        // foreach ($antrianPengungjungs as $key => $value) {
-        //     # code...
-        //     $jml[] = $value->jml;
-        //     $tgl[] = $value->tanggal;
-        // }
-
-
-
-        // $label = $tgl;
-        // $data = $jml;
-        // return view('home',compact('data','label'));
         return view('home');
     }
 }
