@@ -186,7 +186,7 @@
 
 						<div class="card card-primary">
 							<div class="card-body">
-								<h5 class="text-center text-uppercase mb-3">kontrak</h5>
+								<h5 class="text-center text-uppercase mb-3">kontrak <button id="kontrak_btn_add" class="add btn btn-success"><i class="fa fa-plus"></i></button></h5>
 								<hr>
 								<div id="kontrak">
 									<div class="row">
