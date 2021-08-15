@@ -184,7 +184,7 @@
 
 						{{-- kontrak  --}}
 
-						<div class="card card-primary">
+						{{-- <div class="card card-primary">
 							<div class="card-body">
 								<h5 class="text-center text-uppercase mb-3">kontrak <button id="kontrak_btn_add" class="add btn btn-success"><i class="fa fa-plus"></i></button></h5>
 								<hr>
@@ -229,6 +229,88 @@
 										</div>
 									</div>
 								</div>
+							</div>
+						</div> --}}
+
+						<div class="card card-primary">
+							<div class="card-body">
+								<h5 class="text-center text-uppercase mb-3">kontrak <button id="kontrak_btn_add" class="btn btn-success"><i class="fa fa-plus"></i></button></h5>
+
+								<table style="width: 100%; ">
+									<tr style="">
+										<th  style="padding: 10px;">Mulai Kontrak</th>
+										<th  style="padding: 10px;">Akhir Kontrak</th>
+										<th  style="padding: 10px;">Lama Kontrak</th>
+										<th  style="padding: 10px;" class="text-center"></th>
+									</tr>
+									<tr>
+										<td style="padding: 10px;">
+											<div class="input-group date border-bottom border-warning rounded p-2" id="mulai_kontrak" data-target-input="nearest">
+												<input type="text" class="form-control datetimepicker-input" data-target="#mulai_kontrak" name="mulai_kontrak" style="border: none;" value="{{ $kontrak->mulai_kontrak }}"/>
+												<div class="input-group-append" data-target="#mulai_kontrak" data-toggle="datetimepicker">
+														<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
+											</div>
+										</td>
+										<td style="padding: 10px;">
+											<div class="input-group date border-bottom border-warning rounded p-2" id="akhir_kontrak" data-target-input="nearest">
+												<input type="text" class="form-control datetimepicker-input" data-target="#akhir_kontrak" name="akhir_kontrak" style="border: none;" value="{{ $kontrak->akhir_kontrak }}"/>
+												<div class="input-group-append" data-target="#akhir_kontrak" data-toggle="datetimepicker">
+														<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
+											</div>
+										</td>
+										<td style="padding: 10px;">
+											<div class="border-bottom border-warning rounded p-2">
+												<input type="text" name="lama_kontrak" class="form-control" id="lama_kontrak" style="border: none; width: 100%;" onkeyup="this.value = this.value.toUpperCase()" value="{{ $kontrak->lama_kontrak }}">
+											</div>
+										</td>
+										<td style="padding: 10px;" class="text-center">
+											<button id="" class="btn btn-success"><i class="fa fa-edit"></i></button> | <button id="" class="btn btn-success"><i class="fa fa-trash"></i></button>
+										</td>
+									</tr>
+								</table>
+								{{-- <div id="kontrak">
+									<div class="row">
+										<div class="col-md-4">
+											<dl class="row">
+												<dt class="col-sm-8 ml-3">Mulai Kontrak</dt>
+												<dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
+													<div class="input-group date" id="mulai_kontrak" data-target-input="nearest">
+														<input type="text" class="form-control datetimepicker-input" data-target="#mulai_kontrak" name="mulai_kontrak" style="border: none;" value="{{ $kontrak->mulai_kontrak }}"/>
+														<div class="input-group-append" data-target="#mulai_kontrak" data-toggle="datetimepicker">
+																<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+														</div>
+													</div>
+												</dd>
+											</dl>
+										</div>
+										<div class="col-md-4">
+											<dl class="row">
+												<dt class="col-sm-8 ml-3">Akhir Kontrak</dt>
+												<dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
+													<div class="input-group date" id="akhir_kontrak" data-target-input="nearest">
+														<input type="text" class="form-control datetimepicker-input" data-target="#akhir_kontrak" name="akhir_kontrak" style="border: none;" value="{{ $kontrak->akhir_kontrak }}"/>
+														<div class="input-group-append" data-target="#akhir_kontrak" data-toggle="datetimepicker">
+																<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+														</div>
+													</div>
+												</dd>
+											</dl>
+										</div>
+										<div class="col-md-3">
+											<dl class="row">
+												<dt class="col-sm-8 ml-3">Lama Kontrak</dt>
+												<dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
+													<input type="text" name="lama_kontrak" class="form-control" id="lama_kontrak" style="border: none; width: 100%;" onkeyup="this.value = this.value.toUpperCase()" value="{{ $kontrak->lama_kontrak }}">
+												</dd>
+											</dl>
+										</div>
+										<div class="col-md-1 text-right">
+											<!--<button id="kontrak_add" class="kontrak_add btn btn-success mt-4"><i class="fa fa-plus"></i></button>-->
+										</div>
+									</div>
+								</div> --}}
 							</div>
 						</div>
 
