@@ -52,6 +52,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('karyawan', MasterKaryawanController::class);
     Route::get('karyawan/{id}/delete', [MasterKaryawanController::class, 'delete'])->name('karyawan.delete');
+    Route::post('karyawan/kontrak-simpan', [MasterKaryawanController::class, 'kontrakSimpan'])->name('karyawan.kontrak_simpan');
+    Route::post('karyawan/kontrak-edit', [MasterKaryawanController::class, 'kontrakEdit'])->name('karyawan.kontrak_edit');
+    Route::post('karyawan/kontrak-update', [MasterKaryawanController::class, 'kontrakUpdate'])->name('karyawan.kontrak_update');
+    Route::post('karyawan/kontrak-delete', [MasterKaryawanController::class, 'kontrakDelete'])->name('karyawan.kontrak_delete');
 
     Route::resource('hc/cir', HcCirController::class);
     Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');

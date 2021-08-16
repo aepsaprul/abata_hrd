@@ -73,7 +73,7 @@ class MasterKaryawanController extends Controller
         $karyawans->status_perkawinan = $request->status_perkawinan;
         $karyawans->total_cuti = $request->total_cuti;
         $karyawans->created_by = Auth::user()->id;
-        
+
         if($request->file('foto')) {
             $file = $request->file('foto')->store('foto', 'public');
             $karyawans->foto = $file;
@@ -159,7 +159,7 @@ class MasterKaryawanController extends Controller
         }
 
         $user->save();
-        
+
         return redirect()->route('karyawan.create')->with('status', 'Data karyawan berhasil ditambahkan');
     }
 
@@ -181,18 +181,18 @@ class MasterKaryawanController extends Controller
         $keluarga_setelah_menikah = HcKeluargaSetelahMenikah::where('email', $email)->get();
         $kerabat_dihubungi = HcKerabatDarurat::where('email', $email)->first();
         $pendidikan = HcPendidikan::where('email', $email)->first();
-        $kontrak = HcKontrak::where('email', $email)->first();
-        
+        $kontraks = HcKontrak::where('email', $email)->get();
+
         return view('karyawan.detail', [
-            'karyawan' => $karyawan, 
-            'cabangs' => $cabangs, 
-            'jabatans' => $jabatans, 
+            'karyawan' => $karyawan,
+            'cabangs' => $cabangs,
+            'jabatans' => $jabatans,
             'medsos' => $medsos,
             'keluarga_sebelum_menikahs' => $keluarga_sebelum_menikah,
             'keluarga_setelah_menikahs' => $keluarga_setelah_menikah,
             'kerabat_hubungi' => $kerabat_dihubungi,
             'pendidikan' => $pendidikan,
-            'kontrak' => $kontrak
+            'kontraks' => $kontraks
         ]);
     }
 
@@ -214,18 +214,18 @@ class MasterKaryawanController extends Controller
         $keluarga_setelah_menikah = HcKeluargaSetelahMenikah::where('email', $email)->get();
         $kerabat_darurat = HcKerabatDarurat::where('email', $email)->first();
         $pendidikan = HcPendidikan::where('email', $email)->first();
-        $kontrak = HcKontrak::where('email', $email)->first();
-        
+        $kontraks = HcKontrak::where('email', $email)->orderBy('id', 'desc')->get();
+
         return view('karyawan.edit', [
-            'karyawan' => $karyawan, 
-            'cabangs' => $cabangs, 
+            'karyawan' => $karyawan,
+            'cabangs' => $cabangs,
             'jabatans' => $jabatans,
             'medsos' => $medsos,
             'keluarga_sebelum_menikahs' => $keluarga_sebelum_menikah,
             'keluarga_setelah_menikahs' => $keluarga_setelah_menikah,
             'kerabat_darurat' => $kerabat_darurat,
             'pendidikan' => $pendidikan,
-            'kontrak' => $kontrak
+            'kontraks' => $kontraks
         ]);
     }
 
@@ -276,13 +276,13 @@ class MasterKaryawanController extends Controller
         $user->name = $request->nama_panggilan;
         $user->email = $request->email;
         $user->save();
-        
-        $kontraks = HcKontrak::where('email', $karyawan->email)->first();
-        $kontraks->email = $request->email;
-        $kontraks->mulai_kontrak = $request->mulai_kontrak;
-        $kontraks->akhir_kontrak = $request->akhir_kontrak;
-        $kontraks->lama_kontrak = $request->lama_kontrak;
-        $kontraks->save();
+
+        // $kontraks = HcKontrak::where('email', $karyawan->email)->first();
+        // $kontraks->email = $request->email;
+        // $kontraks->mulai_kontrak = $request->mulai_kontrak;
+        // $kontraks->akhir_kontrak = $request->akhir_kontrak;
+        // $kontraks->lama_kontrak = $request->lama_kontrak;
+        // $kontraks->save();
 
         $media_sosial = HcMediaSosial::where('email', $karyawan->email)->first();
         $media_sosial->email = $request->email;
@@ -291,10 +291,10 @@ class MasterKaryawanController extends Controller
         $media_sosial->linkedin = $request->linkedin;
         $media_sosial->youtube = $request->youtube;
         $media_sosial->save();
-        
+
         $keluarga_sebelum_menikah_hapus = HcKeluargaSebelumMenikah::where('email', $karyawan->email);
         $keluarga_sebelum_menikah_hapus->delete();
-        
+
         foreach ($request->keluarga_sebelum_menikah_hubungan as $key => $value) {
             $keluarga_sebelum_menikah = new HcKeluargaSebelumMenikah;
             $keluarga_sebelum_menikah->email = $request->email;
@@ -306,12 +306,12 @@ class MasterKaryawanController extends Controller
             $keluarga_sebelum_menikah->pekerjaan_terakhir = $request->keluarga_sebelum_menikah_pekerjaan_terakhir[$key];
             $keluarga_sebelum_menikah->save();
         }
-        
+
         if (!empty($request->keluarga_setelah_menikah_hubungan)) {
             # code...
             $keluarga_setelah_menikah_hapus = HcKeluargaSetelahMenikah::where('email', $karyawan->email);
             $keluarga_setelah_menikah_hapus->delete();
-        
+
             foreach ($request->keluarga_setelah_menikah_hubungan as $key => $value) {
                 $keluarga_setelah_menikah = new HcKeluargaSetelahMenikah;
                 $keluarga_setelah_menikah->email = $request->email;
@@ -328,7 +328,7 @@ class MasterKaryawanController extends Controller
             # code...
             $kerabat_hapus = HcKerabatDarurat::where('email', $karyawan->email);
             $kerabat_hapus->delete();
-        
+
             foreach ($request->kerabat_hubungan as $key => $value) {
                 $kerabat = new HcKerabatDarurat;
                 $kerabat->email = $request->email;
@@ -374,5 +374,59 @@ class MasterKaryawanController extends Controller
         $karyawan->delete();
 
         return redirect()->route('karyawan.index')->with('status', 'Data karyawan berhasil dihapus');
+    }
+
+    public function kontrakSimpan(Request $request)
+    {
+        $kontraks = new HcKontrak;
+        $kontraks->email = $request->email;
+        $kontraks->mulai_kontrak = $request->mulai_kontrak;
+        $kontraks->akhir_kontrak = $request->akhir_kontrak;
+        $kontraks->lama_kontrak = $request->lama_kontrak;
+        $kontraks->save();
+
+        return response()->json([
+            'data' => 'sukses'
+        ]);
+    }
+
+    public function kontrakEdit(Request $request)
+    {
+        $kontrak = HcKontrak::where('id', $request->id)->first();
+
+        return response()->json([
+            'id_kontrak' => $kontrak->id,
+            'email' => $kontrak->email,
+            'mulai_kontrak' => $kontrak->mulai_kontrak,
+            'akhir_kontrak' => $kontrak->akhir_kontrak,
+            'lama_kontrak' => $kontrak->lama_kontrak
+        ]);
+    }
+
+    public function kontrakUpdate(Request $request)
+    {
+        $kontrak = HcKontrak::where('id', $request->id)->first();
+        $kontrak->email = $request->email;
+        $kontrak->mulai_kontrak = $request->mulai_kontrak;
+        $kontrak->akhir_kontrak = $request->akhir_kontrak;
+        $kontrak->lama_kontrak = $request->lama_kontrak;
+        $kontrak->save();
+
+        return response()->json([
+            'email' => $request->email,
+            'mulai_kontrak' => $request->mulai_kontrak,
+            'akhir_kontrak' => $request->akhir_kontrak,
+            'lama_kontrak' => $request->lama_kontrak
+        ]);
+    }
+
+    public function kontrakDelete(Request $request)
+    {
+        $kontrak = HcKontrak::where('id', $request->id)->first();
+        $kontrak->delete();
+
+        return response()->json([
+            'data' => 'berhasil hapus'
+        ]);
     }
 }

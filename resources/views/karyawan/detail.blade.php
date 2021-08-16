@@ -187,42 +187,38 @@
 						<div class="card-body">
 							<h5 class="text-center text-uppercase mb-3">kontrak</h5>
 							<hr>
-							<div class="row">
-								<div class="col-md-4">
-									<dl class="row">
-										<dt class="col-sm-8 ml-3">Mulai Kontrak</dt>
-										<dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
-											<div class="input-group date" id="mulai_kontrak" data-target-input="nearest">
-												<input type="text" class="form-control datetimepicker-input" data-target="#mulai_kontrak" name="mulai_kontrak" style="border: none;" value="{{ $kontrak->mulai_kontrak }}"/>
-												<div class="input-group-append" data-target="#mulai_kontrak" data-toggle="datetimepicker">
-														<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-												</div>
-											</div>
-										</dd>
-									</dl>
-								</div>
-								<div class="col-md-4">
-									<dl class="row">
-										<dt class="col-sm-8 ml-3">Lama Kontrak</dt>
-										<dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
-											<input type="text" name="lama_kontrak" class="form-control" id="lama_kontrak" style="border: none; width: 100%;" onkeyup="this.value = this.value.toUpperCase()" value="{{ $kontrak->lama_kontrak }}">
-										</dd>
-									</dl>
-								</div>
-								<div class="col-md-4">
-									<dl class="row">
-										<dt class="col-sm-8 ml-3">Akhir Kontrak</dt>
-										<dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
-											<div class="input-group date" id="akhir_kontrak" data-target-input="nearest">
-												<input type="text" class="form-control datetimepicker-input" data-target="#akhir_kontrak" name="akhir_kontrak" style="border: none;" value="{{ $kontrak->akhir_kontrak }}"/>
-												<div class="input-group-append" data-target="#akhir_kontrak" data-toggle="datetimepicker">
-														<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-												</div>
-											</div>
-										</dd>
-									</dl>
-								</div>
-							</div>
+                            @foreach ($kontraks as $kontrak)
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <dl class="row">
+                                            <dt class="col-sm-8 ml-3">Mulai Kontrak</dt>
+                                            <dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
+                                                <div class="input-group date" id="mulai_kontrak" data-target-input="nearest">
+                                                    <input type="text" class="form-control datetimepicker-input" data-target="#mulai_kontrak" name="mulai_kontrak" style="border: none;" value="{{ $kontrak->mulai_kontrak }}"/>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <dl class="row">
+                                            <dt class="col-sm-8 ml-3">Akhir Kontrak</dt>
+                                            <dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
+                                                <div class="input-group date" id="akhir_kontrak" data-target-input="nearest">
+                                                    <input type="text" class="form-control datetimepicker-input" data-target="#akhir_kontrak" name="akhir_kontrak" style="border: none;" value="{{ $kontrak->akhir_kontrak }}"/>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <dl class="row">
+                                            <dt class="col-sm-8 ml-3">Lama Kontrak</dt>
+                                            <dd class="col-sm-10 border-bottom border-warning rounded pl-0 ml-4">
+                                                <input type="text" name="lama_kontrak" class="form-control" id="lama_kontrak" style="border: none; width: 100%;" onkeyup="this.value = this.value.toUpperCase()" value="{{ $kontrak->lama_kontrak }}">
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            @endforeach
 						</div>
 					</div>
 
