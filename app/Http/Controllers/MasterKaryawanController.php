@@ -324,19 +324,19 @@ class MasterKaryawanController extends Controller
             }
         }
 
-        if (!empty($request->kerabat_hubungan)) {
+        if (!empty($request->kerabat_darurat_hubungan)) {
             # code...
             $kerabat_hapus = HcKerabatDarurat::where('email', $karyawan->email);
             $kerabat_hapus->delete();
 
-            foreach ($request->kerabat_hubungan as $key => $value) {
+            foreach ($request->kerabat_darurat_hubungan as $key => $value) {
                 $kerabat = new HcKerabatDarurat;
                 $kerabat->email = $request->email;
                 $kerabat->hubungan = $value;
-                $kerabat->nama = $request->kerabat_nama[$key];
-                $kerabat->jenis_kelamin = $request->kerabat_jenis_kelamin[$key];
-                $kerabat->telepon = $request->kerabat_telepon[$key];
-                $kerabat->alamat = $request->kerabat_alamat[$key];
+                $kerabat->nama = $request->kerabat_darurat_nama[$key];
+                $kerabat->jenis_kelamin = $request->kerabat_darurat_jenis_kelamin[$key];
+                $kerabat->telepon = $request->kerabat_darurat_telepon[$key];
+                $kerabat->alamat = $request->kerabat_darurat_alamat[$key];
                 $kerabat->save();
             }
         }
