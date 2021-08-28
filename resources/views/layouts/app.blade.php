@@ -43,7 +43,7 @@
                       <img src="{{ asset('assets/img/logo-biru.png') }}" alt="AdminLTE Logo" class="brand-image">
                       <span class="brand-text font-weight-light">Abata Head Office</span>
                   </a>
-                
+
                   <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-widget="pushmenu" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                   </button>
@@ -59,14 +59,30 @@
                   <!-- Right navbar links -->
                   <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                       <li class="nav-item">
-                          <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                          {{-- <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                               </form>
                               <p>
                                 LOGOUT
                               </p>
-                          </a>
+                          </a> --}}
+                          <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                              <button class="dropdown-item text-uppercase" type="button">Profile</button>
+                              <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                  @csrf
+                                </form>
+                                <p>
+                                  LOGOUT
+                                </p>
+                            </a>
+                            </div>
+                          </div>
                       </li>
                   </ul>
               </div>
@@ -81,7 +97,7 @@
                       class="brand-image">
                   <span class="brand-text font-weight-light">Abata HO</span>
               </a>
-          
+
               <!-- Sidebar -->
               <div class="sidebar">
                 <!-- Sidebar user (optional) -->
@@ -93,7 +109,7 @@
                     <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                   </div>
                 </div>
-          
+
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
