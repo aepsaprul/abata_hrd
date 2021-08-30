@@ -16,7 +16,7 @@
 
 
 
-	
+
 
 @endsection
 
@@ -108,7 +108,7 @@
 
 										</div>
 
-									</div>									
+									</div>
 
 									<div class="row">
 
@@ -118,7 +118,7 @@
 
 												<label>Nama Atasan Langsung</label>
 
-												<select class="form-control select2bs4" name="atasan" style="width: 100%;">
+												<select class="form-control select2bs4" name="atasan" style="width: 100%;" required>
 
 													<option value="">--Pilih Nama--</option>
 
@@ -152,14 +152,14 @@
 
 												<td>
 
-													<select name="master_jabatan_id" id="resign_jabatan" class="form-control">
+													<select name="master_jabatan_id" id="resign_jabatan" class="form-control" required>
 
 														<option value="">--Pilih Bagian--</option>
 
 														@foreach ($jabatans as $jabatan)
 
-																<option value="{{ $jabatan->id }}" 
-																@if ($nama_karyawan->master_jabatan_id == $jabatan->id) 
+																<option value="{{ $jabatan->id }}"
+																@if ($nama_karyawan->master_jabatan_id == $jabatan->id)
 																	selected
 																@else
 																@endif
@@ -179,7 +179,7 @@
 
 												<td>:</td>
 
-												<td><input type="text" name="lokasi_kerja" id="resign_lokasi" class="form-control" onkeyup="this.value = this.value.toUpperCase()"></td>
+												<td><input type="text" name="lokasi_kerja" id="resign_lokasi" class="form-control" onkeyup="this.value = this.value.toUpperCase()" required></td>
 
 											</tr>
 
@@ -189,7 +189,7 @@
 
 												<td>:</td>
 
-												<td><input type="text" name="tanggal_masuk" id="resign_tanggal_masuk" class="form-control" autocomplete="off"></td>
+												<td><input type="text" name="tanggal_masuk" id="resign_tanggal_masuk" class="form-control" autocomplete="off" required></td>
 
 											</tr>
 
@@ -199,7 +199,7 @@
 
 												<td>:</td>
 
-												<td><input type="text" name="tanggal_keluar" id="resign_tanggal_keluar" class="form-control" autocomplete="off"></td>
+												<td><input type="text" name="tanggal_keluar" id="resign_tanggal_keluar" class="form-control" autocomplete="off" required></td>
 
 											</tr>
 
@@ -209,7 +209,7 @@
 
 												<td>:</td>
 
-												<td><input type="text" name="alamat" id="resign_alamat" class="form-control" onkeyup="this.value = this.value.toUpperCase()"></td>
+												<td><input type="text" name="alamat" id="resign_alamat" class="form-control" onkeyup="this.value = this.value.toUpperCase()" required></td>
 
 											</tr>
 
@@ -219,7 +219,7 @@
 
 												<td>:</td>
 
-												<td><input type="number" name="telepon" id="resign_telepon" class="form-control" value="{{ $nama_karyawan->telepon }}"></td>
+												<td><input type="number" name="telepon" id="resign_telepon" class="form-control" value="{{ $nama_karyawan->telepon }}" required></td>
 
 											</tr>
 
@@ -253,7 +253,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_kewajiban_keuangan" id="resign_ceklis_kewajiban_keuangan" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_kewajiban_keuangan" id="resign_ceklis_kewajiban_keuangan" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_kewajiban_keuangan" id="resign_ceklis_kewajiban_keuangan" value="tidak"> Tidak
 
@@ -275,7 +275,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_serah_terima" id="resign_ceklis_serah_terima" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_serah_terima" id="resign_ceklis_serah_terima" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_serah_terima" id="resign_ceklis_serah_terima" value="tidak"> Tidak
 
@@ -297,7 +297,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_id_card" id="resign_ceklis_id_card" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_id_card" id="resign_ceklis_id_card" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_id_card" id="resign_ceklis_id_card" value="tidak"> Tidak
 
@@ -319,7 +319,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_seragam_karyawan" id="resign_ceklis_seragam_karyawan" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_seragam_karyawan" id="resign_ceklis_seragam_karyawan" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_seragam_karyawan" id="resign_ceklis_seragam_karyawan" value="tidak"> Tidak
 
@@ -341,7 +341,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_laptop" id="resign_ceklis_laptop" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_laptop" id="resign_ceklis_laptop" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_laptop" id="resign_ceklis_laptop" value="tidak"> Tidak
 
@@ -363,7 +363,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_peralatan_kantor" id="resign_ceklis_peralatan_kantor" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_peralatan_kantor" id="resign_ceklis_peralatan_kantor" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_peralatan_kantor" id="resign_ceklis_peralatan_kantor" value="tidak"> Tidak
 
@@ -385,7 +385,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_penghapusan_akun" id="resign_ceklis_penghapusan_akun" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_penghapusan_akun" id="resign_ceklis_penghapusan_akun" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_penghapusan_akun" id="resign_ceklis_penghapusan_akun" value="tidak"> Tidak
 
@@ -407,7 +407,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_penghapusan_chat" id="resign_ceklis_penghapusan_chat" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_penghapusan_chat" id="resign_ceklis_penghapusan_chat" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_penghapusan_chat" id="resign_ceklis_penghapusan_chat" value="tidak"> Tidak
 
@@ -429,7 +429,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_penutupan_rekening" id="resign_ceklis_penutupan_rekening" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_penutupan_rekening" id="resign_ceklis_penutupan_rekening" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_penutupan_rekening" id="resign_ceklis_penutupan_rekening" value="tidak"> Tidak
 
@@ -451,7 +451,7 @@
 
 																	<td>
 
-																		<input type="radio" name="resign_ceklis_lain" id="resign_ceklis_lain" value="ada"> Ada 
+																		<input type="radio" name="resign_ceklis_lain" id="resign_ceklis_lain" value="ada"> Ada
 
 																		<input type="radio" name="resign_ceklis_lain" id="resign_ceklis_lain" value="tidak"> Tidak
 
@@ -1119,7 +1119,7 @@
 
 										</table>
 
-										
+
 
 										<input type="hidden" name="hc_resign_survei_nama_essay_id[]" value="Alasan utama Anda mengundurkan diri (pilih salah satu) :">
 
@@ -1129,7 +1129,7 @@
 
 											<li>
 
-												<input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="pindah"> Pindah ke Perusahaan lain yaitu 
+												<input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="pindah"> Pindah ke Perusahaan lain yaitu
 
 												<input type="text" name="pindah_perusahaan">
 
@@ -1143,7 +1143,7 @@
 
 											<li>
 
-												<input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="lainnya"> Lainnya 
+												<input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="lainnya"> Lainnya
 
 												<input type="text" name="teks_lainnya">
 
@@ -1151,7 +1151,7 @@
 
 										</ol>
 
-						
+
 
 										<input type="hidden" name="hc_resign_survei_nama_essay_id[]" value="Jelaskan apa yang Anda rasakan dengan beban pekerjaan yang telah diberikan pada Anda dari awal masuk kerja hingga saat ini?">
 
@@ -1159,7 +1159,7 @@
 
 										<textarea name="resign_survei_essay_2" id="resign_survei_essay_2" rows="3" class="form-control"></textarea>
 
-										
+
 
 										<input type="hidden" name="hc_resign_survei_nama_essay_id[]" value="Bagaimana hubungan kerja Anda di lingkungan kerja perusahaan ini?">
 
@@ -1167,7 +1167,7 @@
 
 										<p for="">
 
-											<input type="radio" name="essay_radio" id="essay_radio" value="baik, "> Baik, Jelaskan 
+											<input type="radio" name="essay_radio" id="essay_radio" value="baik, "> Baik, Jelaskan
 
 											<input type="radio" name="essay_radio" id="essay_radio" value="kurang baik, "> Kurang Baik, Jelaskan
 
@@ -1175,7 +1175,7 @@
 
 										<textarea name="resign_survei_essay_3" id="resign_survei_essay_3" rows="3" class="form-control"></textarea>
 
-						
+
 
 										<input type="hidden" name="hc_resign_survei_nama_essay_id[]" value="Berikan pendapat Anda mengenai perusahaan ini sebagi bahan masukan bagi kami">
 
@@ -1185,7 +1185,7 @@
 
 									</div>
 
-									
+
 
 								</div>
 
@@ -1303,7 +1303,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_serah_terima" ).datepicker({
 
@@ -1311,7 +1311,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_id_card" ).datepicker({
 
@@ -1319,7 +1319,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_seragam_karyawan" ).datepicker({
 
@@ -1327,7 +1327,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_laptop" ).datepicker({
 
@@ -1335,7 +1335,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_peralatan_kantor" ).datepicker({
 
@@ -1343,7 +1343,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_penghapusan_akun" ).datepicker({
 
@@ -1351,7 +1351,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_penghapusan_chat" ).datepicker({
 
@@ -1359,7 +1359,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_penutupan_rekening" ).datepicker({
 
@@ -1367,7 +1367,7 @@
 
 		});
 
-		
+
 
 		$( "#resign_tanggal_lain" ).datepicker({
 
@@ -1375,15 +1375,15 @@
 
 		});
 
-			
+
 
 	});
 
 
 
-	
 
-  
+
+
 
 </script>
 
