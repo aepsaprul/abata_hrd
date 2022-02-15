@@ -75,4 +75,8 @@ class MasterKaryawan extends Model
     public function cuti() {
         return $this->hasMany(HcCuti::class);
     }
+
+    public function navAccess() {
+        return $this->hasMany(HcNavAccess::class, 'user_id', 'id');
+    }
 }
