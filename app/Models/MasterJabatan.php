@@ -27,4 +27,8 @@ class MasterJabatan extends Model
     {
         return $this->hasMany(JabatanMenu::class);
     }
+
+    public function loker() {
+        return $this->hasMany(HcLoker::class, 'master_jabatan_id', 'id');
+    }
 }

@@ -156,6 +156,11 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{ route('divisi.index') }}" class="nav-link {{ request()->is('master/divisi') ? 'active' : '' }}">
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Divisi</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ route('loker.index') }}" class="nav-link {{ request()->is('master/loker') ? 'active' : '' }}">
                                             <i class="fas fa-angle-right nav-icon"></i><p>Loker</p>
                                         </a>

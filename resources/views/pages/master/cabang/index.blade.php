@@ -169,7 +169,7 @@
                         Loading...
                     </button>
                     <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Simpan
+                        <i class="fas fa-save"></i> Perbaharui
                     </button>
                 </div>
             </form>

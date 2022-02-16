@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('master/jabatan/store', [JabatanController::class, 'store'])->name('jabatan.store');
         Route::get('master/jabatan/{id}/edit', [JabatanController::class, 'edit'])->name('jabatan.edit');
         Route::put('master/jabatan/{id}/update', [JabatanController::class, 'update'])->name('jabatan.update');
+        Route::get('master/jabatan/{id}/delete_btn', [JabatanController::class, 'deleteBtn'])->name('jabatan.delete_btn');
         Route::post('master/jabatan/delete', [JabatanController::class, 'delete'])->name('jabatan.delete');
 
         // divisi
@@ -89,13 +90,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('master/divisi/store', [DivisiController::class, 'store'])->name('divisi.store');
         Route::get('master/divisi/{id}/edit', [DivisiController::class, 'edit'])->name('divisi.edit');
         Route::put('master/divisi/{id}/update', [DivisiController::class, 'update'])->name('divisi.update');
+        Route::get('master/divisi/{id}/delete_btn', [DivisiController::class, 'deleteBtn'])->name('divisi.delete_btn');
         Route::post('master/divisi/delete', [DivisiController::class, 'delete'])->name('divisi.delete');
 
         // loker
         Route::get('master/loker', [LokerController::class, 'index'])->name('loker.index');
+        Route::get('master/loker/create', [LokerController::class, 'create'])->name('loker.create');
         Route::post('master/loker/store', [LokerController::class, 'store'])->name('loker.store');
         Route::get('master/loker/{id}/edit', [LokerController::class, 'edit'])->name('loker.edit');
         Route::put('master/loker/{id}/update', [LokerController::class, 'update'])->name('loker.update');
+        Route::get('master/loker/{id}/delete_btn', [LokerController::class, 'deleteBtn'])->name('loker.delete_btn');
         Route::post('master/loker/delete', [LokerController::class, 'delete'])->name('loker.delete');
 
     // karyawan
