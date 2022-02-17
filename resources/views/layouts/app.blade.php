@@ -127,12 +127,12 @@
                         @if (Auth::user()->roles == "administrator")
                             <li class="nav-item">
                                 <a href="{{ route('home') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p>
+                                    <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
                                 </a>
                             </li>
                             <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
                                 <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-user-lock"></i><p>Master<i class="right fas fa-angle-left"></i></p>
+                                    <i class="nav-icon fas fa-user-lock text-center mr-2" style="width: 30px;"></i><p>Master<i class="right fas fa-angle-left"></i></p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
@@ -166,6 +166,31 @@
                                         </a>
                                     </li>
                                 </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('cuti.index') }}" class="nav-link {{ request()->is(['cuti', 'cuti/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-mug-hot text-center mr-2" style="width: 30px;"></i><p>Data Cuti</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('lamaran.index') }}" class="nav-link {{ request()->is(['lamaran', 'lamaran/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-file text-center mr-2" style="width: 30px;"></i><p>Lamaran</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('penggajian.index') }}" class="nav-link {{ request()->is(['penggajian', 'penggajian/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-money-bill-wave text-center mr-2" style="width: 30px;"></i><p>Penggajian</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('resign.index') }}" class="nav-link {{ request()->is(['resign', 'resign/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-handshake text-center mr-2" style="width: 30px;"></i><p>Data Resign</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('training.index') }}" class="nav-link {{ request()->is(['training', 'training/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-comment-alt text-center mr-2" style="width: 30px;"></i><p>Training</p>
+                                </a>
                             </li>
                         @else
                             @foreach ($current_nav_mains as $item)

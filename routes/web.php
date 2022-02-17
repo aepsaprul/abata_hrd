@@ -13,10 +13,15 @@ use App\Http\Controllers\MasterKaryawanController;
 use App\Http\Controllers\MasterJabatanController;
 use App\Http\Controllers\MasterCabangController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\LokerController;
 use App\Http\Controllers\NavController;
+use App\Http\Controllers\PenggajianController;
+use App\Http\Controllers\ResignController;
+use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
@@ -111,45 +116,67 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('karyawan/kontrak-delete', [MasterKaryawanController::class, 'kontrakDelete'])->name('karyawan.kontrak_delete');
 
     // cuti
-    Route::resource('hc/cir', HcCirController::class);
-    Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');
-    Route::get('hc/cir/{id}/atasan_approve', [HcCirController::class, 'atasanApprove'])->name('cir.atasan_approve');
-    Route::get('hc/cir/{id}/atasan_tolak', [HcCirController::class, 'atasanTolak'])->name('cir.atasan_tolak');
-    Route::get('hc/cir/{id}/hc_approve', [HcCirController::class, 'hcApprove'])->name('cir.hc_approve');
-    Route::get('hc/cir/{id}/hc_tolak', [HcCirController::class, 'hcTolak'])->name('cir.hc_tolak');
-
-    // resign
-    Route::get('hc/form_resign', [HcCirController::class, 'resignFormIndex'])->name('cir.index_form_resign');
-    Route::get('hc/form_resign/{id}/show', [HcCirController::class, 'resignShow'])->name('cir.resign_show');
-    Route::get('hc/form_resign/{id}/delete', [HcCirController::class, 'resignDelete'])->name('cir.resign_delete');
-    Route::get('hc/form_resign/{id}/atasan_approve', [HcCirController::class, 'resignAtasanApprove'])->name('cir.resign_atasan_approve');
-    Route::get('hc/form_resign/{id}/atasan_tolak', [HcCirController::class, 'resignAtasanTolak'])->name('cir.resign_atasan_tolak');
-    Route::get('hc/form_resign/{id}/hc_approve', [HcCirController::class, 'resignHcApprove'])->name('cir.resign_hc_approve');
-    Route::get('hc/form_resign/{id}/hc_tolak', [HcCirController::class, 'resignHcTolak'])->name('cir.resign_hc_tolak');
-    Route::get('hc/form_resign/{id}/direktur_approve', [HcCirController::class, 'resignDirekturApprove'])->name('cir.resign_direktur_approve');
-    Route::get('hc/form_resign/{id}/direktur_tolak', [HcCirController::class, 'resignDirekturTolak'])->name('cir.resign_direktur_tolak');
-
-    Route::get('hc/cuti', [HcCirController::class, 'indexCuti'])->name('cir.index_cuti');
-    Route::get('hc/cuti/create', [HcCirController::class, 'createCuti'])->name('cir.create_cuti');
-    Route::post('hc/cuti/store', [HcCirController::class, 'storeCuti'])->name('cir.store_cuti');
-    Route::get('hc/resign', [HcCirController::class, 'indexResign'])->name('cir.index_resign');
-    Route::get('hc/resign/create', [HcCirController::class, 'createResign'])->name('cir.create_resign');
-    Route::post('hc/resign/store', [HcCirController::class, 'storeResign'])->name('cir.store_resign');
+    Route::get('cuti', [CutiController::class, 'index'])->name('cuti.index');
+    Route::get('cuti/{id}/delete_btn', [CutiController::class, 'deleteBtn'])->name('cuti.delete_btn');
+    Route::post('cuti/delete', [CutiController::class, 'delete'])->name('cuti.delete');
 
     // lamaran
-    Route::resource('hc/lamaran', HcLamaranController::class);
-    Route::get('hc/lamaran/{id}/delete', [HcLamaranController::class, 'delete'])->name('lamaran.delete');
-    Route::get('hc/lamaran/{id}/rekrutmen', [HcLamaranController::class, 'rekrutmen'])->name('lamaran.rekrutmen');
-    Route::get('hc/lamaran/{id}/gagal_interview', [HcLamaranController::class, 'gagalInterview'])->name('lamaran.gagal.interview');
-    Route::get('hc/lamaran/{id}/interview', [HcLamaranController::class, 'interview'])->name('lamaran.interview');
-    Route::get('hc/lamaran/{id}/gagal', [HcLamaranController::class, 'gagal'])->name('lamaran.gagal');
-    Route::get('hc/lamaran/{id}/terima', [HcLamaranController::class, 'terima'])->name('lamaran.terima');
-    Route::get('hc/lamaran/berkas/{pdf}', [HcLamaranController::class, 'berkas'])->name('training.berkas');
-
-    // training
-    Route::resource('hc/training', HcTrainingController::class);
-    Route::get('hc/training/{id}/delete', [HcTrainingController::class, 'delete'])->name('training.delete');
-    Route::get('hc/training/data/modul/{file_modul}', [HcTrainingController::class, 'datamodul'])->name('training.cek.datamodul');
+    Route::get('lamaran', [LamaranController::class, 'index'])->name('lamaran.index');
+    Route::get('lamaran/{id}/show', [LamaranController::class, 'show'])->name('lamaran.show');
+    Route::get('lamaran/{id}/delete', [LamaranController::class, 'delete'])->name('lamaran.delete');
+    Route::get('lamaran/{id}/rekrutmen', [LamaranController::class, 'rekrutmen'])->name('lamaran.rekrutmen');
+    Route::get('lamaran/{id}/gagal_interview', [LamaranController::class, 'gagalInterview'])->name('lamaran.gagal.interview');
+    Route::get('lamaran/{id}/interview', [LamaranController::class, 'interview'])->name('lamaran.interview');
+    Route::get('lamaran/{id}/gagal', [LamaranController::class, 'gagal'])->name('lamaran.gagal');
+    Route::get('lamaran/{id}/terima', [LamaranController::class, 'terima'])->name('lamaran.terima');
+    Route::get('lamaran/berkas/{pdf}', [LamaranController::class, 'berkas'])->name('lamaran.berkas');
 
     // penggajian
+    Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian.index');
+
+    // resign
+    Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
+
+    // training
+    Route::get('training', [TrainingController::class, 'index'])->name('training.index');
+
+    // Route::resource('hc/cir', HcCirController::class);
+    // Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');
+    // Route::get('hc/cir/{id}/atasan_approve', [HcCirController::class, 'atasanApprove'])->name('cir.atasan_approve');
+    // Route::get('hc/cir/{id}/atasan_tolak', [HcCirController::class, 'atasanTolak'])->name('cir.atasan_tolak');
+    // Route::get('hc/cir/{id}/hc_approve', [HcCirController::class, 'hcApprove'])->name('cir.hc_approve');
+    // Route::get('hc/cir/{id}/hc_tolak', [HcCirController::class, 'hcTolak'])->name('cir.hc_tolak');
+
+    // Route::get('hc/form_resign', [HcCirController::class, 'resignFormIndex'])->name('cir.index_form_resign');
+    // Route::get('hc/form_resign/{id}/show', [HcCirController::class, 'resignShow'])->name('cir.resign_show');
+    // Route::get('hc/form_resign/{id}/delete', [HcCirController::class, 'resignDelete'])->name('cir.resign_delete');
+    // Route::get('hc/form_resign/{id}/atasan_approve', [HcCirController::class, 'resignAtasanApprove'])->name('cir.resign_atasan_approve');
+    // Route::get('hc/form_resign/{id}/atasan_tolak', [HcCirController::class, 'resignAtasanTolak'])->name('cir.resign_atasan_tolak');
+    // Route::get('hc/form_resign/{id}/hc_approve', [HcCirController::class, 'resignHcApprove'])->name('cir.resign_hc_approve');
+    // Route::get('hc/form_resign/{id}/hc_tolak', [HcCirController::class, 'resignHcTolak'])->name('cir.resign_hc_tolak');
+    // Route::get('hc/form_resign/{id}/direktur_approve', [HcCirController::class, 'resignDirekturApprove'])->name('cir.resign_direktur_approve');
+    // Route::get('hc/form_resign/{id}/direktur_tolak', [HcCirController::class, 'resignDirekturTolak'])->name('cir.resign_direktur_tolak');
+
+    // Route::get('hc/cuti', [HcCirController::class, 'indexCuti'])->name('cir.index_cuti');
+    // Route::get('hc/cuti/create', [HcCirController::class, 'createCuti'])->name('cir.create_cuti');
+    // Route::post('hc/cuti/store', [HcCirController::class, 'storeCuti'])->name('cir.store_cuti');
+    // Route::get('hc/resign', [HcCirController::class, 'indexResign'])->name('cir.index_resign');
+    // Route::get('hc/resign/create', [HcCirController::class, 'createResign'])->name('cir.create_resign');
+    // Route::post('hc/resign/store', [HcCirController::class, 'storeResign'])->name('cir.store_resign');
+
+
+    // Route::resource('hc/lamaran', HcLamaranController::class);
+    // Route::get('hc/lamaran/{id}/delete', [HcLamaranController::class, 'delete'])->name('lamaran.delete');
+    // Route::get('hc/lamaran/{id}/rekrutmen', [HcLamaranController::class, 'rekrutmen'])->name('lamaran.rekrutmen');
+    // Route::get('hc/lamaran/{id}/gagal_interview', [HcLamaranController::class, 'gagalInterview'])->name('lamaran.gagal.interview');
+    // Route::get('hc/lamaran/{id}/interview', [HcLamaranController::class, 'interview'])->name('lamaran.interview');
+    // Route::get('hc/lamaran/{id}/gagal', [HcLamaranController::class, 'gagal'])->name('lamaran.gagal');
+    // Route::get('hc/lamaran/{id}/terima', [HcLamaranController::class, 'terima'])->name('lamaran.terima');
+    // Route::get('hc/lamaran/berkas/{pdf}', [HcLamaranController::class, 'berkas'])->name('training.berkas');
+
+
+    // Route::resource('hc/training', HcTrainingController::class);
+    // Route::get('hc/training/{id}/delete', [HcTrainingController::class, 'delete'])->name('training.delete');
+    // Route::get('hc/training/data/modul/{file_modul}', [HcTrainingController::class, 'datamodul'])->name('training.cek.datamodul');
+
 });

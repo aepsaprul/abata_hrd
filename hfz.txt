@@ -1,0 +1,6 @@
+>> keterangan status di tabel hc_cutis
+1=permohonancuti,
+2=atasanapprove,
+3=atasantolak,
+4=hcapprove,
+5=hctolak
