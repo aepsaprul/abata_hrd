@@ -4,3 +4,8 @@
 3=atasantolak,
 4=hcapprove,
 5=hctolak
+
+>> keterangan status penggajian
+1. menunggu disetujui
+2. diterima
+3. ditolak

@@ -15,11 +15,11 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('themes/dist/css/adminlte.min.css') }}">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background: url({{ asset('assets/wallpaper.jpg') }})">
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="#" class="h1"><b>log</b>IN</a>
+                <a href="#" class="h2"><b>log</b>IN</a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in untuk memulai Aplikasi</p>

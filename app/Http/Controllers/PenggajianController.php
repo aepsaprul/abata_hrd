@@ -13,4 +13,19 @@ class PenggajianController extends Controller
 
         return view('pages.penggajian.index', ['penggajians' => $penggajian]);
     }
+
+    public function store(Request $request)
+    {
+
+    }
+
+    public function deleteBtn($id)
+    {
+
+    }
+
+    public function delete(Request $request)
+    {
+
+    }
 }

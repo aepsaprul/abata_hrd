@@ -133,12 +133,21 @@ Route::group(['middleware' => 'auth'], function () {
 
     // penggajian
     Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian.index');
+    Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
+    Route::get('penggajian/{id}/delete_btn', [PenggajianController::class, 'deleteBtn'])->name('penggajian.delete_btn');
+    Route::post('penggajian/delete', [PenggajianController::class, 'delete'])->name('penggajian.delete');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
 
     // training
     Route::get('training', [TrainingController::class, 'index'])->name('training.index');
+    Route::get('training/create', [TrainingController::class, 'create'])->name('training.create');
+    Route::post('training/store', [TrainingController::class, 'store'])->name('training.store');
+    Route::get('training/{id}/edit', [TrainingController::class, 'edit'])->name('training.edit');
+    Route::post('training/update', [TrainingController::class, 'update'])->name('training.update');
+    Route::get('training/{id}/delete_btn', [TrainingController::class, 'deleteBtn'])->name('training.delete_btn');
+    Route::post('training/delete', [TrainingController::class, 'delete'])->name('training.delete');
 
     // Route::resource('hc/cir', HcCirController::class);
     // Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');

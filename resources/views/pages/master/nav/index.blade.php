@@ -135,13 +135,13 @@
                                                                 </a>
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                     <a
-                                                                        class="dropdown-item main-btn-edit"
+                                                                        class="dropdown-item text-indigo main-btn-edit"
                                                                         href="#"
                                                                         data-id="{{ $item->id }}">
                                                                             <i class="fa fa-pencil-alt px-2"></i> Ubah
                                                                     </a>
                                                                     <a
-                                                                        class="dropdown-item main-btn-delete"
+                                                                        class="dropdown-item text-indigo main-btn-delete"
                                                                         href="#"
                                                                         data-id="{{ $item->id }}">
                                                                             <i class="fa fa-trash-alt px-2"></i> Hapus

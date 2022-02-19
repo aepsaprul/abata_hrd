@@ -68,13 +68,19 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a
-                            class="dropdown-item main-btn-edit"
+                            class="dropdown-item"
                             href="#">
                                 <i class="fa fa-id-card px-2"></i> Profil
                         </a>
                         <div class="dropdown-divider"></div>
                         <a
-                            class="dropdown-item main-btn-delete"
+                            class="dropdown-item"
+                            href="#">
+                                <i class="fa fa-lock-open px-2"></i> Ubah Password
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a
+                            class="dropdown-item"
                             href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
@@ -93,7 +99,7 @@
         <aside class="main-sidebar sidebar-light-primary elevation-2">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <img src="{{ asset('themes/dist/img/logo-daun.png') }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
+                <img src="{{ asset('themes/dist/img/logo-daun.png') }}" alt="AdminLTE Logo" class="brand-image">
                 <span class="brand-text font-weight-light">Abata Group</span>
             </a>
 
@@ -124,12 +130,12 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="{{ route('home') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
+                            </a>
+                        </li>
                         @if (Auth::user()->roles == "administrator")
-                            <li class="nav-item">
-                                <a href="{{ route('home') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
-                                </a>
-                            </li>
                             <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
                                 <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-user-lock text-center mr-2" style="width: 30px;"></i><p>Master<i class="right fas fa-angle-left"></i></p>
@@ -173,8 +179,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('resign.index') }}" class="nav-link {{ request()->is(['resign', 'resign/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-hand-paper text-center mr-2" style="width: 30px;"></i><p>Data Resign</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('lamaran.index') }}" class="nav-link {{ request()->is(['lamaran', 'lamaran/*']) ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-file text-center mr-2" style="width: 30px;"></i><p>Lamaran</p>
+                                    <i class="nav-icon fas fa-paperclip text-center mr-2" style="width: 30px;"></i><p>Lamaran</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -183,13 +194,30 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('resign.index') }}" class="nav-link {{ request()->is(['resign', 'resign/*']) ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-handshake text-center mr-2" style="width: 30px;"></i><p>Data Resign</p>
+                                <a href="{{ route('training.index') }}" class="nav-link {{ request()->is(['training', 'training/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-comment-alt text-center mr-2" style="width: 30px;"></i><p>Training</p>
                                 </a>
+                            </li>
+                            <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-file-import text-center mr-2" style="width: 30px;"></i><p>Pengajuan<i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('nav.index') }}" class="nav-link {{ request()->is('master/nav') ? 'active' : '' }}">
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Cuti</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('master/user') ? 'active' : '' }}">
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Resign</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('training.index') }}" class="nav-link {{ request()->is(['training', 'training/*']) ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-comment-alt text-center mr-2" style="width: 30px;"></i><p>Training</p>
+                                    <i class="nav-icon fas fa-inbox text-center mr-2" style="width: 30px;"></i><p>Kritik & Saran</p>
                                 </a>
                             </li>
                         @else
@@ -203,7 +231,7 @@
                                             @foreach ($current_menus as $item_menu)
                                                 @if ($item_menu->main_id == $item->id)
                                                     <li class="nav-item">
-                                                        <a href="{{ url($item_menu->navSub->link) }}" class="nav-link {{ request()->is([''.$item_menu->navSub->link.'', ''.$item_menu->navSub->link.'/*']) ? 'active' : '' }}">
+                                                        <a href="{{ route($item_menu->navSub->link) }}" class="nav-link {{ request()->is([''.$item_menu->navSub->link.'', ''.$item_menu->navSub->link.'/*']) ? 'active' : '' }}">
                                                             <i class="far fa-circle nav-icon"></i> <p>{{ $item_menu->navSub->title }}</p>
                                                         </a>
                                                     </li>
