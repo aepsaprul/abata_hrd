@@ -14,12 +14,20 @@
     <link rel="stylesheet" href="{{ asset('themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('themes/dist/css/adminlte.min.css') }}">
+    <style>
+        .login-page {
+            background-image: url('https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
-<body class="hold-transition login-page" style="background: url({{ asset('assets/wallpaper.jpg') }})">
+<body class="hold-transition login-page">
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="#" class="h2"><b>log</b>IN</a>
+                <a href="#" class="h2"><strong>Login</strong></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in untuk memulai Aplikasi</p>
