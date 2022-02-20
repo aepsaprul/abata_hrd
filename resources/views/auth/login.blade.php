@@ -21,13 +21,24 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        .h2 {
+            font-style: normal;
+            font-variant-ligatures: normal;
+            font-variant-caps: normal;
+            font-variant-numeric: normal;
+            font-variant-east-asian: normal;
+            font-weight: normal;
+            font-stretch: normal;
+            font-size: 25px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
     </style>
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-                <a href="#" class="h2"><strong>Login</strong></a>
+            <div class="card-header text-center mt-3">
+                <a href="#" class="h2 text-uppercase"><strong>Login</strong></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in untuk memulai Aplikasi</p>
