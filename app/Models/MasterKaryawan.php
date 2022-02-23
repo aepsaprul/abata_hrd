@@ -45,35 +45,23 @@ class MasterKaryawan extends Model
     ];
 
     public function masterCabang() {
-        return $this->belongsTo(MasterCabang::class);
+        return $this->belongsTo(MasterCabang::class, 'master_cabang_id', 'id');
     }
 
     public function masterJabatan() {
-        return $this->belongsTo(MasterJabatan::class);
+        return $this->belongsTo(MasterJabatan::class, 'master_jabatan_id', 'id');
     }
 
-    public function karyawanMenu() {
-        return $this->hasMany(KaryawanMenu::class);
+    public function masterDivisi() {
+        return $this->belongsTo(MasterDivisi::class, 'master_divisi_id', 'id');
     }
 
     public function user() {
-        return $this->hasOne(User::class);
-    }
-
-    public function situmpurDesain() {
-        return $this->hasOne(SitumpurDesain::class);
-    }
-
-    public function situmpurCs() {
-        return $this->hasOne(SitumpurCs::class);
-    }
-
-    public function situmpurAntrianDesainNomor() {
-        return $this->hasMany(SitumpurAntrianDesainNomor::class);
+        return $this->hasOne(User::class, 'master_karyawan_id', 'id');
     }
 
     public function cuti() {
-        return $this->hasMany(HcCuti::class);
+        return $this->hasMany(HcCuti::class, 'master_karyawan_id', 'id');
     }
 
     public function navAccess() {

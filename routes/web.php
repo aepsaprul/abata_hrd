@@ -15,6 +15,7 @@ use App\Http\Controllers\MasterCabangController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\LokerController;
@@ -47,6 +48,9 @@ Auth::routes([
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
+    // dashboard hc
+    Route::get('home/dashboard', [HomeController::class, 'dashboard'])->name('home.dashboard');
+
     // master
         // menu
         Route::get('master/nav', [NavController::class, 'index'])->name('nav.index');
@@ -109,11 +113,45 @@ Route::group(['middleware' => 'auth'], function () {
 
     // karyawan
     Route::resource('karyawan', MasterKaryawanController::class);
-    Route::get('karyawan/{id}/delete', [MasterKaryawanController::class, 'delete'])->name('karyawan.delete');
-    Route::post('karyawan/kontrak-simpan', [MasterKaryawanController::class, 'kontrakSimpan'])->name('karyawan.kontrak_simpan');
-    Route::post('karyawan/kontrak-edit', [MasterKaryawanController::class, 'kontrakEdit'])->name('karyawan.kontrak_edit');
-    Route::post('karyawan/kontrak-update', [MasterKaryawanController::class, 'kontrakUpdate'])->name('karyawan.kontrak_update');
-    Route::post('karyawan/kontrak-delete', [MasterKaryawanController::class, 'kontrakDelete'])->name('karyawan.kontrak_delete');
+    Route::get('karyawan/{id}/delete_btn', [MasterKaryawanController::class, 'deleteBtn'])->name('karyawan.delete_btn');
+    Route::post('karyawan/delete', [MasterKaryawanController::class, 'delete'])->name('karyawan.delete');
+    Route::post('karyawan/ubah_status', [MasterKaryawanController::class, 'ubahStatus'])->name('karyawan.ubah_status');
+    Route::put('karyawan/{id}/update_foto', [MasterKaryawanController::class, 'updateFoto'])->name('karyawan.update_foto');
+    Route::post('karyawan/karyawan_store', [MasterKaryawanController::class, 'karyawanStore'])->name('karyawan.karyawan_store');
+
+        // biodata
+        Route::get('karyawan/{id}/biodata', [MasterKaryawanController::class, 'biodata'])->name('karyawan.biodata');
+        Route::post('karyawan/biodatas/update', [MasterKaryawanController::class, 'biodataUpdate'])->name('karyawan.biodata_update');
+
+        // kontrak
+        Route::get('karyawan/{id}/kontrak', [MasterKaryawanController::class, 'kontrak'])->name('karyawan.kontrak');
+        Route::post('karyawan/kontrak/store', [MasterKaryawanController::class, 'kontrakStore'])->name('karyawan.kontrak_store');
+        Route::get('karyawan/{id}/kontrak_delete', [MasterKaryawanController::class, 'kontrakDelete'])->name('karyawan.kontrak_delete');
+
+        // medsos
+        Route::get('karyawan/{id}/medsos', [MasterKaryawanController::class, 'medsos'])->name('karyawan.medsos');
+        Route::post('karyawan/medsos/store', [MasterKaryawanController::class, 'medsosStore'])->name('karyawan.medsos_store');
+        Route::get('karyawan/{id}/medsos_delete', [MasterKaryawanController::class, 'medsosDelete'])->name('karyawan.medsos_delete');
+
+        // keluarga sebelum menikah
+        Route::get('karyawan/{id}/sebelum_menikah', [MasterKaryawanController::class, 'sebelumMenikah'])->name('karyawan.sebelum_menikah');
+        Route::post('karyawan/sebelum_menikah/store', [MasterKaryawanController::class, 'sebelumMenikahStore'])->name('karyawan.sebelum_menikah_store');
+        Route::get('karyawan/{id}/sebelum_menikah_delete', [MasterKaryawanController::class, 'sebelumMenikahDelete'])->name('karyawan.sebelum_menikah_delete');
+
+        // keluarga setelah menikah
+        Route::get('karyawan/{id}/setelah_menikah', [MasterKaryawanController::class, 'setelahMenikah'])->name('karyawan.setelah_menikah');
+        Route::post('karyawan/setelah_menikah/store', [MasterKaryawanController::class, 'setelahMenikahStore'])->name('karyawan.setelah_menikah_store');
+        Route::get('karyawan/{id}/setelah_menikah_delete', [MasterKaryawanController::class, 'setelahMenikahDelete'])->name('karyawan.setelah_menikah_delete');
+
+        // kerabata darurat
+        Route::get('karyawan/{id}/kerabat_darurat', [MasterKaryawanController::class, 'kerabatDarurat'])->name('karyawan.kerabat_darurat');
+        Route::post('karyawan/kerabat_darurat/store', [MasterKaryawanController::class, 'kerabatDaruratStore'])->name('karyawan.kerabat_darurat_store');
+        Route::get('karyawan/{id}/kerabat_darurat_delete', [MasterKaryawanController::class, 'kerabatDaruratDelete'])->name('karyawan.kerabat_darurat_delete');
+
+        // pendidikan
+        Route::get('karyawan/{id}/pendidikan', [MasterKaryawanController::class, 'pendidikan'])->name('karyawan.pendidikan');
+        Route::post('karyawan/pendidikan/store', [MasterKaryawanController::class, 'pendidikanStore'])->name('karyawan.pendidikan_store');
+        Route::get('karyawan/{id}/pendidikan_delete', [MasterKaryawanController::class, 'pendidikanDelete'])->name('karyawan.pendidikan_delete');
 
     // cuti
     Route::get('cuti', [CutiController::class, 'index'])->name('cuti.index');

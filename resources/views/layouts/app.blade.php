@@ -174,6 +174,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('karyawan.index') }}" class="nav-link {{ request()->is(['karyawan', 'karyawan/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-user-tie text-center mr-2" style="width: 30px;"></i><p>Karyawan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('cuti.index') }}" class="nav-link {{ request()->is(['cuti', 'cuti/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-mug-hot text-center mr-2" style="width: 30px;"></i><p>Data Cuti</p>
                                 </a>

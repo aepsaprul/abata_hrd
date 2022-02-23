@@ -15,6 +15,7 @@ class UserController extends Controller
         $nav_access = HcNavAccess::with('masterKaryawan')
             ->select(DB::raw('count(*) as nav_access_count, user_id'))
             ->groupBy('user_id')
+            ->orderBy('id', 'desc')
             ->get();
 
         return view('pages.master.user.index', ['users' => $nav_access]);
@@ -74,16 +75,16 @@ class UserController extends Controller
             ->get();
 
         $karyawan_id = $id;
-        $sync = DB::table('espk_nav_subs')
-            ->select('espk_nav_subs.id AS nav_sub_id', 'espk_nav_subs.title AS title', 'espk_nav_subs.main_id AS nav_main')
-            ->leftJoin('espk_nav_accesses', function($join) use ($karyawan_id) {
-                $join->on('espk_nav_subs.id', '=', 'espk_nav_accesses.sub_id')
-                    ->where('espk_nav_accesses.user_id', '=', $karyawan_id);
+        $sync = DB::table('hc_nav_subs')
+            ->select('hc_nav_subs.id AS nav_sub_id', 'hc_nav_subs.title AS title', 'hc_nav_subs.main_id AS nav_main')
+            ->leftJoin('hc_nav_accesses', function($join) use ($karyawan_id) {
+                $join->on('hc_nav_subs.id', '=', 'hc_nav_accesses.sub_id')
+                    ->where('hc_nav_accesses.user_id', '=', $karyawan_id);
             })
             ->whereNull('user_id')
             ->get();
 
-        return view('pages.admin.user.access', [
+        return view('pages.master.user.access', [
             'karyawan' => $karyawan,
             'menus' => $menu,
             'subs' => $sub,
@@ -120,11 +121,11 @@ class UserController extends Controller
         $karyawan = MasterKaryawan::where('id', $request->id)->first();
 
         $karyawan_id = $karyawan->id;
-        $sync = DB::table('espk_nav_subs')
-            ->select('espk_nav_subs.id AS nav_sub_id', 'espk_nav_subs.title AS title', 'espk_nav_subs.main_id AS nav_main')
-            ->leftJoin('espk_nav_accesses', function($join) use ($karyawan_id) {
-                $join->on('espk_nav_subs.id', '=', 'espk_nav_accesses.sub_id')
-                    ->where('espk_nav_accesses.user_id', '=', $karyawan_id);
+        $sync = DB::table('hc_nav_subs')
+            ->select('hc_nav_subs.id AS nav_sub_id', 'hc_nav_subs.title AS title', 'hc_nav_subs.main_id AS nav_main')
+            ->leftJoin('hc_nav_accesses', function($join) use ($karyawan_id) {
+                $join->on('hc_nav_subs.id', '=', 'hc_nav_accesses.sub_id')
+                    ->where('hc_nav_accesses.user_id', '=', $karyawan_id);
             })
             ->whereNull('user_id')
             ->get();

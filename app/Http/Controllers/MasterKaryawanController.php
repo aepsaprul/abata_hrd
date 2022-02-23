@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\HcKeluargaSebelumMenikah;
 use App\Models\HcKeluargaSetelahMenikah;
+use App\Models\HcMedsos;
+use App\Models\MasterDivisi;
+use Illuminate\Support\Facades\Validator;
 
 class MasterKaryawanController extends Controller
 {
@@ -28,7 +31,7 @@ class MasterKaryawanController extends Controller
     {
         $karyawans = MasterKaryawan::with('masterJabatan')->orderBy('id', 'desc')->get();
 
-        return view('karyawan.index', ['karyawans' => $karyawans]);
+        return view('pages.karyawan.index', ['karyawans' => $karyawans]);
     }
 
     /**
@@ -40,8 +43,13 @@ class MasterKaryawanController extends Controller
     {
         $cabangs = MasterCabang::get();
         $jabatans = MasterJabatan::get();
+        $divisis = MasterDivisi::get();
 
-        return view('karyawan.create', ['cabangs' => $cabangs, 'jabatans' => $jabatans]);
+        return response()->json([
+            'cabangs' => $cabangs,
+            'jabatans' => $jabatans,
+            'divisis' => $divisis
+        ]);
     }
 
     /**
@@ -52,147 +60,136 @@ class MasterKaryawanController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $email = $request->email;
+        $messages = [
+            'nik.required' => 'NIK harus diisi',
+            'nama_lengkap.required' => 'Nama lengkap harus diisi',
+            'nama_panggilan.required' => 'Nama panggilan harus diisi',
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Email harus diisi dengan tipe email',
+            'email.unique' => 'Email sudah dipakai',
+            'email.max' => 'Email diisi makasimal 50 karakter',
+            'telepon.required' => 'Telepon harus diisi',
+            'telepon.unique' => 'Telepon sudah terpakai',
+            'telepon.max' => 'Telepon diisi maksimal 15 karakter',
+            'nomor_ktp.required' => 'Nomor KTP harus diisi',
+            'nomor_ktp.unique' => 'Nomor KTP sudah terpakai',
+            'nomor_ktp.max' => 'Nomor KTP diisi maksimal 16 karakter',
+            'status_perkawinan.required' => 'Status perkawinan harus diisi',
+            'master_cabang_id.required' => 'Cabang harus diisi',
+            'master_jabatan_id.required' => 'Jabatan harus diisi',
+            'master_divisi_id.required' => 'Divisi harus diisi',
+            'agama.required' => 'Agama harus diisi',
+            'agama.max' => 'Agama diisi maksimal 10 karakter',
+            'jenis_kelamin.required' => 'Jenis kelamin harus diisi',
+            'jenis_kelamin.max' => 'Jenis kelamin diisi maksimal 1 karakter',
+            'tempat_lahir.required' => 'Tempat lahir harus diisi',
+            'tempat_lahir.max' => 'Tempat lahir diisi maksimal 30 karakter',
+            'tanggal_lahir.required' => 'Tanggal lahir harus diisi',
+            'tanggal_lahir.date' => 'Tanggal lahir harus diisi dengan tipe date',
+            'alamat_asal.required' => 'Alamat asal harus diisi',
+            'alamat_domisili.required' => 'Alamat domisili harus diisi',
+            'foto.required' => 'foto harus diisi',
+            'foto.image' => 'foto harus diisi dengan tipe gambar',
+            'foto.mimes' => 'foto harus diisi dengan format jpg/jpeg/png',
+            'foto.max' => 'foto maksimal 2 Mb'
+        ];
 
-        $karyawans = new MasterKaryawan;
-        $karyawans->nama_lengkap = $request->nama_lengkap;
-        $karyawans->nama_panggilan = $request->nama_panggilan;
-        $karyawans->email = $request->email;
-        $karyawans->telepon = $request->telepon;
-        $karyawans->nomor_ktp = $request->nomor_ktp;
-        $karyawans->nomor_sim = $request->nomor_sim;
-        $karyawans->master_cabang_id = $request->master_cabang_id;
-        $karyawans->master_jabatan_id = $request->master_jabatan_id;
-        $karyawans->agama = $request->agama;
-        $karyawans->jenis_kelamin = $request->jenis_kelamin;
-        $karyawans->tempat_lahir = $request->tempat_lahir;
-        $karyawans->tanggal_lahir = $request->tanggal_lahir;
-        $karyawans->alamat_asal = $request->alamat_ktp;
-        $karyawans->alamat_domisili = $request->alamat_sekarang;
-        $karyawans->status_perkawinan = $request->status_perkawinan;
-        $karyawans->total_cuti = $request->total_cuti;
-        $karyawans->created_by = Auth::user()->id;
+        $validator = Validator::make($request->all(), [
+            'nik' => 'required',
+            'nama_lengkap' => 'required',
+            'nama_panggilan' => 'required',
+            'email' => 'required|email|unique:master_karyawans|max:50',
+            'telepon' => 'required|unique:master_karyawans|max:15',
+            'nomor_ktp' => 'required|unique:master_karyawans|max:16',
+            'status_perkawinan' => 'required',
+            'master_cabang_id' => 'required',
+            'master_jabatan_id' => 'required',
+            'master_divisi_id' => 'required',
+            'agama' => 'required|max:10',
+            'jenis_kelamin' => 'required|max:1',
+            'tempat_lahir' => 'required|max:30',
+            'tanggal_lahir' => 'required|date',
+            'alamat_asal' => 'required',
+            'alamat_domisili' => 'required',
+            'foto' => 'required|image|mimes:jpg,png,jpeg|max:2048'
+        ], $messages);
 
-        if($request->file('foto')) {
-            $file = $request->file('foto')->store('foto', 'public');
-            $karyawans->foto = $file;
-        }
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages()
+            ]);
+        } else {
+            $karyawan = new MasterKaryawan;
+            $karyawan->nik = $request->nik;
+            $karyawan->nama_lengkap = $request->nama_lengkap;
+            $karyawan->nama_panggilan = $request->nama_panggilan;
+            $karyawan->email = $request->email;
+            $karyawan->telepon = $request->telepon;
+            $karyawan->nomor_ktp = $request->nomor_ktp;
+            $karyawan->status_perkawinan = $request->status_perkawinan;
+            $karyawan->jenis_sim = $request->jenis_sim;
+            $karyawan->nomor_sim = $request->nomor_sim;
+            $karyawan->master_cabang_id = $request->master_cabang_id;
+            $karyawan->master_jabatan_id = $request->master_jabatan_id;
+            $karyawan->master_divisi_id = $request->master_divisi_id;
+            $karyawan->agama = $request->agama;
+            $karyawan->jenis_kelamin = $request->jenis_kelamin;
+            $karyawan->tempat_lahir = $request->tempat_lahir;
+            $karyawan->tanggal_lahir = $request->tanggal_lahir;
+            $karyawan->alamat_asal = $request->alamat_ktp;
+            $karyawan->alamat_domisili = $request->alamat_sekarang;
+            $karyawan->status = "Aktif";
+            $karyawan->created_by = Auth::user()->id;
 
-        $karyawans->save();
-
-        $kontraks = new HcKontrak;
-        $kontraks->email = $request->email;
-        $kontraks->mulai_kontrak = $request->mulai_kontrak;
-        $kontraks->akhir_kontrak = $request->akhir_kontrak;
-        $kontraks->lama_kontrak = $request->lama_kontrak;
-        $kontraks->save();
-
-        $media_sosial = new HcMediaSosial;
-        $media_sosial->email = $request->email;
-        $media_sosial->facebook = $request->facebook;
-        $media_sosial->instagram = $request->instagram;
-        $media_sosial->linkedin = $request->linkedin;
-        $media_sosial->youtube = $request->youtube;
-        $media_sosial->save();
-
-        foreach ($request->keluarga_sebelum_menikah_hubungan as $key => $value) {
-            $keluarga_sebelum_menikah = new HcKeluargaSebelumMenikah;
-            $keluarga_sebelum_menikah->email = $email;
-            $keluarga_sebelum_menikah->hubungan = $value;
-            $keluarga_sebelum_menikah->nama = $request->keluarga_sebelum_menikah_nama[$key];
-            $keluarga_sebelum_menikah->usia = $request->keluarga_sebelum_menikah_usia[$key];
-            $keluarga_sebelum_menikah->jenis_kelamin = $request->keluarga_sebelum_menikah_jenis_kelamin[$key];
-            $keluarga_sebelum_menikah->pendidikan_terakhir = $request->keluarga_sebelum_menikah_pendidikan_terakhir[$key];
-            $keluarga_sebelum_menikah->pekerjaan_terakhir = $request->keluarga_sebelum_menikah_pekerjaan_terakhir[$key];
-            $keluarga_sebelum_menikah->save();
-        }
-
-        if (!empty($request->keluarga_setelah_menikah_hubungan)) {
-            # code...
-            foreach ($request->keluarga_setelah_menikah_hubungan as $key => $value) {
-                $keluarga_setelah_menikah = new HcKeluargaSetelahMenikah;
-                $keluarga_setelah_menikah->email = $email;
-                $keluarga_setelah_menikah->hubungan = $value;
-                $keluarga_setelah_menikah->nama = $request->keluarga_setelah_menikah_nama[$key];
-                $keluarga_setelah_menikah->tempat_lahir = $request->keluarga_setelah_menikah_tempat_lahir[$key];
-                $keluarga_setelah_menikah->tanggal_lahir = $request->keluarga_setelah_menikah_tanggal_lahir[$key];
-                $keluarga_setelah_menikah->pekerjaan_terakhir = $request->keluarga_setelah_menikah_pekerjaan_terakhir[$key];
-                $keluarga_setelah_menikah->save();
+            if($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . "." . $extension;
+                $file->move('image/', $filename);
+                $karyawan->foto = $filename;
             }
+
+            $karyawan->save();
+
+            // user create
+            $user = new User;
+            $user->name = $request->nama_lengkap;
+            $user->email = $request->email;
+            $user->password = Hash::make('abataprinting');
+            $user->master_karyawan_id = $karyawan->id;
+            $user->roles = "guest";
+            $user->save();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Data berhasil ditambahkan"
+            ]);
         }
-
-        if (!empty($request->kerabat_hubungan)) {
-            # code...
-            foreach ($request->kerabat_hubungan as $key => $value) {
-                $kerabat = new HcKerabatDarurat;
-                $kerabat->email = $request->email;
-                $kerabat->hubungan = $value;
-                $kerabat->nama = $request->kerabat_nama[$key];
-                $kerabat->jenis_kelamin = $request->kerabat_jenis_kelamin[$key];
-                $kerabat->telepon = $request->kerabat_telepon[$key];
-                $kerabat->alamat = $request->kerabat_alamat[$key];
-                $kerabat->save();
-            }
-        }
-
-        $pendidikan = new HcPendidikan;
-        $pendidikan->email = $request->email;
-        $pendidikan->tingkat = $request->pendidikan_tingkat;
-        $pendidikan->nama = $request->pendidikan_nama_gedung;
-        $pendidikan->kota = $request->pendidikan_kota;
-        $pendidikan->jurusan = $request->pendidikan_jurusan;
-        $pendidikan->tahun_masuk = $request->pendidikan_tahun_masuk;
-        $pendidikan->tahun_lulus = $request->pendidikan_tahun_lulus;
-        $pendidikan->save();
-
-        $user = new User;
-        $user->name = $request->nama_lengkap;
-        $user->email = $request->email;
-        $user->password = \Hash::make('abataprinting');
-        $user->master_karyawan_id = $karyawans->id;
-        $user->roles = "guest";
-
-        if($request->file('foto')) {
-            $file = $request->file('foto')->store('foto', 'public');
-            $user->foto = $file;
-        }
-
-        $user->save();
-
-        return redirect()->route('karyawan.create')->with('status', 'Data karyawan berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $karyawan = MasterKaryawan::find($id);
-        $cabangs = MasterCabang::get();
-        $jabatans = MasterJabatan::get();
+        $kontrak = HcKontrak::where('karyawan_id', $id)->get();
+        $medsos = HcMedsos::where('karyawan_id', $id)->get();
+        $sebelum_menikah = HcKeluargaSebelumMenikah::where('karyawan_id', $id)->get();
+        $setelah_menikah = HcKeluargaSetelahMenikah::where('karyawan_id', $id)->get();
+        $kerabat_darurat = HcKerabatDarurat::where('karyawan_id', $id)->get();
+        $pendidikan = HcPendidikan::where('karyawan_id', $id)->get();
 
-        $email = $karyawan->email;
-        $medsos = HcMediaSosial::where('email', $email)->first();
-        $keluarga_sebelum_menikah = HcKeluargaSebelumMenikah::where('email', $email)->get();
-        $keluarga_setelah_menikah = HcKeluargaSetelahMenikah::where('email', $email)->get();
-        $kerabat_dihubungi = HcKerabatDarurat::where('email', $email)->first();
-        $pendidikan = HcPendidikan::where('email', $email)->first();
-        $kontraks = HcKontrak::where('email', $email)->get();
+        // source status level karyawan
+        $kontrak_pertama = HcKontrak::where('karyawan_id', $id)->orderBy('id', 'asc')->first();
 
-        return view('karyawan.detail', [
+        return view('karyawan.detail2', [
             'karyawan' => $karyawan,
-            'cabangs' => $cabangs,
-            'jabatans' => $jabatans,
+            'kontraks' => $kontrak,
             'medsos' => $medsos,
-            'keluarga_sebelum_menikahs' => $keluarga_sebelum_menikah,
-            'keluarga_setelah_menikahs' => $keluarga_setelah_menikah,
-            'kerabat_hubungi' => $kerabat_dihubungi,
-            'pendidikan' => $pendidikan,
-            'kontraks' => $kontraks
+            'sebelum_menikahs' => $sebelum_menikah,
+            'setelah_menikahs' => $setelah_menikah,
+            'kerabat_darurats' => $kerabat_darurat,
+            'pendidikans' => $pendidikan,
+            'kontrak_pertama' => $kontrak_pertama
         ]);
     }
 
@@ -229,204 +226,307 @@ class MasterKaryawanController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function deleteBtn($id)
     {
-        // dd($request);
-        $karyawan = MasterKaryawan::find($id);
-        $karyawan->nama_lengkap = $request->nama_lengkap;
-        $karyawan->nama_panggilan = $request->nama_panggilan;
-        $karyawan->email = $request->email;
-        $karyawan->telepon = $request->telepon;
-        $karyawan->master_cabang_id = $request->master_cabang_id;
-        $karyawan->master_jabatan_id = $request->master_jabatan_id;
-        $karyawan->tempat_lahir = $request->tempat_lahir;
-        $karyawan->tanggal_lahir = $request->tanggal_lahir;
-        $karyawan->nomor_ktp = $request->nomor_ktp;
-        $karyawan->nomor_sim = $request->nomor_sim;
-        $karyawan->agama = $request->agama;
-        $karyawan->jenis_kelamin = $request->jenis_kelamin;
-        $karyawan->alamat_asal = $request->alamat_ktp;
-        $karyawan->alamat_domisili = $request->alamat_sekarang;
-        $karyawan->status_perkawinan = $request->status_perkawinan;
-        $karyawan->tanggal_masuk = $request->tanggal_masuk;
-        $karyawan->tanggal_keluar = $request->tanggal_keluar;
-        $karyawan->alasan = $request->alasan;
-        $karyawan->tanggal_pengambilan_ijazah = $request->tanggal_pengambilan_ijazah;
-        $karyawan->status = $request->status;
-        $karyawan->updated_by = Auth::user()->id;
+        $karyawan = Karyawan::find($id);
 
-        if($request->file('foto')) {
-            if($karyawan->foto && file_exists(storage_path('app/public/' . $karyawan->foto))) {
-                \Storage::delete('public/' . $karyawan->foto);
-            }
-            $file = $request->file('foto')->store('avatar', 'public');
-            $karyawan->foto = $file;
-        }
-
-        $karyawan->save();
-
-        $user = User::where('master_karyawan_id', $id)->first();
-        $user->name = $request->nama_panggilan;
-        $user->email = $request->email;
-        $user->save();
-
-        // $kontraks = HcKontrak::where('email', $karyawan->email)->first();
-        // $kontraks->email = $request->email;
-        // $kontraks->mulai_kontrak = $request->mulai_kontrak;
-        // $kontraks->akhir_kontrak = $request->akhir_kontrak;
-        // $kontraks->lama_kontrak = $request->lama_kontrak;
-        // $kontraks->save();
-
-        $media_sosial = HcMediaSosial::where('email', $karyawan->email)->first();
-        $media_sosial->email = $request->email;
-        $media_sosial->facebook = $request->facebook;
-        $media_sosial->instagram = $request->instagram;
-        $media_sosial->linkedin = $request->linkedin;
-        $media_sosial->youtube = $request->youtube;
-        $media_sosial->save();
-
-        $keluarga_sebelum_menikah_hapus = HcKeluargaSebelumMenikah::where('email', $karyawan->email);
-        $keluarga_sebelum_menikah_hapus->delete();
-
-        foreach ($request->keluarga_sebelum_menikah_hubungan as $key => $value) {
-            $keluarga_sebelum_menikah = new HcKeluargaSebelumMenikah;
-            $keluarga_sebelum_menikah->email = $request->email;
-            $keluarga_sebelum_menikah->hubungan = $value;
-            $keluarga_sebelum_menikah->nama = $request->keluarga_sebelum_menikah_nama[$key];
-            $keluarga_sebelum_menikah->usia = $request->keluarga_sebelum_menikah_usia[$key];
-            $keluarga_sebelum_menikah->jenis_kelamin = $request->keluarga_sebelum_menikah_jenis_kelamin[$key];
-            $keluarga_sebelum_menikah->pendidikan_terakhir = $request->keluarga_sebelum_menikah_pendidikan_terakhir[$key];
-            $keluarga_sebelum_menikah->pekerjaan_terakhir = $request->keluarga_sebelum_menikah_pekerjaan_terakhir[$key];
-            $keluarga_sebelum_menikah->save();
-        }
-
-        if (!empty($request->keluarga_setelah_menikah_hubungan)) {
-            # code...
-            $keluarga_setelah_menikah_hapus = HcKeluargaSetelahMenikah::where('email', $karyawan->email);
-            $keluarga_setelah_menikah_hapus->delete();
-
-            foreach ($request->keluarga_setelah_menikah_hubungan as $key => $value) {
-                $keluarga_setelah_menikah = new HcKeluargaSetelahMenikah;
-                $keluarga_setelah_menikah->email = $request->email;
-                $keluarga_setelah_menikah->hubungan = $value;
-                $keluarga_setelah_menikah->nama = $request->keluarga_setelah_menikah_nama[$key];
-                $keluarga_setelah_menikah->tempat_lahir = $request->keluarga_setelah_menikah_tempat_lahir[$key];
-                $keluarga_setelah_menikah->tanggal_lahir = $request->keluarga_setelah_menikah_tanggal_lahir[$key];
-                $keluarga_setelah_menikah->pekerjaan_terakhir = $request->keluarga_setelah_menikah_pekerjaan_terakhir[$key];
-                $keluarga_setelah_menikah->save();
-            }
-        }
-
-        if (!empty($request->kerabat_darurat_hubungan)) {
-            # code...
-            $kerabat_hapus = HcKerabatDarurat::where('email', $karyawan->email);
-            $kerabat_hapus->delete();
-
-            foreach ($request->kerabat_darurat_hubungan as $key => $value) {
-                $kerabat = new HcKerabatDarurat;
-                $kerabat->email = $request->email;
-                $kerabat->hubungan = $value;
-                $kerabat->nama = $request->kerabat_darurat_nama[$key];
-                $kerabat->jenis_kelamin = $request->kerabat_darurat_jenis_kelamin[$key];
-                $kerabat->telepon = $request->kerabat_darurat_telepon[$key];
-                $kerabat->alamat = $request->kerabat_darurat_alamat[$key];
-                $kerabat->save();
-            }
-        }
-
-        $pendidikan = HcPendidikan::where('email', $karyawan->email)->first();
-        $pendidikan->email = $request->email;
-        $pendidikan->tingkat = $request->pendidikan_tingkat;
-        $pendidikan->nama = $request->pendidikan_gedung;
-        $pendidikan->kota = $request->pendidikan_kota;
-        $pendidikan->jurusan = $request->pendidikan_jurusan;
-        $pendidikan->tahun_masuk = $request->pendidikan_tahun_masuk;
-        $pendidikan->tahun_lulus = $request->pendidikan_tahun_lulus;
-        $pendidikan->save();
-
-        return redirect()->route('karyawan.index')->with('status', 'Data karyawan berhasil diubah');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json([
+            'id' => $karyawan->id
+        ]);
     }
 
     public function delete(Request $request, $id)
     {
         $karyawan = MasterKaryawan::find($id);
+
         $karyawan->deleted_by = Auth::user()->id;
         $karyawan->save();
 
+        $kontrak = HcKontrak::where('karyawan_id', $karyawan->id);
+        $kontrak->delete();
+
+        $medsos = HcMedsos::where('karyawan_id', $karyawan->id);
+        $medsos->delete();
+
+        $sebelum_menikah = HcKeluargaSebelumMenikah::where('karyawan_id', $karyawan->id);
+        $sebelum_menikah->delete();
+
+        $setelah_menikah = HcKeluargaSetelahMenikah::where('karyawan_id', $karyawan->id);
+        $setelah_menikah->delete();
+
+        $kerabat_darurat = HcKerabatDarurat::where('karyawan_id', $karyawan->id);
+        $kerabat_darurat->delete();
+
+        $pendidikan = HcPendidikan::where('karyawan_id', $karyawan->id);
+        $pendidikan->delete();
+
         $karyawan->delete();
 
-        return redirect()->route('karyawan.index')->with('status', 'Data karyawan berhasil dihapus');
-    }
-
-    public function kontrakSimpan(Request $request)
-    {
-        $kontraks = new HcKontrak;
-        $kontraks->email = $request->email;
-        $kontraks->mulai_kontrak = $request->mulai_kontrak;
-        $kontraks->akhir_kontrak = $request->akhir_kontrak;
-        $kontraks->lama_kontrak = $request->lama_kontrak;
-        $kontraks->save();
-
         return response()->json([
-            'data' => 'sukses'
+            'status' => 'true'
         ]);
     }
 
-    public function kontrakEdit(Request $request)
+    public function ubahStatus(Request $request)
     {
-        $kontrak = HcKontrak::where('id', $request->id)->first();
+        $karyawan = MasterKaryawan::find($request->id);
+        $karyawan->status = $request->status;
+        $karyawan->save();
 
         return response()->json([
-            'id_kontrak' => $kontrak->id,
-            'email' => $kontrak->email,
-            'mulai_kontrak' => $kontrak->mulai_kontrak,
-            'akhir_kontrak' => $kontrak->akhir_kontrak,
-            'lama_kontrak' => $kontrak->lama_kontrak
+            'status' => 'true',
+            'id' => $karyawan->id,
+            'title' => $karyawan->status
         ]);
     }
 
-    public function kontrakUpdate(Request $request)
+    public function biodata($id)
     {
-        $kontrak = HcKontrak::where('id', $request->id)->first();
-        $kontrak->email = $request->email;
+        $karyawan = MasterKaryawan::find($id);
+        $cabangs = MasterCabang::get();
+        $jabatans = MasterJabatan::get();
+
+        return response()->json([
+            'karyawan' => $karyawan,
+            'cabangs' => $cabangs,
+            'jabatans' => $jabatans
+        ]);
+    }
+
+    public function biodataUpdate(Request $request)
+    {
+        $karyawan = MasterKaryawan::where('id', $request->id)->first();
+        $karyawan->nama_lengkap = $request->nama_lengkap;
+        $karyawan->nama_panggilan = $request->nama_panggilan;
+        $karyawan->email = $request->email;
+        $karyawan->telepon = $request->telepon;
+        $karyawan->nomor_sim = $request->nomor_sim;
+        $karyawan->nomor_ktp = $request->nomor_ktp;
+        $karyawan->alamat_asal = $request->alamat_asal;
+        $karyawan->alamat_domisili = $request->alamat_domisili;
+        $karyawan->tempat_lahir = $request->tempat_lahir;
+        $karyawan->tanggal_lahir = $request->tanggal_lahir;
+        $karyawan->jenis_kelamin = $request->jenis_kelamin;
+        $karyawan->status_perkawinan = $request->status_perkawinan;
+        $karyawan->agama = $request->agama;
+        $karyawan->master_cabang_id = $request->master_cabang_id;
+        $karyawan->master_jabatan_id = $request->master_jabatan_id;
+        $karyawan->total_cuti = $request->total_cuti;
+        $karyawan->save();
+
+        $user = User::where('master_karyawan_id', $request->id)->first();
+        $user->email = $request->email;
+        $user->save();
+
+        return response()->json([
+            'status' => 'Data berhasil diperbaharui'
+        ]);
+    }
+
+    public function kontrak($id)
+    {
+        $kontrak = HcKontrak::where('karyawan_id', $id)->orderBy('id', 'desc')->get();
+
+        return response()->json([
+            'kontraks' => $kontrak
+        ]);
+    }
+
+    public function kontrakStore(Request $request)
+    {
+        $kontrak = new HcKontrak;
+        $kontrak->karyawan_id = $request->id;
         $kontrak->mulai_kontrak = $request->mulai_kontrak;
         $kontrak->akhir_kontrak = $request->akhir_kontrak;
         $kontrak->lama_kontrak = $request->lama_kontrak;
         $kontrak->save();
 
         return response()->json([
-            'email' => $request->email,
-            'mulai_kontrak' => $request->mulai_kontrak,
-            'akhir_kontrak' => $request->akhir_kontrak,
-            'lama_kontrak' => $request->lama_kontrak
+            'status' => 'Kontrak berhasil di tambahkan'
         ]);
     }
 
-    public function kontrakDelete(Request $request)
+    public function kontrakDelete($id)
     {
-        $kontrak = HcKontrak::where('id', $request->id)->first();
+        $kontrak = HcKontrak::find($id);
         $kontrak->delete();
 
         return response()->json([
-            'data' => 'berhasil hapus'
+            'status' => 'Data kontrak berhasil dihapus'
+        ]);
+    }
+
+    public function medsos($id)
+    {
+        $medsos = HcMedsos::where('karyawan_id', $id)->get();
+
+        return response()->json([
+            'medsos' => $medsos
+        ]);
+    }
+
+    public function medsosStore(Request $request)
+    {
+        $medsos = new HcMedsos;
+        $medsos->karyawan_id = $request->id;
+        $medsos->nama_media_sosial = $request->nama_media_sosial;
+        $medsos->nama_akun = $request->nama_akun;
+        $medsos->save();
+
+        return response()->json([
+            'status' => 'Data media sosial berhasil ditambahkan'
+        ]);
+    }
+
+    public function medsosDelete($id)
+    {
+        $medsos = HcMedsos::find($id);
+        $medsos->delete();
+
+        return response()->json([
+            'status' => 'Data media sosial berhasil dihapus'
+        ]);
+    }
+
+    public function sebelumMenikah($id)
+    {
+        $sebelumMenikah = HcKeluargaSebelumMenikah::where('karyawan_id', $id)->get();
+
+        return response()->json([
+            'sebelum_menikahs' => $sebelumMenikah
+        ]);
+    }
+
+    public function sebelumMenikahStore(Request $request)
+    {
+        $sebelumMenikah = new HcKeluargaSebelumMenikah;
+        $sebelumMenikah->karyawan_id = $request->id;
+        $sebelumMenikah->hubungan = $request->hubungan;
+        $sebelumMenikah->nama = $request->nama;
+        $sebelumMenikah->usia = $request->usia;
+        $sebelumMenikah->jenis_kelamin = $request->jenis_kelamin;
+        $sebelumMenikah->pendidikan_terakhir = $request->pendidikan;
+        $sebelumMenikah->pekerjaan_terakhir = $request->pekerjaan;
+        $sebelumMenikah->save();
+
+        return response()->json([
+            'status' => 'Data keluarga sebelum menikah berhasil diperbaharui'
+        ]);
+    }
+
+    public function sebelumMenikahDelete($id)
+    {
+        $sebelumMenikah = HcKeluargaSebelumMenikah::find($id);
+        $sebelumMenikah->delete();
+
+        return response()->json([
+            'status' => 'Data keluarga sebelum menikah berhasil dihapus'
+        ]);
+    }
+
+    public function setelahMenikah($id)
+    {
+        $setelahMenikah = HcKeluargaSetelahMenikah::where('karyawan_id', $id)->get();
+
+        return response()->json([
+            'setelah_menikahs' => $setelahMenikah
+        ]);
+    }
+
+    public function setelahMenikahStore(Request $request)
+    {
+        $setelahMenikah = new HcKeluargaSetelahMenikah;
+        $setelahMenikah->karyawan_id = $request->id;
+        $setelahMenikah->hubungan = $request->hubungan;
+        $setelahMenikah->nama = $request->nama;
+        $setelahMenikah->tempat_lahir = $request->tempat_lahir;
+        $setelahMenikah->tanggal_lahir = $request->tanggal_lahir;
+        $setelahMenikah->pekerjaan_terakhir = $request->pekerjaan;
+        $setelahMenikah->save();
+
+        return response()->json([
+            'status' => 'Data keluarga setelah menikah berhasil diperbaharui'
+        ]);
+    }
+
+    public function setelahMenikahDelete($id)
+    {
+        $setelahMenikah = HcKeluargaSetelahMenikah::find($id);
+        $setelahMenikah->delete();
+
+        return response()->json([
+            'status' => 'Data keluarga setelah menikah berhasil dihapus'
+        ]);
+    }
+
+    public function kerabatDarurat($id)
+    {
+        $kerabatDarurat = HcKerabatDarurat::where('karyawan_id', $id)->get();
+
+        return response()->json([
+            'kerabat_darurats' => $kerabatDarurat
+        ]);
+    }
+
+    public function kerabatDaruratStore(Request $request)
+    {
+        $kerabatDarurat = new HcKerabatDarurat;
+        $kerabatDarurat->karyawan_id = $request->id;
+        $kerabatDarurat->hubungan = $request->hubungan;
+        $kerabatDarurat->nama = $request->nama;
+        $kerabatDarurat->jenis_kelamin = $request->jenis_kelamin;
+        $kerabatDarurat->telepon = $request->telepon;
+        $kerabatDarurat->alamat = $request->alamat;
+        $kerabatDarurat->save();
+
+        return response()->json([
+            'status' => 'Data kerabat darurat berhasil diperbaharui'
+        ]);
+    }
+
+    public function kerabatDaruratDelete($id)
+    {
+        $kerabatDarurat = HcKerabatDarurat::find($id);
+        $kerabatDarurat->delete();
+
+        return response()->json([
+            'status' => 'Data kerabat darurat berhasil dihapus'
+        ]);
+    }
+
+    public function pendidikan($id)
+    {
+        $pendidikan = HcPendidikan::where('karyawan_id', $id)->get();
+
+        return response()->json([
+            'pendidikans' => $pendidikan
+        ]);
+    }
+
+    public function pendidikanStore(Request $request)
+    {
+        $pendidikan = new HcPendidikan;
+        $pendidikan->karyawan_id = $request->id;
+        $pendidikan->tingkat = $request->tingkat;
+        $pendidikan->nama = $request->nama;
+        $pendidikan->kota = $request->kota;
+        $pendidikan->jurusan = $request->jurusan;
+        $pendidikan->tahun_masuk = $request->tahun_masuk;
+        $pendidikan->tahun_lulus = $request->tahun_lulus;
+        $pendidikan->save();
+
+        return response()->json([
+            'status' => 'Data pendidikan berhasil diperbaharui'
+        ]);
+    }
+
+    public function pendidikanDelete($id)
+    {
+        $pendidikan = HcPendidikan::find($id);
+        $pendidikan->delete();
+
+        return response()->json([
+            'status' => 'Data pendidikan berhasil dihapus'
         ]);
     }
 }

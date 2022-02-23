@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AntrianPengunjung;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -25,6 +26,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if (Auth::user()->masterKaryawan) {
+            if (Auth::user()->masterKaryawan->master_jabatan_id == 13 || Auth::user()->masterKaryawan->master_jabatan_id == 32 || Auth::user()->masterKaryawan->master_jabatan_id == 8) {
+                return view('pages.dashboard.index');
+            } else {
+                return view('home');
+            }
+        } else {
+            return view('home');
+        }
+    }
+
+    public function dashboard()
+    {
+        return view('pages.dashboard.index');
     }
 }
