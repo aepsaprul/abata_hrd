@@ -19,6 +19,7 @@ use App\Models\HcKeluargaSetelahMenikah;
 use App\Models\HcMedsos;
 use App\Models\MasterDivisi;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class MasterKaryawanController extends Controller
 {
@@ -228,18 +229,18 @@ class MasterKaryawanController extends Controller
 
     public function deleteBtn($id)
     {
-        $karyawan = Karyawan::find($id);
+        $karyawan = MasterKaryawan::find($id);
 
         return response()->json([
             'id' => $karyawan->id
         ]);
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
-        $karyawan = MasterKaryawan::find($id);
+        $karyawan = MasterKaryawan::find($request->id);
 
-        $karyawan->deleted_by = Auth::user()->id;
+        $karyawan->deleted_by = Auth::user()->master_karyawan_id;
         $karyawan->save();
 
         $kontrak = HcKontrak::where('karyawan_id', $karyawan->id);
@@ -259,6 +260,13 @@ class MasterKaryawanController extends Controller
 
         $pendidikan = HcPendidikan::where('karyawan_id', $karyawan->id);
         $pendidikan->delete();
+
+        $user = User::where('master_karyawan_id', $karyawan->id)->first();
+        $user->delete();
+
+        if (file_exists(public_path("image/" . $karyawan->foto))) {
+            File::delete(public_path("image/" . $karyawan->foto));
+        }
 
         $karyawan->delete();
 

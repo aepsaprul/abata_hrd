@@ -84,15 +84,6 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                {{-- <input
-                                                    class="custom-control"
-                                                    type="checkbox"
-                                                    name="status_karyawan"
-                                                    id="status_karyawan_{{ $item->id }}"
-                                                    data-id="{{ $item->id }}"
-                                                    {{ $item->status == "aktif" ? "checked" : "" }}
-                                                    data-bootstrap-switch> --}}
-
                                                 <div class="custom-control custom-switch custom-switch-on-success">
                                                     <input
                                                         type="checkbox"
@@ -334,59 +325,22 @@
     </div>
 </div>
 
-{{-- modal edit --}}
-<div class="modal fade modal-edit" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="form-edit" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="edit_id" name="edit_id">
-                <div class="modal-header">
-                    <h4 class="modal-title">Ubah Data Divisi</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="edit_nama" class="form-label">Nama Divisi</label>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            id="edit_nama"
-                            name="edit_nama"
-                            maxlength="30"
-                            required>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-edit" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Perbaharui
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 {{-- modal delete --}}
 <div class="modal fade modal-delete" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="form-delete">
-                <input type="hidden" id="delete_id" name="delete_id">
+                <input type="hidden" id="delete_id" name="id">
                 <div class="modal-header">
                     <h5 class="modal-title">Yakin akan dihapus?</h5>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
-                    <button class="btn btn-primary btn-delete-spinner" disabled style="width: 130px; display: none;">
+                    <button class="btn btn-primary btn-delete-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
                     </button>
-                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 130px;">
+                    <button type="submit" class="btn btn-primary btn-delete-save text-center" style="width: 130px;">
                         Ya
                     </button>
                 </div>
@@ -484,6 +438,29 @@
                     var reader = new FileReader();
                     reader.onload = function(e) {
                         $('<img/>', {'src':e.target.result, 'class':'profile-user-img img-fluid'}).appendTo(img_holder);
+                    }
+                    img_holder.show();
+                    reader.readAsDataURL($(this)[0].files[0]);
+                } else {
+                    $(img_holder).html('Browser tidak support FileReader');
+                }
+            } else {
+                $(img_holder).html(currentImagePath);
+            }
+        });
+
+        // edit foto
+        $('input[type="file"][name="foto"]').on('change', function() {
+            var img_path = $(this)[0].value;
+            var img_holder = $('.edit_profile_img');
+            var currentImagePath = $(this).data('value');
+            var extension = img_path.substring(img_path.lastIndexOf('.')+1).toLowerCase();
+            if (extension == 'jpg' || extension == 'jpeg' || extension == 'png') {
+                if (typeof(FileReader) != 'undefind') {
+                    img_holder.empty();
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('<img/>', {'src':e.target.result, 'class':'profile-user-img img-fluid img-circle'}).appendTo(img_holder);
                     }
                     img_holder.show();
                     reader.readAsDataURL($(this)[0].files[0]);
@@ -608,84 +585,14 @@
             });
         });
 
-        // edit
-        $('body').on('click', '.btn-edit', function (e) {
-            e.preventDefault();
-
-            var id = $(this).attr('data-id');
-            var url = '{{ route("karyawan.edit", ":id") }}';
-            url = url.replace(':id', id);
-
-            var formData = {
-                id: id,
-                _token: CSRF_TOKEN
-            }
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: formData,
-                success: function (response) {
-                    $('#edit_id').val(response.id);
-                    $('#edit_nama').val(response.nama);
-
-                    $('.modal-edit').modal('show');
-                }
-            })
-        });
-
-        $('#form-edit').submit(function (e) {
-            e.preventDefault();
-
-            var formData = {
-                nama: $('#edit_nama').val(),
-                _token: CSRF_TOKEN
-            }
-
-            var id = $('#edit_id').val();
-            var url = '{{ route("karyawan.update", ":id") }}';
-            url = url.replace(':id', id);
-
-            $.ajax({
-                url: url,
-                type: 'PUT',
-                data: formData,
-                beforeSend: function () {
-                    $('.btn-spinner-edit').css("display", "block");
-                    $('.btn-edit-save').css("display", "none");
-                },
-                success: function (response) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Data berhasil diperbaharui'
-                    });
-
-                    setTimeout( () => {
-                        window.location.reload(1);
-                    }, 1000);
-                },
-                error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhar.error
-
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Error - ' + errorMessage
-                    });
-                }
-            });
-        });
-
         // delete
-        $('body').on('click', '.btn-delete', function (e) {
-            e.preventDefault();
-
+        $(document).on('click', '.btn-delete', function () {
             var id = $(this).attr('data-id');
-            var url = '{{ route("karyawan.delete_btn", ":id") }}';
+            var url = "{{ route('karyawan.delete_btn', ':id') }}";
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -699,21 +606,19 @@
             });
         });
 
-        $('#form-delete').submit(function (e) {
+        $(document).on('submit', '#form-delete', function (e) {
             e.preventDefault();
-
-            var formData = {
-                id: $('#delete_id').val(),
-                _token: CSRF_TOKEN
-            }
+            let formData = new FormData($('#form-delete')[0]);
 
             $.ajax({
                 url: "{{ URL::route('karyawan.delete') }}",
                 type: 'POST',
                 data: formData,
+                contentType: false,
+                processData: false,
                 beforeSend: function () {
-                    $('.btn-delete-spinner').css('display', 'block');
-                    $('.btn-delete-yes').css('display', 'none');
+                    $('.btn-delete-spinner').removeClass('d-none');
+                    $('.btn-delete-save').addClass('d-none');
                 },
                 success: function (response) {
                     Toast.fire({
@@ -726,7 +631,7 @@
                     }, 1000);
                 },
                 error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhar.error
+                    var errorMessage = xhr.status + ': ' + error
 
                     Toast.fire({
                         icon: 'error',

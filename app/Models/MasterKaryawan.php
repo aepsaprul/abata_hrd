@@ -11,13 +11,11 @@ use App\Models\MasterJabatan;
 use App\Models\SitumpurDesain;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SitumpurAntrianDesainNomor;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MasterKaryawan extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'nik',
