@@ -7,13 +7,11 @@ use App\Models\HcKontrak;
 use App\Models\HcPendidikan;
 use App\Models\MasterCabang;
 use Illuminate\Http\Request;
-use App\Models\HcMediaSosial;
 use App\Models\MasterJabatan;
 use App\Models\MasterKaryawan;
 use App\Models\HcKerabatDarurat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use App\Models\HcKeluargaSebelumMenikah;
 use App\Models\HcKeluargaSetelahMenikah;
 use App\Models\HcMedsos;
@@ -205,19 +203,20 @@ class MasterKaryawanController extends Controller
         $karyawan = MasterKaryawan::find($id);
         $cabangs = MasterCabang::get();
         $jabatans = MasterJabatan::get();
+        $divisis = MasterDivisi::get();
 
-        $email = $karyawan->email;
-        $medsos = HcMediaSosial::where('email', $email)->first();
-        $keluarga_sebelum_menikah = HcKeluargaSebelumMenikah::where('email', $email)->get();
-        $keluarga_setelah_menikah = HcKeluargaSetelahMenikah::where('email', $email)->get();
-        $kerabat_darurat = HcKerabatDarurat::where('email', $email)->first();
-        $pendidikan = HcPendidikan::where('email', $email)->first();
-        $kontraks = HcKontrak::where('email', $email)->orderBy('id', 'desc')->get();
+        $medsos = HcMedsos::where('karyawan_id', $karyawan->id)->first();
+        $keluarga_sebelum_menikah = HcKeluargaSebelumMenikah::where('karyawan_id', $karyawan->id)->get();
+        $keluarga_setelah_menikah = HcKeluargaSetelahMenikah::where('karyawan_id', $karyawan->id)->get();
+        $kerabat_darurat = HcKerabatDarurat::where('karyawan_id', $karyawan->id)->first();
+        $pendidikan = HcPendidikan::where('karyawan_id', $karyawan->id)->first();
+        $kontraks = HcKontrak::where('karyawan_id', $karyawan->id)->orderBy('id', 'desc')->get();
 
-        return view('karyawan.edit', [
+        return view('pages.karyawan.edit', [
             'karyawan' => $karyawan,
             'cabangs' => $cabangs,
             'jabatans' => $jabatans,
+            'divisis' => $divisis,
             'medsos' => $medsos,
             'keluarga_sebelum_menikahs' => $keluarga_sebelum_menikah,
             'keluarga_setelah_menikahs' => $keluarga_setelah_menikah,
@@ -293,21 +292,30 @@ class MasterKaryawanController extends Controller
         $karyawan = MasterKaryawan::find($id);
         $cabangs = MasterCabang::get();
         $jabatans = MasterJabatan::get();
+        $divisis = MasterDivisi::get();
 
         return response()->json([
             'karyawan' => $karyawan,
             'cabangs' => $cabangs,
-            'jabatans' => $jabatans
+            'jabatans' => $jabatans,
+            'divisis' => $divisis
         ]);
     }
 
     public function biodataUpdate(Request $request)
     {
-        $karyawan = MasterKaryawan::where('id', $request->id)->first();
+        $user = User::where('master_karyawan_id', $request->id)->first();
+        if($user) {
+            $user->email = $request->email;
+            $user->save();
+        }
+
+        $karyawan = MasterKaryawan::find($request->id);
         $karyawan->nama_lengkap = $request->nama_lengkap;
         $karyawan->nama_panggilan = $request->nama_panggilan;
         $karyawan->email = $request->email;
         $karyawan->telepon = $request->telepon;
+        $karyawan->jenis_sim = $request->jenis_sim;
         $karyawan->nomor_sim = $request->nomor_sim;
         $karyawan->nomor_ktp = $request->nomor_ktp;
         $karyawan->alamat_asal = $request->alamat_asal;
@@ -320,11 +328,20 @@ class MasterKaryawanController extends Controller
         $karyawan->master_cabang_id = $request->master_cabang_id;
         $karyawan->master_jabatan_id = $request->master_jabatan_id;
         $karyawan->total_cuti = $request->total_cuti;
+
+        if($request->hasFile('foto')) {
+            if (file_exists(public_path("image/" . $karyawan->foto))) {
+                File::delete(public_path("image/" . $karyawan->foto));
+            }
+            $file = $request->file('foto');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . "." . $extension;
+            $file->move('image/', $filename);
+            $karyawan->foto = $filename;
+        }
+
         $karyawan->save();
 
-        $user = User::where('master_karyawan_id', $request->id)->first();
-        $user->email = $request->email;
-        $user->save();
 
         return response()->json([
             'status' => 'Data berhasil diperbaharui'

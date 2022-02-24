@@ -108,7 +108,7 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a
-                                                            href="#"
+                                                            href="{{ route('karyawan.edit', [$item->id]) }}"
                                                             class="dropdown-item border-bottom btn-edit"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-pencil-alt pr-1"></i> Ubah
@@ -144,12 +144,13 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card card-primary card-outline pb-1">
-                                <div class="card-body box-profile mt-3">
+                                <div class="card-body box-profile">
                                     <div class="text-center profile_img create_profile_img">
                                         <img
                                             class="profile-user-img img-fluid"
                                             src="{{ asset('assets/no-image.jpg') }}"
-                                            alt="User profile picture">
+                                            alt="User profile picture"
+                                            style="width: 100%;">
                                     </div>
                                     <div class="form-group">
                                         <label for="create_foto">Foto</label>
@@ -161,16 +162,6 @@
                                         <input type="text" id="create_nik" name="nik" class="form-control form-control-sm" value="{{ date('ymdhis') }}" maxlength="12" >
                                         <small id="errorNik" class="form-text text-danger"></small>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="create_telepon">Telepon</label>
-                                        <input type="text" id="create_telepon" name="telepon" class="form-control form-control-sm" maxlength="15" >
-                                        <small id="errorTelepon" class="form-text text-danger"></small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="create_email">Email</label>
-                                        <input type="email" id="create_email" name="email" class="form-control form-control-sm" maxlength="50" >
-                                        <small id="errorEmail" class="form-text text-danger"></small>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -178,21 +169,21 @@
                             <div class="card card-primary card-outline pb-1">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_nama_lengkap">Nama Lengkap</label>
                                                 <input type="text" id="create_nama_lengkap" name="nama_lengkap" class="form-control form-control-sm" maxlength="30" >
                                                 <small id="errorNamaLengkap" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_nama_panggilan">Nama Panggilan</label>
                                                 <input type="text" id="create_nama_panggilan" name="nama_panggilan" class="form-control form-control-sm" maxlength="15" >
                                                 <small id="errorNamaPanggilan" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_jenis_kelamin">Jenis Kelamin</label>
                                                 <select name="jenis_kelamin" id="create_jenis_kelamin" class="form-control form-control-sm">
@@ -201,14 +192,14 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_nomor_ktp">Nomor KTP</label>
                                                 <input type="text" id="create_nomor_ktp" name="nomor_ktp" class="form-control form-control-sm" maxlength="16" >
                                                 <small id="errorNomorKtp" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_status_perkawinan">Status Perkawinan</label>
                                                 <select name="status_perkawinan" id="create_status_perkawinan" class="form-control form-control-sm">
@@ -219,7 +210,7 @@
                                                 <small id="errorStatusPerkawinan" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_agama">Agama</label>
                                                 <select name="agama" id="create_agama" class="form-control form-control-sm">
@@ -232,33 +223,18 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_tempat_lahir">Tempat Lahir</label>
                                                 <input type="text" id="create_tempat_lahir" name="tempat_lahir" class="form-control form-control-sm" maxlength="30" >
                                                 <small id="errorTempatLahir" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_tanggal_lahir">Tanggal Lahir</label>
                                                 <input type="date" id="create_tanggal_lahir" name="tanggal_lahir" class="form-control form-control-sm" >
                                                 <small id="errorTanggalLahir" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="sim">Jenis & Nomor SIM</label>
-                                                <div class="row">
-                                                    <div class="col-md-4 col-sm-4 col-4">
-                                                        <input type="text" id="create_jenis_sim" name="jenis_sim" class="form-control form-control-sm" maxlength="10">
-                                                        <small id="errorJenisSim" class="form-text text-danger"></small>
-                                                    </div>
-                                                    <div class="col-md-8 col-sm-8 col-8">
-                                                        <input type="text" id="create_nomor_sim" name="nomor_sim" class="form-control form-control-sm" maxlength="15">
-                                                        <small id="errorNomorSim" class="form-text text-danger"></small>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -275,7 +251,22 @@
                                                 <small id="errorAlamatDomisili" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="sim">Jenis & Nomor SIM</label>
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-4 col-4">
+                                                        <input type="text" id="create_jenis_sim" name="jenis_sim" class="form-control form-control-sm" maxlength="10">
+                                                        <small id="errorJenisSim" class="form-text text-danger"></small>
+                                                    </div>
+                                                    <div class="col-md-8 col-sm-8 col-8">
+                                                        <input type="text" id="create_nomor_sim" name="nomor_sim" class="form-control form-control-sm" maxlength="15">
+                                                        <small id="errorNomorSim" class="form-text text-danger"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_cabang_id">Cabang</label>
                                                 <select name="master_cabang_id" id="create_cabang_id" class="form-control form-control-sm" >
@@ -284,7 +275,7 @@
                                                 <small id="errorCabangId" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_jabatan_id">Jabatan</label>
                                                 <select name="master_jabatan_id" id="create_jabatan_id" class="form-control form-control-sm create-select-jabatan" >
@@ -293,13 +284,27 @@
                                                 <small id="errorJabatanId" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_divisi_id">Divisi</label>
                                                 <select name="master_divisi_id" id="create_divisi_id" class="form-control form-control-sm" >
 
                                                 </select>
                                                 <small id="errorDivisiId" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="create_telepon">Telepon</label>
+                                                <input type="text" id="create_telepon" name="telepon" class="form-control form-control-sm" maxlength="15" >
+                                                <small id="errorTelepon" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="create_email">Email</label>
+                                                <input type="email" id="create_email" name="email" class="form-control form-control-sm" maxlength="50" >
+                                                <small id="errorEmail" class="form-text text-danger"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -437,7 +442,7 @@
                     img_holder.empty();
                     var reader = new FileReader();
                     reader.onload = function(e) {
-                        $('<img/>', {'src':e.target.result, 'class':'profile-user-img img-fluid'}).appendTo(img_holder);
+                        $('<img/>', {'src':e.target.result, 'class':'profile-user-img img-fluid', 'style': 'width: 100%'}).appendTo(img_holder);
                     }
                     img_holder.show();
                     reader.readAsDataURL($(this)[0].files[0]);
