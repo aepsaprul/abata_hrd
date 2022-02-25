@@ -181,7 +181,7 @@
             }
 
             $.ajax({
-                url: '{{ URL::route('user.sync') }}',
+                url: "{{ URL::route('user.sync') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function() {

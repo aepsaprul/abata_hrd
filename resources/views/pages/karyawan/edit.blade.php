@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('style')
+
+<!-- DataTables -->
+<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 <!-- Select2 -->
 <link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
@@ -161,17 +166,34 @@
                                         </div>
                                         <div class="row mb-5">
                                             <div class="col-md-6">
+                                                <button class="btn btn-primary btn-kontrak-spinner d-none" disabled style="width: 130px;">
+                                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                                    Loading...
+                                                </button>
                                                 <button
                                                     type="submit"
-                                                    class="btn btn-success kontrak_btn_simpan">
-                                                        Simpan
+                                                    class="btn btn-primary btn-kontrak-save"
+                                                    style="width: 130px;">
+                                                        <i class="fas fa-save"></i> Simpan
                                                 </button>
                                             </div>
                                         </div>
                                     </form>
-                                    <div class="kontrak_notif font-italic text-success mb-3 mt-3"></div>
                                     <div id="kontrak_data">
+                                        <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="text-center">Mulai Kontrak</th>
+                                                    <th class="text-center">Akhir Kontrak</th>
+                                                    <th class="text-center">Lama Kontrak</th>
+                                                    <th class="text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data_kontrak">
+
+                                            </tbody>
                                         {{-- kontrak data di jquery --}}
+                                        </table>
                                     </div>
                                 </div>
 
@@ -551,6 +573,20 @@
 
 @section('script')
 
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
 <script src="{{ asset('themes/plugins/moment/moment.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 <!-- Select2 -->
@@ -566,6 +602,9 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+
+
 
         var Toast = Swal.mixin({
             toast: true,
@@ -861,7 +900,7 @@
                 var formData = new FormData($('#biodata_form')[0]);
 
                 $.ajax({
-                    url: '{{ URL::route('karyawan.biodata_update') }}',
+                    url: "{{ URL::route('karyawan.biodata_update') }}",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -903,13 +942,7 @@
                 url: url,
                 type: 'GET',
                 success: function(response) {
-                    var kontrak_data = "<table class=\"table table-bordered\">" +
-                        "<tr class=\"bg-primary\">" +
-                            "<th class=\"text-center\">Mulai Kontrak</th>" +
-                            "<th class=\"text-center\">Akhir Kontrak</th>" +
-                            "<th class=\"text-center\">Lama Kontrak</th>" +
-                            "<th class=\"text-center\">Aksi</th>" +
-                        "</tr>";
+                    var kontrak_data = "";
 
                     if (response.kontraks.length == 0) {
                         kontrak_data += "" +
@@ -931,9 +964,15 @@
                                     "</tr>";
                         });
                     }
+                    $('#data_kontrak').append(kontrak_data);
 
-                    kontrak_data += "</table>";
-                    $('#kontrak_data').append(kontrak_data);
+                    // datatable kontrak
+                    $("#tabel_kontrak").DataTable({
+                        "responsive": true,
+                        destroy: true,
+                        searching: false,
+                        paging: false
+                    });
                 }
             });
         }
@@ -973,24 +1012,73 @@
             if ($('#mulai_kontrak').val() == "" || $('#akhir_kontrak').val() == "") {
                 alert('Tanggal tidak boleh kosong');
             } else {
-                $('#kontrak_data').empty();
-                $('.kontrak_notif').empty();
+                $('#data_kontrak').empty();
 
                 var formData = {
                     id: $('#id').val(),
                     mulai_kontrak: $('#mulai_kontrak').val(),
                     akhir_kontrak: $('#akhir_kontrak').val(),
-                    lama_kontrak: $('#lama_kontrak').val(),
-                    _token: CSRF_TOKEN
+                    lama_kontrak: $('#lama_kontrak').val()
                 }
 
                 $.ajax({
-                    url: '{{ URL::route('karyawan.kontrak_store') }}',
+                    url: "{{ URL::route('karyawan.kontrak_store') }}",
                     type: 'POST',
                     data: formData,
+                    beforeSend: function() {
+                        $('.btn-kontrak-spinner').removeClass('d-none');
+                        $('.btn-kontrak-save').addClass('d-none');
+                    },
                     success: function(response) {
-                        $('.kontrak_notif').append(response.status);
-                        kontrak();
+                        var kontrak_data = "";
+
+                        if (response.kontraks.length == 0) {
+                            kontrak_data += "" +
+                                "<tr>" +
+                                    "<td class=\"text-center\" colspan=\"4\">Kosong</td>";
+                                "</tr>";
+                        } else {
+                            $.each(response.kontraks, function(index, value) {
+                                kontrak_data += "" +
+                                        "<tr>" +
+                                            "<td class=\"text-center\">" + tanggalIndo(value.mulai_kontrak) + "</td>" +
+                                            "<td class=\"text-center\">" + tanggalIndo(value.akhir_kontrak) + "</td>" +
+                                            "<td class=\"text-center\">" + value.lama_kontrak + "</td>" +
+                                            "<td class=\"text-center\">" +
+                                                "<button class=\"kontrak_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                        "<i class=\"fa fa-trash\"></i>" +
+                                                "</button>" +
+                                            "</td>" +
+                                        "</tr>";
+                            });
+                        }
+                        $('#data_kontrak').append(kontrak_data);
+
+                        // datatable kontrak
+                        $("#tabel_kontrak").DataTable({
+                            responsive: true,
+                            retrieve: true,
+                            searching: false,
+                            paging: false
+                        });
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Kontrak behasil ditambah'
+                        });
+
+                        setTimeout(() => {
+                            $('.btn-kontrak-spinner').addClass('d-none');
+                            $('.btn-kontrak-save').removeClass('d-none');
+                        }, 1000);
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + error
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Error - ' + errorMessage
+                        });
                     }
                 });
             }
@@ -999,8 +1087,7 @@
         $('body').on('click', '.kontrak_btn_delete', function() {
             var result = confirm('Yakin akan dihapus?');
             if (result) {
-                $('#kontrak_data').empty();
-                $('.kontrak_notif').empty();
+                $('#data_kontrak').empty();
 
                 var id = $(this).attr('data-id');
                 var url = '{{ route("karyawan.kontrak_delete", ":id") }}';
@@ -1010,8 +1097,50 @@
                     url: url,
                     type: 'GET',
                     success: function(response) {
-                        $('.kontrak_notif').append(response.status);
-                        kontrak();
+                        var kontrak_data = "";
+
+                        if (response.kontraks.length == 0) {
+                            kontrak_data += "" +
+                                "<tr>" +
+                                    "<td class=\"text-center\" colspan=\"4\">Kosong</td>";
+                                "</tr>";
+                        } else {
+                            $.each(response.kontraks, function(index, value) {
+                                kontrak_data += "" +
+                                        "<tr>" +
+                                            "<td class=\"text-center\">" + tanggalIndo(value.mulai_kontrak) + "</td>" +
+                                            "<td class=\"text-center\">" + tanggalIndo(value.akhir_kontrak) + "</td>" +
+                                            "<td class=\"text-center\">" + value.lama_kontrak + "</td>" +
+                                            "<td class=\"text-center\">" +
+                                                "<button class=\"kontrak_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                        "<i class=\"fa fa-trash\"></i>" +
+                                                "</button>" +
+                                            "</td>" +
+                                        "</tr>";
+                            });
+                        }
+                        $('#data_kontrak').append(kontrak_data);
+
+                        // datatable kontrak
+                        $("#tabel_kontrak").DataTable({
+                            responsive: true,
+                            retrieve: true,
+                            searching: false,
+                            paging: false
+                        });
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Kontrak behasil dihapus'
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + error
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Error - ' + errorMessage
+                        });
                     }
                 });
             } else {
@@ -1078,7 +1207,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ URL::route('karyawan.medsos_store') }}',
+                    url: "{{ URL::route('karyawan.medsos_store') }}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {
@@ -1204,7 +1333,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ URL::route('karyawan.sebelum_menikah_store') }}',
+                    url: "{{ URL::route('karyawan.sebelum_menikah_store') }}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {
@@ -1315,7 +1444,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ URL::route('karyawan.setelah_menikah_store') }}',
+                    url: "{{ URL::route('karyawan.setelah_menikah_store') }}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {
@@ -1425,7 +1554,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ URL::route('karyawan.kerabat_darurat_store') }}',
+                    url: "{{ URL::route('karyawan.kerabat_darurat_store') }}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {
@@ -1538,7 +1667,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ URL::route('karyawan.pendidikan_store') }}',
+                    url: "{{ URL::route('karyawan.pendidikan_store') }}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {

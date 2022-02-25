@@ -366,8 +366,11 @@ class MasterKaryawanController extends Controller
         $kontrak->lama_kontrak = $request->lama_kontrak;
         $kontrak->save();
 
+        $kontraks = HcKontrak::where('karyawan_id', $request->id)->get();
+
         return response()->json([
-            'status' => 'Kontrak berhasil di tambahkan'
+            'status' => 'Kontrak berhasil di tambahkan',
+            'kontraks' => $kontraks
         ]);
     }
 
@@ -376,8 +379,11 @@ class MasterKaryawanController extends Controller
         $kontrak = HcKontrak::find($id);
         $kontrak->delete();
 
+        $kontraks = HcKontrak::where('karyawan_id', $kontrak->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data kontrak berhasil dihapus'
+            'status' => 'Data kontrak berhasil dihapus',
+            'kontraks' => $kontraks
         ]);
     }
 
