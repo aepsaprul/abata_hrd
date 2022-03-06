@@ -180,7 +180,7 @@ class MasterKaryawanController extends Controller
         // source status level karyawan
         $kontrak_pertama = HcKontrak::where('karyawan_id', $id)->orderBy('id', 'asc')->first();
 
-        return view('karyawan.detail2', [
+        return view('pages.karyawan.show', [
             'karyawan' => $karyawan,
             'kontraks' => $kontrak,
             'medsos' => $medsos,
@@ -311,6 +311,7 @@ class MasterKaryawanController extends Controller
         }
 
         $karyawan = MasterKaryawan::find($request->id);
+        $karyawan->nik = $request->nik;
         $karyawan->nama_lengkap = $request->nama_lengkap;
         $karyawan->nama_panggilan = $request->nama_panggilan;
         $karyawan->email = $request->email;
@@ -404,8 +405,11 @@ class MasterKaryawanController extends Controller
         $medsos->nama_akun = $request->nama_akun;
         $medsos->save();
 
+        $medsoss = HcMedsos::where('karyawan_id', $medsos->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data media sosial berhasil ditambahkan'
+            'status' => 'Data media sosial berhasil ditambahkan',
+            'medsoss' => $medsoss
         ]);
     }
 
@@ -414,8 +418,11 @@ class MasterKaryawanController extends Controller
         $medsos = HcMedsos::find($id);
         $medsos->delete();
 
+        $medsoss = HcMedsos::where('karyawan_id', $medsos->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data media sosial berhasil dihapus'
+            'status' => 'Data media sosial berhasil dihapus',
+            'medsoss' => $medsoss
         ]);
     }
 
@@ -440,8 +447,11 @@ class MasterKaryawanController extends Controller
         $sebelumMenikah->pekerjaan_terakhir = $request->pekerjaan;
         $sebelumMenikah->save();
 
+        $sebelumMenikahs = HcKeluargaSebelumMenikah::where('karyawan_id', $sebelumMenikah->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data keluarga sebelum menikah berhasil diperbaharui'
+            'status' => 'Data keluarga sebelum menikah berhasil diperbaharui',
+            'sebelum_menikahs' => $sebelumMenikahs
         ]);
     }
 
@@ -450,8 +460,11 @@ class MasterKaryawanController extends Controller
         $sebelumMenikah = HcKeluargaSebelumMenikah::find($id);
         $sebelumMenikah->delete();
 
+        $sebelumMenikahs = HcKeluargaSebelumMenikah::where('karyawan_id', $sebelumMenikah->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data keluarga sebelum menikah berhasil dihapus'
+            'status' => 'Data keluarga sebelum menikah berhasil dihapus',
+            'sebelum_menikahs' => $sebelumMenikahs
         ]);
     }
 
@@ -475,8 +488,11 @@ class MasterKaryawanController extends Controller
         $setelahMenikah->pekerjaan_terakhir = $request->pekerjaan;
         $setelahMenikah->save();
 
+        $setelahMenikahs = HcKeluargaSetelahMenikah::where('karyawan_id', $setelahMenikah->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data keluarga setelah menikah berhasil diperbaharui'
+            'status' => 'Data keluarga setelah menikah berhasil diperbaharui',
+            'setelah_menikahs' => $setelahMenikahs
         ]);
     }
 
@@ -485,8 +501,11 @@ class MasterKaryawanController extends Controller
         $setelahMenikah = HcKeluargaSetelahMenikah::find($id);
         $setelahMenikah->delete();
 
+        $setelahMenikahs = HcKeluargaSetelahMenikah::where('karyawan_id', $setelahMenikah->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data keluarga setelah menikah berhasil dihapus'
+            'status' => 'Data keluarga setelah menikah berhasil dihapus',
+            'setelah_menikahs' => $setelahMenikahs
         ]);
     }
 
@@ -510,8 +529,11 @@ class MasterKaryawanController extends Controller
         $kerabatDarurat->alamat = $request->alamat;
         $kerabatDarurat->save();
 
+        $kerabatDarurats = HcKerabatDarurat::where('karyawan_id', $kerabatDarurat->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data kerabat darurat berhasil diperbaharui'
+            'status' => 'Data kerabat darurat berhasil diperbaharui',
+            'kerabat_darurats' => $kerabatDarurats
         ]);
     }
 
@@ -520,8 +542,11 @@ class MasterKaryawanController extends Controller
         $kerabatDarurat = HcKerabatDarurat::find($id);
         $kerabatDarurat->delete();
 
+        $kerabatDarurats = HcKerabatDarurat::where('karyawan_id', $kerabatDarurat->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data kerabat darurat berhasil dihapus'
+            'status' => 'Data kerabat darurat berhasil dihapus',
+            'kerabat_darurats' => $kerabatDarurats
         ]);
     }
 
@@ -546,8 +571,11 @@ class MasterKaryawanController extends Controller
         $pendidikan->tahun_lulus = $request->tahun_lulus;
         $pendidikan->save();
 
+        $pendidikans = HcPendidikan::where('karyawan_id', $pendidikan->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data pendidikan berhasil diperbaharui'
+            'status' => 'Data pendidikan berhasil diperbaharui',
+            'pendidikans' => $pendidikans
         ]);
     }
 
@@ -556,8 +584,11 @@ class MasterKaryawanController extends Controller
         $pendidikan = HcPendidikan::find($id);
         $pendidikan->delete();
 
+        $pendidikans = HcPendidikan::where('karyawan_id', $pendidikan->karyawan_id)->get();
+
         return response()->json([
-            'status' => 'Data pendidikan berhasil dihapus'
+            'status' => 'Data pendidikan berhasil dihapus',
+            'pendidikans' => $pendidikans
         ]);
     }
 }

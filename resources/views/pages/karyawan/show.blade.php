@@ -20,13 +20,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h4>Edit Profile</h4>
+                    <h4>Lihat Profile</h4>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active"><a href="{{ route('karyawan.index') }}">Karyawan</a></li>
-                        <li class="breadcrumb-item active">Edit Profile</li>
+                        <li class="breadcrumb-item active">Lihat Profile</li>
                     </ol>
                 </div>
             </div>
@@ -95,17 +95,46 @@
                                                                     style="width: 100%;">
                                                             @endif
                                                         </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                                                <div class="form-group">
-                                                                    <label for="create_foto">Foto</label>
-                                                                    <input type="file" id="create_foto" name="foto" class="form-control form-control-sm" >
-                                                                    <small id="errorFoto" class="form-text text-danger"></small>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <div class="row nik">
                                                             {{-- data nik di jquery --}}
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                <div class="form-group">
+                                                                    <label for="status_level" class="col-form-label col-form-label-sm">Status Level</label>
+                                                                    <p>
+                                                                        @if ($kontrak_pertama)
+                                                                            @php
+                                                                                $tgl1 = new DateTime($kontrak_pertama->mulai_kontrak);
+                                                                                $tgl2 = new DateTime();
+                                                                                $selisih = $tgl2->diff($tgl1);
+
+                                                                                if ($selisih->y < 0) {
+                                                                                    if ($selisih->m <= 3) {
+                                                                                        echo "Training";
+                                                                                    } else {
+                                                                                        echo "Amatir";
+                                                                                    }
+                                                                                } else {
+                                                                                    if ($selisih->y < 2) {
+                                                                                        echo "Amatir";
+                                                                                    } else if ($selisih->y >= 2 && $selisih->y < 3) {
+                                                                                        echo "Basic";
+                                                                                    } else if ($selisih->y >=3 && $selisih->y < 4) {
+                                                                                        echo "Yunior";
+                                                                                    } else if ($selisih->y >= 4 && $selisih->y < 5) {
+                                                                                        echo "Senior";
+                                                                                    } else {
+                                                                                        echo "Profesional";
+                                                                                    }
+                                                                                }
+                                                                            @endphp
+                                                                        @else
+                                                                            Kontrak belum ada
+                                                                        @endif
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -119,15 +148,6 @@
                                                 <div class="row" id="biodata_data">
                                                     {{-- data di jquery --}}
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-primary btn-biodata-spinner d-none" disabled style="width: 130px;">
-                                                            <span class="spinner-grow spinner-grow-sm"></span>
-                                                            Loading...
-                                                        </button>
-                                                        <button class="btn btn-primary btn-biodata-save" style="width: 130px;"><i class="fas fa-save"></i> Simpan</button>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -135,55 +155,6 @@
 
                                 {{-- kontrak --}}
                                 <div class="tab-pane" id="kontrak">
-                                    <form id="kontrak_form">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="mulai_kontrak" class="col-form-label col-form-label-sm">Mulai Kontrak</label>
-                                                    <input
-                                                        type="date"
-                                                        class="form-control form-control-sm"
-                                                        id="mulai_kontrak"
-                                                        name="mulai_kontrak">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="akhir_kontrak" class="col-form-label col-form-label-sm">Akhir Kontrak</label>
-                                                    <input
-                                                        type="date"
-                                                        class="form-control form-control-sm"
-                                                        id="akhir_kontrak"
-                                                        name="akhir_kontrak">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="lama_kontrak" class="col-form-label col-form-label-sm">Lama Kontrak</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="lama_kontrak"
-                                                        name="lama_kontrak"
-                                                        readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-5">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-primary btn-kontrak-spinner d-none" disabled style="width: 130px;">
-                                                    <span class="spinner-grow spinner-grow-sm"></span>
-                                                    Loading...
-                                                </button>
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-primary btn-kontrak-save"
-                                                    style="width: 130px;">
-                                                        <i class="fas fa-save"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
                                     <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                         <thead>
                                             <tr class="bg-primary">
@@ -201,45 +172,6 @@
 
                                 {{-- medsos --}}
                                 <div class="tab-pane" id="medsos">
-                                    <form id="medsos_form">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col">
-                                                <div class="form-group">
-                                                    <label for="nama_media_sosial" class="col-form-label col-form-label-sm">Nama Media Sosial</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="nama_media_sosial"
-                                                        name="nama_media_sosial"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col">
-                                                <div class="form-group">
-                                                    <label for="nama_akun" class="col-form-label col-form-label-sm">Nama Akun</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="nama_akun"
-                                                        name="nama_akun">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-5">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-primary btn-medsos-spinner d-none" disabled style="width: 130px;">
-                                                    <span class="spinner-grow spinner-grow-sm"></span>
-                                                    Loading...
-                                                </button>
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-primary btn-medsos-save"
-                                                    style="width: 130px;">
-                                                        <i class="fas fa-save"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
                                     <table id="tabel_medsos" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                         <thead>
                                             <tr class="bg-primary">
@@ -256,95 +188,6 @@
 
                                 {{-- sebelum menikah --}}
                                 <div class="tab-pane" id="sebelum_menikah">
-                                    <form action="" id="sebelum_menikah_form">
-                                        <div class="row">
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="sebelum_menikah_hubungan" class="col-form-label col-form-label-sm">Hubungan</label>
-                                                    <select name="sebelum_menikah_hubungan" id="sebelum_menikah_hubungan" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Hubungan--</option>
-                                                        <option value="AYAH">AYAH</option>
-                                                        <option value="IBU">IBU</option>
-                                                        <option value="SAUDARA LAKI - LAKI">SAUDARA LAKI - LAKI</option>
-                                                        <option value="SAUDARA PEREMPUAN">SAUDARA PEREMPUAN</option>
-                                                        <option value="KAKEK">KAKEK</option>
-                                                        <option value="NENEK">NENEK</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="sebelum_menikah_nama" class="col-form-label col-form-label-sm">Nama</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="sebelum_menikah_nama"
-                                                        name="sebelum_menikah_nama"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-1 col-md-1 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="sebelum_menikah_usia" class="col-form-label col-form-label-sm">Usia</label>
-                                                    <input
-                                                        type="number"
-                                                        class="form-control form-control-sm"
-                                                        id="sebelum_menikah_usia"
-                                                        name="sebelum_menikah_usia"
-                                                        maxlength="2">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="sebelum_menikah_jenis_kelamin" class="col-form-label col-form-label-sm">Jenis Kelamin</label>
-                                                    <select name="sebelum_menikah_jenis_kelamin" id="sebelum_menikah_jenis_kelamin" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Jenis Kelamin--</option>
-                                                        <option value="L">L</option>
-                                                        <option value="P">P</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="sebelum_menikah_pendidikan" class="col-form-label col-form-label-sm">Pendidikan Terakhir</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="sebelum_menikah_pendidikan"
-                                                        name="sebelum_menikah_pendidikan"
-                                                        maxlength="10"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="sebelum_menikah_pekerjaan" class="col-form-label col-form-label-sm">Pekerjaan Terakhir</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="sebelum_menikah_pekerjaan"
-                                                        name="sebelum_menikah_pekerjaan"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-5">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-primary btn-sebelum-menikah-spinner d-none" disabled style="width: 130px;">
-                                                    <span class="spinner-grow spinner-grow-sm"></span>
-                                                    Loading...
-                                                </button>
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-primary btn-sebelum-menikah-save"
-                                                    style="width: 130px;">
-                                                        <i class="fas fa-save"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
                                     <table id="tabel_sebelum_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                         <thead>
                                             <tr class="bg-primary">
@@ -365,82 +208,6 @@
 
                                 {{-- setelah menikah --}}
                                 <div class="tab-pane" id="setelah_menikah">
-                                    <form action="" id="setelah_menikah_form">
-                                        <div class="row">
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="setelah_menikah_hubungan" class="col-form-label col-form-label-sm">Hubungan</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="setelah_menikah_hubungan"
-                                                        name="setelah_menikah_hubungan"
-                                                        maxlength="20"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="setelah_menikah_nama" class="col-form-label col-form-label-sm">Nama</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="setelah_menikah_nama"
-                                                        name="setelah_menikah_nama"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="setelah_menikah_tempat_lahir" class="col-form-label col-form-label-sm">Tempat Lahir</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="setelah_menikah_tempat_lahir"
-                                                        name="setelah_menikah_tempat_lahir"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="setelah_menikah_tanggal_lahir" class="col-form-label col-form-label-sm">Tanggal Lahir</label>
-                                                    <input
-                                                        type="date"
-                                                        class="form-control form-control-sm"
-                                                        id="setelah_menikah_tanggal_lahir"
-                                                        name="setelah_menikah_tanggal_lahir">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="setelah_menikah_pekerjaan" class="col-form-label col-form-label-sm">Pekerjaan Terakhir</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="setelah_menikah_pekerjaan"
-                                                        name="setelah_menikah_pekerjaan"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-5">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-primary btn-setelah-menikah-spinner d-none" disabled style="width: 130px;">
-                                                    <span class="spinner-grow spinner-grow-sm"></span>
-                                                    Loading...
-                                                </button>
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-primary btn-setelah-menikah-save"
-                                                    style="width: 130px;">
-                                                        <i class="fas fa-save"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
                                     <table id="tabel_setelah_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                         <thead>
                                             <tr class="bg-primary">
@@ -460,80 +227,6 @@
 
                                 {{-- kerabat darurat --}}
                                 <div class="tab-pane" id="kerabat_darurat">
-                                    <form action="" id="kerabat_darurat_form">
-                                        <div class="row">
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="kerabat_darurat_hubungan" class="col-form-label col-form-label-sm">Hubungan</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="kerabat_darurat_hubungan"
-                                                        name="kerabat_darurat_hubungan"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="kerabat_darurat_nama" class="col-form-label col-form-label-sm">Nama</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="kerabat_darurat_nama"
-                                                        name="kerabat_darurat_nama"
-                                                        maxlength="50"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="kerabat_darurat_jenis_kelamin" class="col-form-label col-form-label-sm">Jenis Kelamin</label>
-                                                    <select name="kerabat_darurat_jenis_kelamin" id="kerabat_darurat_jenis_kelamin" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Jenis Kelamin--</option>
-                                                        <option value="L">L</option>
-                                                        <option value="P">P</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="kerabat_darurat_telepon" class="col-form-label col-form-label-sm">Telepon</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="kerabat_darurat_telepon"
-                                                        name="kerabat_darurat_telepon"
-                                                        maxlength="15">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="kerabat_darurat_alamat" class="col-form-label col-form-label-sm">Alamat</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="kerabat_darurat_alamat"
-                                                        name="kerabat_darurat_alamat"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-5">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-primary btn-kerabat-darurat-spinner d-none" disabled style="width: 130px;">
-                                                    <span class="spinner-grow spinner-grow-sm"></span>
-                                                    Loading...
-                                                </button>
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-primary btn-kerabat-darurat-save"
-                                                    style="width: 130px;">
-                                                        <i class="fas fa-save"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
                                     <table id="tabel_kerabat_darurat" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                         <thead>
                                             <tr class="bg-primary">
@@ -553,96 +246,6 @@
 
                                 {{-- pendidikan --}}
                                 <div class="tab-pane" id="pendidikan">
-                                    <form action="" id="pendidikan_form">
-                                        <div class="row">
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="pendidikan_tingkat" class="col-form-label col-form-label-sm">Tingkat</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="pendidikan_tingkat"
-                                                        name="pendidikan_tingkat"
-                                                        maxlength="20"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="pendidikan_nama" class="col-form-label col-form-label-sm">Nama</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="pendidikan_nama"
-                                                        name="pendidikan_nama"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="pendidikan_kota" class="col-form-label col-form-label-sm">Kota</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="pendidikan_kota"
-                                                        name="pendidikan_kota"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="pendidikan_jurusan" class="col-form-label col-form-label-sm">Jurusan</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm"
-                                                        id="pendidikan_jurusan"
-                                                        name="pendidikan_jurusan"
-                                                        maxlength="30"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="pendidikan_tahun_masuk" class="col-form-label col-form-label-sm">Tahun Masuk</label>
-                                                    <input
-                                                        type="number"
-                                                        class="form-control form-control-sm"
-                                                        id="pendidikan_tahun_masuk"
-                                                        name="pendidikan_tahun_masuk"
-                                                        maxlength="4"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
-                                                <div class="form-group">
-                                                    <label for="pendidikan_tahun_lulus" class="col-form-label col-form-label-sm">Tahun Lulus</label>
-                                                    <input
-                                                        type="number"
-                                                        class="form-control form-control-sm"
-                                                        id="pendidikan_tahun_lulus"
-                                                        name="pendidikan_tahun_lulus"
-                                                        maxlength="4"
-                                                        onkeyup="this.value = this.value.toUpperCase()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-5">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-primary btn-pendidikan-spinner d-none" disabled style="width: 130px;">
-                                                    <span class="spinner-grow spinner-grow-sm"></span>
-                                                    Loading...
-                                                </button>
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-primary btn-pendidikan-save"
-                                                    style="width: 130px;">
-                                                        <i class="fas fa-save"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
                                     <table id="tabel_pendidikan" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                         <thead>
                                             <tr class="bg-primary">
@@ -726,7 +329,7 @@
                         "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nik\" class=\"col-form-label col-form-label-sm\">NIK</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nik\" name=\"nik\" maxlength=\"50\" value=\"" + response.karyawan.nik + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nik\" name=\"nik\" maxlength=\"50\" value=\"" + response.karyawan.nik + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
                                 "<small id=\"error_nik\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>";
@@ -736,21 +339,21 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nama_lengkap\" class=\"col-form-label col-form-label-sm\">Nama Lengkap</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_lengkap\" name=\"nama_lengkap\" maxlength=\"50\" value=\"" + response.karyawan.nama_lengkap + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_lengkap\" name=\"nama_lengkap\" maxlength=\"50\" value=\"" + response.karyawan.nama_lengkap + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
                                 "<small id=\"error_nama_lengkap\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nama_panggilan\" class=\"col-form-label col-form-label-sm\">Nama Panggilan</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_panggilan\" name=\"nama_panggilan\" maxlength=\"20\" value=\"" + response.karyawan.nama_panggilan + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_panggilan\" name=\"nama_panggilan\" maxlength=\"20\" value=\"" + response.karyawan.nama_panggilan + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
                                 "<small id=\"error_nama_panggilan\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"jenis_kelamin\" class=\"col-form-label col-form-label-sm\">Jenis Kelamin</label>" +
-                                "<select name=\"jenis_kelamin\" id=\"jenis_kelamin\" class=\"form-control form-control-sm\">" +
+                                "<select name=\"jenis_kelamin\" id=\"jenis_kelamin\" class=\"form-control form-control-sm\" disabled>" +
                                     "<option value=\"\">-- Pilih Jenis Kelamin --</option>" +
                                     "<option value=\"L\"";
 
@@ -773,14 +376,14 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nomor_ktp\" class=\"col-form-label col-form-label-sm\">Nomor KTP</label>" +
-                                "<input type=\"number\" class=\"form-control form-control-sm\" id=\"nomor_ktp\" name=\"nomor_ktp\" maxlength=\"18\" value=\"" + response.karyawan.nomor_ktp + "\">" +
+                                "<input type=\"number\" class=\"form-control form-control-sm\" id=\"nomor_ktp\" name=\"nomor_ktp\" maxlength=\"18\" value=\"" + response.karyawan.nomor_ktp + "\" disabled>" +
                                 "<small id=\"error_nomor_ktp\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"status_perkawinan\" class=\"col-form-label col-form-label-sm\">Status Perkawinan</label>" +
-                                "<select name=\"status_perkawinan\" id=\"status_perkawinan\" class=\"form-control form-control-sm\">" +
+                                "<select name=\"status_perkawinan\" id=\"status_perkawinan\" class=\"form-control form-control-sm\" disabled>" +
                                     "<option value=\"\">-- Pilih Status --</option>" +
                                     "<option value=\"1\"";
 
@@ -810,7 +413,7 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"agama\" class=\"col-form-label col-form-label-sm\">Agama</label>" +
-                                "<select name=\"agama\" id=\"agama\" class=\"form-control form-control-sm\">" +
+                                "<select name=\"agama\" id=\"agama\" class=\"form-control form-control-sm\" disabled>" +
                                     "<option value=\"\">-- Pilih Agama --</option>" +
 
                                     "<option value=\"ISLAM\"";
@@ -844,28 +447,28 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"tempat_lahir\" class=\"col-form-label col-form-label-sm\">Tempat Lahir</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"tempat_lahir\" name=\"tempat_lahir\" maxlength=\"50\" value=\"" + response.karyawan.tempat_lahir + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"tempat_lahir\" name=\"tempat_lahir\" maxlength=\"50\" value=\"" + response.karyawan.tempat_lahir + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
                                 "<small id=\"error_tempat_lahir\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"tanggal_lahir\" class=\"col-form-label col-form-label-sm\">Tanggal Lahir</label>" +
-                                "<input type=\"date\" class=\"form-control form-control-sm\" id=\"tanggal_lahir\" name=\"tanggal_lahir\" value=\"" + response.karyawan.tanggal_lahir + "\">" +
+                                "<input type=\"date\" class=\"form-control form-control-sm\" id=\"tanggal_lahir\" name=\"tanggal_lahir\" value=\"" + response.karyawan.tanggal_lahir + "\" disabled>" +
                                 "<small id=\"error_tanggal_lahir\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-6 col-md-6 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"alamat_asal\" class=\"col-form-label col-form-label-sm\">Alamat KTP</label>" +
-                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_asal\" name=\"alamat_asal\" onkeyup=\"this.value = this.value.toUpperCase()\">" + response.karyawan.alamat_asal + "</textarea>" +
+                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_asal\" name=\"alamat_asal\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" + response.karyawan.alamat_asal + "</textarea>" +
                                 "<small id=\"error_alamat_asal\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-6 col-md-6 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"alamat_domisili\" class=\"col-form-label col-form-label-sm\">Alamat Sekarang</label>" +
-                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_domisili\" name=\"alamat_domisili\" onkeyup=\"this.value = this.value.toUpperCase()\">" + response.karyawan.alamat_domisili + "</textarea>" +
+                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_domisili\" name=\"alamat_domisili\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" + response.karyawan.alamat_domisili + "</textarea>" +
                                 "<small id=\"error_alamat_domisili\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
@@ -874,11 +477,11 @@
                                 "<label for=\"sim\">Jenis & Nomor SIM</label>" +
                                 "<div class=\"row\">" +
                                     "<div class=\"col-md-4 col-sm-4 col-4\">" +
-                                        "<input type=\"text\" id=\"edit_jenis_sim\" name=\"jenis_sim\" class=\"form-control form-control-sm\" maxlength=\"10\" value=\"" + response.karyawan.jenis_sim + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
+                                        "<input type=\"text\" id=\"edit_jenis_sim\" name=\"jenis_sim\" class=\"form-control form-control-sm\" maxlength=\"10\" value=\"" + response.karyawan.jenis_sim + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
                                         "<small id=\"errorJenisSim\" class=\"form-text text-danger\"></small>" +
                                     "</div>" +
                                     "<div class=\"col-md-8 col-sm-8 col-8\">" +
-                                        "<input type=\"text\" id=\"edit_nomor_sim\" name=\"nomor_sim\" class=\"form-control form-control-sm\" maxlength=\"15\" value=\"" + response.karyawan.nomor_sim + "\">" +
+                                        "<input type=\"text\" id=\"edit_nomor_sim\" name=\"nomor_sim\" class=\"form-control form-control-sm\" maxlength=\"15\" value=\"" + response.karyawan.nomor_sim + "\" disabled>" +
                                         "<small id=\"errorNomorSim\" class=\"form-text text-danger\"></small>" +
                                     "</div>" +
                                 "</div>" +
@@ -887,7 +490,7 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_cabang_id\" class=\"col-form-label col-form-label-sm\">Cabang</label>" +
-                                "<select name=\"master_cabang_id\" id=\"master_cabang_id\" class=\"form-control form-control-sm\">";
+                                "<select name=\"master_cabang_id\" id=\"master_cabang_id\" class=\"form-control form-control-sm\" disabled>";
 
                                     $.each(response.cabangs, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
@@ -904,7 +507,7 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_jabatan_id\" class=\"col-form-label col-form-label-sm\">Jabatan</label>" +
-                                "<select name=\"master_jabatan_id\" id=\"master_jabatan_id\" class=\"form-control form-control-sm select2\">";
+                                "<select name=\"master_jabatan_id\" id=\"master_jabatan_id\" class=\"form-control form-control-sm select2\" disabled>";
                                     $.each(response.jabatans, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.id == response.karyawan.master_jabatan_id) {
@@ -919,7 +522,7 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_divisi_id\" class=\"col-form-label col-form-label-sm\">Divisi</label>" +
-                                "<select name=\"master_divisi_id\" id=\"master_divisi_id\" class=\"form-control form-control-sm select2\">";
+                                "<select name=\"master_divisi_id\" id=\"master_divisi_id\" class=\"form-control form-control-sm select2\" disabled>";
                                     $.each(response.divisis, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.id == response.karyawan.master_divisi_id) {
@@ -934,14 +537,14 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"email\" class=\"col-form-label col-form-label-sm\">Email</label>" +
-                                "<input type=\"email\" class=\"form-control form-control-sm\" id=\"email\" name=\"email\" maxlength=\"50\" value=\"" + response.karyawan.email + "\">" +
+                                "<input type=\"email\" class=\"form-control form-control-sm\" id=\"email\" name=\"email\" maxlength=\"50\" value=\"" + response.karyawan.email + "\" disabled>" +
                                 "<small id=\"error_email\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"telepon\" class=\"col-form-label col-form-label-sm\">Telepon</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"telepon\" name=\"telepon\" maxlength=\"15\" value=\"" + response.karyawan.telepon + "\">" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"telepon\" name=\"telepon\" maxlength=\"15\" value=\"" + response.karyawan.telepon + "\" disabled>" +
                                 "<small id=\"error_telepon\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
@@ -957,7 +560,7 @@
                                 }
 
 
-                                biodata_data += "onkeyup=\"this.value = this.value.toUpperCase()\">" +
+                                biodata_data += "onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
                                 "<small id=\"error_total_cuti\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>";
