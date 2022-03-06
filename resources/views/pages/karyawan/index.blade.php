@@ -47,7 +47,7 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                            <table id="example1" class="table table-bordered table-striped" style="font-size: 12px; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>

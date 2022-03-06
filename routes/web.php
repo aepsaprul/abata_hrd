@@ -158,6 +158,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cuti/{id}/delete_btn', [CutiController::class, 'deleteBtn'])->name('cuti.delete_btn');
     Route::post('cuti/delete', [CutiController::class, 'delete'])->name('cuti.delete');
 
+    // resign
+    Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
+
     // lamaran
     Route::get('lamaran', [LamaranController::class, 'index'])->name('lamaran.index');
     Route::get('lamaran/{id}/show', [LamaranController::class, 'show'])->name('lamaran.show');
@@ -175,9 +178,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('penggajian/{id}/delete_btn', [PenggajianController::class, 'deleteBtn'])->name('penggajian.delete_btn');
     Route::post('penggajian/delete', [PenggajianController::class, 'delete'])->name('penggajian.delete');
 
-    // resign
-    Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
-
     // training
     Route::get('training', [TrainingController::class, 'index'])->name('training.index');
     Route::get('training/create', [TrainingController::class, 'create'])->name('training.create');
@@ -186,6 +186,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('training/update', [TrainingController::class, 'update'])->name('training.update');
     Route::get('training/{id}/delete_btn', [TrainingController::class, 'deleteBtn'])->name('training.delete_btn');
     Route::post('training/delete', [TrainingController::class, 'delete'])->name('training.delete');
+
+    // complaint
+    Route::get('complaint', [ComplaintController::class, 'index'])->name('complaint.index');
+    Route::get('complaint/create', [ComplaintController::class, 'create'])->name('complaint.create');
+    Route::post('complaint/store', [ComplaintController::class, 'store'])->name('complaint.store');
+    Route::get('complaint/{id}/edit', [ComplaintController::class, 'edit'])->name('complaint.edit');
+    Route::post('complaint/update', [ComplaintController::class, 'update'])->name('complaint.update');
+    Route::get('complaint/{id}/delete_btn', [ComplaintController::class, 'deleteBtn'])->name('complaint.delete_btn');
+    Route::post('complaint/delete', [ComplaintController::class, 'delete'])->name('complaint.delete');
 
     // Route::resource('hc/cir', HcCirController::class);
     // Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');

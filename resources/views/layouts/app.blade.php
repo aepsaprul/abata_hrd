@@ -221,7 +221,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('training.index') }}" class="nav-link {{ request()->is(['training', 'training/*']) ? 'active' : '' }}">
+                                <a href="{{ route('complaint.index') }}" class="nav-link {{ request()->is(['complaint', 'complaint/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-inbox text-center mr-2" style="width: 30px;"></i><p>Kritik & Saran</p>
                                 </a>
                             </li>

@@ -16,7 +16,7 @@ class ComplaintController extends Controller
     {
         $complaints = ComplaintCustomer::orderBy('id', 'desc')->get();
 
-        return view('complaint.index', ['complaints' => $complaints]);
+        return view('pages.complaint.index', ['complaints' => $complaints]);
     }
 
     /**
