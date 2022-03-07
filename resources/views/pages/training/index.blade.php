@@ -127,10 +127,10 @@
 </div>
 <!-- /.content-wrapper -->
 
-<div class="modal fade modal-create" id="modal-default">
+<div class="modal fade modal-form" id="modal-default">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form id="form-create" method="POST" enctype="multipart/form-data">
+            <form id="form" method="POST" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h4 class="modal-title">Tambah Data Training</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -138,75 +138,78 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
+                    {{-- id --}}
+                    <input type="hidden" id="id" name="id">
+
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_kategori" class="form-label">Kategori</label>
-                            <select name="kategori" id="create_kategori" class="form-control" required>
+                            <label for="kategori" class="form-label">Kategori</label>
+                            <select name="kategori" id="kategori" class="form-control" required>
                                 {{-- data di jquery --}}
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_judul" class="form-label">Judul</label>
-                            <input type="text" name="judul" id="create_judul" class="form-control" required>
+                            <label for="judul" class="form-label">Judul</label>
+                            <input type="text" name="judul" id="judul" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_divisi_id" class="form-label">Divisi</label>
-                            <select name="divisi_id" id="create_divisi_id" class="form-control" required>
+                            <label for="divisi_id" class="form-label">Divisi</label>
+                            <select name="divisi_id" id="divisi_id" class="form-control" required>
                                 {{-- data di jquery --}}
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_tanggal" class="form-label">Tanggal</label>
-                            <input type="date" name="tanggal" id="create_tanggal" class="form-control" required>
+                            <label for="tanggal" class="form-label">Tanggal</label>
+                            <input type="date" name="tanggal" id="tanggal" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_durasi" class="form-label">Durasi</label>
-                            <input type="text" name="durasi" id="create_durasi" class="form-control" required>
+                            <label for="durasi" class="form-label">Durasi</label>
+                            <input type="text" name="durasi" id="durasi" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_peserta" class="form-label">Peserta</label>
-                            <input type="text" name="peserta" id="create_peserta" class="form-control" required>
+                            <label for="peserta" class="form-label">Peserta</label>
+                            <input type="text" name="peserta" id="peserta" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_tempat" class="form-label">Tempat</label>
-                            <input type="text" name="tempat" id="create_tempat" class="form-control" required>
+                            <label for="tempat" class="form-label">Tempat</label>
+                            <input type="text" name="tempat" id="tempat" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_goal" class="form-label">Goal</label>
-                            <input type="text" name="goal" id="create_goal" class="form-control" required>
+                            <label for="goal" class="form-label">Goal</label>
+                            <input type="text" name="goal" id="goal" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_pengisi" class="form-label">pengisi</label>
-                            <input type="text" name="pengisi" id="create_pengisi" class="form-control" required>
+                            <label for="pengisi" class="form-label">pengisi</label>
+                            <input type="text" name="pengisi" id="pengisi" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_jenis" class="form-label">Jenis</label>
-                            <select name="jenis" id="create_jenis" class="form-control" required>
-                                <option value="online">Online</option>
-                                <option value="offline">Offline</option>
+                            <label for="jenis" class="form-label">Jenis</label>
+                            <select name="jenis" id="jenis" class="form-control" required>
+                                {{-- data di jquery --}}
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_hasil" class="form-label">Hasil</label>
-                            <input type="text" name="hasil" id="create_hasil" class="form-control" required>
+                            <label for="hasil" class="form-label">Hasil</label>
+                            <input type="text" name="hasil" id="hasil" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_status" class="form-label">Status</label>
-                            <input type="text" name="status" id="create_status" class="form-control" required>
+                            <label for="status" class="form-label">Status</label>
+                            <input type="text" name="status" id="status" class="form-control" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="create_modul" class="form-label">Modul</label>
-                            <input type="file" name="modul" id="create_modul" class="form-control" required>
+                            <label for="modul" class="form-label">Modul</label>
+                            <input type="file" name="modul" id="modul" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-create-spinner d-none" disabled style="width: 130px;">
+                    <button class="btn btn-primary btn-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
                     </button>
-                    <button type="submit" class="btn btn-primary btn-create-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Simpan
+                    <button type="submit" class="btn btn-primary btn-save" style="width: 130px;">
+                        <i class="fas fa-save"></i> <span class="modal-btn">Simpan</span>
                     </button>
                 </div>
             </form>
@@ -225,7 +228,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
-                    <button class="btn btn-primary btn-delete-spinner" disabled style="width: 130px; display: none;">
+                    <button class="btn btn-primary btn-delete-spinner d-none" disabled style="width: 130px">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
                     </button>
@@ -235,9 +238,7 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 @endsection
@@ -278,14 +279,16 @@
 
         $('#btn-create').on('click', function(e) {
             e.preventDefault();
-            $('#create_divisi_id').empty();
+            $('#kategori').empty();
+            $('#divisi_id').empty();
+            $('#jenis').empty();
 
             $.ajax({
                 url: "{{ URL::route('training.create') }}",
                 type: "GET",
                 success: function (response) {
                     // kategori
-                    let value_kategori = "";
+                    let value_kategori = "" +
                     "<option value=\"softskill\">Softskill</option>" +
                     "<option value=\"hardskill\">Hardskill</option>";
                     $('#kategori').append(value_kategori);
@@ -295,24 +298,27 @@
                     $.each(response.divisis, function(index, item) {
                         value_divisi += "<option value=\"" + item.id + "\">" + item.nama + "</option>";
                     });
-                    $('#cdivisi_id').append(value_divisi);
+                    $('#divisi_id').append(value_divisi);
 
                     // jenis
                     let value_jenis = "" +
+                    "<option value=\"online\">Online</option>" +
+                    "<option value=\"offline\">Offline</option>";
+                    $('#jenis').append(value_jenis);
 
-                    $('.modal').modal('show');
+                    $('.modal-form').modal('show');
                 }
             });
         });
 
-        $(document).on('shown.bs.modal', '.modal-create', function() {
-            $('#create_kategori').focus();
+        $(document).on('shown.bs.modal', '.modal-form', function() {
+            $('#kategori').focus();
         });
 
-        $(document).on('submit', '#form-create', function (e) {
+        $(document).on('submit', '#form', function (e) {
             e.preventDefault();
 
-            let formData = new FormData($('#form-create')[0]);
+            let formData = new FormData($('#form')[0]);
 
             $.ajax({
                 url: "{{ URL::route('training.store') }}",
@@ -321,8 +327,8 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    $('.btn-create-spinner').removeClass('d-none');
-                    $('.btn-create-save').addClass('d-none');
+                    $('.btn-spinner').removeClass('d-none');
+                    $('.btn-save').addClass('d-none');
                 },
                 success: function (response) {
                     Toast.fire({
@@ -348,6 +354,8 @@
         // edit
         $('body').on('click', '.btn-edit', function (e) {
             e.preventDefault();
+            $('.modal-title').empty();
+            $('.modal-btn').empty();
 
             var id = $(this).attr('data-id');
             var url = '{{ route("training.edit", ":id") }}';
@@ -362,16 +370,20 @@
                 type: 'GET',
                 data: formData,
                 success: function (response) {
-                    $('#edit_id').val(response.training.id);
-                    $('#edit_judul').val(response.training.judul);
-                    $('#edit_tanggal').val(response.training.tanggal);
-                    $('#edit_durasi').val(response.training.durasi);
-                    $('#edit_peserta').val(response.training.peserta);
-                    $('#edit_tempat').val(response.training.tempat);
-                    $('#edit_goal').val(response.training.goal);
-                    $('#edit_pengisi').val(response.training.pengisi);
-                    $('#edit_hasil').val(response.training.hasil);
-                    $('#edit_status').val(response.training.status);
+                    $('#form').addClass('form-edit');
+                    $('.modal-title').append("Edit Data Training");
+                    $('.modal-btn').append("Perbaharui");
+
+                    $('#id').val(response.training.id);
+                    $('#judul').val(response.training.judul);
+                    $('#tanggal').val(response.training.tanggal);
+                    $('#durasi').val(response.training.durasi);
+                    $('#peserta').val(response.training.peserta);
+                    $('#tempat').val(response.training.tempat);
+                    $('#goal').val(response.training.goal);
+                    $('#pengisi').val(response.training.pengisi);
+                    $('#hasil').val(response.training.hasil);
+                    $('#status').val(response.training.status);
 
                     // ketegori
                     let value_kategori = "" +
@@ -385,7 +397,7 @@
                         value_kategori += " selected";
                     }
                     value_kategori += ">Hardskill</option>";
-                    $('#edit_kategori').append(value_kategori);
+                    $('#kategori').append(value_kategori);
 
                     // divisi
                     let value_divisi = "<option value=\"\">--Pilih Divisi--</option>";
@@ -396,7 +408,7 @@
                         }
                         value_divisi += ">" + item.nama + "</option>";
                     });
-                    $('#edit_divisi_id').append(value_divisi);
+                    $('#divisi_id').append(value_divisi);
 
                     // jenis
                     let value_jenis = "";
@@ -410,17 +422,17 @@
                         value_jenis += " selected";
                     }
                     value_jenis += ">Offline</option>";
-                    $('#edit_jenis').append(value_jenis);
+                    $('#jenis').append(value_jenis);
 
-                    $('.modal-edit').modal('show');
+                    $('.modal-form').modal('show');
                 }
             })
         });
 
-        $('#form-edit').submit(function (e) {
+        $(document).on('submit', '.form-edit', function (e) {
             e.preventDefault();
 
-            let formData = new FormData($('#form-edit')[0]);
+            let formData = new FormData($('#form')[0]);
 
             $.ajax({
                 url: "{{ URL::route('training.update') }}",
@@ -476,7 +488,7 @@
             });
         });
 
-        $('#form-delete').submit(function (e) {
+        $(document).on('submit', '#form-delete', function (e) {
             e.preventDefault();
 
             var formData = {
@@ -488,8 +500,8 @@
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {
-                    $('.btn-delete-spinner').css('display', 'block');
-                    $('.btn-delete-yes').css('display', 'none');
+                    $('.btn-delete-spinner').removeClass('d-none');
+                    $('.btn-delete-yes').addClass('d-none');
                 },
                 success: function (response) {
                     Toast.fire({

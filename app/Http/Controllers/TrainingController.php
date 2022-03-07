@@ -112,15 +112,24 @@ class TrainingController extends Controller
 
     public function deleteBtn($id)
     {
+        $training = HcTraining::find($id);
 
+        return response()->json([
+            'id' => $training->id
+        ]);
     }
 
     public function delete(Request $request)
     {
         $training = HcTraining::find($request->id);
+        if (file_exists(public_path("file/" . $training->modul))) {
+            File::delete(public_path("file/" . $training->modul));
+        }
         $training->delete();
 
-        return redirect()->route('training.index')->with('status', 'Data berhasil dihapus');
+        return response()->json([
+            'status' => $request->id
+        ]);
     }
 
     public function modul(Request $request, $file_modul)
