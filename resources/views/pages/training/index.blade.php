@@ -61,13 +61,17 @@
                                     @foreach ($trainings as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->kategori }}</td>
+                                            <td class="text-uppercase">{{ $item->kategori }}</td>
                                             <td>{{ $item->judul }}</td>
-                                            <td>{{ $item->masterDivisi->nama }}</td>
-                                            <td>{{ $item->tanggal }}</td>
                                             <td>
+                                                @if ($item->masterDivisi)
+                                                    {{ $item->masterDivisi->nama }}
+                                                @endif
+                                            </td>
+                                            <td class="text-center">{{ $item->tanggal }}</td>
+                                            <td class="text-center">
                                                 @if ($item->modul)
-                                                    <a href="#">download</a>
+                                                    <a href="{{ route('training.modul', [$item->modul]) }}">download</a>
                                                 @else
                                                     Modul Kosong
                                                 @endif
@@ -83,6 +87,12 @@
                                                             <i class="fas fa-cog"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
+                                                        <a
+                                                            href="#"
+                                                            class="dropdown-item border-bottom btn-show"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                        </a>
                                                         <a
                                                             href="#"
                                                             class="dropdown-item border-bottom btn-edit"
@@ -118,28 +128,80 @@
 <!-- /.content-wrapper -->
 
 <div class="modal fade modal-create" id="modal-default">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form id="form-create">
+            <form id="form-create" method="POST" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Data Cabang</h4>
+                    <h4 class="modal-title">Tambah Data Training</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="create_nama" class="form-label">Nama Cabang</label>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            id="create_nama"
-                            name="create_nama"
-                            maxlength="30"
-                            required>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_kategori" class="form-label">Kategori</label>
+                            <select name="kategori" id="create_kategori" class="form-control" required>
+                                {{-- data di jquery --}}
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_judul" class="form-label">Judul</label>
+                            <input type="text" name="judul" id="create_judul" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_divisi_id" class="form-label">Divisi</label>
+                            <select name="divisi_id" id="create_divisi_id" class="form-control" required>
+                                {{-- data di jquery --}}
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_tanggal" class="form-label">Tanggal</label>
+                            <input type="date" name="tanggal" id="create_tanggal" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_durasi" class="form-label">Durasi</label>
+                            <input type="text" name="durasi" id="create_durasi" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_peserta" class="form-label">Peserta</label>
+                            <input type="text" name="peserta" id="create_peserta" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_tempat" class="form-label">Tempat</label>
+                            <input type="text" name="tempat" id="create_tempat" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_goal" class="form-label">Goal</label>
+                            <input type="text" name="goal" id="create_goal" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_pengisi" class="form-label">pengisi</label>
+                            <input type="text" name="pengisi" id="create_pengisi" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_jenis" class="form-label">Jenis</label>
+                            <select name="jenis" id="create_jenis" class="form-control" required>
+                                <option value="online">Online</option>
+                                <option value="offline">Offline</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_hasil" class="form-label">Hasil</label>
+                            <input type="text" name="hasil" id="create_hasil" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_status" class="form-label">Status</label>
+                            <input type="text" name="status" id="create_status" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <label for="create_modul" class="form-label">Modul</label>
+                            <input type="file" name="modul" id="create_modul" class="form-control" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-create" disabled style="width: 130px; display: none;">
+                    <button class="btn btn-primary btn-create-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
                     </button>
@@ -149,48 +211,7 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<div class="modal fade modal-edit" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="form-edit">
-                <input type="hidden" id="edit_id" name="edit_id">
-                <div class="modal-header">
-                    <h4 class="modal-title">Ubah Data Cabang</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="edit_nama" class="form-label">Nama Cabang</label>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            id="edit_nama"
-                            name="edit_nama"
-                            maxlength="30"
-                            required>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-edit" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Perbaharui
-                    </button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
 </div>
 
 {{-- modal delete --}}
@@ -242,7 +263,11 @@
         $("#example1").DataTable();
     });
     $(document).ready(function () {
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         var Toast = Swal.mixin({
             toast: true,
@@ -251,29 +276,53 @@
             timer: 3000
         });
 
-        $('#btn-create').on('click', function() {
-            $('.modal-create').modal('show');
+        $('#btn-create').on('click', function(e) {
+            e.preventDefault();
+            $('#create_divisi_id').empty();
+
+            $.ajax({
+                url: "{{ URL::route('training.create') }}",
+                type: "GET",
+                success: function (response) {
+                    // kategori
+                    let value_kategori = "";
+                    "<option value=\"softskill\">Softskill</option>" +
+                    "<option value=\"hardskill\">Hardskill</option>";
+                    $('#kategori').append(value_kategori);
+
+                    // divisi
+                    let value_divisi = "<option value=\"\">--Pilih Divisi--</option>";
+                    $.each(response.divisis, function(index, item) {
+                        value_divisi += "<option value=\"" + item.id + "\">" + item.nama + "</option>";
+                    });
+                    $('#cdivisi_id').append(value_divisi);
+
+                    // jenis
+                    let value_jenis = "" +
+
+                    $('.modal').modal('show');
+                }
+            });
         });
 
         $(document).on('shown.bs.modal', '.modal-create', function() {
-            $('#create_nama').focus();
+            $('#create_kategori').focus();
         });
 
-        $('#form-create').submit(function (e) {
+        $(document).on('submit', '#form-create', function (e) {
             e.preventDefault();
 
-            var formData = {
-                nama: $('#create_nama').val(),
-                _token: CSRF_TOKEN
-            }
+            let formData = new FormData($('#form-create')[0]);
 
             $.ajax({
                 url: "{{ URL::route('training.store') }}",
                 type: 'POST',
                 data: formData,
+                contentType: false,
+                processData: false,
                 beforeSend: function () {
-                    $('.btn-spinner-create').css('display', 'inline-block');
-                    $('.btn-create-save').css('display', 'none');
+                    $('.btn-create-spinner').removeClass('d-none');
+                    $('.btn-create-save').addClass('d-none');
                 },
                 success: function (response) {
                     Toast.fire({
@@ -286,7 +335,7 @@
                     }, 1000);
                 },
                 error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + statusText
+                    var errorMessage = xhr.status + ': ' + error
 
                     Toast.fire({
                         icon: 'danger',
@@ -305,8 +354,7 @@
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -314,8 +362,55 @@
                 type: 'GET',
                 data: formData,
                 success: function (response) {
-                    $('#edit_id').val(response.id);
-                    $('#edit_nama').val(response.nama);
+                    $('#edit_id').val(response.training.id);
+                    $('#edit_judul').val(response.training.judul);
+                    $('#edit_tanggal').val(response.training.tanggal);
+                    $('#edit_durasi').val(response.training.durasi);
+                    $('#edit_peserta').val(response.training.peserta);
+                    $('#edit_tempat').val(response.training.tempat);
+                    $('#edit_goal').val(response.training.goal);
+                    $('#edit_pengisi').val(response.training.pengisi);
+                    $('#edit_hasil').val(response.training.hasil);
+                    $('#edit_status').val(response.training.status);
+
+                    // ketegori
+                    let value_kategori = "" +
+                    "<option value=\"softskill\"";
+                    if (response.training.kategori == "softskill") {
+                        value_kategori += " selected";
+                    }
+                    value_kategori += ">Softskill</option>" +
+                    "<option value=\"hardskill\"";
+                    if (response.training.kategori == "hardskill") {
+                        value_kategori += " selected";
+                    }
+                    value_kategori += ">Hardskill</option>";
+                    $('#edit_kategori').append(value_kategori);
+
+                    // divisi
+                    let value_divisi = "<option value=\"\">--Pilih Divisi--</option>";
+                    $.each(response.divisis, function(index, item) {
+                        value_divisi += "<option value=\"" + item.id + "\"";
+                        if (item.id == response.training.master_divisi_id) {
+                            value_divisi += " selected";
+                        }
+                        value_divisi += ">" + item.nama + "</option>";
+                    });
+                    $('#edit_divisi_id').append(value_divisi);
+
+                    // jenis
+                    let value_jenis = "";
+                    value_jenis += "<option value=\"online\"";
+                    if (response.training.jenis == "online") {
+                        value_jenis += " selected";
+                    }
+                    value_jenis += ">Online</option>";
+                    value_jenis += "<option value=\"offline\"";
+                    if (response.training.jenis == "offline") {
+                        value_jenis += " selected";
+                    }
+                    value_jenis += ">Offline</option>";
+                    $('#edit_jenis').append(value_jenis);
 
                     $('.modal-edit').modal('show');
                 }
@@ -325,22 +420,17 @@
         $('#form-edit').submit(function (e) {
             e.preventDefault();
 
-            var formData = {
-                nama: $('#edit_nama').val(),
-                _token: CSRF_TOKEN
-            }
-
-            var id = $('#edit_id').val();
-            var url = '{{ route("training.update", ":id") }}';
-            url = url.replace(':id', id);
+            let formData = new FormData($('#form-edit')[0]);
 
             $.ajax({
-                url: url,
-                type: 'PUT',
+                url: "{{ URL::route('training.update') }}",
+                type: 'POST',
                 data: formData,
+                contentType: false,
+                processData: false,
                 beforeSend: function () {
-                    $('.btn-spinner-edit').css("display", "block");
-                    $('.btn-edit-save').css("display", "none");
+                    $('.btn-edit-spinner').removeClass("d-none");
+                    $('.btn-edit-save').addClass("d-none");
                 },
                 success: function (response) {
                     Toast.fire({
@@ -353,7 +443,7 @@
                     }, 1000);
                 },
                 error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhar.statusText
+                    var errorMessage = xhr.status + ': ' + xhr.error
 
                     Toast.fire({
                         icon: 'error',
@@ -372,8 +462,7 @@
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -391,8 +480,7 @@
             e.preventDefault();
 
             var formData = {
-                id: $('#delete_id').val(),
-                _token: CSRF_TOKEN
+                id: $('#delete_id').val()
             }
 
             $.ajax({
@@ -414,7 +502,7 @@
                     }, 1000);
                 },
                 error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhar.statusText
+                    var errorMessage = xhr.status + ': ' + xhr.statusText
 
                     Toast.fire({
                         icon: 'error',

@@ -200,6 +200,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('training/update', [TrainingController::class, 'update'])->name('training.update');
     Route::get('training/{id}/delete_btn', [TrainingController::class, 'deleteBtn'])->name('training.delete_btn');
     Route::post('training/delete', [TrainingController::class, 'delete'])->name('training.delete');
+    Route::get('training/modul/{file_modul}', [TrainingController::class, 'modul'])->name('training.modul');
+
 
     // complaint
     Route::get('complaint', [ComplaintController::class, 'index'])->name('complaint.index');
