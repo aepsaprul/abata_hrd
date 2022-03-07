@@ -165,6 +165,15 @@ Route::group(['middleware' => 'auth'], function () {
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
+    Route::get('resign/{id}/show', [ResignController::class, 'show'])->name('resign.show');
+    Route::get('resign/{id}/delete_btn', [ResignController::class, 'deleteBtn'])->name('resign.delete_btn');
+    Route::post('resign/delete', [ResignController::class, 'delete'])->name('resign.delete');
+    Route::get('resign/{id}/atasan_approve', [ResignController::class, 'atasanApprove'])->name('resign.atasan_approve');
+    Route::get('resign/{id}/atasan_tolak', [ResignController::class, 'atasanTolak'])->name('resign.atasan_tolak');
+    Route::get('resign/{id}/hc_approve', [ResignController::class, 'hcApprove'])->name('resign.hc_approve');
+    Route::get('resign/{id}/hc_tolak', [ResignController::class, 'hcTolak'])->name('resign.hc_tolak');
+    Route::get('resign/{id}/direktur_approve', [ResignController::class, 'direkturApprove'])->name('resign.direktur_approve');
+    Route::get('resign/{id}/direktur_tolak', [ResignController::class, 'direkturTolak'])->name('resign.direktur_tolak');
 
     // lamaran
     Route::get('lamaran', [LamaranController::class, 'index'])->name('lamaran.index');

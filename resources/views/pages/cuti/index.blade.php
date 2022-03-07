@@ -111,16 +111,41 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         @if ($item->status == 1 && Auth::user()->master_karyawan_id == $item->atasan)
-                                                            <a href="{{ route('cuti.atasan_approve', [$item->id]) }}" class="dropdown-item border-bottom"><i class="fas fa-check"></i> Approve</a>
-                                                            <a href="{{ route('cuti.atasan_tolak', [$item->id]) }}"   class="dropdown-item border-bottom"><i class="fas fa-ban"></i> Tolak</a>
+                                                            <a
+                                                                href="{{ route('cuti.atasan_approve', [$item->id]) }}"
+                                                                class="dropdown-item border-bottom">
+                                                                    <i class="fas fa-check text-center mr-2" style="width: 20px;"></i> Approve
+                                                            </a>
+                                                            <a
+                                                                href="{{ route('cuti.atasan_tolak', [$item->id]) }}"
+                                                                class="dropdown-item border-bottom">
+                                                                    <i class="fas fa-ban text-center mr-2" style="width: 20px;"></i> Tolak
+                                                            </a>
 												        @elseif ($item->status == 2 && Auth::user()->master_karyawan_id != $item->atasan)
-                                                            <a href="{{ route('cuti.hc_approve', [$item->id]) }}" class="dropdown-item border-bottom"><i class="fas fa-check"></i> Approve</a>
-                                                            <a href="{{ route('cuti.hc_tolak', [$item->id]) }}" class="dropdown-item border-bottom"><i class="fas fa-ban"></i> Tolak</a>
+                                                            <a
+                                                                href="{{ route('cuti.hc_approve', [$item->id]) }}"
+                                                                class="dropdown-item border-bottom">
+                                                                    <i class="fas fa-check text-center mr-2" style="width: 20px;"></i> Approve
+                                                            </a>
+                                                            <a
+                                                                href="{{ route('cuti.hc_tolak', [$item->id]) }}"
+                                                                class="dropdown-item border-bottom">
+                                                                    <i class="fas fa-ban text-center mr-2" style="width: 20px;"></i> Tolak
+                                                            </a>
                                                         @else
                                                         @endif
 
-                                                        <a href="#" class="dropdown-item border-bottom btn-detail" data-id="{{ $item->id }}"><i class="fa fa-eye"></i> Detail</a>
-                                                        <a href="#" class="dropdown-item btn-delete" data-id="{{ $item->id }}"><i class="fas fa-trash pr-1"></i> Hapus</a>
+                                                        <a
+                                                            href="#" class="dropdown-item border-bottom btn-detail"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                        </a>
+                                                        <a
+                                                            href="#"
+                                                            class="dropdown-item btn-delete"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>

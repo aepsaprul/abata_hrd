@@ -165,7 +165,7 @@
 															<a
                                                                 href="{{ route('lamaran.gagal.interview', [$item->id]) }}"
                                                                 class="dropdown-item border-bottom">
-                                                                    <i class="fas fa-times text-center mr-2" style="width: 20px;"></i> Gagal Interview
+                                                                    <i class="fas fa-ban text-center mr-2" style="width: 20px;"></i> Gagal Interview
                                                             </a>
 															<a
                                                                 href="{{ route('lamaran.interview', [$item->id]) }}"
@@ -176,12 +176,12 @@
 															<a
                                                                 href="{{ route('lamaran.gagal', [$item->id]) }}"
                                                                 class="dropdown-item border-bottom">
-                                                                    <i class="fas fa-times text-center mr-2" style="width: 20px;"></i> Gagal
+                                                                    <i class="fas fa-ban text-center mr-2" style="width: 20px;"></i> Gagal
                                                             </a>
 															<a
                                                                 href="{{ route('lamaran.terima', [$item->id]) }}"
                                                                 class="dropdown-item border-bottom">
-                                                                    <i class="fas fa-thumbs-up text-center mr-2" style="width: 20px;"></i> Terima
+                                                                    <i class="fas fa-check text-center mr-2" style="width: 20px;"></i> Terima
                                                             </a>
 														@else
 														@endif
@@ -196,7 +196,7 @@
                                                             class="dropdown-item"
                                                             onclick="return confirm('Yakin akan dihapus?')"
                                                             title="hapus">
-                                                                <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
                                                         </a>
                                                     </div>
                                                 </div>

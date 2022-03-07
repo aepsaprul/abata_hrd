@@ -45,7 +45,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped" style="font-size: 14px;">
+                            <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">Nama Karyawan</th>
@@ -130,13 +130,13 @@
                                                             href="#"
                                                             class="dropdown-item border-bottom btn-edit"
                                                             data-id="{{ $item->id }}">
-                                                                <i class="fas fa-pencil-alt pr-1"></i> Ubah
+                                                                <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
                                                         </a>
                                                         <a
                                                             href="#"
                                                             class="dropdown-item btn-delete"
                                                             data-id="{{ $item->id }}">
-                                                                <i class="fas fa-minus-circle pr-1"></i> Hapus
+                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
                                                         </a>
                                                     </div>
                                                 </div>
