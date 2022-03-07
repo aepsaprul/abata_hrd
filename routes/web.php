@@ -155,8 +155,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     // cuti
     Route::get('cuti', [CutiController::class, 'index'])->name('cuti.index');
+    Route::get('cuti/{id}/show', [CutiController::class, 'show'])->name('cuti.show');
     Route::get('cuti/{id}/delete_btn', [CutiController::class, 'deleteBtn'])->name('cuti.delete_btn');
     Route::post('cuti/delete', [CutiController::class, 'delete'])->name('cuti.delete');
+    Route::get('cuti/{id}/atasan_approve', [CutiController::class, 'atasanApprove'])->name('cuti.atasan_approve');
+    Route::get('cuti/{id}/atasan_tolak', [CutiController::class, 'atasanTolak'])->name('cuti.atasan_tolak');
+    Route::get('cuti/{id}/hc_approve', [CutiController::class, 'hcApprove'])->name('cuti.hc_approve');
+    Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');

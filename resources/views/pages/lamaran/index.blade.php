@@ -37,7 +37,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped" style="font-size: 12px;">
+                            <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>

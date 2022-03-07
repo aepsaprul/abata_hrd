@@ -37,7 +37,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
@@ -110,18 +110,17 @@
                                                             <i class="fas fa-cog"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-item border-bottom btn-edit"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-pencil-alt pr-1"></i> Ubah
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-item btn-delete"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-minus-circle pr-1"></i> Hapus
-                                                        </a>
+                                                        @if ($item->status == 1 && Auth::user()->master_karyawan_id == $item->atasan)
+                                                            <a href="{{ route('cuti.atasan_approve', [$item->id]) }}" class="dropdown-item border-bottom"><i class="fas fa-check"></i> Approve</a>
+                                                            <a href="{{ route('cuti.atasan_tolak', [$item->id]) }}"   class="dropdown-item border-bottom"><i class="fas fa-ban"></i> Tolak</a>
+												        @elseif ($item->status == 2 && Auth::user()->master_karyawan_id != $item->atasan)
+                                                            <a href="{{ route('cuti.hc_approve', [$item->id]) }}" class="dropdown-item border-bottom"><i class="fas fa-check"></i> Approve</a>
+                                                            <a href="{{ route('cuti.hc_tolak', [$item->id]) }}" class="dropdown-item border-bottom"><i class="fas fa-ban"></i> Tolak</a>
+                                                        @else
+                                                        @endif
+
+                                                        <a href="#" class="dropdown-item border-bottom btn-detail" data-id="{{ $item->id }}"><i class="fa fa-eye"></i> Detail</a>
+                                                        <a href="#" class="dropdown-item btn-delete" data-id="{{ $item->id }}"><i class="fas fa-trash pr-1"></i> Hapus</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -138,35 +137,58 @@
 </div>
 <!-- /.content-wrapper -->
 
-<div class="modal fade modal-create" id="modal-default">
-    <div class="modal-dialog">
+{{-- modal detail --}}
+<div class="modal fade modal-detail" id="modal-default">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form id="form-create">
+            <form id="form-detail">
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Data Cabang</h4>
+                    <h4 class="modal-title">Detail Data Cuti</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="create_nama" class="form-label">Nama Cabang</label>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            id="create_nama"
-                            name="create_nama"
-                            maxlength="30"
-                            required>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Nama</label>
+                                <input type="text" name="master_karyawan_id" id="master_karyawan_id" class="form-control">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-create" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-create-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Simpan
-                    </button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Nama Atasan Langsung</label>
+                                <input type="text" name="atasan" id="atasan" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- formulir cuti  --}}
+                    <div id="formulir_cuti">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><label>Jabatan</label></td>
+                                <td>:</td>
+                                <td>
+                                    <input type="text" name="master_jabatan_id" id="master_jabatan_id" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>No Telp yg aktif</label></td>
+                                <td>:</td>
+                                <td><input type="number" name="telepon" id="telepon" class="form-control"></td>
+                            </tr>
+                        </table>
+                        <label for="">Menerangkan dengan ini bahwa saya bermaksud untuk mengambil cuti :</label>
+                        <input type="text" name="jenis" id="jenis" class="form-control">
+                        <br>
+                        <table id="data_maksud_cuti" class="table table-bordered">
+                            {{-- data di jquery --}}
+                        </table>
+                    </div>
                 </div>
             </form>
         </div>
@@ -220,13 +242,73 @@
         $("#example1").DataTable();
     });
     $(document).ready(function () {
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         var Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
+        });
+
+        // detail
+        $(document).on('click', '.btn-detail', function (e) {
+            e.preventDefault();
+            $('#data_maksud_cuti').empty();
+
+            var id = $(this).attr('data-id');
+            var url = '{{ route("cuti.show", ":id") }}';
+            url = url.replace(':id', id);
+
+            var formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                    $('#atasan').val(response.cuti.atasan_langsung.nama_lengkap);
+                    $('#master_karyawan_id').val(response.cuti.master_karyawan.nama_lengkap);
+                    $('#master_jabatan_id').val(response.cuti.master_jabatan.nama_jabatan);
+                    $('#telepon').val(response.cuti.telepon);
+                    $('#jenis').val(response.cuti.jenis);
+
+                    let value_maksud_cuti = "";
+                    $.each(response.cuti_tgls, function (index, item) {
+                         value_maksud_cuti += "" +
+                            "<tr>" +
+                                "<td>Tanggal " + (index + 1) + "</td>" +
+                                "<td><input type=\"text\" name=\"cuti_tgl\" id=\"cuti_tgl\" class=\"form-control\" value=\"" + item.tanggal + "\"></td>" +
+                            "</tr>";
+                    });
+                    value_maksud_cuti += "" +
+                        "<tr>" +
+                            " <td>Nama karyawan pengganti saat cuti adalah</td>" +
+                            "<td>" +
+                                "<input type=\"text\" name=\"pengganti\" id=\"pengganti\" class=\"form-control\" value=\"" + response.cuti.karyawan_pengganti + "\">" +
+                            "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                            "<td>Alasan Cuti (secara lebih detail)</td>" +
+                            "<td><input type=\"text\" name=\"alasan\" id=\"alasan\" class=\"form-control\" value=\"" + response.cuti.alasan + "\"></td>" +
+                        "</tr>" +
+                        "<tr>" +
+                            "<td>Dan saya bersedia berangkat kerja lagi mulai tanggal</td>" +
+                            "<td><input type=\"text\" name=\"tanggal_kerja\" id=\"tanggal_kerja\" class=\"form-control\" value=\"" + response.cuti.tanggal_kerja + "\"></td>" +
+                        "</tr>";
+
+                    $('#data_maksud_cuti').append(value_maksud_cuti);
+
+                    $('.modal-detail').modal('show');
+                }
+            });
         });
 
         // delete
@@ -238,8 +320,7 @@
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -257,8 +338,7 @@
             e.preventDefault();
 
             var formData = {
-                id: $('#delete_id').val(),
-                _token: CSRF_TOKEN
+                id: $('#delete_id').val()
             }
 
             $.ajax({

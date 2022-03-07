@@ -26,7 +26,7 @@ class HcCuti extends Model
     ];
 
     public function masterKaryawan() {
-        return $this->belongsTo(MasterKaryawan::class);
+        return $this->belongsTo(MasterKaryawan::class, 'master_karyawan_id', 'id');
     }
 
     public function atasanLangsung() {
