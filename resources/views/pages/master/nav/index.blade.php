@@ -59,6 +59,7 @@
                                                         <th class="text-center text-indigo">Title</th>
                                                         <th class="text-center text-indigo">Link</th>
                                                         <th class="text-center text-indigo">Navigasi Utama</th>
+                                                        <th class="text-center text-indigo">Aktif</th>
                                                         <th class="text-center text-indigo">Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -75,6 +76,7 @@
                                                                 Navigasi utama kosong
                                                             @endif
                                                         </td>
+                                                        <td class="sub_aktif_{{ $item->id }}">{{ $item->aktif }}</td>
                                                         <td class="text-center">
                                                             <div class="btn-group">
                                                                 <a
@@ -270,6 +272,15 @@
 
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="sub_create_aktif" class="form-label">Aktif</label>
+                        <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            id="sub_create_aktif"
+                            name="sub_create_aktif"
+                            maxlength="100" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary sub-btn-create-spinner" disabled style="width: 120px; display: none;">
@@ -405,6 +416,16 @@
                         <select class="form-control form-control-sm" name="sub_edit_main_id" id="sub_edit_main_id">
 
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sub_edit_aktif" class="form-label">Aktif</label>
+                        <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            id="sub_edit_aktif"
+                            name="sub_edit_aktif"
+                            maxlength="100"
+                            required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -586,6 +607,7 @@
                 title: $('#sub_create_title').val(),
                 link: $('#sub_create_link').val(),
                 main_id: $('#sub_create_main_id').val(),
+                aktif: $('#sub_create_aktif').val(),
                 _token: CSRF_TOKEN
             }
 
@@ -611,7 +633,7 @@
                     var errorMessage = xhr.status + ': ' + xhr.statusText
                     alert('Error - ' + errorMessage);
                     Toast.fire({
-                        icon: 'danger',
+                        icon: 'error',
                         title: 'Error - ' + errorMessage
                     });
                 }
@@ -722,6 +744,7 @@
                     $('#sub_edit_id').val(response.id);
                     $('#sub_edit_title').val(response.title);
                     $('#sub_edit_link').val(response.link);
+                    $('#sub_edit_aktif').val(response.aktif);
 
                     var nav_main_value = "<option value=\"\">--Pilih Navigasi Utama--</option>";
 
@@ -747,12 +770,14 @@
             $('.sub_title_' + $('#sub_edit_id').val()).empty();
             $('.sub_link_' + $('#sub_edit_id').val()).empty();
             $('.sub_main_' + $('#sub_edit_id').val()).empty();
+            $('.sub_aktif_' + $('#sub_edit_id').val()).empty();
 
             var formData = {
                 id: $('#sub_edit_id').val(),
                 title: $('#sub_edit_title').val(),
                 link: $('#sub_edit_link').val(),
                 main_id: $('#sub_edit_main_id').val(),
+                aktif: $('#sub_edit_aktif').val(),
                 _token: CSRF_TOKEN
             }
 
@@ -773,6 +798,7 @@
                     $('.sub_title_' + response.id).append(response.title);
                     $('.sub_link_' + response.id).append(response.link);
                     $('.sub_main_' + response.id).append(response.main_title);
+                    $('.sub_aktif_' + response.id).append(response.aktif);
 
                     setTimeout(() => {
                         $('.sub-modal-edit').modal('hide');
@@ -784,7 +810,7 @@
                 error: function(xhr, status, error){
                     var errorMessage = xhr.status + ': ' + xhr.statusText
                     Toast.fire({
-                        icon: 'danger',
+                        icon: 'error',
                         title: 'Error - ' + errorMessage
                     });
                 }

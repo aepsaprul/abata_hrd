@@ -6,12 +6,13 @@ use App\Models\HcCuti;
 use App\Models\HcCutiTgl;
 use App\Models\MasterKaryawan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CutiController extends Controller
 {
     public function index()
     {
-        $cuti = HcCuti::get();
+        $cuti = HcCuti::where('atasan', Auth::user()->master_karyawan_id)->get();
 
         return view('pages.cuti.index', ['cutis' => $cuti]);
     }

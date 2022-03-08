@@ -132,7 +132,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                         @if (Auth::user()->roles == "administrator")
                             <li class="nav-item">
-                                <a href="{{ route('home') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
+                                <a href="{{ route('home.index') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
                                 </a>
                             </li>
@@ -236,7 +236,7 @@
                                             @foreach ($current_menus as $item_menu)
                                                 @if ($item_menu->main_id == $item->id)
                                                     <li class="nav-item">
-                                                        <a href="{{ route($item_menu->navSub->link) }}" class="nav-link {{ request()->is([''.$item_menu->navSub->link.'', ''.$item_menu->navSub->link.'/*']) ? 'active' : '' }}">
+                                                        <a href="{{ route($item_menu->navSub->link) }}" class="nav-link {{ request()->is([''.$item_menu->navSub->aktif.'', ''.$item_menu->navSub->aktif.'/*']) ? 'active' : '' }}">
                                                             <i class="fas fa-angle-right nav-icon"></i> <p>{{ $item_menu->navSub->title }}</p>
                                                         </a>
                                                     </li>
@@ -246,7 +246,7 @@
                                     </li>
                                 @else
                                     <li class="nav-item">
-                                        <a href="{{ url($item->link) }}" class="nav-link {{ request()->is([''.$item->aktif.'', ''.$item->aktif.'/*']) ? 'active' : '' }}">
+                                        <a href="{{ route($item->link) }}" class="nav-link {{ request()->is([''.$item->aktif.'', ''.$item->aktif.'/*']) ? 'active' : '' }}">
                                             <i class="nav-icon {{ $item->icon }} text-center mr-2" style="width: 30px;"></i> <p>{{ $item->title }}</p>
                                         </a>
                                     </li>

@@ -48,7 +48,7 @@ Auth::routes([
     'register' => false
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
 
 Route::group(['middleware' => 'auth'], function () {
     // ubah password
@@ -211,10 +211,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     // pengajuan
         // cuti
-        Route::get('pengajuan_cuti', [PengajuanCutiController::class, 'index'])->name('pengajuan_cuti.index');
+        Route::get('pengajuan/cuti', [PengajuanCutiController::class, 'index'])->name('pengajuan_cuti.index');
+        Route::get('pengajuan/cuti/create', [PengajuanCutiController::class, 'create'])->name('pengajuan_cuti.create');
+        Route::post('pengajuan/cuti/store', [PengajuanCutiController::class, 'store'])->name('pengajuan_cuti.store');
 
         // resign
-        Route::get('pengajuan_resign', [PengajuanResignController::class, 'index'])->name('pengajuan_resign.index');
+        Route::get('pengajuan/resign', [PengajuanResignController::class, 'index'])->name('pengajuan_resign.index');
 
     // complaint
     Route::get('complaint', [ComplaintController::class, 'index'])->name('complaint.index');

@@ -45,6 +45,7 @@ class NavController extends Controller
         $nav_sub->title = $request->title;
         $nav_sub->link = $request->link;
         $nav_sub->main_id = $request->main_id;
+        $nav_sub->aktif = $request->aktif;
         $nav_sub->save();
 
         return response()->json([
@@ -75,6 +76,7 @@ class NavController extends Controller
             'title' => $nav_sub->title,
             'link' => $nav_sub->link,
             'main_id' => $nav_sub->main_id,
+            'aktif' => $nav_sub->aktif,
             'nav_mains' => $nav_main
         ]);
     }
@@ -104,6 +106,7 @@ class NavController extends Controller
         $nav_sub->title = $request->title;
         $nav_sub->link = $request->link;
         $nav_sub->main_id = $request->main_id;
+        $nav_sub->aktif = $request->aktif;
         $nav_sub->save();
 
         $nav_main = HcNavMain::find($request->main_id);
@@ -114,7 +117,8 @@ class NavController extends Controller
             'status' => 'Data menu sub berhasil diperbaharui',
             'title' => $request->title,
             'link' => $request->link,
-            'main_title' => $nav_main->title
+            'main_title' => $nav_main->title,
+            'aktif' => $request->aktif
         ]);
     }
 

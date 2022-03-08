@@ -58,13 +58,13 @@
                                                     @php
                                                         $status = "Permohonan Cuti";
                                                         $percentase = "30%";
-                                                        $background = "info";
+                                                        $background = "secondary";
                                                     @endphp
                                                 @elseif ($item->status == 2)
                                                     @php
                                                         $status = "Acc Atasan Langsung";
                                                         $percentase = "60%";
-                                                        $background = "warning";
+                                                        $background = "primary";
                                                     @endphp
                                                 @elseif ($item->status == 3)
                                                     @php
