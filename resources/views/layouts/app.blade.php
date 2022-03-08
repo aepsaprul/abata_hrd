@@ -75,7 +75,7 @@
                         <div class="dropdown-divider"></div>
                         <a
                             class="dropdown-item"
-                            href="#">
+                            href="{{ route('change.password.index') }}">
                                 <i class="fa fa-lock-open px-2"></i> Ubah Password
                         </a>
                         <div class="dropdown-divider"></div>

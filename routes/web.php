@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CabangController;
+use App\Http\Controllers\ChangePasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HcCirController;
 use App\Http\Controllers\ClientController;
@@ -48,6 +49,10 @@ Auth::routes([
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
+    // ubah password
+    Route::get('change-password', [ChangePasswordController::class, 'index'])->name('change.password.index');
+    Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
+
     // dashboard hc
     Route::get('home/dashboard', [HomeController::class, 'dashboard'])->name('home.dashboard');
 
