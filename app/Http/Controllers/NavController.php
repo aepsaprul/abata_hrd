@@ -22,6 +22,7 @@ class NavController extends Controller
         $nav_main->title = $request->title;
         $nav_main->link = $request->link;
         $nav_main->icon = $request->icon;
+        $nav_main->aktif = $request->aktif;
         $nav_main->save();
 
         return response()->json([
@@ -59,7 +60,8 @@ class NavController extends Controller
             'id' => $nav_main->id,
             'title' => $nav_main->title,
             'link' => $nav_main->link,
-            'icon' => $nav_main->icon
+            'icon' => $nav_main->icon,
+            'aktif' => $nav_main->aktif
         ]);
     }
 
@@ -83,6 +85,7 @@ class NavController extends Controller
         $nav_main->title = $request->title;
         $nav_main->link = $request->link;
         $nav_main->icon = $request->icon;
+        $nav_main->aktif = $request->aktif;
         $nav_main->save();
 
         return response()->json([
@@ -90,7 +93,8 @@ class NavController extends Controller
             'status' => 'true',
             'title' => $request->title,
             'link' => $request->link,
-            'icon' => $request->icon
+            'icon' => $request->icon,
+            'aktif' => $request->aktif
         ]);
     }
 

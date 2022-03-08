@@ -21,6 +21,8 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\LokerController;
 use App\Http\Controllers\NavController;
+use App\Http\Controllers\PengajuanCutiController;
+use App\Http\Controllers\PengajuanResignController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\ResignController;
 use App\Http\Controllers\TrainingController;
@@ -207,6 +209,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('training/delete', [TrainingController::class, 'delete'])->name('training.delete');
     Route::get('training/modul/{file_modul}', [TrainingController::class, 'modul'])->name('training.modul');
 
+    // pengajuan
+        // cuti
+        Route::get('pengajuan_cuti', [PengajuanCutiController::class, 'index'])->name('pengajuan_cuti.index');
+
+        // resign
+        Route::get('pengajuan_resign', [PengajuanResignController::class, 'index'])->name('pengajuan_resign.index');
 
     // complaint
     Route::get('complaint', [ComplaintController::class, 'index'])->name('complaint.index');

@@ -130,12 +130,12 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a href="{{ route('home') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
-                            </a>
-                        </li>
                         @if (Auth::user()->roles == "administrator")
+                            <li class="nav-item">
+                                <a href="{{ route('home') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
+                                </a>
+                            </li>
                             <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
                                 <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-user-lock text-center mr-2" style="width: 30px;"></i><p>Master<i class="right fas fa-angle-left"></i></p>
@@ -203,18 +203,18 @@
                                     <i class="nav-icon fas fa-comment-alt text-center mr-2" style="width: 30px;"></i><p>Training</p>
                                 </a>
                             </li>
-                            <li class="nav-item {{ request()->is('master/*') ? 'menu-open' : '' }}">
-                                <a href="#" class="nav-link {{ request()->is('master/*') ? 'active' : '' }}">
+                            <li class="nav-item {{ request()->is('pengajuan/*') ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link {{ request()->is('pengajuan/*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-file-import text-center mr-2" style="width: 30px;"></i><p>Pengajuan<i class="right fas fa-angle-left"></i></p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{ route('nav.index') }}" class="nav-link {{ request()->is('master/nav') ? 'active' : '' }}">
+                                        <a href="{{ route('pengajuan_cuti.index') }}" class="nav-link {{ request()->is('pengajuan/cuti') ? 'active' : '' }}">
                                             <i class="fas fa-angle-right nav-icon"></i><p>Cuti</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('master/user') ? 'active' : '' }}">
+                                        <a href="{{ route('pengajuan_resign.index') }}" class="nav-link {{ request()->is('pengajuan/resign') ? 'active' : '' }}">
                                             <i class="fas fa-angle-right nav-icon"></i><p>Resign</p>
                                         </a>
                                     </li>
@@ -228,16 +228,16 @@
                         @else
                             @foreach ($current_nav_mains as $item)
                                 @if ($item->link == '#')
-                                    <li class="nav-item {{ request()->is(''.$item->request.'/*') ? 'menu-open' : '' }}">
-                                        <a href="#" class="nav-link {{ request()->is(''.$item->request.'/*') ? 'active' : '' }}">
-                                            <i class="{{ $item->icon }}"></i> <p>{{ $item->title }}<i class="right fas fa-angle-left"></i></p>
+                                    <li class="nav-item {{ request()->is(''.$item->aktif.'/*') ? 'menu-open' : '' }}">
+                                        <a href="#" class="nav-link {{ request()->is(''.$item->aktif.'/*') ? 'active' : '' }}">
+                                            <i class="nav-icon {{ $item->icon }} text-center mr-2" style="width: 30px;"></i> <p>{{ $item->title }}<i class="right fas fa-angle-left"></i></p>
                                         </a>
                                         <ul class="nav nav-treeview">
                                             @foreach ($current_menus as $item_menu)
                                                 @if ($item_menu->main_id == $item->id)
                                                     <li class="nav-item">
                                                         <a href="{{ route($item_menu->navSub->link) }}" class="nav-link {{ request()->is([''.$item_menu->navSub->link.'', ''.$item_menu->navSub->link.'/*']) ? 'active' : '' }}">
-                                                            <i class="far fa-circle nav-icon"></i> <p>{{ $item_menu->navSub->title }}</p>
+                                                            <i class="fas fa-angle-right nav-icon"></i> <p>{{ $item_menu->navSub->title }}</p>
                                                         </a>
                                                     </li>
                                                 @endif
@@ -246,8 +246,8 @@
                                     </li>
                                 @else
                                     <li class="nav-item">
-                                        <a href="{{ url($item->link) }}" class="nav-link {{ request()->is([''.$item->request.'', ''.$item->request.'/*']) ? 'active' : '' }}">
-                                            <i class="{{ $item->icon }}"></i> <p>{{ $item->title }}</p>
+                                        <a href="{{ url($item->link) }}" class="nav-link {{ request()->is([''.$item->aktif.'', ''.$item->aktif.'/*']) ? 'active' : '' }}">
+                                            <i class="nav-icon {{ $item->icon }} text-center mr-2" style="width: 30px;"></i> <p>{{ $item->title }}</p>
                                         </a>
                                     </li>
                                 @endif

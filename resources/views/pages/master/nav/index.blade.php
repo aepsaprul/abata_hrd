@@ -52,7 +52,7 @@
                                     <div class="tab-content" id="custom-tabs-four-tabContent">
                                         <div class="tab-pane fade show active" id="custom-tabs-four-sub" role="tabpanel" aria-labelledby="custom-tabs-four-sub-tab">
                                             <button id="sub-button-create" type="button" class="btn bg-gradient-primary btn-sm pl-3 pr-3 mb-4"><i class="fa fa-plus"></i> Tambah</button>
-                                            <table id="example1" class="table table-bordered table-striped">
+                                            <table id="example1" class="table table-bordered table-striped" style="width: 100%; font-size: 13px;">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center text-indigo">No</th>
@@ -107,13 +107,14 @@
                                         </div>
                                         <div class="tab-pane fade" id="custom-tabs-four-main" role="tabpanel" aria-labelledby="custom-tabs-four-main-tab">
                                             <button id="main-button-create" type="button" class="btn bg-gradient-primary btn-sm pl-3 pr-3 mb-4"><i class="fa fa-plus"></i> Tambah</button>
-                                            <table id="example2" class="table table-bordered table-striped">
+                                            <table id="example2" class="table table-bordered table-striped" style="width: 100%; font-size: 13px;">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center text-indigo">No</th>
                                                         <th class="text-center text-indigo">Title</th>
                                                         <th class="text-center text-indigo">link</th>
                                                         <th class="text-center text-indigo">Icon</th>
+                                                        <th class="text-center text-indigo">Aktif</th>
                                                         <th class="text-center text-indigo">Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -124,6 +125,7 @@
                                                         <td class="main_title_{{ $item->id }}">{{ $item->title }}</td>
                                                         <td class="main_link_{{ $item->id }}">{{ $item->link }}</td>
                                                         <td class="main_icon_{{ $item->id }}">{{ $item->icon }}</td>
+                                                        <td class="main_aktif_{{ $item->id }}">{{ $item->aktif }}</td>
                                                         <td class="text-center">
                                                             <div class="btn-group">
                                                                 <a
@@ -156,22 +158,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /.card -->
                             </div>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-				    <!-- /.card -->
 				</div>
-				<!-- /.col -->
 			</div>
-			<!-- /.row -->
 		</div>
-		<!-- /.container-fluid -->
 	</section>
-	<!-- /.content -->
 </div>
-<!-- ./wrapper -->
 
 {{-- main modal create  --}}
 <div class="modal fade main-modal-create" tabindex="-1">
@@ -213,6 +207,15 @@
                             class="form-control form-control-sm"
                             id="main_create_icon"
                             name="main_create_icon"
+                            maxlength="100" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="main_create_aktif" class="form-label">Aktif</label>
+                        <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            id="main_create_aktif"
+                            name="main_create_aktif"
                             maxlength="100" required>
                     </div>
                 </div>
@@ -329,6 +332,16 @@
                             class="form-control form-control-sm"
                             id="main_edit_icon"
                             name="main_edit_icon"
+                            maxlength="100"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="main_edit_aktif" class="form-label">Aktif</label>
+                        <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            id="main_edit_aktif"
+                            name="main_edit_aktif"
                             maxlength="100"
                             required>
                     </div>
@@ -475,12 +488,6 @@
 <script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script>
-    $(function () {
-        $("#example1").DataTable();
-
-        $("#example2").DataTable();
-    });
-
     $(document).ready(function() {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -489,6 +496,14 @@
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
+        });
+
+        $("#example1").DataTable({
+            responsive: true
+        });
+
+        $("#example2").DataTable({
+            responsive: true
         });
 
         // main create
@@ -507,6 +522,7 @@
                 title: $('#main_create_title').val(),
                 link: $('#main_create_link').val(),
                 icon: $('#main_create_icon').val(),
+                aktif: $('#main_create_aktif').val(),
                 _token: CSRF_TOKEN
             }
 
@@ -624,6 +640,7 @@
                     $('#main_edit_title').val(response.title);
                     $('#main_edit_link').val(response.link);
                     $('#main_edit_icon').val(response.icon);
+                    $('#main_edit_aktif').val(response.aktif);
 
                     $('.main-modal-edit').modal('show');
                 }
@@ -636,12 +653,14 @@
             $('.main_title_' + $('#main_edit_id').val()).empty();
             $('.main_link_' + $('#main_edit_id').val()).empty();
             $('.main_icon_' + $('#main_edit_id').val()).empty();
+            $('.main_aktif_' + $('#main_edit_id').val()).empty();
 
             var formData = {
                 id: $('#main_edit_id').val(),
                 title: $('#main_edit_title').val(),
                 link: $('#main_edit_link').val(),
                 icon: $('#main_edit_icon').val(),
+                aktif: $('#main_edit_aktif').val(),
                 _token: CSRF_TOKEN
             }
 
@@ -662,6 +681,7 @@
                     $('.main_title_' + response.id).append(response.title);
                     $('.main_link_' + response.id).append(response.link);
                     $('.main_icon_' + response.id).append(response.icon);
+                    $('.main_aktif_' + response.id).append(response.aktif);
 
                     setTimeout(() => {
                         $('.main-modal-edit').modal('hide');
