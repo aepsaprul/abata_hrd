@@ -12,7 +12,11 @@ class CutiController extends Controller
 {
     public function index()
     {
-        $cuti = HcCuti::where('atasan', Auth::user()->master_karyawan_id)->get();
+        if (Auth::user()->roles == "administrator" || Auth::user()->masterKaryawan->masterCabang->id == '1') {
+            $cuti = HcCuti::get();
+        } else {
+            $cuti = HcCuti::where('atasan', Auth::user()->master_karyawan_id)->get();
+        }
 
         return view('pages.cuti.index', ['cutis' => $cuti]);
     }
