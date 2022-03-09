@@ -520,11 +520,21 @@
         });
 
         $("#example1").DataTable({
-            responsive: true
+            responsive: true,
+            destroy: true,
+            searching: true,
+            paging: true,
+            info: false
         });
 
-        $("#example2").DataTable({
-            responsive: true
+        $(document).on('shown.bs.tab', function () {
+            $("#example2").DataTable({
+                responsive: true,
+                destroy: true,
+                searching: true,
+                paging: true,
+                info: false
+            });
         });
 
         // main create
