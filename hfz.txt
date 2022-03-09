@@ -1,3 +1,5 @@
+*status
+
 >> keterangan status di tabel hc_cutis
 1=permohonancuti,
 2=atasanapprove,
@@ -10,4 +12,26 @@
 2. diterima
 3. ditolak
 
+------------------------------------------------------------------
+
 mp4Dmin$up3r
+
+------------------------------------------------------------------
+
+*alur cuti & resign
+
+>> cuti
+1. Karyawan cabang > kepala cabang > hc (direktur mengetahui)
+2. Kepala cabang > manager marketing > hc (direktur mengetahui)
+3. Manager > direktur (hc melihat)
+4. Ho > manager > hc
+5. IT > direktur (hc mengetahui)
+
+>> resign
+1. Karyawan cabang>kepala cabang>hc
+2. Kepala cabang > manager marketing > direktur
+3. Admin support > kepala cabang>manager finance>direktur
+4. Kordinator>kepala cabang>manager operasional>direktur
+5. Ho > manager > hc > direktur
+6. Bm,asmen > manajer > hc > direktur
+7. Manajer>direktur

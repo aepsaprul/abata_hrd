@@ -711,6 +711,58 @@
             timer: 3000
         });
 
+        $(document).on('shown.bs.tab', function () {
+            $('.select2').select2();
+
+            $("#tabel_kontrak").DataTable({
+                responsive: true,
+                destroy: true,
+                searching: false,
+                paging: false,
+                info: false
+            });
+
+            $("#tabel_medsos").DataTable({
+                responsive: true,
+                destroy: true,
+                searching: false,
+                paging: false,
+                info: false
+            });
+
+            $("#tabel_sebelum_menikah").DataTable({
+                responsive: true,
+                destroy: true,
+                searching: false,
+                paging: false,
+                info: false
+            });
+
+            $("#tabel_setelah_menikah").DataTable({
+                responsive: true,
+                destroy: true,
+                searching: false,
+                paging: false,
+                info: false
+            });
+
+            $("#tabel_kerabat_darurat").DataTable({
+                responsive: true,
+                destroy: true,
+                searching: false,
+                paging: false,
+                info: false
+            });
+
+            $("#tabel_pendidikan").DataTable({
+                responsive: true,
+                destroy: true,
+                searching: false,
+                paging: false,
+                info: false
+            });
+        });
+
         // biodata
         biodata();
         function biodata() {
@@ -1073,15 +1125,6 @@
                         });
                     }
                     $('#data_kontrak').append(kontrak_data);
-
-                    // datatable kontrak
-                    $("#tabel_kontrak").DataTable({
-                        responsive: true,
-                        destroy: true,
-                        searching: false,
-                        paging: false,
-                        info: false
-                    });
                 }
             });
         }
@@ -1163,15 +1206,6 @@
                         }
                         $('#data_kontrak').append(kontrak_data);
 
-                        // datatable kontrak
-                        $("#tabel_kontrak").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
-
                         Toast.fire({
                             icon: 'success',
                             title: 'Kontrak behasil diperbaharui'
@@ -1231,15 +1265,6 @@
                         }
                         $('#data_kontrak').append(kontrak_data);
 
-                        // datatable kontrak
-                        $("#tabel_kontrak").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
-
                         Toast.fire({
                             icon: 'success',
                             title: 'Kontrak behasil dihapus'
@@ -1292,15 +1317,6 @@
                         });
                     }
                     $('#data_medsos').append(medsos_data);
-
-                    // datatable medsos
-                    $("#tabel_medsos").DataTable({
-                        responsive: true,
-                        destroy: true,
-                        searching: false,
-                        paging: false,
-                        info: false
-                    });
                 }
             });
         }
@@ -1337,30 +1353,21 @@
                         } else {
                             $.each(response.medsoss, function(index, value) {
                                 medsos_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama_akun + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama_akun + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_medsos').append(medsos_data);
 
                         $('#nama_media_sosial').val("");
                         $('#nama_akun').val("");
-
-                        // datatable medsos
-                        $("#tabel_medsos").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -1407,27 +1414,18 @@
                         } else {
                             $.each(response.medsoss, function(index, value) {
                                 medsos_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama_akun + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama_akun + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_medsos').append(medsos_data);
-
-                        // datatable medsos
-                        $("#tabel_medsos").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -1486,31 +1484,22 @@
                     } else {
                         $.each(response.sebelum_menikahs, function(index, value) {
                             sebelum_menikah_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.usia + "</td>" +
-                                        "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                        "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
-                                        "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.usia + "</td>" +
+                                "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
+                                "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_sebelum_menikah').append(sebelum_menikah_data);
-
-                    // datatable sebelum menikah
-                    $("#tabel_sebelum_menikah").DataTable({
-                        responsive: true,
-                        destroy: true,
-                        searching: false,
-                        paging: false,
-                        info: false
-                    });
                 }
             });
         }
@@ -1551,19 +1540,19 @@
                         } else {
                             $.each(response.sebelum_menikahs, function(index, value) {
                                 sebelum_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.usia + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.usia + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_sebelum_menikah').append(sebelum_menikah_data);
@@ -1575,15 +1564,6 @@
                         $('#sebelum_menikah_jenis_kelamin').val("");
                         $('#sebelum_menikah_pendidikan').val("");
                         $('#sebelum_menikah_pekerjaan').val("");
-
-                        // datatable sebelum menikah
-                        $("#tabel_sebelum_menikah").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -1630,31 +1610,22 @@
                         } else {
                             $.each(response.sebelum_menikahs, function(index, value) {
                                 sebelum_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.usia + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.usia + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_sebelum_menikah').append(sebelum_menikah_data);
-
-                        // datatable sebelum menikah
-                        $("#tabel_sebelum_menikah").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -1696,30 +1667,21 @@
                     } else {
                         $.each(response.setelah_menikahs, function(index, value) {
                             setelah_menikah_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
-                                        "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
-                                        "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
+                                "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
+                                "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_setelah_menikah').append(setelah_menikah_data);
-
-                    // datatable setelah menikah
-                    $("#tabel_setelah_menikah").DataTable({
-                        responsive: true,
-                        destroy: true,
-                        searching: false,
-                        paging: false,
-                        info: false
-                    });
                 }
             });
         }
@@ -1759,18 +1721,18 @@
                         } else {
                             $.each(response.setelah_menikahs, function(index, value) {
                                 setelah_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_setelah_menikah').append(setelah_menikah_data);
@@ -1781,15 +1743,6 @@
                         $('#setelah_menikah_tempat_lahir').val("");
                         $('#setelah_menikah_tanggal_lahir').val("");
                         $('#setelah_menikah_pekerjaan').val("");
-
-                        // datatable setelah menikah
-                        $("#tabel_setelah_menikah").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -1836,30 +1789,21 @@
                         } else {
                             $.each(response.setelah_menikahs, function(index, value) {
                                 setelah_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_setelah_menikah').append(setelah_menikah_data);
-
-                        // datatable setelah menikah
-                        $("#tabel_setelah_menikah").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -1901,30 +1845,21 @@
                     } else {
                         $.each(response.kerabat_darurats, function(index, value) {
                             kerabat_darurat_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                        "<td class=\"text-center\">" + value.telepon + "</td>" +
-                                        "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                "<td class=\"text-center\">" + value.telepon + "</td>" +
+                                "<td class=\"text-center\">" + value.alamat + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_kerabat_darurat').append(kerabat_darurat_data);
-
-                    // datatable kerabat darurat
-                    $("#tabel_kerabat_darurat").DataTable({
-                        responsive: true,
-                        destroy: true,
-                        searching: false,
-                        paging: false,
-                        info: false
-                    });
                 }
             });
         }
@@ -1964,18 +1899,18 @@
                         } else {
                             $.each(response.kerabat_darurats, function(index, value) {
                                 kerabat_darurat_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.telepon + "</td>" +
-                                            "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.telepon + "</td>" +
+                                    "<td class=\"text-center\">" + value.alamat + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_kerabat_darurat').append(kerabat_darurat_data);
@@ -1986,15 +1921,6 @@
                         $('#kerabat_darurat_jenis_kelamin').val("");
                         $('#kerabat_darurat_tanggal_telepon').val("");
                         $('#kerabat_darurat_alamat').val("");
-
-                        // datatable kerabat darurat
-                        $("#tabel_kerabat_darurat").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -2041,30 +1967,21 @@
                         } else {
                             $.each(response.kerabat_darurats, function(index, value) {
                                 kerabat_darurat_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.telepon + "</td>" +
-                                            "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.telepon + "</td>" +
+                                    "<td class=\"text-center\">" + value.alamat + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_kerabat_darurat').append(kerabat_darurat_data);
-
-                        // datatable kerabat darurat
-                        $("#tabel_kerabat_darurat").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -2106,31 +2023,22 @@
                     } else {
                         $.each(response.pendidikans, function(index, value) {
                             pendidikan_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.tingkat + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.kota + "</td>" +
-                                        "<td class=\"text-center\">" + value.jurusan + "</td>" +
-                                        "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
-                                        "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.tingkat + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.kota + "</td>" +
+                                "<td class=\"text-center\">" + value.jurusan + "</td>" +
+                                "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
+                                "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_pendidikan').append(pendidikan_data);
-
-                    // datatable pendidikan
-                    $("#tabel_pendidikan").DataTable({
-                        responsive: true,
-                        destroy: true,
-                        searching: false,
-                        paging: false,
-                        info: false
-                    });
                 }
             });
         }
@@ -2171,19 +2079,19 @@
                         } else {
                             $.each(response.pendidikans, function(index, value) {
                                 pendidikan_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.tingkat + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.kota + "</td>" +
-                                            "<td class=\"text-center\">" + value.jurusan + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.tingkat + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.kota + "</td>" +
+                                    "<td class=\"text-center\">" + value.jurusan + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_pendidikan').append(pendidikan_data);
@@ -2195,15 +2103,6 @@
                         $('#pendidikan_jurusan').val("");
                         $('#pendidikan_tahun_masuk').val("");
                         $('#pendidikan_tahun_lulus').val("");
-
-                        // datatable pendidikan
-                        $("#tabel_pendidikan").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
@@ -2250,31 +2149,22 @@
                         } else {
                             $.each(response.pendidikans, function(index, value) {
                                 pendidikan_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.tingkat + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.kota + "</td>" +
-                                            "<td class=\"text-center\">" + value.jurusan + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.tingkat + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.kota + "</td>" +
+                                    "<td class=\"text-center\">" + value.jurusan + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_pendidikan').append(pendidikan_data);
-
-                        // datatable pendidikan
-                        $("#tabel_pendidikan").DataTable({
-                            responsive: true,
-                            retrieve: true,
-                            searching: false,
-                            paging: false,
-                            info: false
-                        });
 
                         Toast.fire({
                             icon: 'success',
