@@ -130,7 +130,7 @@
 <div class="modal fade modal-form" id="modal-default">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form id="form" method="POST" enctype="multipart/form-data">
+            <form id="form" method="POST" enctype="multipart/form-data" class="form-create">
                 <div class="modal-header">
                     <h4 class="modal-title">Tambah Data Training</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -315,7 +315,7 @@
             $('#kategori').focus();
         });
 
-        $(document).on('submit', '#form', function (e) {
+        $(document).on('submit', '.form-create', function (e) {
             e.preventDefault();
 
             let formData = new FormData($('#form')[0]);
@@ -370,6 +370,7 @@
                 type: 'GET',
                 data: formData,
                 success: function (response) {
+                    $('#form').removeClass('form-create');
                     $('#form').addClass('form-edit');
                     $('.modal-title').append("Edit Data Training");
                     $('.modal-btn').append("Perbaharui");
@@ -441,8 +442,8 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    $('.btn-edit-spinner').removeClass("d-none");
-                    $('.btn-edit-save').addClass("d-none");
+                    $('.btn-spinner').removeClass("d-none");
+                    $('.btn-save').addClass("d-none");
                 },
                 success: function (response) {
                     Toast.fire({

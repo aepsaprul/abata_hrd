@@ -328,6 +328,7 @@ class MasterKaryawanController extends Controller
         $karyawan->agama = $request->agama;
         $karyawan->master_cabang_id = $request->master_cabang_id;
         $karyawan->master_jabatan_id = $request->master_jabatan_id;
+        $karyawan->master_divisi_id = $request->master_divisi_id;
         $karyawan->total_cuti = $request->total_cuti;
 
         if($request->hasFile('foto')) {
