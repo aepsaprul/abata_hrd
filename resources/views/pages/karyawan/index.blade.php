@@ -175,21 +175,21 @@
                             <div class="card card-primary card-outline pb-1">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_nama_lengkap">Nama Lengkap</label>
                                                 <input type="text" id="create_nama_lengkap" name="nama_lengkap" class="form-control form-control-sm" maxlength="30" >
                                                 <small id="errorNamaLengkap" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_nama_panggilan">Nama Panggilan</label>
                                                 <input type="text" id="create_nama_panggilan" name="nama_panggilan" class="form-control form-control-sm" maxlength="15" >
                                                 <small id="errorNamaPanggilan" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_jenis_kelamin">Jenis Kelamin</label>
                                                 <select name="jenis_kelamin" id="create_jenis_kelamin" class="form-control form-control-sm">
@@ -198,14 +198,14 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_nomor_ktp">Nomor KTP</label>
                                                 <input type="text" id="create_nomor_ktp" name="nomor_ktp" class="form-control form-control-sm" maxlength="16" >
                                                 <small id="errorNomorKtp" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_status_perkawinan">Status Perkawinan</label>
                                                 <select name="status_perkawinan" id="create_status_perkawinan" class="form-control form-control-sm">
@@ -216,7 +216,7 @@
                                                 <small id="errorStatusPerkawinan" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_agama">Agama</label>
                                                 <select name="agama" id="create_agama" class="form-control form-control-sm">
@@ -229,14 +229,14 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_tempat_lahir">Tempat Lahir</label>
                                                 <input type="text" id="create_tempat_lahir" name="tempat_lahir" class="form-control form-control-sm" maxlength="30" >
                                                 <small id="errorTempatLahir" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_tanggal_lahir">Tanggal Lahir</label>
                                                 <input type="date" id="create_tanggal_lahir" name="tanggal_lahir" class="form-control form-control-sm" >
@@ -257,7 +257,7 @@
                                                 <small id="errorAlamatDomisili" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="sim">Jenis & Nomor SIM</label>
                                                 <div class="row">
@@ -272,7 +272,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_cabang_id">Cabang</label>
                                                 <select name="master_cabang_id" id="create_cabang_id" class="form-control form-control-sm" >
@@ -281,7 +281,7 @@
                                                 <small id="errorCabangId" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_jabatan_id">Jabatan</label>
                                                 <select name="master_jabatan_id" id="create_jabatan_id" class="form-control form-control-sm create-select-jabatan" >
@@ -290,7 +290,7 @@
                                                 <small id="errorJabatanId" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_divisi_id">Divisi</label>
                                                 <select name="master_divisi_id" id="create_divisi_id" class="form-control form-control-sm" >
@@ -299,14 +299,14 @@
                                                 <small id="errorDivisiId" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_telepon">Telepon</label>
                                                 <input type="text" id="create_telepon" name="telepon" class="form-control form-control-sm" maxlength="15" >
                                                 <small id="errorTelepon" class="form-text text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label for="create_email">Email</label>
                                                 <input type="email" id="create_email" name="email" class="form-control form-control-sm" maxlength="50" >
@@ -598,6 +598,10 @@
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
+        });
+
+        $(document).on('shown.bs.tab', function () {
+            $('.show-select-jabatan').select2();
         });
 
         $('input[name="status"]').on('change', function () {
