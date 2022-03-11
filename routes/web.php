@@ -14,6 +14,7 @@ use App\Http\Controllers\MasterKaryawanController;
 use App\Http\Controllers\MasterJabatanController;
 use App\Http\Controllers\MasterCabangController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\CutiApproveController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\HomeController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\PengajuanCutiController;
 use App\Http\Controllers\PengajuanResignController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\ResignController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -109,6 +111,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('master/divisi/{id}/delete_btn', [DivisiController::class, 'deleteBtn'])->name('divisi.delete_btn');
         Route::post('master/divisi/delete', [DivisiController::class, 'delete'])->name('divisi.delete');
 
+        // role
+        Route::get('master/role', [RoleController::class, 'index'])->name('role.index');
+        Route::post('master/role/store', [RoleController::class, 'store'])->name('role.store');
+        Route::get('master/role/{id}/edit', [RoleController::class, 'edit'])->name('role.edit');
+        Route::post('master/role/update', [RoleController::class, 'update'])->name('role.update');
+        Route::get('master/role/{id}/delete_btn', [RoleController::class, 'deleteBtn'])->name('role.delete_btn');
+        Route::post('master/role/delete', [RoleController::class, 'delete'])->name('role.delete');
+
         // loker
         Route::get('master/loker', [LokerController::class, 'index'])->name('loker.index');
         Route::get('master/loker/create', [LokerController::class, 'create'])->name('loker.create');
@@ -117,6 +127,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('master/loker/{id}/update', [LokerController::class, 'update'])->name('loker.update');
         Route::get('master/loker/{id}/delete_btn', [LokerController::class, 'deleteBtn'])->name('loker.delete_btn');
         Route::post('master/loker/delete', [LokerController::class, 'delete'])->name('loker.delete');
+
+        // cuti approve
+        Route::get('master/cuti_approve', [CutiApproveController::class, 'index'])->name('cuti_approve.index');
+        Route::get('master/cuti_approve/get_cuti', [CutiApproveController::class, 'getCuti'])->name('cuti_approve.get_cuti');
+        Route::get('master/cuti_approve/create', [CutiApproveController::class, 'create'])->name('cuti_approve.create');
+        Route::post('master/cuti_approve/store', [CutiApproveController::class, 'store'])->name('cuti_approve.store');
+        Route::post('master/cuti_approve/update_approve', [CutiApproveController::class, 'updateApprove'])->name('cuti_approve.update_approve');
 
     // karyawan
     Route::resource('karyawan', MasterKaryawanController::class);

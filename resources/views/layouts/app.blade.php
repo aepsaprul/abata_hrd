@@ -167,8 +167,18 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{ route('role.index') }}" class="nav-link {{ request()->is('master/role') ? 'active' : '' }}">
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Role</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ route('loker.index') }}" class="nav-link {{ request()->is('master/loker') ? 'active' : '' }}">
                                             <i class="fas fa-angle-right nav-icon"></i><p>Loker</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('cuti_approve.index') }}" class="nav-link {{ request()->is('master/cuti_approve') ? 'active' : '' }}">
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Cuti Approve</p>
                                         </a>
                                     </li>
                                 </ul>

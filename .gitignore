@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+public/themes/plugins/select2/css/select2.min.css

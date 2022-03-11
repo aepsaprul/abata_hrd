@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\MasterRole;
+use Illuminate\Http\Request;
+
+class RoleController extends Controller
+{
+    public function index()
+    {
+        $role = MasterRole::get();
+
+        return view('pages.master.role.index', ['roles' => $role]);
+    }
+
+    public function store(Request $request)
+    {
+        $role = new MasterRole;
+        $role->nama = $request->nama;
+        $role->save();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $role = MasterRole::find($id);
+
+        return response()->json([
+            'id' => $role->id,
+            'nama' => $role->nama
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $role = MasterRole::find($request->id);
+        $role->nama = $request->nama;
+        $role->save();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
+    public function deleteBtn($id)
+    {
+        $role = MasterRole::find($id);
+
+        return response()->json([
+            'id' => $role->id
+        ]);
+    }
+
+    public function delete(Request $request)
+    {
+        $role = MasterRole::find($request->id);
+        $role->delete();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+}

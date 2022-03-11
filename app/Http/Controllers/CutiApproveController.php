@@ -1,0 +1,70 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\CutiApprove;
+use App\Models\MasterKaryawan;
+use App\Models\MasterRole;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class CutiApproveController extends Controller
+{
+    public function index()
+    {
+        $approve = CutiApprove::select(DB::raw('count(hirarki) as hirarki, role_id'))->groupBy('role_id')->get();
+
+        return view('pages.master.cuti_approve.index', ['approves' => $approve]);
+    }
+
+    public function getCuti()
+    {
+        $approve = CutiApprove::with('role')
+            ->select(DB::raw('count(hirarki) as hirarki, role_id'))
+            ->groupBy('role_id')
+            ->get();
+        $approve_detail = CutiApprove::get();
+
+        $role = MasterRole::get();
+
+        return response()->json([
+            'approves' => $approve,
+            'approve_details' => $approve_detail,
+            'roles' => $role
+        ]);
+    }
+
+    public function create()
+    {
+        $role = MasterRole::get();
+
+        return response()->json([
+            'roles' => $role
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $approve = new CutiApprove;
+        $approve->role_id = $request->role_id;
+        $approve->hirarki = 1;
+        $approve->publish = "n";
+        $approve->save();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
+    public function updateApprove(Request $request)
+    {
+        $approve = CutiApprove::find($request->id);
+        $approve->hirarki = $request->hirarki;
+        $approve->atasan_id = json_encode($request->atasan_id);
+        $approve->save();
+
+        return response()->json([
+            'status' => $request->all()
+        ]);
+    }
+}
