@@ -48,6 +48,7 @@ class CutiApproveController extends Controller
         $approve = new CutiApprove;
         $approve->role_id = $request->role_id;
         $approve->hirarki = 1;
+        $approve->atasan_id = json_encode("");
         $approve->publish = "n";
         $approve->save();
 

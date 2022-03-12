@@ -158,6 +158,9 @@
                                 "<div class=\"card-body\">";
                                     $.each(response.approve_details, function (index_detail, item_detail) {
                                         if (item.role_id == item_detail.role_id) {
+                                        const atasan_id = JSON.parse(item_detail.atasan_id);
+                                        const d = Object.values(atasan_id).filter(val => item);
+                                        console.log(d);
                                         data_approve += "" +
                                             "<div class=\"row\">" +
                                                 "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12\">" +
@@ -166,7 +169,11 @@
                                                     "<div class=\"select2-primary\">" +
                                                         "<select id=\"atasan_id_" + item_detail.id + "\" data-id=\"" + item_detail.id + "\" name=\"atasan_id[]\" class=\"select2\" multiple=\"multiple\" data-placeholder=\"Pilih Approval\" data-dropdown-css-class=\"select2-primary\" style=\"width: 100%;\">";
                                                             $.each(response.roles, function (index, item) {
-                                                                data_approve += "<option>" + item.nama + "</option>"
+                                                                data_approve += "<option";
+                                                                if (Object.values(atasan_id).filter(values => values == item.nama) != '') {
+                                                                    data_approve += " selected";
+                                                                }
+                                                                data_approve += ">" + item.nama + "</option>"
                                                             });
                                                         data_approve += "</select>" +
                                                     "</div>" +
