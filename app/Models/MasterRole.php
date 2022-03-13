@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MasterRole extends Model
 {
     use HasFactory;
+
+    public function approve() {
+        return $this->hasMany(CutiApprove::class, 'role_id', 'id');
+    }
 }

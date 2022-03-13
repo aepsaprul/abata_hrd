@@ -12,9 +12,7 @@ class CutiApproveController extends Controller
 {
     public function index()
     {
-        $approve = CutiApprove::select(DB::raw('count(hirarki) as hirarki, role_id'))->groupBy('role_id')->get();
-
-        return view('pages.master.cuti_approve.index', ['approves' => $approve]);
+        return view('pages.master.cuti_approve.index');
     }
 
     public function getCuti()
@@ -22,6 +20,7 @@ class CutiApproveController extends Controller
         $approve = CutiApprove::with('role')
             ->select(DB::raw('count(hirarki) as hirarki, role_id'))
             ->groupBy('role_id')
+            ->orderBy('role_id', 'desc')
             ->get();
 
         $approve_detail = CutiApprove::get();
@@ -37,7 +36,7 @@ class CutiApproveController extends Controller
 
     public function create()
     {
-        $role = MasterRole::orderBy('hirarki', 'asc')->get();
+        $role = MasterRole::doesntHave('approve')->orderBy('hirarki', 'asc')->get();
 
         return response()->json([
             'roles' => $role

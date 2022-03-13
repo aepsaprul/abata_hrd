@@ -148,7 +148,7 @@
                         "<div class=\"col-lg-3 col-md-4 col-sm-12 col-12\">" +
                             "<div class=\"card card-primary\">" +
                                 "<div class=\"card-header\">" +
-                                    "<h3 class=\"card-title\">" + item.role.nama + "</h3>" +
+                                    "<h6 class=\"card-title\" style=\"font-size: 14px;\">" + item.role.nama + "</h6>" +
                                     "<div class=\"card-tools\">" +
                                         "<button type=\"button\" class=\"btn btn-tool btn-delete\" data-id=\"" + item.role_id + "\">" +
                                             "<i class=\"fas fa-times\"></i>" +
@@ -159,8 +159,6 @@
                                     $.each(response.approve_details, function (index_detail, item_detail) {
                                         if (item.role_id == item_detail.role_id) {
                                         const atasan_id = JSON.parse(item_detail.atasan_id);
-                                        const d = Object.values(atasan_id).filter(val => item);
-                                        console.log(d);
                                         data_approve += "" +
                                             "<div class=\"row\">" +
                                                 "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12 mb-2\">" +
@@ -241,7 +239,6 @@
                     $('.btn-save').addClass('d-none');
                 },
                 success: function (response) {
-                    console.log(response);
                     Toast.fire({
                         icon: 'success',
                         title: 'Data behasil ditambah'
@@ -281,6 +278,9 @@
                         icon: 'success',
                         title: 'Data berhasil diperbaharui'
                     });
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
                 }
             });
         });
