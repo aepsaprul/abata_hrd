@@ -50,6 +50,7 @@
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Nama Role</th>
+                                        <th class="text-center text-indigo">Hirarki</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
@@ -58,6 +59,16 @@
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>{{ $item->nama }}</td>
+                                            <td class="text-center">
+                                                <input
+                                                    type="text"
+                                                    name="hirarki_val"
+                                                    id="hirarki_val_{{ $item->id }}"
+                                                    size="1"
+                                                    value="{{ $item->hirarki }}"
+                                                    data-id="{{ $item->id }}"
+                                                    style="text-align: center;">
+                                            </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a
@@ -120,6 +131,15 @@
                             maxlength="30"
                             required>
                     </div>
+                    <div class="mb-3">
+                        <label for="hirarki" class="form-label">Hirarki</label>
+                        <input type="text"
+                            class="form-control form-control-sm"
+                            id="hirarki"
+                            name="hirarki"
+                            maxlength="3"
+                            required>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button class="btn btn-primary btn-spinner d-none" disabled style="width: 130px;">
@@ -179,7 +199,9 @@
 
 <script>
     $(function () {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+            paging: false
+        });
     });
     $(document).ready(function () {
         $.ajaxSetup({
@@ -265,6 +287,7 @@
 
                     $('#id').val(response.id);
                     $('#nama').val(response.nama);
+                    $('#hirarki').val(response.hirarki);
 
                     $('.modal-form').modal('show');
                 }
@@ -364,6 +387,35 @@
                     });
                 }
             });
+        });
+
+        let timer = null;
+        $(document).on('keydown', 'input[name="hirarki_val"]', function () {
+            let id = $(this).attr('data-id');
+
+
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                let formData = {
+                    id: id,
+                    hirarki: $('#hirarki_val_' + id).val()
+                }
+                $.ajax({
+                    url: "{{ URL::route('role.update_hirarki') }}",
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Data behasil diperbaharui'
+                        });
+
+                        setTimeout(() => {
+                            window.location.reload(1);
+                        }, 500);
+                    }
+                });
+            }, 1500);
         });
     });
 </script>

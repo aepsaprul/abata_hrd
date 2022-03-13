@@ -23,6 +23,7 @@ class CutiApproveController extends Controller
             ->select(DB::raw('count(hirarki) as hirarki, role_id'))
             ->groupBy('role_id')
             ->get();
+
         $approve_detail = CutiApprove::get();
 
         $role = MasterRole::get();
@@ -36,7 +37,7 @@ class CutiApproveController extends Controller
 
     public function create()
     {
-        $role = MasterRole::get();
+        $role = MasterRole::orderBy('hirarki', 'asc')->get();
 
         return response()->json([
             'roles' => $role
@@ -49,7 +50,6 @@ class CutiApproveController extends Controller
         $approve->role_id = $request->role_id;
         $approve->hirarki = 1;
         $approve->atasan_id = json_encode("");
-        $approve->publish = "n";
         $approve->save();
 
         return response()->json([
@@ -65,7 +65,40 @@ class CutiApproveController extends Controller
         $approve->save();
 
         return response()->json([
-            'status' => $request->all()
+            'status' => 'true'
+        ]);
+    }
+
+    public function addApprove(Request $request)
+    {
+        $getApprove = CutiApprove::where('role_id', $request->role_id)->get();
+        $count_hirarki = count($getApprove);
+
+        $approve = new CutiApprove;
+        $approve->role_id = $request->role_id;
+        $approve->hirarki = $count_hirarki + 1;
+        $approve->atasan_id = json_encode("");
+        $approve->save();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
+    public function deleteBtn($id)
+    {
+        return response()->json([
+            'id' => $id
+        ]);
+    }
+
+    public function delete(Request $request)
+    {
+        $approve = CutiApprove::where('role_id', $request->id);
+        $approve->delete();
+
+        return response()->json([
+            'status' => 'true'
         ]);
     }
 }

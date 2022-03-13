@@ -118,6 +118,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('master/role/update', [RoleController::class, 'update'])->name('role.update');
         Route::get('master/role/{id}/delete_btn', [RoleController::class, 'deleteBtn'])->name('role.delete_btn');
         Route::post('master/role/delete', [RoleController::class, 'delete'])->name('role.delete');
+        Route::post('master/role/update_hirarki', [RoleController::class, 'updateHirarki'])->name('role.update_hirarki');
 
         // loker
         Route::get('master/loker', [LokerController::class, 'index'])->name('loker.index');
@@ -134,6 +135,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('master/cuti_approve/create', [CutiApproveController::class, 'create'])->name('cuti_approve.create');
         Route::post('master/cuti_approve/store', [CutiApproveController::class, 'store'])->name('cuti_approve.store');
         Route::post('master/cuti_approve/update_approve', [CutiApproveController::class, 'updateApprove'])->name('cuti_approve.update_approve');
+        Route::post('master/cuti_approve/add_approve', [CutiApproveController::class, 'addApprove'])->name('cuti_approve.add_approve');
+        Route::get('master/cuti_approve/{id}/delete_btn', [CutiApproveController::class, 'deleteBtn'])->name('cuti_approve.delete_btn');
+        Route::post('master/cuti_approve/delete', [CutiApproveController::class, 'delete'])->name('cuti_approve.delete');
 
     // karyawan
     Route::resource('karyawan', MasterKaryawanController::class);

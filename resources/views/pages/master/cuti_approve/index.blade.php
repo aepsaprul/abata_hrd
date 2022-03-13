@@ -150,7 +150,7 @@
                                 "<div class=\"card-header\">" +
                                     "<h3 class=\"card-title\">" + item.role.nama + "</h3>" +
                                     "<div class=\"card-tools\">" +
-                                        "<button type=\"button\" class=\"btn btn-tool\">" +
+                                        "<button type=\"button\" class=\"btn btn-tool btn-delete\" data-id=\"" + item.role_id + "\">" +
                                             "<i class=\"fas fa-times\"></i>" +
                                         "</button>" +
                                     "</div>" +
@@ -164,7 +164,7 @@
                                         data_approve += "" +
                                             "<div class=\"row\">" +
                                                 "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12\">" +
-                                                    "<input type=\"text\" id=\"hirarki_" + item_detail.id + "\" name=\"hirarki_" + item_detail.id + "\" value=\"" + item_detail.hirarki + "\">" +
+                                                    "<input type=\"hidden\" id=\"hirarki_" + item_detail.id + "\" name=\"hirarki_" + item_detail.id + "\" value=\"" + item_detail.hirarki + "\">" +
                                                     "<label for=\"atasan_id_" + item_detail.role_id + "\">Approval " + item_detail.hirarki + "</label>" +
                                                     "<div class=\"select2-primary\">" +
                                                         "<select id=\"atasan_id_" + item_detail.id + "\" data-id=\"" + item_detail.id + "\" name=\"atasan_id[]\" class=\"select2\" multiple=\"multiple\" data-placeholder=\"Pilih Approval\" data-dropdown-css-class=\"select2-primary\" style=\"width: 100%;\">";
@@ -184,7 +184,10 @@
                                 data_approve += "" +
                                     "<div class=\"row mt-3\">" +
                                         "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12\">" +
-                                            "<button type=\"button\" class=\"btn btn-default\"><i class=\"fas fa-plus\"></i></button>" +
+                                            "<button class=\"btn btn-primary btn-approve-spinner-" + item.role_id + " d-none\" disabled>" +
+                                                "<span class=\"spinner-grow spinner-grow-sm\"></span>" +
+                                            "</button>" +
+                                            "<button type=\"button\" id=\"btn-approve-add\" class=\"btn btn-default btn-approve-add-" + item.role_id + "\" data-id=\"" + item.role_id + "\"><i class=\"fas fa-plus\"></i></button>" +
                                         "</div>" +
                                     "</div>" +
                                 "</div>" +
@@ -271,7 +274,35 @@
                 type: 'POST',
                 data: formData,
                 success: function (response) {
-                    console.log(response);
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil diperbaharui'
+                    });
+                }
+            });
+        });
+
+        // btn add approve
+        $(document).on('click', '#btn-approve-add', function (e) {
+            e.preventDefault();
+            let role_id = $(this).attr('data-id');
+
+            let formData = {
+                role_id: role_id
+            }
+
+            $.ajax({
+                url: "{{ URL::route('cuti_approve.add_approve') }}",
+                type: 'POST',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-approve-spinner-' + role_id).removeClass('d-none');
+                    $('.btn-approve-add-' + role_id).addClass('d-none');
+                },
+                success: function (response) {
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
                 }
             });
         });
@@ -281,12 +312,11 @@
             e.preventDefault();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("cabang.delete_btn", ":id") }}';
+            var url = '{{ route("cuti_approve.delete_btn", ":id") }}';
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -304,12 +334,11 @@
             e.preventDefault();
 
             var formData = {
-                id: $('#delete_id').val(),
-                _token: CSRF_TOKEN
+                id: $('#delete_id').val()
             }
 
             $.ajax({
-                url: "{{ URL::route('cabang.delete') }}",
+                url: "{{ URL::route('cuti_approve.delete') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {

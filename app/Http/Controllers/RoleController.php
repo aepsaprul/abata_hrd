@@ -9,7 +9,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $role = MasterRole::get();
+        $role = MasterRole::orderBy('hirarki', 'asc')->get();
 
         return view('pages.master.role.index', ['roles' => $role]);
     }
@@ -18,6 +18,7 @@ class RoleController extends Controller
     {
         $role = new MasterRole;
         $role->nama = $request->nama;
+        $role->hirarki = $request->hirarki;
         $role->save();
 
         return response()->json([
@@ -31,7 +32,8 @@ class RoleController extends Controller
 
         return response()->json([
             'id' => $role->id,
-            'nama' => $role->nama
+            'nama' => $role->nama,
+            'hirarki' => $role->hirarki
         ]);
     }
 
@@ -39,6 +41,7 @@ class RoleController extends Controller
     {
         $role = MasterRole::find($request->id);
         $role->nama = $request->nama;
+        $role->hirarki = $request->hirarki;
         $role->save();
 
         return response()->json([
@@ -59,6 +62,15 @@ class RoleController extends Controller
     {
         $role = MasterRole::find($request->id);
         $role->delete();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+    public function updateHirarki(Request $request){
+        $role = MasterRole::find($request->id);
+        $role->hirarki = $request->hirarki;
+        $role->save();
 
         return response()->json([
             'status' => 'true'

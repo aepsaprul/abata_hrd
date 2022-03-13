@@ -178,7 +178,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ route('cuti_approve.index') }}" class="nav-link {{ request()->is('master/cuti_approve') ? 'active' : '' }}">
-                                            <i class="fas fa-angle-right nav-icon"></i><p>Cuti Approve</p>
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Cuti Approver</p>
                                         </a>
                                     </li>
                                 </ul>
