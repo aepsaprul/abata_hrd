@@ -101,4 +101,21 @@ class CutiApproveController extends Controller
             'status' => 'true'
         ]);
     }
+
+    public function deleteBtnApprove($id)
+    {
+        return response()->json([
+            'id' => $id
+        ]);
+    }
+
+    public function deleteApprove(Request $request)
+    {
+        $approve = CutiApprove::find($request->id);
+        $approve->delete();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
 }

@@ -194,6 +194,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="#" class="nav-link {{ request()->is(['cuti', 'cuti/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-check text-center mr-2" style="width: 30px;"></i><p>Approve</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('resign.index') }}" class="nav-link {{ request()->is(['resign', 'resign/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-hand-paper text-center mr-2" style="width: 30px;"></i><p>Data Resign</p>
                                 </a>

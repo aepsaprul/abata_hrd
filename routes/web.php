@@ -138,6 +138,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('master/cuti_approve/add_approve', [CutiApproveController::class, 'addApprove'])->name('cuti_approve.add_approve');
         Route::get('master/cuti_approve/{id}/delete_btn', [CutiApproveController::class, 'deleteBtn'])->name('cuti_approve.delete_btn');
         Route::post('master/cuti_approve/delete', [CutiApproveController::class, 'delete'])->name('cuti_approve.delete');
+        Route::get('master/cuti_approve/{id}/delete_btn_approve', [CutiApproveController::class, 'deleteBtnApprove'])->name('cuti_approve.delete_btn_approve');
+        Route::post('master/cuti_approve/delete_approve', [CutiApproveController::class, 'deleteApprove'])->name('cuti_approve.delete_approve');
 
     // karyawan
     Route::resource('karyawan', MasterKaryawanController::class);

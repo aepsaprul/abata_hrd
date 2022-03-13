@@ -163,9 +163,12 @@
                                         console.log(d);
                                         data_approve += "" +
                                             "<div class=\"row\">" +
-                                                "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12\">" +
+                                                "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12 mb-2\">" +
                                                     "<input type=\"hidden\" id=\"hirarki_" + item_detail.id + "\" name=\"hirarki_" + item_detail.id + "\" value=\"" + item_detail.hirarki + "\">" +
-                                                    "<label for=\"atasan_id_" + item_detail.role_id + "\">Approval " + item_detail.hirarki + "</label>" +
+                                                    "<div class=\"mb-2\">" +
+                                                        "<span>Approval " + item_detail.hirarki + "</span>" +
+                                                        "<a class=\"float-right btn-delete-approve\" data-id=\"" + item_detail.id + "\"><i class=\"fas fa-trash mr-1 text-danger\"></i></a>" +
+                                                    "</div>" +
                                                     "<div class=\"select2-primary\">" +
                                                         "<select id=\"atasan_id_" + item_detail.id + "\" data-id=\"" + item_detail.id + "\" name=\"atasan_id[]\" class=\"select2\" multiple=\"multiple\" data-placeholder=\"Pilih Approval\" data-dropdown-css-class=\"select2-primary\" style=\"width: 100%;\">";
                                                             $.each(response.roles, function (index, item) {
@@ -339,6 +342,66 @@
 
             $.ajax({
                 url: "{{ URL::route('cuti_approve.delete') }}",
+                type: 'POST',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-delete-spinner').css('display', 'block');
+                    $('.btn-delete-yes').css('display', 'none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil dihapus'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + xhar.statusText
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            });
+        });
+
+        // delete approve
+        $('body').on('click', '.btn-delete-approve', function (e) {
+            e.preventDefault();
+            $('#delete_id').empty();
+
+            var id = $(this).attr('data-id');
+            var url = '{{ route("cuti_approve.delete_btn_approve", ":id") }}';
+            url = url.replace(':id', id);
+
+            var formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    $('#delete_id').val(response.id);
+                    $('.modal-delete').modal('show');
+                }
+            });
+        });
+
+        $('#form-delete').submit(function (e) {
+            e.preventDefault();
+
+            var formData = {
+                id: $('#delete_id').val()
+            }
+
+            $.ajax({
+                url: "{{ URL::route('cuti_approve.delete_approve') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {
