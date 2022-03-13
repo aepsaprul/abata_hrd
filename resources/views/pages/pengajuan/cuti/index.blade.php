@@ -52,20 +52,20 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
-                                        <th class="text-center text-indigo">Karyawan</th>
-                                        <th class="text-center text-indigo">Atasan</th>
                                         <th class="text-center text-indigo">Jenis Cuti</th>
                                         <th class="text-center text-indigo">Tanggal</th>
-                                        <th class="text-center text-indigo">Status</th>
+                                        <th class="text-center text-indigo">Approval 1</th>
+                                        <th class="text-center text-indigo">Approval 2</th>
+                                        <th class="text-center text-indigo">Approval 3</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($cutis as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->masterKaryawan->nama_lengkap }}</td>
-                                            <td>{{ $item->atasanLangsung->nama_lengkap }}</td>
                                             <td>{{ $item->jenis }}</td>
+                                            <td>{{ $item->tanggal }}</td>
+                                            <td>{{ $item->tanggal }}</td>
                                             <td>{{ $item->tanggal }}</td>
                                             <td>
                                                 @if ($item->status == 1)
@@ -149,26 +149,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <label for="nama" class="form-label">Nama</label>
                             <input type="hidden" name="karyawan_id" id="karyawan_id">
                             <input type="text" class="form-control" id="nama" name="nama" maxlength="30" required readonly>
                             <small id="error_nama" class="form-text text-danger"></small>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="jabatan" class="form-label">Jabatan</label>
-                            <input type="hidden" name="jabatan_id" id="jabatan_id">
-                            <input type="text" class="form-control" id="jabatan" name="jabatan" maxlength="30" required readonly>
-                            <small id="error_jabatan" class="form-text text-danger"></small>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <label for="atasan" class="form-label">Nama Atasan Langsung</label>
-                            <select name="atasan" id="atasan" class="form-control select_atasan">
-                                {{-- data di jquery --}}
-                            </select>
-                            <small id="error_atasan" class="form-text text-danger"></small>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <label for="telepon" class="form-label">No Telepon Aktif</label>
                             <input type="number" class="form-control" id="telepon" name="telepon" maxlength="15" required>
                             <small id="error_telepon" class="form-text text-danger"></small>

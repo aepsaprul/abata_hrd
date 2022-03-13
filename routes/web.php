@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApproveController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\ChangePasswordController;
 use Illuminate\Support\Facades\Route;
@@ -192,6 +193,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cuti/{id}/atasan_tolak', [CutiController::class, 'atasanTolak'])->name('cuti.atasan_tolak');
     Route::get('cuti/{id}/hc_approve', [CutiController::class, 'hcApprove'])->name('cuti.hc_approve');
     Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
+
+    // approve
+    Route::get('approve', [ApproveController::class, 'index'])->name('approve.index');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');

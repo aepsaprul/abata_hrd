@@ -37,9 +37,6 @@ class PengajuanCutiController extends Controller
         $messages = [
             'nama.required' => 'Nama harus diisi',
             'karyawan_id.required' => 'karyawan id harus diisi',
-            'jabatan.required' => 'Jabatan harus diisi',
-            'jabatan_id.required' => 'Jabatan id harus diisi',
-            'atasan.required' => 'Atasan harus diisi',
             'telepon.required' => 'Telepon harus diisi',
             'telepon.max' => 'Telepon diisi maksimal 15 karakter',
             'jenis.required' => 'Jenis harus diisi',
@@ -51,9 +48,6 @@ class PengajuanCutiController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'karyawan_id' => 'required',
-            'jabatan' => 'required',
-            'jabatan_id' => 'required',
-            'atasan' => 'required',
             'telepon' => 'required|max:15',
             'jenis' => 'required',
             'jml_hari' => 'required',
