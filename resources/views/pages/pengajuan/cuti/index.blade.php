@@ -54,9 +54,13 @@
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Jenis Cuti</th>
                                         <th class="text-center text-indigo">Tanggal</th>
-                                        <th class="text-center text-indigo">Approval 1</th>
-                                        <th class="text-center text-indigo">Approval 2</th>
-                                        <th class="text-center text-indigo">Approval 3</th>
+                                        @foreach ($cutis as $item)
+                                            @foreach ($cuti_details as $item_detail)
+                                                @if ($item_detail->cuti_id == $item->id)
+                                                    <th class="text-center text-indigo">Approval {{ $item_detail->hirarki }}</th>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,77 +69,28 @@
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>{{ $item->jenis }}</td>
                                             <td>{{ $item->tanggal }}</td>
-                                            <td>{{ $item->tanggal }}</td>
-                                            <td>{{ $item->tanggal }}</td>
-                                            <td>
-                                                @if ($item->status == 1)
-                                                    @php
-                                                        $status = "Permohonan cuti";
-                                                        $percentase = "30%";
-                                                        $background = "secondary";
-                                                    @endphp
-												@elseif ($item->status == 2)
-                                                    @php
-                                                        $status = "Atasan approve";
-                                                        $percentase = "60%";
-                                                        $background = "primary";
-                                                    @endphp
-												@elseif ($item->status == 3)
-                                                    @php
-                                                        $status = "Atasan tolak";
-                                                        $percentase = "60%";
-                                                        $background = "danger";
-                                                    @endphp
-												@elseif ($item->status == 4)
-                                                    @php
-                                                        $status = "HC approve";
-                                                        $percentase = "100%";
-                                                        $background = "success";
-                                                    @endphp
-												@elseif ($item->status == 5)
-                                                    @php
-                                                        $status = "HC tolak";
-                                                        $percentase = "100%";
-                                                        $background = "danger";
-                                                    @endphp
-												@else
-                                                    @php
-                                                        $status = "-";
-                                                        $percentase = "0%";
-                                                        $background = "transparent";
-                                                    @endphp
-												@endif
-                                                <div class="progress">
-                                                    <div
-                                                        class="progress-bar bg-{{ $background }}"
-                                                        role="progressbar"
-                                                        aria-valuenow="40"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="width: {{ $percentase }}">
-                                                            <span class="">{{ $percentase }}</span>
-                                                    </div>
-                                                </div>
-                                                <span> {{ $status }} </span>
-                                            </td>
+                                            @foreach ($cuti_details as $item_detail)
+                                                @if ($item_detail->cuti_id == $item->id)
+                                                    <td class="text-center">
+                                                        @if ($item_detail->confirm == 1)
+                                                            <span class="bg-success px-2">Approve</span>
+                                                        @else
+                                                            <span class="bg-primary px-2">Menunggu Konfirmasi</span>
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                            @endforeach
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 
 <div class="modal fade modal-form" id="modal-default">
     <div class="modal-dialog modal-xl">

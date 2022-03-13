@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CutiApprove;
+use App\Models\CutiDetail;
 use App\Models\HcCuti;
 use App\Models\HcCutiTgl;
 use App\Models\MasterJabatan;
 use App\Models\MasterKaryawan;
+use App\Models\MasterRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -15,8 +18,12 @@ class PengajuanCutiController extends Controller
     public function index()
     {
         $cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)->get();
+        $cuti_detail = CutiDetail::get();
 
-        return view('pages.pengajuan.cuti.index', ['cutis' => $cuti]);
+        return view('pages.pengajuan.cuti.index', [
+            'cutis' => $cuti,
+            'cuti_details' => $cuti_detail
+        ]);
     }
 
     public function create()
@@ -87,6 +94,22 @@ class PengajuanCutiController extends Controller
                 $cuti_tgl->hc_cuti_id = $cuti->id;
                 $cuti_tgl->tanggal = $value;
                 $cuti_tgl->save();
+            }
+
+            $karyawan = MasterKaryawan::find($request->karyawan_id);
+
+            $role = MasterRole::where('nama', $karyawan->role)->first();
+
+            $approve = CutiApprove::where('role_id', $role->id)->get();
+
+            foreach ($approve as $key => $value) {
+                $cuti_detail = new CutiDetail;
+                $cuti_detail->cuti_id = $cuti->id;
+                $cuti_detail->hirarki = $value->hirarki;
+                $cuti_detail->atasan = $value->atasan_id;
+                $cuti_detail->status = 1;
+                $cuti_detail->confirm = 0;
+                $cuti_detail->save();
             }
 
 

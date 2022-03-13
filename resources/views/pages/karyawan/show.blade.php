@@ -383,65 +383,13 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"status_perkawinan\" class=\"col-form-label col-form-label-sm\">Status Perkawinan</label>" +
-                                "<select name=\"status_perkawinan\" id=\"status_perkawinan\" class=\"form-control form-control-sm\" disabled>" +
-                                    "<option value=\"\">-- Pilih Status --</option>" +
-                                    "<option value=\"1\"";
-
-                                    if ( response.karyawan.status_perkawinan == "1" ) {
-                                        biodata_data += "selected";
-                                    }
-
-                                    biodata_data += ">LAJANG</option>" +
-                                    "<option value=\"2\"";
-
-                                    if ( response.karyawan.status_perkawinan == "2" ) {
-                                        biodata_data += "selected";
-                                    }
-
-                                    biodata_data += ">MENIKAH</option>" +
-                                    "<option value=\"3\"";
-
-                                    if ( response.karyawan.status_perkawinan == "3" ) {
-                                        biodata_data += "selected";
-                                    }
-
-                                    biodata_data += ">CERAI</option>" +
-                                "</select>" +
-                                "<small id=\"error_status_perkawinan\" class=\"form-text text-danger font-italic\"></small>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" value=\"" + response.karyawan.status_perkawinan + "\" disabled>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"agama\" class=\"col-form-label col-form-label-sm\">Agama</label>" +
-                                "<select name=\"agama\" id=\"agama\" class=\"form-control form-control-sm\" disabled>" +
-                                    "<option value=\"\">-- Pilih Agama --</option>" +
-
-                                    "<option value=\"ISLAM\"";
-                                    if ( response.karyawan.agama == "ISLAM" ) {
-                                        biodata_data += "selected";
-                                    }
-                                    biodata_data += ">ISLAM</option>" +
-
-                                    "<option value=\"KRISTEN\"";
-                                    if ( response.karyawan.agama == "KRISTEN" ) {
-                                        biodata_data += "selected";
-                                    }
-                                    biodata_data += ">KRISTEN</option>" +
-
-                                    "<option value=\"HINDU\"";
-                                    if ( response.karyawan.agama == "HINDU" ) {
-                                        biodata_data += "selected";
-                                    }
-                                    biodata_data += ">HINDU</option>" +
-
-                                    "<option value=\"BUDHA\"";
-                                    if ( response.karyawan.agama == "BUDHA" ) {
-                                        biodata_data += "selected";
-                                    }
-                                    biodata_data += ">BUDHA</option>" +
-
-                                "</select>" +
-                                "<small id=\"error_agama\" class=\"form-text text-danger font-italic\"></small>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" value=\"" + response.karyawan.agama + "\" disabled>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
@@ -546,6 +494,21 @@
                                 "<label for=\"telepon\" class=\"col-form-label col-form-label-sm\">Telepon</label>" +
                                 "<input type=\"text\" class=\"form-control form-control-sm\" id=\"telepon\" name=\"telepon\" maxlength=\"15\" value=\"" + response.karyawan.telepon + "\" disabled>" +
                                 "<small id=\"error_telepon\" class=\"form-text text-danger font-italic\"></small>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
+                            "<div class=\"form-group\">" +
+                                "<label for=\"role\" class=\"col-form-label col-form-label-sm\">Role</label>" +
+                                "<select name=\"role\" id=\"role\" class=\"form-control form-control-sm select2\" disabled>";
+                                    $.each(response.roles, function(index, value) {
+                                        biodata_data += "<option value=\"" + value.id + "\"";
+                                        if (value.nama == response.karyawan.role) {
+                                            biodata_data += "selected";
+                                        }
+                                        biodata_data += ">" + value.nama + "</option>";
+                                    });
+                                biodata_data += "</select>" +
+                                "<small id=\"error_role\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
@@ -878,7 +841,7 @@
                     if (response.medsos.length == 0) {
                         medsos_data += "" +
                             "<tr>" +
-                                "<td class=\"text-center\" colspan=\"2\">Kosong</td>";
+                                "<td class=\"text-center\" colspan=\"3\">Kosong</td>";
                             "</tr>";
                     } else {
                         $.each(response.medsos, function(index, value) {

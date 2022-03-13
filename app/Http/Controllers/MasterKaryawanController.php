@@ -16,6 +16,7 @@ use App\Models\HcKeluargaSebelumMenikah;
 use App\Models\HcKeluargaSetelahMenikah;
 use App\Models\HcMedsos;
 use App\Models\MasterDivisi;
+use App\Models\MasterRole;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 
@@ -43,11 +44,13 @@ class MasterKaryawanController extends Controller
         $cabangs = MasterCabang::get();
         $jabatans = MasterJabatan::get();
         $divisis = MasterDivisi::get();
+        $role = MasterRole::get();
 
         return response()->json([
             'cabangs' => $cabangs,
             'jabatans' => $jabatans,
-            'divisis' => $divisis
+            'divisis' => $divisis,
+            'roles' => $role
         ]);
     }
 
@@ -77,6 +80,7 @@ class MasterKaryawanController extends Controller
             'master_cabang_id.required' => 'Cabang harus diisi',
             'master_jabatan_id.required' => 'Jabatan harus diisi',
             'master_divisi_id.required' => 'Divisi harus diisi',
+            'role.required' => 'Role harus diisi',
             'agama.required' => 'Agama harus diisi',
             'agama.max' => 'Agama diisi maksimal 10 karakter',
             'jenis_kelamin.required' => 'Jenis kelamin harus diisi',
@@ -104,6 +108,7 @@ class MasterKaryawanController extends Controller
             'master_cabang_id' => 'required',
             'master_jabatan_id' => 'required',
             'master_divisi_id' => 'required',
+            'role' => 'required',
             'agama' => 'required|max:10',
             'jenis_kelamin' => 'required|max:1',
             'tempat_lahir' => 'required|max:30',
@@ -132,12 +137,13 @@ class MasterKaryawanController extends Controller
             $karyawan->master_cabang_id = $request->master_cabang_id;
             $karyawan->master_jabatan_id = $request->master_jabatan_id;
             $karyawan->master_divisi_id = $request->master_divisi_id;
+            $karyawan->role = $request->role;
             $karyawan->agama = $request->agama;
             $karyawan->jenis_kelamin = $request->jenis_kelamin;
             $karyawan->tempat_lahir = $request->tempat_lahir;
             $karyawan->tanggal_lahir = $request->tanggal_lahir;
-            $karyawan->alamat_asal = $request->alamat_ktp;
-            $karyawan->alamat_domisili = $request->alamat_sekarang;
+            $karyawan->alamat_asal = $request->alamat_asal;
+            $karyawan->alamat_domisili = $request->alamat_domisili;
             $karyawan->status = "Aktif";
             $karyawan->created_by = Auth::user()->id;
 
@@ -204,6 +210,7 @@ class MasterKaryawanController extends Controller
         $cabangs = MasterCabang::get();
         $jabatans = MasterJabatan::get();
         $divisis = MasterDivisi::get();
+        $role = MasterRole::get();
 
         $medsos = HcMedsos::where('karyawan_id', $karyawan->id)->first();
         $keluarga_sebelum_menikah = HcKeluargaSebelumMenikah::where('karyawan_id', $karyawan->id)->get();
@@ -217,6 +224,7 @@ class MasterKaryawanController extends Controller
             'cabangs' => $cabangs,
             'jabatans' => $jabatans,
             'divisis' => $divisis,
+            'roles' => $role,
             'medsos' => $medsos,
             'keluarga_sebelum_menikahs' => $keluarga_sebelum_menikah,
             'keluarga_setelah_menikahs' => $keluarga_setelah_menikah,
@@ -293,12 +301,14 @@ class MasterKaryawanController extends Controller
         $cabangs = MasterCabang::get();
         $jabatans = MasterJabatan::get();
         $divisis = MasterDivisi::get();
+        $role = MasterRole::get();
 
         return response()->json([
             'karyawan' => $karyawan,
             'cabangs' => $cabangs,
             'jabatans' => $jabatans,
-            'divisis' => $divisis
+            'divisis' => $divisis,
+            'roles' => $role
         ]);
     }
 
@@ -329,6 +339,7 @@ class MasterKaryawanController extends Controller
         $karyawan->master_cabang_id = $request->master_cabang_id;
         $karyawan->master_jabatan_id = $request->master_jabatan_id;
         $karyawan->master_divisi_id = $request->master_divisi_id;
+        $karyawan->role = $request->role;
         $karyawan->total_cuti = $request->total_cuti;
 
         if($request->hasFile('foto')) {

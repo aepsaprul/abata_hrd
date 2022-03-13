@@ -313,6 +313,15 @@
                                                 <small id="errorEmail" class="form-text text-danger"></small>
                                             </div>
                                         </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="role">Role</label>
+                                                <select name="role" id="role" class="form-control form-control-sm create-select2-role" >
+
+                                                </select>
+                                                <small id="errorRole" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -506,6 +515,15 @@
                                                 <label for="show_email">Email</label>
                                                 <input type="email" id="show_email" name="email" class="form-control form-control-sm" maxlength="50" >
                                                 <small id="errorEmail" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="role">Role</label>
+                                                <select name="role" id="role" class="form-control form-control-sm show-select2-role" >
+
+                                                </select>
+                                                <small id="errorRole" class="form-text text-danger"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -705,6 +723,12 @@
                     });
                     $('#create_divisi_id').append(value_divisi);
 
+                    var value_role = "<option value=\"\">--Pilih Role--</option>";
+                    $.each(response.roles, function (index, value) {
+                         value_role += "<option value=\"" + value.nama + "\">" + value.nama + "</option>";
+                    });
+                    $('#role').append(value_role);
+
                     $('.modal-create').modal('show');
                 }
             });
@@ -714,6 +738,8 @@
             $('#create_nama_lengkap').focus();
 
             $('.create-select-jabatan').select2();
+
+            $('.create-select2-role').select2();
         });
 
         $(document).on('submit', '#form-create', function (e) {
@@ -735,6 +761,7 @@
             $('#errorCabangId').empty();
             $('#errorJabatanId').empty();
             $('#errorDivisiId').empty();
+            $('#errorRole').empty();
             $('#errorFoto').empty();
 
             let formData = new FormData($('#form-create')[0]);
@@ -767,6 +794,7 @@
                         $('#errorCabangId').append(response.errors.master_cabang_id);
                         $('#errorJabatanId').append(response.errors.master_jabatan_id);
                         $('#errorDivisiId').append(response.errors.master_divisi_id);
+                        $('#errorRole').append(response.errors.role);
                         $('#errorFoto').append(response.errors.foto);
 
                         setTimeout(() => {

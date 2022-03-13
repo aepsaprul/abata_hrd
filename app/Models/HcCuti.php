@@ -40,4 +40,8 @@ class HcCuti extends Model
     public function masterJabatan() {
         return $this->belongsTo(MasterJabatan::class);
     }
+
+    public function cutiDetail() {
+        return $this->hasMany(CutiDetail::class, 'cuti_id', 'id');
+    }
 }

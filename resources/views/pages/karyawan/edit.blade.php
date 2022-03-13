@@ -804,16 +804,16 @@
                                 "<label for=\"jenis_kelamin\" class=\"col-form-label col-form-label-sm\">Jenis Kelamin</label>" +
                                 "<select name=\"jenis_kelamin\" id=\"jenis_kelamin\" class=\"form-control form-control-sm\">" +
                                     "<option value=\"\">-- Pilih Jenis Kelamin --</option>" +
-                                    "<option value=\"L\"";
+                                    "<option value=\"l\"";
 
-                                    if (response.karyawan.jenis_kelamin == 'L' ) {
+                                    if (response.karyawan.jenis_kelamin == 'l' ) {
                                         biodata_data += "selected";
                                     }
 
                                     biodata_data += ">L (Laki - laki)</option>";
-                                    biodata_data += "<option value=\"P\"";
+                                    biodata_data += "<option value=\"p\"";
 
-                                    if ( response.karyawan.jenis_kelamin == "P" ) {
+                                    if ( response.karyawan.jenis_kelamin == "p" ) {
                                         biodata_data += "selected";
                                     }
 
@@ -834,23 +834,23 @@
                                 "<label for=\"status_perkawinan\" class=\"col-form-label col-form-label-sm\">Status Perkawinan</label>" +
                                 "<select name=\"status_perkawinan\" id=\"status_perkawinan\" class=\"form-control form-control-sm\">" +
                                     "<option value=\"\">-- Pilih Status --</option>" +
-                                    "<option value=\"1\"";
+                                    "<option value=\"lajang\"";
 
-                                    if ( response.karyawan.status_perkawinan == "1" ) {
+                                    if ( response.karyawan.status_perkawinan == "lajang" ) {
                                         biodata_data += "selected";
                                     }
 
                                     biodata_data += ">LAJANG</option>" +
-                                    "<option value=\"2\"";
+                                    "<option value=\"menikah\"";
 
-                                    if ( response.karyawan.status_perkawinan == "2" ) {
+                                    if ( response.karyawan.status_perkawinan == "menikah" ) {
                                         biodata_data += "selected";
                                     }
 
                                     biodata_data += ">MENIKAH</option>" +
-                                    "<option value=\"3\"";
+                                    "<option value=\"cerai\"";
 
-                                    if ( response.karyawan.status_perkawinan == "3" ) {
+                                    if ( response.karyawan.status_perkawinan == "cerai" ) {
                                         biodata_data += "selected";
                                     }
 
@@ -865,26 +865,26 @@
                                 "<select name=\"agama\" id=\"agama\" class=\"form-control form-control-sm\">" +
                                     "<option value=\"\">-- Pilih Agama --</option>" +
 
-                                    "<option value=\"ISLAM\"";
-                                    if ( response.karyawan.agama == "ISLAM" ) {
+                                    "<option value=\"islam\"";
+                                    if ( response.karyawan.agama == "islam" ) {
                                         biodata_data += "selected";
                                     }
                                     biodata_data += ">ISLAM</option>" +
 
-                                    "<option value=\"KRISTEN\"";
-                                    if ( response.karyawan.agama == "KRISTEN" ) {
+                                    "<option value=\"kristen\"";
+                                    if ( response.karyawan.agama == "kristen" ) {
                                         biodata_data += "selected";
                                     }
                                     biodata_data += ">KRISTEN</option>" +
 
-                                    "<option value=\"HINDU\"";
-                                    if ( response.karyawan.agama == "HINDU" ) {
+                                    "<option value=\"hindu\"";
+                                    if ( response.karyawan.agama == "hindu" ) {
                                         biodata_data += "selected";
                                     }
                                     biodata_data += ">HINDU</option>" +
 
-                                    "<option value=\"BUDHA\"";
-                                    if ( response.karyawan.agama == "BUDHA" ) {
+                                    "<option value=\"budha\"";
+                                    if ( response.karyawan.agama == "budha" ) {
                                         biodata_data += "selected";
                                     }
                                     biodata_data += ">BUDHA</option>" +
@@ -999,6 +999,21 @@
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
+                                "<label for=\"role\" class=\"col-form-label col-form-label-sm\">Role</label>" +
+                                "<select name=\"role\" id=\"role\" class=\"form-control form-control-sm select2\">";
+                                    $.each(response.roles, function(index, value) {
+                                        biodata_data += "<option value=\"" + value.nama + "\"";
+                                        if (value.nama == response.karyawan.role) {
+                                            biodata_data += "selected";
+                                        }
+                                        biodata_data += ">" + value.nama + "</option>";
+                                    });
+                                biodata_data += "</select>" +
+                                "<small id=\"error_role\" class=\"form-text text-danger font-italic\"></small>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
+                            "<div class=\"form-group\">" +
                                 "<label for=\"total_cuti\" class=\"col-form-label col-form-label-sm\">Total Cuti</label>" +
                                 "<input type=\"text\" class=\"form-control form-control-sm\" id=\"total_cuti\" name=\"total_cuti\" maxlength=\"50\"";
 
@@ -1054,6 +1069,8 @@
                 $('#error_master_cabang_id').append("Cabang harus diisi");
             } else if ($('#master_jabatan_id').val() == "") {
                 $('#error_master_jabatan_id').append("Jabatan harus diisi");
+            } else if ($('#role').val() == "") {
+                $('#error_role').append("Role harus diisi");
             } else {
                 $('.biodata_notif').empty();
 

@@ -194,7 +194,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('approve.index') }}" class="nav-link {{ request()->is(['cuti', 'cuti/*']) ? 'active' : '' }}">
+                                <a href="{{ route('approve.index') }}" class="nav-link {{ request()->is(['approve', 'approve/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-check text-center mr-2" style="width: 30px;"></i><p>Approve</p>
                                 </a>
                             </li>
