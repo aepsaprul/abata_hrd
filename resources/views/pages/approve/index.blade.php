@@ -48,74 +48,48 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($cutis as $key => $item)
-                                        <tr>
-                                            <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->masterKaryawan->nama_lengkap }}</td>
-                                            <td>{{ $item->jenis }}</td>
-                                            <td class="text-center">
-                                                @foreach ($item->cutiDetail as $item_detail)
-                                                    @if (in_array(Auth::user()->masterKaryawan->role, json_decode($item_detail->atasan)))
-                                                        @if ($item_detail->confirm == 1)
-                                                            <span class="bg-success px-2">Approve</span>
-                                                        @else
-                                                            <button class="btn btn-sm btn-primary" style="width: 40px;" data-id="{{ $item_detail->id }}"><i class="fas fa-check"></i></button>
-                                                            <button class="btn btn-sm btn-danger" style="width: 40px;" data-id="{{ $item_detail->id }}"><i class="fas fa-times"></i></button>
-                                                        @endif
+                                    @foreach ($cuti_details as $key => $item)
+                                        @if ($item->hirarki > 1 && $item->status == 0)
+                                        @else
+                                            <tr>
+                                                <td class="text-center">{{ $key + 1 }}</td>
+                                                <td>{{ $item->cuti->masterKaryawan->nama_lengkap }}</td>
+                                                <td>{{ $item->cuti->jenis }}</td>
+                                                <td class="text-center">
+                                                    @if ($item->confirm == 1)
+                                                        <span class="bg-success px-2">Approve</span>
+                                                    @else
+                                                        <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
+                                                        <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
                                                     @endif
-                                                @endforeach
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a
-                                                        href="#"
-                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                            <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        @if ($item->status == 1 && Auth::user()->master_karyawan_id == $item->atasan)
-                                                            <a
-                                                                href="{{ route('cuti.atasan_approve', [$item->id]) }}"
-                                                                class="dropdown-item border-bottom">
-                                                                    <i class="fas fa-check text-center mr-2" style="width: 20px;"></i> Approve
-                                                            </a>
-                                                            <a
-                                                                href="{{ route('cuti.atasan_tolak', [$item->id]) }}"
-                                                                class="dropdown-item border-bottom">
-                                                                    <i class="fas fa-ban text-center mr-2" style="width: 20px;"></i> Tolak
-                                                            </a>
-												        @elseif ($item->status == 2 && Auth::user()->master_karyawan_id != $item->atasan)
-                                                            <a
-                                                                href="{{ route('cuti.hc_approve', [$item->id]) }}"
-                                                                class="dropdown-item border-bottom">
-                                                                    <i class="fas fa-check text-center mr-2" style="width: 20px;"></i> Approve
-                                                            </a>
-                                                            <a
-                                                                href="{{ route('cuti.hc_tolak', [$item->id]) }}"
-                                                                class="dropdown-item border-bottom">
-                                                                    <i class="fas fa-ban text-center mr-2" style="width: 20px;"></i> Tolak
-                                                            </a>
-                                                        @else
-                                                        @endif
-
-                                                        <a
-                                                            href="#" class="dropdown-item border-bottom btn-detail"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                        </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item btn-delete"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                                <i class="fas fa-cog"></i>
                                                         </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a
+                                                                href="#" class="dropdown-item border-bottom btn-detail text-indigo"
+                                                                data-id="{{ $item->id }}">
+                                                                    <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                            </a>
+                                                            <a
+                                                                href="#"
+                                                                class="dropdown-item btn-delete text-indigo"
+                                                                data-id="{{ $item->id }}">
+                                                                    <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -244,6 +218,20 @@
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
+        });
+
+        // btn approve
+        $(document).on('click', '.btn-approve', function (e) {
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            alert(id);
+        });
+
+        // btn disapprove
+        $(document).on('click', '.btn-disapprove', function (e) {
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            alert(id);
         });
 
         // detail

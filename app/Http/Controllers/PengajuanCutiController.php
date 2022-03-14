@@ -107,7 +107,7 @@ class PengajuanCutiController extends Controller
                 $cuti_detail->cuti_id = $cuti->id;
                 $cuti_detail->hirarki = $value->hirarki;
                 $cuti_detail->atasan = $value->atasan_id;
-                $cuti_detail->status = 1;
+                $cuti_detail->status = 0;
                 $cuti_detail->confirm = 0;
                 $cuti_detail->save();
             }

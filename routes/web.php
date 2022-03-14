@@ -196,6 +196,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // approve
     Route::get('approve', [ApproveController::class, 'index'])->name('approve.index');
+    // Route::get('approve/{id}/approved', [ApproveController::class, 'approve'])->name('approve.approve');
+    // Route::get('approve/{id}/disapproved', [ApproveController::class, 'index'])->name('approve.index');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');

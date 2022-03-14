@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class CutiDetail extends Model
 {
     use HasFactory;
+
+    public function cuti() {
+        return $this->belongsTo(HcCuti::class, 'cuti_id', 'id');
+    }
 }

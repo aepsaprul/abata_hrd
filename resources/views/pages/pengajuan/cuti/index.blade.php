@@ -75,7 +75,7 @@
                                                         @if ($item_detail->confirm == 1)
                                                             <span class="bg-success px-2">Approve</span>
                                                         @else
-                                                            <span class="bg-primary px-2">Menunggu Konfirmasi</span>
+                                                            <span class="bg-warning px-2">Menunggu Konfirmasi</span>
                                                         @endif
                                                     </td>
                                                 @endif
@@ -351,7 +351,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + statusText
+                    var errorMessage = xhr.status + ': ' + error
 
                     Toast.fire({
                         icon: 'error',
