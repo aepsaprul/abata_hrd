@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\ApproveController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\ChangePasswordController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\MasterJabatanController;
 use App\Http\Controllers\MasterCabangController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\CutiApproveController;
+use App\Http\Controllers\CutiApproverController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\HomeController;
@@ -130,17 +132,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('master/loker/{id}/delete_btn', [LokerController::class, 'deleteBtn'])->name('loker.delete_btn');
         Route::post('master/loker/delete', [LokerController::class, 'delete'])->name('loker.delete');
 
-        // cuti approve
-        Route::get('master/cuti_approve', [CutiApproveController::class, 'index'])->name('cuti_approve.index');
-        Route::get('master/cuti_approve/get_cuti', [CutiApproveController::class, 'getCuti'])->name('cuti_approve.get_cuti');
-        Route::get('master/cuti_approve/create', [CutiApproveController::class, 'create'])->name('cuti_approve.create');
-        Route::post('master/cuti_approve/store', [CutiApproveController::class, 'store'])->name('cuti_approve.store');
-        Route::post('master/cuti_approve/update_approve', [CutiApproveController::class, 'updateApprove'])->name('cuti_approve.update_approve');
-        Route::post('master/cuti_approve/add_approve', [CutiApproveController::class, 'addApprove'])->name('cuti_approve.add_approve');
-        Route::get('master/cuti_approve/{id}/delete_btn', [CutiApproveController::class, 'deleteBtn'])->name('cuti_approve.delete_btn');
-        Route::post('master/cuti_approve/delete', [CutiApproveController::class, 'delete'])->name('cuti_approve.delete');
-        Route::get('master/cuti_approve/{id}/delete_btn_approve', [CutiApproveController::class, 'deleteBtnApprove'])->name('cuti_approve.delete_btn_approve');
-        Route::post('master/cuti_approve/delete_approve', [CutiApproveController::class, 'deleteApprove'])->name('cuti_approve.delete_approve');
+        // cuti approver
+        Route::get('master/cuti_approver', [CutiApproverController::class, 'index'])->name('cuti_approver.index');
+        Route::get('master/cuti_approver/get_cuti', [CutiApproverController::class, 'getCuti'])->name('cuti_approver.get_cuti');
+        Route::get('master/cuti_approver/create', [CutiApproverController::class, 'create'])->name('cuti_approver.create');
+        Route::post('master/cuti_approver/store', [CutiApproverController::class, 'store'])->name('cuti_approver.store');
+        Route::post('master/cuti_approver/update_approver', [CutiApproverController::class, 'updateApprover'])->name('cuti_approver.update_approver');
+        Route::post('master/cuti_approver/add_approver', [CutiApproverController::class, 'addApprover'])->name('cuti_approver.add_approver');
+        Route::get('master/cuti_approver/{id}/delete_btn', [CutiApproverController::class, 'deleteBtn'])->name('cuti_approver.delete_btn');
+        Route::post('master/cuti_approver/delete', [CutiApproverController::class, 'delete'])->name('cuti_approver.delete');
+        Route::get('master/cuti_approver/{id}/delete_btn_approver', [CutiApproverController::class, 'deleteBtnApprover'])->name('cuti_approver.delete_btn_approver');
+        Route::post('master/cuti_approver/delete_approver', [CutiApproverController::class, 'deleteApprover'])->name('cuti_approver.delete_approver');
 
     // karyawan
     Route::resource('karyawan', MasterKaryawanController::class);
@@ -194,10 +196,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cuti/{id}/hc_approve', [CutiController::class, 'hcApprove'])->name('cuti.hc_approve');
     Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
 
-    // approve
-    Route::get('approve', [ApproveController::class, 'index'])->name('approve.index');
-    // Route::get('approve/{id}/approved', [ApproveController::class, 'approve'])->name('approve.approve');
-    // Route::get('approve/{id}/disapproved', [ApproveController::class, 'index'])->name('approve.index');
+    // approval
+    Route::get('approval', [ApprovalController::class, 'index'])->name('approval.index');
+    Route::get('approval/{id}/approved', [ApprovalController::class, 'approved'])->name('approval.approved');
+    Route::get('approval/{id}/disapproved', [ApprovalController::class, 'disapproved'])->name('approval.disapproved');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');

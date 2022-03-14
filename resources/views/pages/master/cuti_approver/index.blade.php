@@ -139,7 +139,7 @@
         dataCuti();
         function dataCuti() {
             $.ajax({
-                url: "{{ URL::route('cuti_approve.get_cuti') }}",
+                url: "{{ URL::route('cuti_approver.get_cuti') }}",
                 type: 'GET',
                 success: function (response) {
                     let data_approve = "";
@@ -205,7 +205,7 @@
         // create
         $('#btn-create').on('click', function() {
             $.ajax({
-                url: "{{ URL::route('cuti_approve.create') }}",
+                url: "{{ URL::route('cuti_approver.create') }}",
                 type: 'GET',
                 success: function (response) {
                     // role
@@ -229,7 +229,7 @@
             var formData = new FormData($('#form')[0]);
 
             $.ajax({
-                url: "{{ URL::route('cuti_approve.store') }}",
+                url: "{{ URL::route('cuti_approver.store') }}",
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -270,7 +270,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cuti_approve.update_approve') }}",
+                url: "{{ URL::route('cuti_approver.update_approver') }}",
                 type: 'POST',
                 data: formData,
                 success: function (response) {
@@ -295,7 +295,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cuti_approve.add_approve') }}",
+                url: "{{ URL::route('cuti_approver.add_approver') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {
@@ -315,7 +315,7 @@
             e.preventDefault();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("cuti_approve.delete_btn", ":id") }}';
+            var url = '{{ route("cuti_approver.delete_btn", ":id") }}';
             url = url.replace(':id', id);
 
             var formData = {
@@ -341,7 +341,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cuti_approve.delete') }}",
+                url: "{{ URL::route('cuti_approver.delete') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {
@@ -375,7 +375,7 @@
             $('#delete_id').empty();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("cuti_approve.delete_btn_approve", ":id") }}';
+            var url = '{{ route("cuti_approver.delete_btn_approver", ":id") }}';
             url = url.replace(':id', id);
 
             var formData = {
@@ -401,7 +401,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cuti_approve.delete_approve') }}",
+                url: "{{ URL::route('cuti_approver.delete_approver') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {

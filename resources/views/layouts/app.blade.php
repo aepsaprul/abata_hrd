@@ -177,7 +177,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('cuti_approve.index') }}" class="nav-link {{ request()->is('master/cuti_approve') ? 'active' : '' }}">
+                                        <a href="{{ route('cuti_approver.index') }}" class="nav-link {{ request()->is('master/cuti_approver') ? 'active' : '' }}">
                                             <i class="fas fa-angle-right nav-icon"></i><p>Cuti Approver</p>
                                         </a>
                                     </li>
@@ -194,8 +194,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('approve.index') }}" class="nav-link {{ request()->is(['approve', 'approve/*']) ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-check text-center mr-2" style="width: 30px;"></i><p>Approve</p>
+                                <a href="{{ route('approval.index') }}" class="nav-link {{ request()->is(['approval', 'approval/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-check text-center mr-2" style="width: 30px;"></i><p>Approval</p>
                                 </a>
                             </li>
                             <li class="nav-item">

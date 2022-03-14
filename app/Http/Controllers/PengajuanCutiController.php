@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CutiApprove;
+use App\Models\CutiApprover;
 use App\Models\CutiDetail;
 use App\Models\HcCuti;
 use App\Models\HcCutiTgl;
@@ -100,7 +101,7 @@ class PengajuanCutiController extends Controller
 
             $role = MasterRole::where('nama', $karyawan->role)->first();
 
-            $approve = CutiApprove::where('role_id', $role->id)->get();
+            $approve = CutiApprover::where('role_id', $role->id)->get();
 
             foreach ($approve as $key => $value) {
                 $cuti_detail = new CutiDetail;
