@@ -21,9 +21,14 @@ class PengajuanCutiController extends Controller
         $cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)->get();
         $cuti_detail = CutiDetail::get();
 
+        $last_cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)->latest('id')->first();
+        $last_cuti_detail = CutiDetail::where('cuti_id', $last_cuti->id)->get();
+        $last_cuti_detail_count = count($last_cuti_detail);
+
         return view('pages.pengajuan.cuti.index', [
             'cutis' => $cuti,
-            'cuti_details' => $cuti_detail
+            'cuti_details' => $cuti_detail,
+            'last_cuti' => $last_cuti_detail_count
         ]);
     }
 

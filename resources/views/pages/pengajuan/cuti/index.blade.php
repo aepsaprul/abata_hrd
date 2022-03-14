@@ -54,13 +54,9 @@
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Jenis Cuti</th>
                                         <th class="text-center text-indigo">Tanggal</th>
-                                        @foreach ($cutis as $item)
-                                            @foreach ($cuti_details as $item_detail)
-                                                @if ($item_detail->cuti_id == $item->id)
-                                                    <th class="text-center text-indigo">Approval {{ $item_detail->hirarki }}</th>
-                                                @endif
-                                            @endforeach
-                                        @endforeach
+                                        @for ($i = 1; $i <= $last_cuti; $i++)
+                                            <th class="text-center text-indigo">Approval {{ $i }}</th>
+                                        @endfor
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,6 +70,8 @@
                                                     <td class="text-center">
                                                         @if ($item_detail->confirm == 1)
                                                             <span class="bg-success px-2">Approve</span>
+                                                        @elseif ($item_detail->confirm == 2)
+                                                            <span class="bg-danger px-2">Diapprove</span>
                                                         @else
                                                             <span class="bg-warning px-2">Menunggu Konfirmasi</span>
                                                         @endif
@@ -104,16 +102,23 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <label for="nama" class="form-label">Nama</label>
                             <input type="hidden" name="karyawan_id" id="karyawan_id">
                             <input type="text" class="form-control" id="nama" name="nama" maxlength="30" required readonly>
                             <small id="error_nama" class="form-text text-danger"></small>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <label for="telepon" class="form-label">No Telepon Aktif</label>
                             <input type="number" class="form-control" id="telepon" name="telepon" maxlength="15" required>
                             <small id="error_telepon" class="form-text text-danger"></small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                            <label for="pengganti">Karyawan Pengganti</label>
+                            <select class="form-control select_pengganti" id="pengganti" name="pengganti" style="width: 100%;">
+                                {{-- data di jquery --}}
+                            </select>
+                            <small id="error_pengganti" class="form-text text-danger"></small>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -165,14 +170,7 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                            <label for="pengganti">Karyawan Pengganti</label>
-                            <select class="form-control select_pengganti" id="pengganti" name="pengganti" style="width: 100%;">
-                                {{-- data di jquery --}}
-                            </select>
-                            <small id="error_pengganti" class="form-text text-danger"></small>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <label for="alasan">Alasan Cuti (Secara Lebih Detail)</label>
                             <input type="text" name="alasan" id="alasan" class="form-control">
                             <small id="error_alasan" class="form-text text-danger"></small>

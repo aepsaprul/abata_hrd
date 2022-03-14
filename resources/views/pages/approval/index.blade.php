@@ -58,6 +58,8 @@
                                                 <td class="text-center">
                                                     @if ($item->confirm == 1)
                                                         <span class="bg-success px-2">Approve</span>
+                                                    @elseif ($item->confirm == 2)
+                                                        <span class="bg-danger px-2">Disapprove</span>
                                                     @else
                                                         <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
                                                         <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
@@ -76,13 +78,13 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <a
                                                                 href="#" class="dropdown-item border-bottom btn-detail text-indigo"
-                                                                data-id="{{ $item->id }}">
+                                                                data-id="{{ $item->cuti->id }}">
                                                                     <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
                                                             </a>
                                                             <a
                                                                 href="#"
                                                                 class="dropdown-item btn-delete text-indigo"
-                                                                data-id="{{ $item->id }}">
+                                                                data-id="{{ $item->cuti->id }}">
                                                                     <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
                                                             </a>
                                                         </div>
@@ -100,62 +102,52 @@
         </div>
     </section>
 </div>
-<!-- /.content-wrapper -->
 
 {{-- modal detail --}}
 <div class="modal fade modal-detail" id="modal-default">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form id="form-detail">
-                <div class="modal-header">
-                    <h4 class="modal-title">Detail Data Cuti</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            <div class="modal-header">
+                <h4 class="modal-title">Detail Pengajuan Cuti</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                        <label for="nama" class="form-label">Nama</label>
+                        <input type="text" class="form-control" id="nama" name="nama" readonly>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                        <label for="telepon" class="form-label">No Telepon Aktif</label>
+                        <input type="number" class="form-control" id="telepon" name="telepon" readonly>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                        <label for="pengganti">Karyawan Pengganti</label>
+                        <input type="text" name="pengganti" id="pengganti" class="form-control" readonly>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Nama</label>
-                                <input type="text" name="master_karyawan_id" id="master_karyawan_id" class="form-control">
-                            </div>
-                        </div>
+                <div class="row mt-3">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <label for="">Keterangan</label>
+                        <input type="text" name="keterangan" id="keterangan" class="form-control" readonly>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Nama Atasan Langsung</label>
-                                <input type="text" name="atasan" id="atasan" class="form-control">
-                            </div>
-                        </div>
-                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <label for="jml_hari">Jumlah Hari</label>
+                        <input type="text" name="jml_hari" id="jml_hari" class="form-control" readonly>
+                        <div id="form_tanggal" class="mt-3">
 
-                    {{-- formulir cuti  --}}
-                    <div id="formulir_cuti">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td><label>Jabatan</label></td>
-                                <td>:</td>
-                                <td>
-                                    <input type="text" name="master_jabatan_id" id="master_jabatan_id" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label>No Telp yg aktif</label></td>
-                                <td>:</td>
-                                <td><input type="number" name="telepon" id="telepon" class="form-control"></td>
-                            </tr>
-                        </table>
-                        <label for="">Menerangkan dengan ini bahwa saya bermaksud untuk mengambil cuti :</label>
-                        <input type="text" name="jenis" id="jenis" class="form-control">
-                        <br>
-                        <table id="data_maksud_cuti" class="table table-bordered">
-                            {{-- data di jquery --}}
-                        </table>
+                        </div>
                     </div>
                 </div>
-            </form>
+                <div class="row mt-3">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <label for="alasan">Alasan Cuti (Secara Lebih Detail)</label>
+                        <input type="text" name="alasan" id="alasan" class="form-control">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -223,24 +215,68 @@
         // btn approve
         $(document).on('click', '.btn-approve', function (e) {
             e.preventDefault();
+
             let id = $(this).attr('data-id');
-            alert(id);
+            let url = '{{ route("approval.approved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Cuti telah disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
         });
 
         // btn disapprove
         $(document).on('click', '.btn-disapprove', function (e) {
             e.preventDefault();
+
             let id = $(this).attr('data-id');
-            alert(id);
+            let url = '{{ route("approval.disapproved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Cuti tidak disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
         });
 
         // detail
         $(document).on('click', '.btn-detail', function (e) {
             e.preventDefault();
-            $('#data_maksud_cuti').empty();
+            $('#form_tanggal').empty();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("cuti.show", ":id") }}';
+            var url = '{{ route("approval.show", ":id") }}';
             url = url.replace(':id', id);
 
             var formData = {
@@ -253,37 +289,21 @@
                 data: formData,
                 success: function (response) {
                     console.log(response);
-                    $('#atasan').val(response.cuti.atasan_langsung.nama_lengkap);
-                    $('#master_karyawan_id').val(response.cuti.master_karyawan.nama_lengkap);
-                    $('#master_jabatan_id').val(response.cuti.master_jabatan.nama_jabatan);
+                    $('#nama').val(response.cuti.master_karyawan.nama_lengkap);
                     $('#telepon').val(response.cuti.telepon);
-                    $('#jenis').val(response.cuti.jenis);
+                    $('#pengganti').val(response.cuti.karyawan_pengganti.nama_lengkap);
+                    $('#keterangan').val(response.cuti.jenis);
+                    $('#jml_hari').val(response.cuti.jml_hari);
+                    $('#alasan').val(response.cuti.alasan);
 
-                    let value_maksud_cuti = "";
-                    $.each(response.cuti_tgls, function (index, item) {
-                         value_maksud_cuti += "" +
-                            "<tr>" +
-                                "<td>Tanggal " + (index + 1) + "</td>" +
-                                "<td><input type=\"text\" name=\"cuti_tgl\" id=\"cuti_tgl\" class=\"form-control\" value=\"" + item.tanggal + "\"></td>" +
-                            "</tr>";
+                    var value_tanggal = "";
+                    $.each(response.cuti.cuti_tgl, function (index, item) {
+                        value_tanggal += "" +
+                        "<label>Tanggal " + (index + 1) + "</label>" +
+                        "<input type=\"text\" class=\"form-control\" value=\"" + item.tanggal + "\" readonly>";
                     });
-                    value_maksud_cuti += "" +
-                        "<tr>" +
-                            " <td>Nama karyawan pengganti saat cuti adalah</td>" +
-                            "<td>" +
-                                "<input type=\"text\" name=\"pengganti\" id=\"pengganti\" class=\"form-control\" value=\"" + response.cuti.karyawan_pengganti + "\">" +
-                            "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                            "<td>Alasan Cuti (secara lebih detail)</td>" +
-                            "<td><input type=\"text\" name=\"alasan\" id=\"alasan\" class=\"form-control\" value=\"" + response.cuti.alasan + "\"></td>" +
-                        "</tr>" +
-                        "<tr>" +
-                            "<td>Dan saya bersedia berangkat kerja lagi mulai tanggal</td>" +
-                            "<td><input type=\"text\" name=\"tanggal_kerja\" id=\"tanggal_kerja\" class=\"form-control\" value=\"" + response.cuti.tanggal_kerja + "\"></td>" +
-                        "</tr>";
-
-                    $('#data_maksud_cuti').append(value_maksud_cuti);
+                    $('#form_tanggal').append(value_tanggal);
+                    console.log(value_tanggal);
 
                     $('.modal-detail').modal('show');
                 }

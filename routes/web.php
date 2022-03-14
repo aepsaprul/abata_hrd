@@ -198,6 +198,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // approval
     Route::get('approval', [ApprovalController::class, 'index'])->name('approval.index');
+    Route::get('approval/{id}/show', [ApprovalController::class, 'show'])->name('approval.show');
     Route::get('approval/{id}/approved', [ApprovalController::class, 'approved'])->name('approval.approved');
     Route::get('approval/{id}/disapproved', [ApprovalController::class, 'disapproved'])->name('approval.disapproved');
 

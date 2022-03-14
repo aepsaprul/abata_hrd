@@ -34,7 +34,7 @@ class HcCuti extends Model
     }
 
     public function karyawanPengganti() {
-        return $this->belongsTo(MasterKaryawan::class, "karyawanPengganti", "id", "karyawan_pengganti");
+        return $this->belongsTo(MasterKaryawan::class, "karyawan_pengganti", "id");
     }
 
     public function masterJabatan() {
@@ -43,5 +43,9 @@ class HcCuti extends Model
 
     public function cutiDetail() {
         return $this->hasMany(CutiDetail::class, 'cuti_id', 'id');
+    }
+
+    public function cutiTgl() {
+        return $this->hasMany(HcCutiTgl::class, 'hc_cuti_id', 'id');
     }
 }
