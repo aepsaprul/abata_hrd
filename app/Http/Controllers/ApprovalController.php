@@ -31,10 +31,8 @@ class ApprovalController extends Controller
     public function approved($id)
     {
         $cuti_detail = CutiDetail::find($id);
-        $cuti_detail->status = 1;
-        $cuti_detail->confirm = 1;
-        $cuti_detail->save();
 
+        // update status, agar cuti tampil di approver selanjutnya
         $hirarki = $cuti_detail->hirarki + 1;
 
         $total_cuti_detail = count(CutiDetail::where('cuti_id', $cuti_detail->cuti_id)->get());
@@ -44,6 +42,28 @@ class ApprovalController extends Controller
             $cuti_detail_next->status = 1;
             $cuti_detail_next->save();
         }
+        // end
+
+        // hitung persentase progress
+        $percentage = ceil(100 / $total_cuti_detail);
+        // end
+
+        $cuti_detail->status = 1;
+        $cuti_detail->confirm = 1;
+        $cuti_detail->approved_date = date('Y-m-d H:i:s');
+        $cuti_detail->approved_leader = Auth::user()->master_karyawan_id;
+        $cuti_detail->approved_text = "Approved";
+        $cuti_detail->approved_percentage = $cuti_detail->approved_percentage + $percentage;
+        $cuti_detail->approved_background = "primary";
+        $cuti_detail->save();
+
+        $cuti = HcCuti::find($cuti_detail->cuti_id);
+        $cuti->approved_date = date('Y-m-d H:i:s');
+        $cuti->approved_leader = Auth::user()->master_karyawan_id;
+        $cuti->approved_text = "Approved";
+        $cuti->approved_percentage = $cuti->approved_percentage + $percentage;
+        $cuti->approved_background = "primary";
+        $cuti->save();
 
         return response()->json([
             'status' => 'true'
@@ -55,7 +75,20 @@ class ApprovalController extends Controller
         $cuti_detail = CutiDetail::find($id);
         $cuti_detail->status = 1;
         $cuti_detail->confirm = 2;
+        $cuti_detail->approved_date = date('Y-m-d H:i:s');
+        $cuti_detail->approved_leader = Auth::user()->master_karyawan_id;
+        $cuti_detail->approved_text = "Disapproved";
+        $cuti_detail->approved_percentage = 100;
+        $cuti_detail->approved_background = "danger";
         $cuti_detail->save();
+
+        $cuti = HcCuti::find($cuti_detail->cuti_id);
+        $cuti->approved_date = date('Y-m-d H:i:s');
+        $cuti->approved_leader = Auth::user()->master_karyawan_id;
+        $cuti->approved_text = "Dispproved";
+        $cuti->approved_percentage = 100;
+        $cuti->approved_background = "danger";
+        $cuti->save();
 
         return response()->json([
             'status' => 'true'

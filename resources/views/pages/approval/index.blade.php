@@ -57,9 +57,9 @@
                                                 <td>{{ $item->cuti->jenis }}</td>
                                                 <td class="text-center">
                                                     @if ($item->confirm == 1)
-                                                        <span class="bg-success px-2">Approve</span>
+                                                        <span class="bg-success px-2">Approved</span>
                                                     @elseif ($item->confirm == 2)
-                                                        <span class="bg-danger px-2">Disapprove</span>
+                                                        <span class="bg-danger px-2">Disapproved</span>
                                                     @else
                                                         <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
                                                         <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
@@ -77,15 +77,9 @@
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <a
-                                                                href="#" class="dropdown-item border-bottom btn-detail text-indigo"
+                                                                href="#" class="dropdown-item btn-detail text-indigo"
                                                                 data-id="{{ $item->cuti->id }}">
                                                                     <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                            </a>
-                                                            <a
-                                                                href="#"
-                                                                class="dropdown-item btn-delete text-indigo"
-                                                                data-id="{{ $item->cuti->id }}">
-                                                                    <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
                                                             </a>
                                                         </div>
                                                     </div>
@@ -144,34 +138,10 @@
                 <div class="row mt-3">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                         <label for="alasan">Alasan Cuti (Secara Lebih Detail)</label>
-                        <input type="text" name="alasan" id="alasan" class="form-control">
+                        <input type="text" name="alasan" id="alasan" class="form-control" readonly>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-{{-- modal delete --}}
-<div class="modal fade modal-delete" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="form-delete">
-                <input type="hidden" id="delete_id" name="delete_id">
-                <div class="modal-header">
-                    <h5 class="modal-title">Yakin akan dihapus?</h5>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
-                    <button class="btn btn-primary btn-delete-spinner" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 130px;">
-                        Ya
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

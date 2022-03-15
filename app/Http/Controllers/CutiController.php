@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CutiDetail;
 use App\Models\HcCuti;
 use App\Models\HcCutiTgl;
 use App\Models\MasterKaryawan;
@@ -12,27 +13,17 @@ class CutiController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->roles == "administrator" || Auth::user()->masterKaryawan->masterCabang->id == '1') {
-            $cuti = HcCuti::get();
-        } else {
-            $cuti = HcCuti::where('atasan', Auth::user()->master_karyawan_id)->get();
-        }
+        $cuti = HcCuti::get();
 
         return view('pages.cuti.index', ['cutis' => $cuti]);
     }
 
     public function show($id)
     {
-        $cuti = HcCuti::with(['masterKaryawan', 'atasanLangsung', 'masterJabatan'])->find($id);
-        $karyawan = MasterKaryawan::where('id', $cuti->atasan)->first();
-        $karyawanPengganti = MasterKaryawan::where('id', $cuti->karyawan_pengganti)->first();
-        $cuti_tgls = HcCutiTgl::where('hc_cuti_id', $cuti->id)->get();
+        $cuti = HcCuti::with('masterKaryawan', 'karyawanPengganti', 'cutiTgl')->find($id);
 
         return response()->json([
-            'cuti' => $cuti,
-            'karyawan' => $karyawan,
-            'karyawan_pengganti' => $karyawanPengganti,
-            'cuti_tgls' => $cuti_tgls
+            'cuti' => $cuti
         ]);
     }
 
@@ -48,6 +39,13 @@ class CutiController extends Controller
     public function delete(Request $request)
     {
         $cuti = HcCuti::find($request->id);
+
+        $cuti_detail = CutiDetail::where('cuti_id', $cuti->id);
+        $cuti_detail->delete();
+
+        $cuti_tgl = HcCutiTgl::where('hc_cuti_id', $cuti->id);
+        $cuti_tgl->delete();
+
         $cuti->delete();
 
         return response()->json([

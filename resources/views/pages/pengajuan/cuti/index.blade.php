@@ -54,9 +54,7 @@
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Jenis Cuti</th>
                                         <th class="text-center text-indigo">Tanggal</th>
-                                        @for ($i = 1; $i <= $last_cuti; $i++)
-                                            <th class="text-center text-indigo">Approval {{ $i }}</th>
-                                        @endfor
+                                        <th class="text-center text-indigo">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,20 +62,23 @@
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>{{ $item->jenis }}</td>
-                                            <td>{{ $item->tanggal }}</td>
-                                            @foreach ($cuti_details as $item_detail)
-                                                @if ($item_detail->cuti_id == $item->id)
-                                                    <td class="text-center">
-                                                        @if ($item_detail->confirm == 1)
-                                                            <span class="bg-success px-2">Approve</span>
-                                                        @elseif ($item_detail->confirm == 2)
-                                                            <span class="bg-danger px-2">Diapprove</span>
-                                                        @else
-                                                            <span class="bg-warning px-2">Menunggu Konfirmasi</span>
-                                                        @endif
-                                                    </td>
-                                                @endif
-                                            @endforeach
+                                            <td class="text-center">{{ $item->tanggal }}</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div
+                                                        class="progress-bar bg-{{ $item->approved_background }}"
+                                                        role="progressbar"
+                                                        aria-valuenow="40"
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100"
+                                                        style="width: {{ $item->approved_percentage }}%;">
+                                                            <span class="">{{ $item->approved_percentage }}%</span>
+                                                    </div>
+                                                </div>
+                                                <span style="font-size: 14px;">
+                                                    {{ $item->approved_text }} {{ $item->approvedLeader ? $item->approvedLeader->nama_panggilan : "" }}
+                                                </span>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

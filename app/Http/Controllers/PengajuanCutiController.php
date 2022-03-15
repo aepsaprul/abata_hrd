@@ -21,14 +21,9 @@ class PengajuanCutiController extends Controller
         $cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)->get();
         $cuti_detail = CutiDetail::get();
 
-        $last_cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)->latest('id')->first();
-        $last_cuti_detail = CutiDetail::where('cuti_id', $last_cuti->id)->get();
-        $last_cuti_detail_count = count($last_cuti_detail);
-
         return view('pages.pengajuan.cuti.index', [
             'cutis' => $cuti,
-            'cuti_details' => $cuti_detail,
-            'last_cuti' => $last_cuti_detail_count
+            'cuti_details' => $cuti_detail
         ]);
     }
 
@@ -81,6 +76,12 @@ class PengajuanCutiController extends Controller
                 $jenis = $request->jenis;
             }
 
+            $karyawan = MasterKaryawan::find($request->karyawan_id);
+
+            $role = MasterRole::where('nama', $karyawan->role)->first();
+
+            $approve = CutiApprover::where('role_id', $role->id)->get();
+
             $cuti = new HcCuti;
             $cuti->master_karyawan_id = $request->karyawan_id;
             $cuti->master_jabatan_id = $request->jabatan_id;
@@ -93,6 +94,9 @@ class PengajuanCutiController extends Controller
             $cuti->alasan = $request->alasan;
             $cuti->tanggal = date("Y-m-d");
             $cuti->status = 1;
+            $cuti->approved_text = "Permohonan Cuti";
+            $cuti->approved_percentage = "0";
+            $cuti->approved_background = "secondary";
             $cuti->save();
 
             foreach ($request->cuti_tanggal as $key => $value) {
@@ -102,12 +106,6 @@ class PengajuanCutiController extends Controller
                 $cuti_tgl->save();
             }
 
-            $karyawan = MasterKaryawan::find($request->karyawan_id);
-
-            $role = MasterRole::where('nama', $karyawan->role)->first();
-
-            $approve = CutiApprover::where('role_id', $role->id)->get();
-
             foreach ($approve as $key => $value) {
                 $cuti_detail = new CutiDetail;
                 $cuti_detail->cuti_id = $cuti->id;
@@ -115,6 +113,9 @@ class PengajuanCutiController extends Controller
                 $cuti_detail->atasan = $value->atasan_id;
                 $cuti_detail->status = 0;
                 $cuti_detail->confirm = 0;
+                $cuti_detail->approved_text = "Permohonan Cuti";
+                $cuti_detail->approved_percentage = "0";
+                $cuti_detail->approved_background = "secondary";
                 $cuti_detail->save();
             }
 
