@@ -64,6 +64,15 @@
                                             <td>{{ $item->jenis }}</td>
                                             <td class="text-center">{{ $item->tanggal }}</td>
                                             <td>
+                                                @if ($item->approved_percentage > 100)
+                                                    @php
+                                                        $percent = 100;
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $percent = $item->approved_percentage
+                                                    @endphp
+                                                @endif
                                                 <div class="progress">
                                                     <div
                                                         class="progress-bar bg-{{ $item->approved_background }}"
@@ -71,8 +80,8 @@
                                                         aria-valuenow="40"
                                                         aria-valuemin="0"
                                                         aria-valuemax="100"
-                                                        style="width: {{ $item->approved_percentage }}%;">
-                                                            <span class="">{{ $item->approved_percentage }}%</span>
+                                                        style="width: {{ $percent }}%;">
+                                                            <span class="">{{ $percent }}%</span>
                                                     </div>
                                                 </div>
                                                 <span style="font-size: 14px;">
@@ -356,6 +365,10 @@
                         icon: 'error',
                         title: 'Error - ' + errorMessage
                     });
+                    setTimeout(() => {
+                        $('.btn-spinner').addClass('d-none');
+                        $('.btn-save').removeClass('d-none');
+                    }, 1000);
                 }
             });
         });

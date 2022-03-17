@@ -61,6 +61,9 @@
                                                     @elseif ($item->confirm == 2)
                                                         <span class="bg-danger px-2">Disapproved</span>
                                                     @else
+                                                        <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                            <span class="spinner-grow spinner-grow-sm"></span>
+                                                        </button>
                                                         <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
                                                         <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
                                                     @endif
@@ -198,7 +201,12 @@
                 url: url,
                 type: 'GET',
                 data: formData,
+                beforeSend: function () {
+                    $('.btn-approve-spinner').removeClass('d-none');
+                    $('.btn-approve').addClass('d-none');
+                },
                 success: function (response) {
+                    console.log(response);
                     Toast.fire({
                         icon: 'success',
                         title: 'Cuti telah disetujui'

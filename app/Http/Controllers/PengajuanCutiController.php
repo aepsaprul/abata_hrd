@@ -10,6 +10,8 @@ use App\Models\HcCutiTgl;
 use App\Models\MasterJabatan;
 use App\Models\MasterKaryawan;
 use App\Models\MasterRole;
+use App\Models\User;
+use App\Notifications\CutiNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -119,10 +121,25 @@ class PengajuanCutiController extends Controller
                 $cuti_detail->save();
             }
 
+            $approve_mail = CutiApprover::where('role_id', $role->id)
+                ->where('hirarki', 1)
+                ->first();
+
+            $a = [];
+            foreach (json_decode($approve_mail->atasan_id) as $value) {
+                $a[] = $value;
+            }
+
+            $tes = User::whereIn('master_karyawan_id', $a)->get();
+            foreach ($tes as $key => $value) {
+                # code...
+                $value->notify(new CutiNotification($value));
+            }
 
             return response()->json([
                 'status' => 200,
-                'message' => "Data berhasil ditambahkan"
+                'message' => "Data berhasil ditambahkan",
+                'tes' => $tes
             ]);
         }
     }

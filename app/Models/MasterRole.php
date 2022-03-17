@@ -10,6 +10,6 @@ class MasterRole extends Model
     use HasFactory;
 
     public function approve() {
-        return $this->hasMany(CutiApprove::class, 'role_id', 'id');
+        return $this->hasMany(CutiApprover::class, 'role_id', 'id');
     }
 }

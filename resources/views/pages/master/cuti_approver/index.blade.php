@@ -169,12 +169,12 @@
                                                     "</div>" +
                                                     "<div class=\"select2-primary\">" +
                                                         "<select id=\"atasan_id_" + item_detail.id + "\" data-id=\"" + item_detail.id + "\" name=\"atasan_id[]\" class=\"select2\" multiple=\"multiple\" data-placeholder=\"Pilih Approval\" data-dropdown-css-class=\"select2-primary\" style=\"width: 100%;\">";
-                                                            $.each(response.roles, function (index, item) {
+                                                            $.each(response.karyawans, function (index, item) {
                                                                 data_approve += "<option";
-                                                                if (Object.values(atasan_id).filter(values => values == item.nama) != '') {
+                                                                if (Object.values(atasan_id).filter(values => values == item.id) != '') {
                                                                     data_approve += " selected";
                                                                 }
-                                                                data_approve += ">" + item.nama + "</option>"
+                                                                data_approve += ">" + item.id + "_" + item.nama_panggilan + "</option>"
                                                             });
                                                         data_approve += "</select>" +
                                                     "</div>" +
@@ -278,9 +278,9 @@
                         icon: 'success',
                         title: 'Data berhasil diperbaharui'
                     });
-                    setTimeout(() => {
-                        window.location.reload(1);
-                    }, 1000);
+                    // setTimeout(() => {
+                    //     window.location.reload(1);
+                    // }, 1000);
                 }
             });
         });

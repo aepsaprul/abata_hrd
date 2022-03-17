@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CutiApprover;
+use App\Models\MasterKaryawan;
 use App\Models\MasterRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,22 @@ class CutiApproverController extends Controller
 {
     public function index()
     {
+        // $a = CutiApprover::find(8);
+        // $b = json_decode($a->atasan_id);
+        // $d = array();
+        // foreach ($b as $key => $value) {
+        //     $c = explode(" - ", $value);
+        //     $d[] = $c[1];
+        // }
+        // print_r(json_encode($d));
+
+        // $a = CutiApprover::find(8);
+        // $b = json_decode($a->atasan_id);
+        // $d = [];
+        // foreach ($b as $value) {
+        //     $d[] = $value;
+        // }
+        // print_r($b);
         return view('pages.master.cuti_approver.index');
     }
 
@@ -24,12 +41,13 @@ class CutiApproverController extends Controller
 
         $approve_detail = CutiApprover::get();
 
-        $role = MasterRole::get();
+        // $role = MasterRole::get();
+        $karyawan = MasterKaryawan::where('status', 'Aktif')->get();
 
         return response()->json([
             'approves' => $approve,
             'approve_details' => $approve_detail,
-            'roles' => $role
+            'karyawans' => $karyawan
         ]);
     }
 
@@ -58,8 +76,15 @@ class CutiApproverController extends Controller
     public function updateApprover(Request $request)
     {
         $approve = CutiApprover::find($request->id);
-        $approve->hirarki = $request->hirarki;
-        $approve->atasan_id = json_encode($request->atasan_id);
+
+        $atasan = json_decode(json_encode($request->atasan_id));
+        $atasan_array = array();
+        foreach ($atasan as $value) {
+            $data = explode("_", $value);
+            $atasan_array[] = $data[0];
+        }
+
+        $approve->atasan_id = json_encode($atasan_array);
         $approve->save();
 
         return response()->json([
