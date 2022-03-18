@@ -69,7 +69,7 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <a
                             class="dropdown-item"
-                            href="#">
+                            href="{{ route('profile.index') }}">
                                 <i class="fa fa-id-card px-2"></i> Profil
                         </a>
                         <div class="dropdown-divider"></div>

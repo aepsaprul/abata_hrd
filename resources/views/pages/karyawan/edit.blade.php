@@ -2,10 +2,6 @@
 
 @section('style')
 
-<!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 <!-- Select2 -->
 <link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
@@ -184,19 +180,21 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th class="text-center">Mulai Kontrak</th>
-                                                <th class="text-center">Akhir Kontrak</th>
-                                                <th class="text-center">Lama Kontrak</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="data_kontrak">
-                                            {{-- kontrak data di jquery --}}
-                                        </tbody>
-                                    </table>
+                                    <div style="overflow-x: auto;">
+                                        <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="text-center">Mulai Kontrak</th>
+                                                    <th class="text-center">Akhir Kontrak</th>
+                                                    <th class="text-center">Lama Kontrak</th>
+                                                    <th class="text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data_kontrak">
+                                                {{-- kontrak data di jquery --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                                 {{-- medsos --}}
@@ -240,18 +238,20 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <table id="tabel_medsos" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th class="text-center">Nama Media Sosial</th>
-                                                <th class="text-center">Nama Akun</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="data_medsos">
-                                            {{-- medsos data di jquery --}}
-                                        </tbody>
-                                    </table>
+                                    <div style="overflow-x: auto;">
+                                        <table id="tabel_medsos" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="text-center">Nama Media Sosial</th>
+                                                    <th class="text-center">Nama Akun</th>
+                                                    <th class="text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data_medsos">
+                                                {{-- medsos data di jquery --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                                 {{-- sebelum menikah --}}
@@ -345,22 +345,24 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <table id="tabel_sebelum_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th class="text-center">Hubungan</th>
-                                                <th class="text-center">Nama</th>
-                                                <th class="text-center">Usia</th>
-                                                <th class="text-center">Jenis Kelamin</th>
-                                                <th class="text-center">Pendidikan Terakhir</th>
-                                                <th class="text-center">Pekerjaan Terakhir</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="data_sebelum_menikah">
-                                            {{-- sebelum menikah data di jquery --}}
-                                        </tbody>
-                                    </table>
+                                    <div style="overflow-x: auto;">
+                                        <table id="tabel_sebelum_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="text-center">Hubungan</th>
+                                                    <th class="text-center">Nama</th>
+                                                    <th class="text-center">Usia</th>
+                                                    <th class="text-center">Jenis Kelamin</th>
+                                                    <th class="text-center">Pendidikan Terakhir</th>
+                                                    <th class="text-center">Pekerjaan Terakhir</th>
+                                                    <th class="text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data_sebelum_menikah">
+                                                {{-- sebelum menikah data di jquery --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                                 {{-- setelah menikah --}}
@@ -441,21 +443,23 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <table id="tabel_setelah_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th class="text-center">Hubungan</th>
-                                                <th class="text-center">Nama</th>
-                                                <th class="text-center">Tempat Lahir</th>
-                                                <th class="text-center">Tanggal Lahir</th>
-                                                <th class="text-center">Pekerjaan Terakhir</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="data_setelah_menikah">
-                                            {{-- setelah menikah data di jquery --}}
-                                        </tbody>
-                                    </table>
+                                    <div style="overflow-x: auto;">
+                                        <table id="tabel_setelah_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="text-center">Hubungan</th>
+                                                    <th class="text-center">Nama</th>
+                                                    <th class="text-center">Tempat Lahir</th>
+                                                    <th class="text-center">Tanggal Lahir</th>
+                                                    <th class="text-center">Pekerjaan Terakhir</th>
+                                                    <th class="text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data_setelah_menikah">
+                                                {{-- setelah menikah data di jquery --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                                 {{-- kerabat darurat --}}
@@ -534,21 +538,23 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <table id="tabel_kerabat_darurat" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th class="text-center">Hubungan</th>
-                                                <th class="text-center">Nama</th>
-                                                <th class="text-center">Jenis Kelamin</th>
-                                                <th class="text-center">Telepon</th>
-                                                <th class="text-center">Alamat</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="data_kerabat_darurat">
-                                            {{-- kerabat darurat data di jquery --}}
-                                        </tbody>
-                                    </table>
+                                    <div style="overflow-x: auto;">
+                                        <table id="tabel_kerabat_darurat" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="text-center">Hubungan</th>
+                                                    <th class="text-center">Nama</th>
+                                                    <th class="text-center">Jenis Kelamin</th>
+                                                    <th class="text-center">Telepon</th>
+                                                    <th class="text-center">Alamat</th>
+                                                    <th class="text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data_kerabat_darurat">
+                                                {{-- kerabat darurat data di jquery --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                                 {{-- pendidikan --}}
@@ -643,22 +649,24 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <table id="tabel_pendidikan" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th class="text-center">Tingkat</th>
-                                                <th class="text-center">Nama</th>
-                                                <th class="text-center">Kota</th>
-                                                <th class="text-center">Jurusan</th>
-                                                <th class="text-center">Tahun Masuk</th>
-                                                <th class="text-center">Tahun Lulus</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="data_pendidikan">
-                                            {{-- pendidikan data di jquery --}}
-                                        </tbody>
-                                    </table>
+                                    <div style="overflow-x: auto;">
+                                        <table id="tabel_pendidikan" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="text-center">Tingkat</th>
+                                                    <th class="text-center">Nama</th>
+                                                    <th class="text-center">Kota</th>
+                                                    <th class="text-center">Jurusan</th>
+                                                    <th class="text-center">Tahun Masuk</th>
+                                                    <th class="text-center">Tahun Lulus</th>
+                                                    <th class="text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data_pendidikan">
+                                                {{-- pendidikan data di jquery --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -673,20 +681,6 @@
 @endsection
 
 @section('script')
-
-<!-- DataTables  & Plugins -->
-<script src="{{ asset('themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script src="{{ asset('themes/plugins/moment/moment.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
@@ -713,54 +707,6 @@
 
         $(document).on('shown.bs.tab', function () {
             $('.select2').select2();
-
-            $("#tabel_kontrak").DataTable({
-                responsive: true,
-                destroy: true,
-                searching: false,
-                paging: false,
-                info: false
-            });
-
-            $("#tabel_medsos").DataTable({
-                responsive: true,
-                destroy: true,
-                searching: false,
-                paging: false,
-                info: false
-            });
-
-            $("#tabel_sebelum_menikah").DataTable({
-                responsive: true,
-                destroy: true,
-                searching: false,
-                paging: false,
-                info: false
-            });
-
-            $("#tabel_setelah_menikah").DataTable({
-                responsive: true,
-                destroy: true,
-                searching: false,
-                paging: false,
-                info: false
-            });
-
-            $("#tabel_kerabat_darurat").DataTable({
-                responsive: true,
-                destroy: true,
-                searching: false,
-                paging: false,
-                info: false
-            });
-
-            $("#tabel_pendidikan").DataTable({
-                responsive: true,
-                destroy: true,
-                searching: false,
-                paging: false,
-                info: false
-            });
         });
 
         // biodata
@@ -1317,7 +1263,7 @@
                     if (response.medsos.length == 0) {
                         medsos_data += "" +
                             "<tr>" +
-                                "<td class=\"text-center\" colspan=\"2\">Kosong</td>";
+                                "<td class=\"text-center\" colspan=\"3\">Kosong</td>";
                             "</tr>";
                     } else {
                         $.each(response.medsos, function(index, value) {

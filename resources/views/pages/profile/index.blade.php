@@ -16,14 +16,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h4>Lihat Profile</h4>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('karyawan.index') }}">Karyawan</a></li>
-                        <li class="breadcrumb-item active">Lihat Profile</li>
-                    </ol>
+                    <h4>Profile Karyawan</h4>
                 </div>
             </div>
         </div>
@@ -35,18 +28,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <strong>{{ $karyawan->nama_lengkap }}</strong>
-                            </h3>
-                            <div class="card-tools mr-0">
-                                <a href="{{ route('karyawan.index') }}" class="btn bg-gradient-danger btn-sm"><i class="fa fa-arrow-left"></i> Kembali</a>
-                            </div>
-                        </div>
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                             <li class="nav-item"><a class="nav-link active" href="#biodata" data-toggle="tab">Biodata</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#kontrak" data-toggle="tab">Kontrak</a></li>
                             <li class="nav-item"><a class="nav-link" href="#medsos" data-toggle="tab">Medsos</a></li>
                             <li class="nav-item"><a class="nav-link" href="#sebelum_menikah" data-toggle="tab">Sebelum Menikah</a></li>
                             <li class="nav-item"><a class="nav-link" href="#setelah_menikah" data-toggle="tab">Setelah Menikah</a></li>
@@ -91,46 +75,17 @@
                                                                     style="width: 100%;">
                                                             @endif
                                                         </div>
-                                                        <div class="row nik">
-                                                            {{-- data nik di jquery --}}
-                                                        </div>
-                                                        <div class="row">
+                                                        <div class="row mt-2">
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                                                 <div class="form-group">
-                                                                    <label for="status_level" class="col-form-label col-form-label-sm">Status Level</label>
-                                                                    <p>
-                                                                        @if ($kontrak_pertama)
-                                                                            @php
-                                                                                $tgl1 = new DateTime($kontrak_pertama->mulai_kontrak);
-                                                                                $tgl2 = new DateTime();
-                                                                                $selisih = $tgl2->diff($tgl1);
-
-                                                                                if ($selisih->y < 0) {
-                                                                                    if ($selisih->m <= 3) {
-                                                                                        echo "Training";
-                                                                                    } else {
-                                                                                        echo "Amatir";
-                                                                                    }
-                                                                                } else {
-                                                                                    if ($selisih->y < 2) {
-                                                                                        echo "Amatir";
-                                                                                    } else if ($selisih->y >= 2 && $selisih->y < 3) {
-                                                                                        echo "Basic";
-                                                                                    } else if ($selisih->y >=3 && $selisih->y < 4) {
-                                                                                        echo "Yunior";
-                                                                                    } else if ($selisih->y >= 4 && $selisih->y < 5) {
-                                                                                        echo "Senior";
-                                                                                    } else {
-                                                                                        echo "Profesional";
-                                                                                    }
-                                                                                }
-                                                                            @endphp
-                                                                        @else
-                                                                            Kontrak belum ada
-                                                                        @endif
-                                                                    </p>
+                                                                    <label for="create_foto">Foto</label>
+                                                                    <input type="file" id="create_foto" name="foto" class="form-control form-control-sm" >
+                                                                    <small id="errorFoto" class="form-text text-danger"></small>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="row nik">
+                                                            {{-- data nik di jquery --}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,32 +99,61 @@
                                                 <div class="row" id="biodata_data">
                                                     {{-- data di jquery --}}
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <button class="btn btn-primary btn-biodata-spinner d-none" disabled style="width: 130px;">
+                                                            <span class="spinner-grow spinner-grow-sm"></span>
+                                                            Loading...
+                                                        </button>
+                                                        <button class="btn btn-primary btn-biodata-save" style="width: 130px;"><i class="fas fa-save"></i> Simpan</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
 
-                                {{-- kontrak --}}
-                                <div class="tab-pane" id="kontrak">
-                                    <div style="overflow-x: auto;">
-                                        <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                            <thead>
-                                                <tr class="bg-primary">
-                                                    <th class="text-center">Mulai Kontrak</th>
-                                                    <th class="text-center">Akhir Kontrak</th>
-                                                    <th class="text-center">Lama Kontrak</th>
-                                                    <th class="text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="data_kontrak">
-                                                {{-- kontrak data di jquery --}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
                                 {{-- medsos --}}
                                 <div class="tab-pane" id="medsos">
+                                    <form id="medsos_form">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col">
+                                                <div class="form-group">
+                                                    <label for="nama_media_sosial" class="col-form-label col-form-label-sm">Nama Media Sosial</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="nama_media_sosial"
+                                                        name="nama_media_sosial"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col">
+                                                <div class="form-group">
+                                                    <label for="nama_akun" class="col-form-label col-form-label-sm">Nama Akun</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="nama_akun"
+                                                        name="nama_akun">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-primary btn-medsos-spinner d-none" disabled style="width: 130px;">
+                                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                                    Loading...
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-medsos-save"
+                                                    style="width: 130px;">
+                                                        <i class="fas fa-save"></i> Simpan
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <div style="overflow-x: auto;">
                                         <table id="tabel_medsos" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                             <thead>
@@ -188,6 +172,95 @@
 
                                 {{-- sebelum menikah --}}
                                 <div class="tab-pane" id="sebelum_menikah">
+                                    <form action="" id="sebelum_menikah_form">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="sebelum_menikah_hubungan" class="col-form-label col-form-label-sm">Hubungan</label>
+                                                    <select name="sebelum_menikah_hubungan" id="sebelum_menikah_hubungan" class="form-control form-control-sm">
+                                                        <option value="">--Pilih Hubungan--</option>
+                                                        <option value="AYAH">AYAH</option>
+                                                        <option value="IBU">IBU</option>
+                                                        <option value="SAUDARA LAKI - LAKI">SAUDARA LAKI - LAKI</option>
+                                                        <option value="SAUDARA PEREMPUAN">SAUDARA PEREMPUAN</option>
+                                                        <option value="KAKEK">KAKEK</option>
+                                                        <option value="NENEK">NENEK</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="sebelum_menikah_nama" class="col-form-label col-form-label-sm">Nama</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="sebelum_menikah_nama"
+                                                        name="sebelum_menikah_nama"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="sebelum_menikah_usia" class="col-form-label col-form-label-sm">Usia</label>
+                                                    <input
+                                                        type="number"
+                                                        class="form-control form-control-sm"
+                                                        id="sebelum_menikah_usia"
+                                                        name="sebelum_menikah_usia"
+                                                        maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="sebelum_menikah_jenis_kelamin" class="col-form-label col-form-label-sm">Jenis Kelamin</label>
+                                                    <select name="sebelum_menikah_jenis_kelamin" id="sebelum_menikah_jenis_kelamin" class="form-control form-control-sm">
+                                                        <option value="">--Pilih Jenis Kelamin--</option>
+                                                        <option value="L">L</option>
+                                                        <option value="P">P</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="sebelum_menikah_pendidikan" class="col-form-label col-form-label-sm">Pendidikan Terakhir</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="sebelum_menikah_pendidikan"
+                                                        name="sebelum_menikah_pendidikan"
+                                                        maxlength="10"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="sebelum_menikah_pekerjaan" class="col-form-label col-form-label-sm">Pekerjaan Terakhir</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="sebelum_menikah_pekerjaan"
+                                                        name="sebelum_menikah_pekerjaan"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-primary btn-sebelum-menikah-spinner d-none" disabled style="width: 130px;">
+                                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                                    Loading...
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-sebelum-menikah-save"
+                                                    style="width: 130px;">
+                                                        <i class="fas fa-save"></i> Simpan
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <div style="overflow-x: auto;">
                                         <table id="tabel_sebelum_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                             <thead>
@@ -210,6 +283,82 @@
 
                                 {{-- setelah menikah --}}
                                 <div class="tab-pane" id="setelah_menikah">
+                                    <form action="" id="setelah_menikah_form">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="setelah_menikah_hubungan" class="col-form-label col-form-label-sm">Hubungan</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="setelah_menikah_hubungan"
+                                                        name="setelah_menikah_hubungan"
+                                                        maxlength="20"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="setelah_menikah_nama" class="col-form-label col-form-label-sm">Nama</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="setelah_menikah_nama"
+                                                        name="setelah_menikah_nama"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="setelah_menikah_tempat_lahir" class="col-form-label col-form-label-sm">Tempat Lahir</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="setelah_menikah_tempat_lahir"
+                                                        name="setelah_menikah_tempat_lahir"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="setelah_menikah_tanggal_lahir" class="col-form-label col-form-label-sm">Tanggal Lahir</label>
+                                                    <input
+                                                        type="date"
+                                                        class="form-control form-control-sm"
+                                                        id="setelah_menikah_tanggal_lahir"
+                                                        name="setelah_menikah_tanggal_lahir">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="setelah_menikah_pekerjaan" class="col-form-label col-form-label-sm">Pekerjaan Terakhir</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="setelah_menikah_pekerjaan"
+                                                        name="setelah_menikah_pekerjaan"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-primary btn-setelah-menikah-spinner d-none" disabled style="width: 130px;">
+                                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                                    Loading...
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-setelah-menikah-save"
+                                                    style="width: 130px;">
+                                                        <i class="fas fa-save"></i> Simpan
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <div style="overflow-x: auto;">
                                         <table id="tabel_setelah_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                             <thead>
@@ -231,6 +380,80 @@
 
                                 {{-- kerabat darurat --}}
                                 <div class="tab-pane" id="kerabat_darurat">
+                                    <form action="" id="kerabat_darurat_form">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="kerabat_darurat_hubungan" class="col-form-label col-form-label-sm">Hubungan</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="kerabat_darurat_hubungan"
+                                                        name="kerabat_darurat_hubungan"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="kerabat_darurat_nama" class="col-form-label col-form-label-sm">Nama</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="kerabat_darurat_nama"
+                                                        name="kerabat_darurat_nama"
+                                                        maxlength="50"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="kerabat_darurat_jenis_kelamin" class="col-form-label col-form-label-sm">Jenis Kelamin</label>
+                                                    <select name="kerabat_darurat_jenis_kelamin" id="kerabat_darurat_jenis_kelamin" class="form-control form-control-sm">
+                                                        <option value="">--Pilih Jenis Kelamin--</option>
+                                                        <option value="L">L</option>
+                                                        <option value="P">P</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="kerabat_darurat_telepon" class="col-form-label col-form-label-sm">Telepon</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="kerabat_darurat_telepon"
+                                                        name="kerabat_darurat_telepon"
+                                                        maxlength="15">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="kerabat_darurat_alamat" class="col-form-label col-form-label-sm">Alamat</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="kerabat_darurat_alamat"
+                                                        name="kerabat_darurat_alamat"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-primary btn-kerabat-darurat-spinner d-none" disabled style="width: 130px;">
+                                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                                    Loading...
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-kerabat-darurat-save"
+                                                    style="width: 130px;">
+                                                        <i class="fas fa-save"></i> Simpan
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <div style="overflow-x: auto;">
                                         <table id="tabel_kerabat_darurat" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                             <thead>
@@ -252,6 +475,96 @@
 
                                 {{-- pendidikan --}}
                                 <div class="tab-pane" id="pendidikan">
+                                    <form action="" id="pendidikan_form">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="pendidikan_tingkat" class="col-form-label col-form-label-sm">Tingkat</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="pendidikan_tingkat"
+                                                        name="pendidikan_tingkat"
+                                                        maxlength="20"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="pendidikan_nama" class="col-form-label col-form-label-sm">Nama</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="pendidikan_nama"
+                                                        name="pendidikan_nama"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="pendidikan_kota" class="col-form-label col-form-label-sm">Kota</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="pendidikan_kota"
+                                                        name="pendidikan_kota"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="pendidikan_jurusan" class="col-form-label col-form-label-sm">Jurusan</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"
+                                                        id="pendidikan_jurusan"
+                                                        name="pendidikan_jurusan"
+                                                        maxlength="30"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="pendidikan_tahun_masuk" class="col-form-label col-form-label-sm">Tahun Masuk</label>
+                                                    <input
+                                                        type="number"
+                                                        class="form-control form-control-sm"
+                                                        id="pendidikan_tahun_masuk"
+                                                        name="pendidikan_tahun_masuk"
+                                                        maxlength="4"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="pendidikan_tahun_lulus" class="col-form-label col-form-label-sm">Tahun Lulus</label>
+                                                    <input
+                                                        type="number"
+                                                        class="form-control form-control-sm"
+                                                        id="pendidikan_tahun_lulus"
+                                                        name="pendidikan_tahun_lulus"
+                                                        maxlength="4"
+                                                        onkeyup="this.value = this.value.toUpperCase()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-primary btn-pendidikan-spinner d-none" disabled style="width: 130px;">
+                                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                                    Loading...
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-pendidikan-save"
+                                                    style="width: 130px;">
+                                                        <i class="fas fa-save"></i> Simpan
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <div style="overflow-x: auto;">
                                         <table id="tabel_pendidikan" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                             <thead>
@@ -308,11 +621,15 @@
             timer: 3000
         });
 
+        $(document).on('shown.bs.tab', function () {
+            $('.select2').select2();
+        });
+
         // biodata
         biodata();
         function biodata() {
             var id = $('#id').val();
-            var url = '{{ route("karyawan.biodata", ":id") }}';
+            var url = '{{ route("profile.biodata", ":id") }}';
             url = url.replace(':id', id );
 
             $.ajax({
@@ -323,7 +640,7 @@
                         "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nik\" class=\"col-form-label col-form-label-sm\">NIK</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nik\" name=\"nik\" maxlength=\"50\" value=\"" + response.karyawan.nik + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nik\" name=\"nik\" maxlength=\"50\" value=\"" + response.karyawan.nik + "\" readonly>" +
                                 "<small id=\"error_nik\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>";
@@ -333,32 +650,32 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nama_lengkap\" class=\"col-form-label col-form-label-sm\">Nama Lengkap</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_lengkap\" name=\"nama_lengkap\" maxlength=\"50\" value=\"" + response.karyawan.nama_lengkap + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_lengkap\" name=\"nama_lengkap\" maxlength=\"50\" value=\"" + response.karyawan.nama_lengkap + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
                                 "<small id=\"error_nama_lengkap\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nama_panggilan\" class=\"col-form-label col-form-label-sm\">Nama Panggilan</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_panggilan\" name=\"nama_panggilan\" maxlength=\"20\" value=\"" + response.karyawan.nama_panggilan + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nama_panggilan\" name=\"nama_panggilan\" maxlength=\"20\" value=\"" + response.karyawan.nama_panggilan + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
                                 "<small id=\"error_nama_panggilan\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"jenis_kelamin\" class=\"col-form-label col-form-label-sm\">Jenis Kelamin</label>" +
-                                "<select name=\"jenis_kelamin\" id=\"jenis_kelamin\" class=\"form-control form-control-sm\" disabled>" +
+                                "<select name=\"jenis_kelamin\" id=\"jenis_kelamin\" class=\"form-control form-control-sm\">" +
                                     "<option value=\"\">-- Pilih Jenis Kelamin --</option>" +
-                                    "<option value=\"L\"";
+                                    "<option value=\"l\"";
 
-                                    if (response.karyawan.jenis_kelamin == 'L' ) {
+                                    if (response.karyawan.jenis_kelamin == 'l' ) {
                                         biodata_data += "selected";
                                     }
 
                                     biodata_data += ">L (Laki - laki)</option>";
-                                    biodata_data += "<option value=\"P\"";
+                                    biodata_data += "<option value=\"p\"";
 
-                                    if ( response.karyawan.jenis_kelamin == "P" ) {
+                                    if ( response.karyawan.jenis_kelamin == "p" ) {
                                         biodata_data += "selected";
                                     }
 
@@ -370,47 +687,99 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"nomor_ktp\" class=\"col-form-label col-form-label-sm\">Nomor KTP</label>" +
-                                "<input type=\"number\" class=\"form-control form-control-sm\" id=\"nomor_ktp\" name=\"nomor_ktp\" maxlength=\"18\" value=\"" + response.karyawan.nomor_ktp + "\" disabled>" +
+                                "<input type=\"number\" class=\"form-control form-control-sm\" id=\"nomor_ktp\" name=\"nomor_ktp\" maxlength=\"18\" value=\"" + response.karyawan.nomor_ktp + "\">" +
                                 "<small id=\"error_nomor_ktp\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"status_perkawinan\" class=\"col-form-label col-form-label-sm\">Status Perkawinan</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" value=\"" + response.karyawan.status_perkawinan + "\" disabled>" +
+                                "<select name=\"status_perkawinan\" id=\"status_perkawinan\" class=\"form-control form-control-sm\">" +
+                                    "<option value=\"\">-- Pilih Status --</option>" +
+                                    "<option value=\"lajang\"";
+
+                                    if ( response.karyawan.status_perkawinan == "lajang" ) {
+                                        biodata_data += "selected";
+                                    }
+
+                                    biodata_data += ">LAJANG</option>" +
+                                    "<option value=\"menikah\"";
+
+                                    if ( response.karyawan.status_perkawinan == "menikah" ) {
+                                        biodata_data += "selected";
+                                    }
+
+                                    biodata_data += ">MENIKAH</option>" +
+                                    "<option value=\"cerai\"";
+
+                                    if ( response.karyawan.status_perkawinan == "cerai" ) {
+                                        biodata_data += "selected";
+                                    }
+
+                                    biodata_data += ">CERAI</option>" +
+                                "</select>" +
+                                "<small id=\"error_status_perkawinan\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"agama\" class=\"col-form-label col-form-label-sm\">Agama</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" value=\"" + response.karyawan.agama + "\" disabled>" +
+                                "<select name=\"agama\" id=\"agama\" class=\"form-control form-control-sm\">" +
+                                    "<option value=\"\">-- Pilih Agama --</option>" +
+
+                                    "<option value=\"islam\"";
+                                    if ( response.karyawan.agama == "islam" ) {
+                                        biodata_data += "selected";
+                                    }
+                                    biodata_data += ">ISLAM</option>" +
+
+                                    "<option value=\"kristen\"";
+                                    if ( response.karyawan.agama == "kristen" ) {
+                                        biodata_data += "selected";
+                                    }
+                                    biodata_data += ">KRISTEN</option>" +
+
+                                    "<option value=\"hindu\"";
+                                    if ( response.karyawan.agama == "hindu" ) {
+                                        biodata_data += "selected";
+                                    }
+                                    biodata_data += ">HINDU</option>" +
+
+                                    "<option value=\"budha\"";
+                                    if ( response.karyawan.agama == "budha" ) {
+                                        biodata_data += "selected";
+                                    }
+                                    biodata_data += ">BUDHA</option>" +
+
+                                "</select>" +
+                                "<small id=\"error_agama\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"tempat_lahir\" class=\"col-form-label col-form-label-sm\">Tempat Lahir</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"tempat_lahir\" name=\"tempat_lahir\" maxlength=\"50\" value=\"" + response.karyawan.tempat_lahir + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"tempat_lahir\" name=\"tempat_lahir\" maxlength=\"50\" value=\"" + response.karyawan.tempat_lahir + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
                                 "<small id=\"error_tempat_lahir\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"tanggal_lahir\" class=\"col-form-label col-form-label-sm\">Tanggal Lahir</label>" +
-                                "<input type=\"date\" class=\"form-control form-control-sm\" id=\"tanggal_lahir\" name=\"tanggal_lahir\" value=\"" + response.karyawan.tanggal_lahir + "\" disabled>" +
+                                "<input type=\"date\" class=\"form-control form-control-sm\" id=\"tanggal_lahir\" name=\"tanggal_lahir\" value=\"" + response.karyawan.tanggal_lahir + "\">" +
                                 "<small id=\"error_tanggal_lahir\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-6 col-md-6 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"alamat_asal\" class=\"col-form-label col-form-label-sm\">Alamat KTP</label>" +
-                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_asal\" name=\"alamat_asal\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" + response.karyawan.alamat_asal + "</textarea>" +
+                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_asal\" name=\"alamat_asal\" onkeyup=\"this.value = this.value.toUpperCase()\">" + response.karyawan.alamat_asal + "</textarea>" +
                                 "<small id=\"error_alamat_asal\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-6 col-md-6 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"alamat_domisili\" class=\"col-form-label col-form-label-sm\">Alamat Sekarang</label>" +
-                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_domisili\" name=\"alamat_domisili\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" + response.karyawan.alamat_domisili + "</textarea>" +
+                                "<textarea class=\"form-control form-control-sm\" rows=\"3\" id=\"alamat_domisili\" name=\"alamat_domisili\" onkeyup=\"this.value = this.value.toUpperCase()\" readonly>" + response.karyawan.alamat_domisili + "</textarea>" +
                                 "<small id=\"error_alamat_domisili\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
@@ -419,11 +788,11 @@
                                 "<label for=\"sim\">Jenis & Nomor SIM</label>" +
                                 "<div class=\"row\">" +
                                     "<div class=\"col-md-4 col-sm-4 col-4\">" +
-                                        "<input type=\"text\" id=\"edit_jenis_sim\" name=\"jenis_sim\" class=\"form-control form-control-sm\" maxlength=\"10\" value=\"" + response.karyawan.jenis_sim + "\" onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
+                                        "<input type=\"text\" id=\"edit_jenis_sim\" name=\"jenis_sim\" class=\"form-control form-control-sm\" maxlength=\"10\" value=\"" + response.karyawan.jenis_sim + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
                                         "<small id=\"errorJenisSim\" class=\"form-text text-danger\"></small>" +
                                     "</div>" +
                                     "<div class=\"col-md-8 col-sm-8 col-8\">" +
-                                        "<input type=\"text\" id=\"edit_nomor_sim\" name=\"nomor_sim\" class=\"form-control form-control-sm\" maxlength=\"15\" value=\"" + response.karyawan.nomor_sim + "\" disabled>" +
+                                        "<input type=\"text\" id=\"edit_nomor_sim\" name=\"nomor_sim\" class=\"form-control form-control-sm\" maxlength=\"15\" value=\"" + response.karyawan.nomor_sim + "\">" +
                                         "<small id=\"errorNomorSim\" class=\"form-text text-danger\"></small>" +
                                     "</div>" +
                                 "</div>" +
@@ -449,7 +818,7 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_jabatan_id\" class=\"col-form-label col-form-label-sm\">Jabatan</label>" +
-                                "<select name=\"master_jabatan_id\" id=\"master_jabatan_id\" class=\"form-control form-control-sm select2\" disabled>";
+                                "<select name=\"master_jabatan_id\" id=\"master_jabatan_id\" class=\"form-control form-control-sm\" disabled>";
                                     $.each(response.jabatans, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.id == response.karyawan.master_jabatan_id) {
@@ -464,7 +833,7 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_divisi_id\" class=\"col-form-label col-form-label-sm\">Divisi</label>" +
-                                "<select name=\"master_divisi_id\" id=\"master_divisi_id\" class=\"form-control form-control-sm select2\" disabled>";
+                                "<select name=\"master_divisi_id\" id=\"master_divisi_id\" class=\"form-control form-control-sm\" disabled>";
                                     $.each(response.divisis, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.id == response.karyawan.master_divisi_id) {
@@ -479,30 +848,15 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"email\" class=\"col-form-label col-form-label-sm\">Email</label>" +
-                                "<input type=\"email\" class=\"form-control form-control-sm\" id=\"email\" name=\"email\" maxlength=\"50\" value=\"" + response.karyawan.email + "\" disabled>" +
+                                "<input type=\"email\" class=\"form-control form-control-sm\" id=\"email\" name=\"email\" maxlength=\"50\" value=\"" + response.karyawan.email + "\">" +
                                 "<small id=\"error_email\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"telepon\" class=\"col-form-label col-form-label-sm\">Telepon</label>" +
-                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"telepon\" name=\"telepon\" maxlength=\"15\" value=\"" + response.karyawan.telepon + "\" disabled>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"telepon\" name=\"telepon\" maxlength=\"15\" value=\"" + response.karyawan.telepon + "\">" +
                                 "<small id=\"error_telepon\" class=\"form-text text-danger font-italic\"></small>" +
-                            "</div>" +
-                        "</div>" +
-                        "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
-                            "<div class=\"form-group\">" +
-                                "<label for=\"role\" class=\"col-form-label col-form-label-sm\">Role</label>" +
-                                "<select name=\"role\" id=\"role\" class=\"form-control form-control-sm select2\" disabled>";
-                                    $.each(response.roles, function(index, value) {
-                                        biodata_data += "<option value=\"" + value.id + "\"";
-                                        if (value.nama == response.karyawan.role) {
-                                            biodata_data += "selected";
-                                        }
-                                        biodata_data += ">" + value.nama + "</option>";
-                                    });
-                                biodata_data += "</select>" +
-                                "<small id=\"error_role\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
@@ -517,7 +871,7 @@
                                 }
 
 
-                                biodata_data += "onkeyup=\"this.value = this.value.toUpperCase()\" disabled>" +
+                                biodata_data += " disabled>" +
                                 "<small id=\"error_total_cuti\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>";
@@ -546,8 +900,6 @@
                 $('#error_nomor_ktp').append("Nomor KTP harus diisi");
             } else if ($('#alamat_asal').val() == "") {
                 $('#error_alamat_asal').append("Alamat KTP harus diisi");
-            } else if ($('#alamat_domisili').val() == "") {
-                $('#error_alamat_domisili').append("Alamat sekarang harus diisi");
             } else if ($('#tempat_lahir').val() == "") {
                 $('#error_tempat_lahir').append("Tempat lahir harus diisi");
             } else if ($('#tanggal_lahir').val() == "") {
@@ -558,17 +910,12 @@
                 $('#error_status_perkawinan').append("Status perkawinan harus diisi");
             } else if ($('#agama').val() == "") {
                 $('#error_agama').append("Agama harus diisi");
-            } else if ($('#master_cabang_id').val() == "") {
-                $('#error_master_cabang_id').append("Cabang harus diisi");
-            } else if ($('#master_jabatan_id').val() == "") {
-                $('#error_master_jabatan_id').append("Jabatan harus diisi");
             } else {
-                $('.biodata_notif').empty();
 
                 var formData = new FormData($('#biodata_form')[0]);
 
                 $.ajax({
-                    url: "{{ URL::route('karyawan.biodata_update') }}",
+                    url: "{{ URL::route('profile.biodata_update') }}",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -599,204 +946,11 @@
             }
         });
 
-        // kontrak
-        kontrak();
-        function kontrak() {
-            var id = $('#id').val();
-            var url = '{{ route("karyawan.kontrak", ":id") }}';
-            url = url.replace(':id', id );
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(response) {
-                    var kontrak_data = "";
-
-                    if (response.kontraks.length == 0) {
-                        kontrak_data += "" +
-                            "<tr>" +
-                                "<td class=\"text-center\" colspan=\"4\">Kosong</td>";
-                            "</tr>";
-                    } else {
-                        $.each(response.kontraks, function(index, value) {
-                            kontrak_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + tanggalIndo(value.mulai_kontrak) + "</td>" +
-                                        "<td class=\"text-center\">" + tanggalIndo(value.akhir_kontrak) + "</td>" +
-                                        "<td class=\"text-center\">" + value.lama_kontrak + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"kontrak_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
-                        });
-                    }
-                    $('#data_kontrak').append(kontrak_data);
-                }
-            });
-        }
-
-        $('#mulai_kontrak').on('change', function() {
-            if ($('#akhir_kontrak').val() != "") {
-                kontrakCalculate();
-            }
-        });
-
-        $('#akhir_kontrak').on('change', function() {
-            if ($('#mulai_kontrak').val() != "") {
-                kontrakCalculate();
-            }
-        });
-
-        function kontrakCalculate() {
-            var a = moment($('#mulai_kontrak').val());
-            var b = moment($('#akhir_kontrak').val());
-            diff = moment.preciseDiff(a, b, true);
-
-            intervals = ['years', 'months'];
-            intervalse = ['TAHUN', 'BULAN'];
-            output = [];
-
-            for(var i = 0; i < intervals.length; i++) {
-                var e = diff[intervals[i]];
-                var d = e < 10 ? '' + e : e;
-                output.push(d + ' ' + intervalse[i] + ' ');
-            }
-
-            $('#lama_kontrak').val(output);
-        }
-
-        $('#kontrak_form').submit(function(e) {
-            e.preventDefault();
-            if ($('#mulai_kontrak').val() == "" || $('#akhir_kontrak').val() == "") {
-                alert('Tanggal tidak boleh kosong');
-            } else {
-                $('#data_kontrak').empty();
-
-                var formData = {
-                    id: $('#id').val(),
-                    mulai_kontrak: $('#mulai_kontrak').val(),
-                    akhir_kontrak: $('#akhir_kontrak').val(),
-                    lama_kontrak: $('#lama_kontrak').val()
-                }
-
-                $.ajax({
-                    url: "{{ URL::route('karyawan.kontrak_store') }}",
-                    type: 'POST',
-                    data: formData,
-                    beforeSend: function() {
-                        $('.btn-kontrak-spinner').removeClass('d-none');
-                        $('.btn-kontrak-save').addClass('d-none');
-                    },
-                    success: function(response) {
-                        var kontrak_data = "";
-
-                        if (response.kontraks.length == 0) {
-                            kontrak_data += "" +
-                                "<tr>" +
-                                    "<td class=\"text-center\" colspan=\"4\">Kosong</td>";
-                                "</tr>";
-                        } else {
-                            $.each(response.kontraks, function(index, value) {
-                                kontrak_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + tanggalIndo(value.mulai_kontrak) + "</td>" +
-                                            "<td class=\"text-center\">" + tanggalIndo(value.akhir_kontrak) + "</td>" +
-                                            "<td class=\"text-center\">" + value.lama_kontrak + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"kontrak_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
-                            });
-                        }
-                        $('#data_kontrak').append(kontrak_data);
-
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Kontrak behasil diperbaharui'
-                        });
-
-                        setTimeout(() => {
-                            $('.btn-kontrak-spinner').addClass('d-none');
-                            $('.btn-kontrak-save').removeClass('d-none');
-                        }, 1000);
-                    },
-                    error: function(xhr, status, error) {
-                        var errorMessage = xhr.status + ': ' + error
-
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'Error - ' + errorMessage
-                        });
-                    }
-                });
-            }
-        });
-
-        $('body').on('click', '.kontrak_btn_delete', function() {
-            var result = confirm('Yakin akan dihapus?');
-            if (result) {
-                $('#data_kontrak').empty();
-
-                var id = $(this).attr('data-id');
-                var url = '{{ route("karyawan.kontrak_delete", ":id") }}';
-                url = url.replace(':id', id );
-
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(response) {
-                        var kontrak_data = "";
-
-                        if (response.kontraks.length == 0) {
-                            kontrak_data += "" +
-                                "<tr>" +
-                                    "<td class=\"text-center\" colspan=\"4\">Kosong</td>";
-                                "</tr>";
-                        } else {
-                            $.each(response.kontraks, function(index, value) {
-                                kontrak_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + tanggalIndo(value.mulai_kontrak) + "</td>" +
-                                            "<td class=\"text-center\">" + tanggalIndo(value.akhir_kontrak) + "</td>" +
-                                            "<td class=\"text-center\">" + value.lama_kontrak + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"kontrak_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
-                            });
-                        }
-                        $('#data_kontrak').append(kontrak_data);
-
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Kontrak behasil dihapus'
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        var errorMessage = xhr.status + ': ' + error
-
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'Error - ' + errorMessage
-                        });
-                    }
-                });
-            } else {
-                return false;
-            }
-        });
-
         // medsos
         medsos();
         function medsos() {
             var id = $('#id').val();
-            var url = '{{ route("karyawan.medsos", ":id") }}';
+            var url = '{{ route("profile.medsos", ":id") }}';
             url = url.replace(':id', id );
 
             $.ajax({
@@ -843,7 +997,7 @@
                 }
 
                 $.ajax({
-                    url: "{{ URL::route('karyawan.medsos_store') }}",
+                    url: "{{ URL::route('profile.medsos_store') }}",
                     type: 'POST',
                     data: formData,
                     beforeSend: function() {
@@ -861,15 +1015,15 @@
                         } else {
                             $.each(response.medsoss, function(index, value) {
                                 medsos_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama_akun + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama_akun + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_medsos').append(medsos_data);
@@ -905,7 +1059,7 @@
                 $('#data_medsos').empty();
 
                 var id = $(this).attr('data-id');
-                var url = '{{ route("karyawan.medsos_delete", ":id") }}';
+                var url = '{{ route("profile.medsos_delete", ":id") }}';
                 url = url.replace(':id', id );
 
                 $.ajax({
@@ -922,15 +1076,15 @@
                         } else {
                             $.each(response.medsoss, function(index, value) {
                                 medsos_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama_akun + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama_akun + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_medsos').append(medsos_data);
@@ -975,7 +1129,7 @@
         sebelumMenikah();
         function sebelumMenikah() {
             var id = $('#id').val();
-            var url = '{{ route("karyawan.sebelum_menikah", ":id") }}';
+            var url = '{{ route("profile.sebelum_menikah", ":id") }}';
             url = url.replace(':id', id );
 
             $.ajax({
@@ -992,19 +1146,19 @@
                     } else {
                         $.each(response.sebelum_menikahs, function(index, value) {
                             sebelum_menikah_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.usia + "</td>" +
-                                        "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                        "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
-                                        "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.usia + "</td>" +
+                                "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
+                                "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_sebelum_menikah').append(sebelum_menikah_data);
@@ -1030,7 +1184,7 @@
                 }
 
                 $.ajax({
-                    url: "{{ URL::route('karyawan.sebelum_menikah_store') }}",
+                    url: "{{ URL::route('profile.sebelum_menikah_store') }}",
                     type: 'POST',
                     data: formData,
                     beforeSend: function() {
@@ -1048,19 +1202,19 @@
                         } else {
                             $.each(response.sebelum_menikahs, function(index, value) {
                                 sebelum_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.usia + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.usia + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_sebelum_menikah').append(sebelum_menikah_data);
@@ -1101,7 +1255,7 @@
                 $('#data_sebelum_menikah').empty();
 
                 var id = $(this).attr('data-id');
-                var url = '{{ route("karyawan.sebelum_menikah_delete", ":id") }}';
+                var url = '{{ route("profile.sebelum_menikah_delete", ":id") }}';
                 url = url.replace(':id', id );
 
                 $.ajax({
@@ -1118,19 +1272,19 @@
                         } else {
                             $.each(response.sebelum_menikahs, function(index, value) {
                                 sebelum_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.usia + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.usia + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_sebelum_menikah').append(sebelum_menikah_data);
@@ -1158,7 +1312,7 @@
         setelahMenikah();
         function setelahMenikah() {
             var id = $('#id').val();
-            var url = '{{ route("karyawan.setelah_menikah", ":id") }}';
+            var url = '{{ route("profile.setelah_menikah", ":id") }}';
             url = url.replace(':id', id );
 
             $.ajax({
@@ -1175,18 +1329,18 @@
                     } else {
                         $.each(response.setelah_menikahs, function(index, value) {
                             setelah_menikah_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
-                                        "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
-                                        "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
+                                "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
+                                "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_setelah_menikah').append(setelah_menikah_data);
@@ -1211,7 +1365,7 @@
                 }
 
                 $.ajax({
-                    url: "{{ URL::route('karyawan.setelah_menikah_store') }}",
+                    url: "{{ URL::route('profile.setelah_menikah_store') }}",
                     type: 'POST',
                     data: formData,
                     beforeSend: function() {
@@ -1229,18 +1383,18 @@
                         } else {
                             $.each(response.setelah_menikahs, function(index, value) {
                                 setelah_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_setelah_menikah').append(setelah_menikah_data);
@@ -1280,7 +1434,7 @@
                 $('#data_setelah_menikah').empty();
 
                 var id = $(this).attr('data-id');
-                var url = '{{ route("karyawan.setelah_menikah_delete", ":id") }}';
+                var url = '{{ route("profile.setelah_menikah_delete", ":id") }}';
                 url = url.replace(':id', id );
 
                 $.ajax({
@@ -1297,18 +1451,18 @@
                         } else {
                             $.each(response.setelah_menikahs, function(index, value) {
                                 setelah_menikah_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
-                                            "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
+                                    "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_setelah_menikah').append(setelah_menikah_data);
@@ -1336,7 +1490,7 @@
         kerabatDarurat();
         function kerabatDarurat() {
             var id = $('#id').val();
-            var url = '{{ route("karyawan.kerabat_darurat", ":id") }}';
+            var url = '{{ route("profile.kerabat_darurat", ":id") }}';
             url = url.replace(':id', id );
 
             $.ajax({
@@ -1353,18 +1507,18 @@
                     } else {
                         $.each(response.kerabat_darurats, function(index, value) {
                             kerabat_darurat_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                        "<td class=\"text-center\">" + value.telepon + "</td>" +
-                                        "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                "<td class=\"text-center\">" + value.telepon + "</td>" +
+                                "<td class=\"text-center\">" + value.alamat + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_kerabat_darurat').append(kerabat_darurat_data);
@@ -1389,7 +1543,7 @@
                 }
 
                 $.ajax({
-                    url: "{{ URL::route('karyawan.kerabat_darurat_store') }}",
+                    url: "{{ URL::route('profile.kerabat_darurat_store') }}",
                     type: 'POST',
                     data: formData,
                     beforeSend: function() {
@@ -1407,18 +1561,18 @@
                         } else {
                             $.each(response.kerabat_darurats, function(index, value) {
                                 kerabat_darurat_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.telepon + "</td>" +
-                                            "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.telepon + "</td>" +
+                                    "<td class=\"text-center\">" + value.alamat + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_kerabat_darurat').append(kerabat_darurat_data);
@@ -1458,7 +1612,7 @@
                 $('#data_kerabat_darurat').empty();
 
                 var id = $(this).attr('data-id');
-                var url = '{{ route("karyawan.kerabat_darurat_delete", ":id") }}';
+                var url = '{{ route("profile.kerabat_darurat_delete", ":id") }}';
                 url = url.replace(':id', id );
 
                 $.ajax({
@@ -1475,18 +1629,18 @@
                         } else {
                             $.each(response.kerabat_darurats, function(index, value) {
                                 kerabat_darurat_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.hubungan + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
-                                            "<td class=\"text-center\">" + value.telepon + "</td>" +
-                                            "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.hubungan + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
+                                    "<td class=\"text-center\">" + value.telepon + "</td>" +
+                                    "<td class=\"text-center\">" + value.alamat + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_kerabat_darurat').append(kerabat_darurat_data);
@@ -1514,7 +1668,7 @@
         pendidikan();
         function pendidikan() {
             var id = $('#id').val();
-            var url = '{{ route("karyawan.pendidikan", ":id") }}';
+            var url = '{{ route("profile.pendidikan", ":id") }}';
             url = url.replace(':id', id );
 
             $.ajax({
@@ -1531,19 +1685,19 @@
                     } else {
                         $.each(response.pendidikans, function(index, value) {
                             pendidikan_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + value.tingkat + "</td>" +
-                                        "<td class=\"text-center\">" + value.nama + "</td>" +
-                                        "<td class=\"text-center\">" + value.kota + "</td>" +
-                                        "<td class=\"text-center\">" + value.jurusan + "</td>" +
-                                        "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
-                                        "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            "<tr>" +
+                                "<td class=\"text-center\">" + value.tingkat + "</td>" +
+                                "<td class=\"text-center\">" + value.nama + "</td>" +
+                                "<td class=\"text-center\">" + value.kota + "</td>" +
+                                "<td class=\"text-center\">" + value.jurusan + "</td>" +
+                                "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
+                                "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
+                                "<td class=\"text-center\">" +
+                                    "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                            "<i class=\"fa fa-trash\"></i>" +
+                                    "</button>" +
+                                "</td>" +
+                            "</tr>";
                         });
                     }
                     $('#data_pendidikan').append(pendidikan_data);
@@ -1569,7 +1723,7 @@
                 }
 
                 $.ajax({
-                    url: "{{ URL::route('karyawan.pendidikan_store') }}",
+                    url: "{{ URL::route('profile.pendidikan_store') }}",
                     type: 'POST',
                     data: formData,
                     beforeSend: function() {
@@ -1587,19 +1741,19 @@
                         } else {
                             $.each(response.pendidikans, function(index, value) {
                                 pendidikan_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.tingkat + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.kota + "</td>" +
-                                            "<td class=\"text-center\">" + value.jurusan + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.tingkat + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.kota + "</td>" +
+                                    "<td class=\"text-center\">" + value.jurusan + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_pendidikan').append(pendidikan_data);
@@ -1640,7 +1794,7 @@
                 $('#data_pendidikan').empty();
 
                 var id = $(this).attr('data-id');
-                var url = '{{ route("karyawan.pendidikan_delete", ":id") }}';
+                var url = '{{ route("profile.pendidikan_delete", ":id") }}';
                 url = url.replace(':id', id );
 
                 $.ajax({
@@ -1657,19 +1811,19 @@
                         } else {
                             $.each(response.pendidikans, function(index, value) {
                                 pendidikan_data += "" +
-                                        "<tr>" +
-                                            "<td class=\"text-center\">" + value.tingkat + "</td>" +
-                                            "<td class=\"text-center\">" + value.nama + "</td>" +
-                                            "<td class=\"text-center\">" + value.kota + "</td>" +
-                                            "<td class=\"text-center\">" + value.jurusan + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
-                                            "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                            "<td class=\"text-center\">" +
-                                                "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                        "<i class=\"fa fa-trash\"></i>" +
-                                                "</button>" +
-                                            "</td>" +
-                                        "</tr>";
+                                "<tr>" +
+                                    "<td class=\"text-center\">" + value.tingkat + "</td>" +
+                                    "<td class=\"text-center\">" + value.nama + "</td>" +
+                                    "<td class=\"text-center\">" + value.kota + "</td>" +
+                                    "<td class=\"text-center\">" + value.jurusan + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
+                                    "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
+                                    "<td class=\"text-center\">" +
+                                        "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
+                                                "<i class=\"fa fa-trash\"></i>" +
+                                        "</button>" +
+                                    "</td>" +
+                                "</tr>";
                             });
                         }
                         $('#data_pendidikan').append(pendidikan_data);

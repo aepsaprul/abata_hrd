@@ -737,9 +737,13 @@
         $(document).on('shown.bs.modal', '.modal-create', function() {
             $('#create_nama_lengkap').focus();
 
-            $('.create-select-jabatan').select2();
+            $('.create-select-jabatan').select2({
+                dropdownParent: $(".modal-create")
+            });
 
-            $('.create-select2-role').select2();
+            $('.create-select2-role').select2({
+                dropdownParent: $(".modal-create")
+            });
         });
 
         $(document).on('submit', '#form-create', function (e) {
