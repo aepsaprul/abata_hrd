@@ -295,6 +295,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         // resign
         Route::get('pengajuan/resign', [PengajuanResignController::class, 'index'])->name('pengajuan_resign.index');
+        Route::get('pengajuan/resign/create', [PengajuanResignController::class, 'create'])->name('pengajuan_resign.create');
+        Route::post('pengajuan/resign/store', [PengajuanResignController::class, 'store'])->name('pengajuan_resign.store');
 
     // complaint
     Route::get('complaint', [ComplaintController::class, 'index'])->name('complaint.index');

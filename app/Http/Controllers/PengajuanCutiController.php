@@ -21,11 +21,9 @@ class PengajuanCutiController extends Controller
     public function index()
     {
         $cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)->get();
-        $cuti_detail = CutiDetail::get();
 
         return view('pages.pengajuan.cuti.index', [
-            'cutis' => $cuti,
-            'cuti_details' => $cuti_detail
+            'cutis' => $cuti
         ]);
     }
 
