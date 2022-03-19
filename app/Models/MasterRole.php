@@ -9,7 +9,11 @@ class MasterRole extends Model
 {
     use HasFactory;
 
-    public function approve() {
+    public function approveCuti() {
         return $this->hasMany(CutiApprover::class, 'role_id', 'id');
+    }
+
+    public function approveResign() {
+        return $this->hasMany(ResignApprover::class, 'role_id', 'id');
     }
 }

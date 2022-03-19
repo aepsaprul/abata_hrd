@@ -29,6 +29,7 @@ use App\Http\Controllers\PengajuanCutiController;
 use App\Http\Controllers\PengajuanResignController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResignApproverController;
 use App\Http\Controllers\ResignController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TrainingController;
@@ -176,6 +177,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('master/cuti_approver/delete', [CutiApproverController::class, 'delete'])->name('cuti_approver.delete');
         Route::get('master/cuti_approver/{id}/delete_btn_approver', [CutiApproverController::class, 'deleteBtnApprover'])->name('cuti_approver.delete_btn_approver');
         Route::post('master/cuti_approver/delete_approver', [CutiApproverController::class, 'deleteApprover'])->name('cuti_approver.delete_approver');
+
+        // resign approver
+        Route::get('master/resign_approver', [ResignApproverController::class, 'index'])->name('resign_approver.index');
+        Route::get('master/resign_approver/get_resign', [ResignApproverController::class, 'getResign'])->name('resign_approver.get_resign');
+        Route::get('master/resign_approver/create', [ResignApproverController::class, 'create'])->name('resign_approver.create');
+        Route::post('master/resign_approver/store', [ResignApproverController::class, 'store'])->name('resign_approver.store');
+        Route::post('master/resign_approver/update_approver', [ResignApproverController::class, 'updateApprover'])->name('resign_approver.update_approver');
+        Route::post('master/resign_approver/add_approver', [ResignApproverController::class, 'addApprover'])->name('resign_approver.add_approver');
+        Route::get('master/resign_approver/{id}/delete_btn', [ResignApproverController::class, 'deleteBtn'])->name('resign_approver.delete_btn');
+        Route::post('master/resign_approver/delete', [ResignApproverController::class, 'delete'])->name('resign_approver.delete');
+        Route::get('master/resign_approver/{id}/delete_btn_approver', [ResignApproverController::class, 'deleteBtnApprover'])->name('resign_approver.delete_btn_approver');
+        Route::post('master/resign_approver/delete_approver', [ResignApproverController::class, 'deleteApprover'])->name('resign_approver.delete_approver');
 
     // karyawan
     Route::resource('karyawan', MasterKaryawanController::class);

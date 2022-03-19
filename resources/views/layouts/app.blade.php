@@ -181,6 +181,11 @@
                                             <i class="fas fa-angle-right nav-icon"></i><p>Cuti Approver</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('resign_approver.index') }}" class="nav-link {{ request()->is('master/resign_approver') ? 'active' : '' }}">
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Resign Approver</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item">

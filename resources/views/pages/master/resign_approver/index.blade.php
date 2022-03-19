@@ -17,12 +17,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Approver Cuti</h1>
+                    <h1>Approver Resign</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Approver Cuti</li>
+                        <li class="breadcrumb-item active">Approver Resign</li>
                     </ol>
                 </div>
             </div>
@@ -136,10 +136,10 @@
         });
 
         // show data
-        dataCuti();
-        function dataCuti() {
+        dataResign();
+        function dataResign() {
             $.ajax({
-                url: "{{ URL::route('cuti_approver.get_cuti') }}",
+                url: "{{ URL::route('resign_approver.get_resign') }}",
                 type: 'GET',
                 success: function (response) {
                     let data_approve = "";
@@ -205,7 +205,7 @@
         // create
         $('#btn-create').on('click', function() {
             $.ajax({
-                url: "{{ URL::route('cuti_approver.create') }}",
+                url: "{{ URL::route('resign_approver.create') }}",
                 type: 'GET',
                 success: function (response) {
                     // role
@@ -229,7 +229,7 @@
             var formData = new FormData($('#form')[0]);
 
             $.ajax({
-                url: "{{ URL::route('cuti_approver.store') }}",
+                url: "{{ URL::route('resign_approver.store') }}",
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -274,14 +274,16 @@
                 }
 
                 $.ajax({
-                    url: "{{ URL::route('cuti_approver.update_approver') }}",
+                    url: "{{ URL::route('resign_approver.update_approver') }}",
                     type: 'POST',
                     data: formData,
                     success: function (response) {
+                        console.log(response);
                         Toast.fire({
                             icon: 'success',
                             title: 'Data berhasil diperbaharui'
                         });
+
                         // setTimeout(() => {
                         //     window.location.reload(1);
                         // }, 1000);
@@ -300,7 +302,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cuti_approver.add_approver') }}",
+                url: "{{ URL::route('resign_approver.add_approver') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {
@@ -320,7 +322,7 @@
             e.preventDefault();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("cuti_approver.delete_btn", ":id") }}';
+            var url = '{{ route("resign_approver.delete_btn", ":id") }}';
             url = url.replace(':id', id);
 
             var formData = {
@@ -346,7 +348,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cuti_approver.delete') }}",
+                url: "{{ URL::route('resign_approver.delete') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {
@@ -380,7 +382,7 @@
             $('#delete_id').empty();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("cuti_approver.delete_btn_approver", ":id") }}';
+            var url = '{{ route("resign_approver.delete_btn_approver", ":id") }}';
             url = url.replace(':id', id);
 
             var formData = {
@@ -406,7 +408,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cuti_approver.delete_approver') }}",
+                url: "{{ URL::route('resign_approver.delete_approver') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {

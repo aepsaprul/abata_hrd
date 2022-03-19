@@ -62,9 +62,6 @@ class ProfileController extends Controller
         $karyawan->jenis_kelamin = $request->jenis_kelamin;
         $karyawan->status_perkawinan = $request->status_perkawinan;
         $karyawan->agama = $request->agama;
-        $karyawan->master_cabang_id = $request->master_cabang_id;
-        $karyawan->master_jabatan_id = $request->master_jabatan_id;
-        $karyawan->master_divisi_id = $request->master_divisi_id;
 
         if($request->hasFile('foto')) {
             if (file_exists(public_path("image/" . $karyawan->foto))) {
