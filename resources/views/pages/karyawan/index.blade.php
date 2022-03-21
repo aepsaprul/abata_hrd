@@ -109,19 +109,19 @@
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a
                                                             href="{{ route('karyawan.show', [$item->id]) }}"
-                                                            class="dropdown-item border-bottom btn-show"
+                                                            class="dropdown-item border-bottom btn-show text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Lihat
                                                         </a>
                                                         <a
                                                             href="{{ route('karyawan.edit', [$item->id]) }}"
-                                                            class="dropdown-item border-bottom btn-edit"
+                                                            class="dropdown-item border-bottom btn-edit text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
                                                         </a>
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item btn-delete"
+                                                            class="dropdown-item btn-delete text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
                                                         </a>
