@@ -37,11 +37,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Karyawan</th>
+                                        <th class="text-center text-indigo">Lokasi Kerja</th>
+                                        <th class="text-center text-indigo">Tanggal Masuk</th>
                                         <th class="text-center text-indigo">Tanggal Keluar</th>
                                         <th class="text-center text-indigo">Status</th>
                                         <th class="text-center text-indigo">Aksi</th>
@@ -52,24 +54,33 @@
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>{{ $item->masterKaryawan ? $item->masterKaryawan->nama_panggilan : '' }}</td>
+                                            <td>{{ $item->lokasi_kerja }}</td>
+                                            <td>{{ $item->tanggal_masuk }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
                                             <td>
-                                                @if ($item->status == 1)
-													Permohonan Resign
-												@elseif ($item->status == 2)
-													Acc Atasan Langsung
-												@elseif ($item->status == 3)
-													Ditolak Atasan Langsung
-												@elseif ($item->status == 4)
-													Acc HC
-												@elseif ($item->status == 5)
-													Ditolak HC
-												@elseif ($item->status == 6)
-													Acc Direktur
-												@elseif ($item->status == 7)
-													Ditolak Direktur
-												@else
+                                                @if ($item->approved_percentage > 100)
+                                                    @php
+                                                        $percent = 100;
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $percent = $item->approved_percentage
+                                                    @endphp
                                                 @endif
+                                                <div class="progress">
+                                                    <div
+                                                        class="progress-bar bg-{{ $item->approved_background }}"
+                                                        role="progressbar"
+                                                        aria-valuenow="40"
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100"
+                                                        style="width: {{ $percent }}%;">
+                                                            <span class="">{{ $percent }}%</span>
+                                                    </div>
+                                                </div>
+                                                <span style="font-size: 14px;">
+                                                    {{ $item->approved_text }} {{ $item->approvedLeader ? $item->approvedLeader->nama_panggilan : "" }}
+                                                </span>
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
@@ -82,20 +93,17 @@
                                                             <i class="fas fa-cog"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        @if ($item->status == 1 && Auth::user()->master_karyawan_id == $item->atasan)
-                                                            <a href="{{ route('resign.atasan_approve', [$item->id]) }}" class="dropdown-item border-bottom">Approve</a>
-                                                            <a href="{{ route('resign.atasan_tolak', [$item->id]) }}" class="dropdown-item border-bottom">Tolak</a>
-                                                        @elseif ($item->status == 2 && Auth::user()->master_karyawan_id != $item->atasan)
-                                                            <a href="{{ route('resign.hc_approve', [$item->id]) }}" class="dropdown-item border-bottom">Approve</a>
-                                                            <a href="{{ route('resign.hc_tolak', [$item->id]) }}" class="dropdown-item border-bottom">Tolak</a>
-                                                        {{-- @elseif ($item->status == 4 && Auth::user()->load('masterKaryawan.masterJabatan')->masterKaryawan->masterJabatan->nama_jabatan == "Direktur")
-                                                            <a href="{{ route('resign.direktur_approve', [$item->id]) }}" class="dropdown-item border-bottom">Approve</a>
-                                                            <a href="{{ route('resign.direktur_tolak', [$item->id]) }}" class="dropdown-item border-bottom">Tolak</a>
-                                                        @else --}}
-                                                        @endif
-                                                        <a href="{{ route('resign.show', [$item->id]) }}" class="dropdown-item border-bottom"><i class="fa fa-eye"></i> Detail</a>
-                                                        <a href="{{ route('resign.delete', [$item->id]) }}" class="dropdown-item"
-                                                            onclick="return confirm('Yakin akan dihapus?')"><i class="fa fa-trash"></i> Hapus</a>
+                                                        <a
+                                                            href="{{ route('resign.show', [$item->id]) }}" class="dropdown-item border-bottom btn-detail text-indigo"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                        </a>
+                                                        <a
+                                                            href="#"
+                                                            class="dropdown-item btn-delete text-indigo"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -104,94 +112,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
-
-<div class="modal fade modal-create" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="form-create">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Data Cabang</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="create_nama" class="form-label">Nama Cabang</label>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            id="create_nama"
-                            name="create_nama"
-                            maxlength="30"
-                            required>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-create" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-create-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Simpan
-                    </button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<div class="modal fade modal-edit" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="form-edit">
-                <input type="hidden" id="edit_id" name="edit_id">
-                <div class="modal-header">
-                    <h4 class="modal-title">Ubah Data Cabang</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="edit_nama" class="form-label">Nama Cabang</label>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            id="edit_nama"
-                            name="edit_nama"
-                            maxlength="30"
-                            required>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-edit" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Perbaharui
-                    </button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
 </div>
 
 {{-- modal delete --}}
@@ -215,9 +140,7 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 @endsection
@@ -252,124 +175,12 @@
             timer: 3000
         });
 
-        $('#btn-create').on('click', function() {
-            $('.modal-create').modal('show');
-        });
-
-        $(document).on('shown.bs.modal', '.modal-create', function() {
-            $('#create_nama').focus();
-        });
-
-        $('#form-create').submit(function (e) {
-            e.preventDefault();
-
-            var formData = {
-                nama: $('#create_nama').val(),
-                _token: CSRF_TOKEN
-            }
-
-            $.ajax({
-                url: "{{ URL::route('cabang.store') }}",
-                type: 'POST',
-                data: formData,
-                beforeSend: function () {
-                    $('.btn-spinner-create').css('display', 'inline-block');
-                    $('.btn-create-save').css('display', 'none');
-                },
-                success: function (response) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Data behasil ditambah'
-                    });
-
-                    setTimeout(() => {
-                        window.location.reload(1);
-                    }, 1000);
-                },
-                error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + statusText
-
-                    Toast.fire({
-                        icon: 'danger',
-                        title: 'Error - ' + errorMessage
-                    });
-                }
-            });
-        });
-
-        // edit
-        $('body').on('click', '.btn-edit', function (e) {
-            e.preventDefault();
-
-            var id = $(this).attr('data-id');
-            var url = '{{ route("cabang.edit", ":id") }}';
-            url = url.replace(':id', id);
-
-            var formData = {
-                id: id,
-                _token: CSRF_TOKEN
-            }
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: formData,
-                success: function (response) {
-                    $('#edit_id').val(response.id);
-                    $('#edit_nama').val(response.nama);
-
-                    $('.modal-edit').modal('show');
-                }
-            })
-        });
-
-        $('#form-edit').submit(function (e) {
-            e.preventDefault();
-
-            var formData = {
-                nama: $('#edit_nama').val(),
-                _token: CSRF_TOKEN
-            }
-
-            var id = $('#edit_id').val();
-            var url = '{{ route("cabang.update", ":id") }}';
-            url = url.replace(':id', id);
-
-            $.ajax({
-                url: url,
-                type: 'PUT',
-                data: formData,
-                beforeSend: function () {
-                    $('.btn-spinner-edit').css("display", "block");
-                    $('.btn-edit-save').css("display", "none");
-                },
-                success: function (response) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Data berhasil diperbaharui'
-                    });
-
-                    setTimeout( () => {
-                        window.location.reload(1);
-                    }, 1000);
-                },
-                error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhar.statusText
-
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Error - ' + errorMessage
-                    });
-                }
-            });
-        });
-
         // delete
         $('body').on('click', '.btn-delete', function (e) {
             e.preventDefault();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("cabang.delete_btn", ":id") }}';
+            var url = '{{ route("resign.delete_btn", ":id") }}';
             url = url.replace(':id', id);
 
             var formData = {
@@ -397,7 +208,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('cabang.delete') }}",
+                url: "{{ URL::route('resign.delete') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {

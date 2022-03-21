@@ -9,13 +9,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class HcResign extends Model
 {
-    use HasFactory;    
+    use HasFactory;
 
     public function masterKaryawan() {
-        return $this->belongsTo(MasterKaryawan::class);
+        return $this->belongsTo(MasterKaryawan::class, 'master_karyawan_id', 'id');
     }
 
     public function masterJabatan() {
         return $this->belongsTo(MasterJabatan::class);
+    }
+
+    public function approvedLeader() {
+        return $this->belongsTo(MasterKaryawan::class, 'approved_leader', 'id');
     }
 }

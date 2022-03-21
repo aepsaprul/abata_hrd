@@ -35,8 +35,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+
+                    {{-- cuti --}}
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-header">
+                            <h3 class="card-title">Permohonan Cuti</h3>
+                        </div>
+                        <div class="card-body" style="overflow-x: auto;">
                             <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
                                 <thead>
                                     <tr>
@@ -82,6 +87,74 @@
                                                             <a
                                                                 href="#" class="dropdown-item btn-detail text-indigo"
                                                                 data-id="{{ $item->cuti->id }}">
+                                                                    <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {{-- resign --}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Permohonan Resign</h3>
+                        </div>
+                        <div class="card-body" style="overflow-x: auto;">
+                            <table id="example2" class="table table-bordered table-striped" style="font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-indigo">No</th>
+                                        <th class="text-center text-indigo">Karyawan</th>
+                                        <th class="text-center text-indigo">Lokasi Kerja</th>
+                                        <th class="text-center text-indigo">Tanggal Masuk</th>
+                                        <th class="text-center text-indigo">Tanggal Keluar</th>
+                                        <th class="text-center text-indigo">Approve</th>
+                                        <th class="text-center text-indigo">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($resign_details as $key => $item)
+                                        @if ($item->hirarki > 1 && $item->status == 0)
+                                        @else
+                                            <tr>
+                                                <td class="text-center">{{ $key + 1 }}</td>
+                                                <td>{{ $item->resign->masterKaryawan->nama_panggilan }}</td>
+                                                <td>{{ $item->resign->lokasi_kerja }}</td>
+                                                <td>{{ $item->resign->tanggal_masuk }}</td>
+                                                <td>{{ $item->resign->tanggal_keluar }}</td>
+                                                <td class="text-center">
+                                                    @if ($item->confirm == 1)
+                                                        <span class="bg-success px-2">Approved</span>
+                                                    @elseif ($item->confirm == 2)
+                                                        <span class="bg-danger px-2">Disapproved</span>
+                                                    @else
+                                                        <button class="btn btn-sm btn-primary btn-resign-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
+                                                        <button class="btn btn-primary btn-sm btn-resign-approve-spinner d-none" disabled>
+                                                            <span class="spinner-grow spinner-grow-sm"></span>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-danger btn-resign-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
+                                                        <a
+                                                            href="#"
+                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                                <i class="fas fa-cog"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a
+                                                                href="{{ route('approval.resign_show', [$item->resign->id]) }}" class="dropdown-item btn-resign-detail text-indigo"
+                                                                data-id="{{ $item->resign->id }}">
                                                                     <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
                                                             </a>
                                                         </div>
@@ -169,7 +242,15 @@
 
 <script>
     $(function () {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+            paging: false,
+            searching: false
+        });
+
+        $("#example2").DataTable({
+            paging: false,
+            searching: false
+        });
     });
     $(document).ready(function () {
         $.ajaxSetup({
@@ -185,7 +266,7 @@
             timer: 3000
         });
 
-        // btn approve
+        // btn approve cuti
         $(document).on('click', '.btn-approve', function (e) {
             e.preventDefault();
 
@@ -219,7 +300,7 @@
             });
         });
 
-        // btn disapprove
+        // btn disapprove cuti
         $(document).on('click', '.btn-disapprove', function (e) {
             e.preventDefault();
 
@@ -235,6 +316,10 @@
                 url: url,
                 type: 'GET',
                 data: formData,
+                beforeSend: function () {
+                    $('.btn-approve-spinner').removeClass('d-none');
+                    $('.btn-disapprove').addClass('d-none');
+                },
                 success: function (response) {
                     Toast.fire({
                         icon: 'success',
@@ -248,7 +333,7 @@
             });
         });
 
-        // detail
+        // detail cuti
         $(document).on('click', '.btn-detail', function (e) {
             e.preventDefault();
             $('#form_tanggal').empty();
@@ -343,6 +428,73 @@
                         icon: 'error',
                         title: 'Error - ' + errorMessage
                     });
+                }
+            });
+        });
+
+        // btn approve resign
+        $(document).on('click', '.btn-resign-approve', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("approval.resign_approved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-resign-approve-spinner').removeClass('d-none');
+                    $('.btn-resign-approve').addClass('d-none');
+                },
+                success: function (response) {
+                    console.log(response);
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Resign telah disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
+        });
+
+        // btn disapprove resign
+        $(document).on('click', '.btn-resign-disapprove', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("approval.resign_disapproved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-resign-approve-spinner').removeClass('d-none');
+                    $('.btn-resign-disapprove').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Resign tidak disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
                 }
             });
         });

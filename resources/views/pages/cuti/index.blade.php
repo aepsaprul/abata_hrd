@@ -90,13 +90,13 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a
-                                                            href="#" class="dropdown-item border-bottom btn-detail"
+                                                            href="#" class="dropdown-item border-bottom btn-detail text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
                                                         </a>
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item btn-delete"
+                                                            class="dropdown-item btn-delete text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
                                                         </a>

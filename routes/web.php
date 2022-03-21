@@ -247,18 +247,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('approval/{id}/show', [ApprovalController::class, 'show'])->name('approval.show');
     Route::get('approval/{id}/approved', [ApprovalController::class, 'approved'])->name('approval.approved');
     Route::get('approval/{id}/disapproved', [ApprovalController::class, 'disapproved'])->name('approval.disapproved');
+    Route::get('approval/{id}/resign_approved', [ApprovalController::class, 'resignApproved'])->name('approval.resign_approved');
+    Route::get('approval/{id}/resign_disapproved', [ApprovalController::class, 'resignDisapproved'])->name('approval.resign_disapproved');
+    Route::get('approval/{id}/resign_show', [ApprovalController::class, 'resignShow'])->name('approval.resign_show');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
     Route::get('resign/{id}/show', [ResignController::class, 'show'])->name('resign.show');
     Route::get('resign/{id}/delete_btn', [ResignController::class, 'deleteBtn'])->name('resign.delete_btn');
     Route::post('resign/delete', [ResignController::class, 'delete'])->name('resign.delete');
-    Route::get('resign/{id}/atasan_approve', [ResignController::class, 'atasanApprove'])->name('resign.atasan_approve');
-    Route::get('resign/{id}/atasan_tolak', [ResignController::class, 'atasanTolak'])->name('resign.atasan_tolak');
-    Route::get('resign/{id}/hc_approve', [ResignController::class, 'hcApprove'])->name('resign.hc_approve');
-    Route::get('resign/{id}/hc_tolak', [ResignController::class, 'hcTolak'])->name('resign.hc_tolak');
-    Route::get('resign/{id}/direktur_approve', [ResignController::class, 'direkturApprove'])->name('resign.direktur_approve');
-    Route::get('resign/{id}/direktur_tolak', [ResignController::class, 'direkturTolak'])->name('resign.direktur_tolak');
 
     // lamaran
     Route::get('lamaran', [LamaranController::class, 'index'])->name('lamaran.index');
