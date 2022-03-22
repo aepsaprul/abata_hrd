@@ -59,9 +59,11 @@ class TrainingController extends Controller
     public function show($id)
     {
         $training = HcTraining::find($id);
+        $divisi = MasterDivisi::get();
 
         return response()->json([
-            'training' => $training
+            'training' => $training,
+            'divisis' => $divisi
         ]);
     }
 

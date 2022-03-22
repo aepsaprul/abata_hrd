@@ -89,19 +89,19 @@
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item border-bottom btn-show"
+                                                            class="dropdown-item border-bottom btn-show text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
                                                         </a>
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item border-bottom btn-edit"
+                                                            class="dropdown-item border-bottom btn-edit text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
                                                         </a>
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item btn-delete"
+                                                            class="dropdown-item btn-delete text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
                                                         </a>
@@ -191,19 +191,19 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                             <label for="hasil" class="form-label">Hasil</label>
-                            <input type="text" name="hasil" id="hasil" class="form-control" required>
+                            <input type="text" name="hasil" id="hasil" class="form-control">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                             <label for="status" class="form-label">Status</label>
-                            <input type="text" name="status" id="status" class="form-control" required>
+                            <input type="text" name="status" id="status" class="form-control">
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 modul">
                             <label for="modul" class="form-label">Modul</label>
                             <input type="file" name="modul" id="modul" class="form-control">
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer justify-content-between">
+                <div class="modal-footer footer-form justify-content-between">
                     <button class="btn btn-primary btn-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
@@ -277,6 +277,7 @@
             timer: 3000
         });
 
+        // create
         $('#btn-create').on('click', function(e) {
             e.preventDefault();
             $('#kategori').empty();
@@ -351,6 +352,100 @@
             });
         });
 
+        // show
+        $(document).on('click', '.btn-show', function (e) {
+            e.preventDefault();
+
+            $('.modal-title').empty();
+            $('.modal-btn').empty();
+
+            var id = $(this).attr('data-id');
+            var url = '{{ route("training.show", ":id") }}';
+            url = url.replace(':id', id);
+
+            var formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    $('#form').removeClass('form-create');
+                    $('#form').addClass('form-show');
+                    $('.modal-title').append("Detail Data Training");
+                    $('#judul').prop("disabled", true);
+                    $('#tanggal').prop("disabled", true);
+                    $('#durasi').prop("disabled", true);
+                    $('#peserta').prop("disabled", true);
+                    $('#tempat').prop("disabled", true);
+                    $('#goal').prop("disabled", true);
+                    $('#pengisi').prop("disabled", true);
+                    $('#hasil').prop("disabled", true);
+                    $('#status').prop("disabled", true);
+                    $('#kategori').prop("disabled", true);
+                    $('#divisi_id').prop("disabled", true);
+                    $('#jenis').prop("disabled", true);
+
+                    $('.footer-form').addClass("d-none");
+                    $('.modul').addClass("d-none");
+
+                    $('#id').val(response.training.id);
+                    $('#judul').val(response.training.judul);
+                    $('#tanggal').val(response.training.tanggal);
+                    $('#durasi').val(response.training.durasi);
+                    $('#peserta').val(response.training.peserta);
+                    $('#tempat').val(response.training.tempat);
+                    $('#goal').val(response.training.goal);
+                    $('#pengisi').val(response.training.pengisi);
+                    $('#hasil').val(response.training.hasil);
+                    $('#status').val(response.training.status);
+
+                    // ketegori
+                    let value_kategori = "" +
+                    "<option value=\"softskill\"";
+                    if (response.training.kategori == "softskill") {
+                        value_kategori += " selected";
+                    }
+                    value_kategori += ">Softskill</option>" +
+                    "<option value=\"hardskill\"";
+                    if (response.training.kategori == "hardskill") {
+                        value_kategori += " selected";
+                    }
+                    value_kategori += ">Hardskill</option>";
+                    $('#kategori').append(value_kategori);
+
+                    // divisi
+                    let value_divisi = "<option value=\"\">--Pilih Divisi--</option>";
+                    $.each(response.divisis, function(index, item) {
+                        value_divisi += "<option value=\"" + item.id + "\"";
+                        if (item.id == response.training.master_divisi_id) {
+                            value_divisi += " selected";
+                        }
+                        value_divisi += ">" + item.nama + "</option>";
+                    });
+                    $('#divisi_id').append(value_divisi);
+
+                    // jenis
+                    let value_jenis = "";
+                    value_jenis += "<option value=\"online\"";
+                    if (response.training.jenis == "online") {
+                        value_jenis += " selected";
+                    }
+                    value_jenis += ">Online</option>";
+                    value_jenis += "<option value=\"offline\"";
+                    if (response.training.jenis == "offline") {
+                        value_jenis += " selected";
+                    }
+                    value_jenis += ">Offline</option>";
+                    $('#jenis').append(value_jenis);
+
+                    $('.modal-form').modal('show');
+                }
+            });
+        });
+
         // edit
         $('body').on('click', '.btn-edit', function (e) {
             e.preventDefault();
@@ -374,6 +469,22 @@
                     $('#form').addClass('form-edit');
                     $('.modal-title').append("Edit Data Training");
                     $('.modal-btn').append("Perbaharui");
+
+                    $('#judul').prop("disabled", false);
+                    $('#tanggal').prop("disabled", false);
+                    $('#durasi').prop("disabled", false);
+                    $('#peserta').prop("disabled", false);
+                    $('#tempat').prop("disabled", false);
+                    $('#goal').prop("disabled", false);
+                    $('#pengisi').prop("disabled", false);
+                    $('#hasil').prop("disabled", false);
+                    $('#status').prop("disabled", false);
+                    $('#kategori').prop("disabled", false);
+                    $('#divisi_id').prop("disabled", false);
+                    $('#jenis').prop("disabled", false);
+
+                    $('.footer-form').removeClass("d-none");
+                    $('.modul').removeClass("d-none");
 
                     $('#id').val(response.training.id);
                     $('#judul').val(response.training.judul);

@@ -277,6 +277,7 @@ Route::group(['middleware' => 'auth'], function () {
     // training
     Route::get('training', [TrainingController::class, 'index'])->name('training.index');
     Route::get('training/create', [TrainingController::class, 'create'])->name('training.create');
+    Route::get('training/{id}/show', [TrainingController::class, 'show'])->name('training.show');
     Route::post('training/store', [TrainingController::class, 'store'])->name('training.store');
     Route::get('training/{id}/edit', [TrainingController::class, 'edit'])->name('training.edit');
     Route::post('training/update', [TrainingController::class, 'update'])->name('training.update');
