@@ -12,6 +12,7 @@ use App\Models\MasterDivisi;
 use App\Models\MasterJabatan;
 use App\Models\MasterKaryawan;
 use App\Models\User;
+use App\Notifications\BiodataNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -76,6 +77,9 @@ class ProfileController extends Controller
 
         $karyawan->save();
 
+        $user = User::find(1);
+        $masterKaryawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
+        $user->notify(new BiodataNotification($masterKaryawan));
 
         return response()->json([
             'status' => 'Data berhasil diperbaharui'

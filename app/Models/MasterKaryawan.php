@@ -12,10 +12,11 @@ use App\Models\SitumpurDesain;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SitumpurAntrianDesainNomor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class MasterKaryawan extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'nik',
