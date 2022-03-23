@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApprovalController;
+use App\Http\Controllers\ApprovalPenggajianController;
 use App\Http\Controllers\ApproveController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\ChangePasswordController;
@@ -255,6 +256,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cuti/{id}/hc_approve', [CutiController::class, 'hcApprove'])->name('cuti.hc_approve');
     Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
 
+    // resign
+    Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
+    Route::get('resign/{id}/show', [ResignController::class, 'show'])->name('resign.show');
+    Route::get('resign/{id}/delete_btn', [ResignController::class, 'deleteBtn'])->name('resign.delete_btn');
+    Route::post('resign/delete', [ResignController::class, 'delete'])->name('resign.delete');
+
     // approval
     Route::get('approval', [ApprovalController::class, 'index'])->name('approval.index');
     Route::get('approval/{id}/show', [ApprovalController::class, 'show'])->name('approval.show');
@@ -264,11 +271,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('approval/{id}/resign_disapproved', [ApprovalController::class, 'resignDisapproved'])->name('approval.resign_disapproved');
     Route::get('approval/{id}/resign_show', [ApprovalController::class, 'resignShow'])->name('approval.resign_show');
 
-    // resign
-    Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
-    Route::get('resign/{id}/show', [ResignController::class, 'show'])->name('resign.show');
-    Route::get('resign/{id}/delete_btn', [ResignController::class, 'deleteBtn'])->name('resign.delete_btn');
-    Route::post('resign/delete', [ResignController::class, 'delete'])->name('resign.delete');
+    // approval penggajian
+    Route::get('approval_penggajian', [ApprovalPenggajianController::class, 'index'])->name('approval_penggajian.index');
+    Route::get('approval_penggajian/{id}/show', [ApprovalPenggajianController::class, 'show'])->name('approval_penggajian.show');
+    Route::get('approval_penggajian/{id}/approved', [ApprovalPenggajianController::class, 'approved'])->name('approval_penggajian.approved');
+    Route::post('approval_penggajian/disapproved', [ApprovalPenggajianController::class, 'disapproved'])->name('approval_penggajian.disapproved');
 
     // lamaran
     Route::get('lamaran', [LamaranController::class, 'index'])->name('lamaran.index');
@@ -286,7 +293,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
     Route::get('penggajian/{id}/delete_btn', [PenggajianController::class, 'deleteBtn'])->name('penggajian.delete_btn');
     Route::post('penggajian/delete', [PenggajianController::class, 'delete'])->name('penggajian.delete');
-    Route::post('penggajian/reject', [PenggajianController::class, 'reject'])->name('penggajian.reject');
 
     // training
     Route::get('training', [TrainingController::class, 'index'])->name('training.index');

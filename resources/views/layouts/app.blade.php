@@ -209,6 +209,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('approval_penggajian.index') }}" class="nav-link {{ request()->is(['approval_penggajian', 'approval_penggajian/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-check text-center mr-2" style="width: 30px;"></i><p>Approval Penggajian</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('resign.index') }}" class="nav-link {{ request()->is(['resign', 'resign/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-hand-paper text-center mr-2" style="width: 30px;"></i><p>Data Resign</p>
                                 </a>

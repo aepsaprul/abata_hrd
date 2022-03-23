@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Models\MasterKaryawan;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BiodataNotification extends Notification
+class PenggajianNotification extends Notification
 {
     use Queueable;
 
@@ -17,9 +17,9 @@ class BiodataNotification extends Notification
      *
      * @return void
      */
-    public function __construct(MasterKaryawan $masterKaryawan)
+    public function __construct(User $user)
     {
-        $this->karyawan = $masterKaryawan;
+        $this->user = $user;
     }
 
     /**
@@ -41,12 +41,10 @@ class BiodataNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/karyawan/'.$this->karyawan->id);
-
         return (new MailMessage)
-                    ->greeting('Halo')
-                    ->line('Karyawan bernama '.$this->karyawan->nama_panggilan.' Melakukan perubahan Biodata')
-                    ->action('Telusuri', $url)
+                    ->greeting('Assalamu\'alaikum, '.$this->user->name)
+                    ->line('Divisi Human Capital Mengajukan Penggajian')
+                    ->action('Telusuri', url('/approval_penggajian'))
                     ->line('Thank you for using our application!');
     }
 

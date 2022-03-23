@@ -24,7 +24,7 @@ class ApprovalController extends Controller
     {
         $karyawan_id = Auth::user()->master_karyawan_id;
 
-        $cuti_detail = CutiDetail::with('cuti')->where('atasan', 'like', "%\"'.$karyawan_id.'\"%")->get();
+        $cuti_detail = CutiDetail::with('cuti')->where('atasan', 'like', "%\"$karyawan_id\"%")->get();
 
         $resign_detail = ResignDetail::with('resign')->where('atasan', 'like', "%\"".$karyawan_id."\"%")->get();
 

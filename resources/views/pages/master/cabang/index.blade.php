@@ -89,20 +89,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 
+
+{{-- modal create --}}
 <div class="modal fade modal-create" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -135,11 +130,8 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
 <div class="modal fade modal-edit" id="modal-default">
     <div class="modal-dialog">
@@ -200,9 +192,7 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 @endsection

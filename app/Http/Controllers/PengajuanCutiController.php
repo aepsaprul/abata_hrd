@@ -76,12 +76,6 @@ class PengajuanCutiController extends Controller
                 $jenis = $request->jenis;
             }
 
-            $karyawan = MasterKaryawan::find($request->karyawan_id);
-
-            $role = MasterRole::where('nama', $karyawan->role)->first();
-
-            $approve = CutiApprover::where('role_id', $role->id)->get();
-
             $cuti = new HcCuti;
             $cuti->master_karyawan_id = $request->karyawan_id;
             $cuti->master_jabatan_id = $request->jabatan_id;
@@ -105,6 +99,12 @@ class PengajuanCutiController extends Controller
                 $cuti_tgl->tanggal = $value;
                 $cuti_tgl->save();
             }
+
+            $karyawan = MasterKaryawan::find($request->karyawan_id);
+
+            $role = MasterRole::where('nama', $karyawan->role)->first();
+
+            $approve = CutiApprover::where('role_id', $role->id)->get();
 
             foreach ($approve as $key => $value) {
                 $cuti_detail = new CutiDetail;

@@ -9,7 +9,11 @@ class HcPenggajian extends Model
 {
     use HasFactory;
 
-    public function karyawan() {
+    public function masterKaryawan() {
         return $this->belongsTo(MasterKaryawan::class, 'karyawan_id', 'id');
+    }
+
+    public function approvedLeader() {
+        return $this->belongsTo(MasterKaryawan::class, 'approved_leader', 'id');
     }
 }

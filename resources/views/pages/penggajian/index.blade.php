@@ -3,8 +3,8 @@
 @section('style')
 
 <!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
 <style>
     .content-header,
@@ -29,12 +29,12 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h5>Data Approval Penggajian</h5>
+					<h5>Data Penggajian</h5>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="#">Home</a></li>
-						<li class="breadcrumb-item active">Approval Penggajian</li>
+						<li class="breadcrumb-item active">Penggajian</li>
 					</ol>
 				</div>
 			</div>
@@ -46,13 +46,11 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="card">
-                        @if (Auth::user()->masterKaryawan->masterJabatan->id != 1)
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <button class="btn btn-primary btn-create"><i class="fa fa-plus"></i></button>
-                                </h3>
-                            </div>
-                        @endif
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <button class="btn btn-primary btn-create"><i class="fa fa-plus"></i></button>
+                            </h3>
+                        </div>
 						<div class="card-body">
 							<table id="example1" class="table table-bordered table-striped">
 								<thead>
@@ -71,7 +69,7 @@
 
 										<tr>
 											<td class="text-center">{{ $key + 1 }}</td>
-											<td>{{ $item->karyawan->nama_lengkap }}</td>
+											<td>{{ $item->masterKaryawan->nama_lengkap }}</td>
 											<td>{{ $item->judul }}</td>
 											<td class="text-center">
                                                 @if ($item->tanggal_upload != null)
@@ -81,62 +79,49 @@
                                                 @endif
                                             </td>
 											<td class="text-center">
-                                                <a href="{{ url('../storage/app/file/' . $item->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->file }}</a>
+                                                <a href="{{ url('file/pengajuan/' . $item->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->file }}</a>
                                             </td>
-											<td class="text-center">
-												@if ($item->status == 1)
-													<span class="text-success font-weight-bold p-2 rounded">Menunggu Persetujuan</span>
-												@elseif ($item->status == 2)
-                                                    <span class="text-primary font-weight-bold p-2 rounded">Disetujui</span>
-                                                    <br>
-													<img src="{{ asset('assets/img/ttd.png') }}" alt="img-ttd" style="max-width: 50px;">
-												@elseif ($item->status == 3)
-                                                    <span class="text-danger font-weight-bold p-2 rounded">Ditolak</span>
-                                                    <br>
+											<td>
+												@if ($item->approved_percentage > 100)
+                                                    @php
+                                                        $percent = 100;
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $percent = $item->approved_percentage
+                                                    @endphp
+                                                @endif
+                                                <div class="progress">
+                                                    <div
+                                                        class="progress-bar bg-{{ $item->approved_background }}"
+                                                        role="progressbar"
+                                                        aria-valuenow="40"
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100"
+                                                        style="width: {{ $percent }}%;">
+                                                            <span class="">{{ $percent }}%</span>
+                                                    </div>
+                                                </div>
+                                                @if ($item->alasan == null)
+                                                    <div class="text-center mt-2">
+                                                        <img src="{{ url('assets/' . $item->approvedLeader->ttd) }}" alt="ttd" style="max-width: 50px;">
+                                                    </div>
+                                                @else
                                                     <span>
-                                                        @if ($item->alasan)
-                                                            {{ $item->alasan }}
-                                                        @endif
+                                                        <span>Disapproved: {{ $item->alasan }}</span>
                                                     </span>
-												@else
-
-												@endif
+                                                @endif
 											</td>
                                             <td class="text-center">
-                                                @if (Auth::user()->masterKaryawan->masterJabatan->id == 1 && $item->status == 1)
-                                                    <a href="{{ route('penggajian.approve', [$item->id]) }}"
-                                                        type="button"
-                                                        class="btn btn-primary btn-approve"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title="Approve"
-                                                        data-id="{{ $item->id }}">
-                                                            Approve
-                                                    </a> |
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-danger btn-reject"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title="Tolak"
-                                                        data-id="{{ $item->id }}">
-                                                            Tolak
-                                                    </button>
-                                                @elseif (Auth::user()->masterKaryawan->masterJabatan->id == 1 && $item->status != 1)
-                                                -
-                                                @elseif ($item->status == 2 || $item->status == 3)
-                                                -
-                                                @else
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-danger btn-delete"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title="Hapus"
-                                                        data-id="{{ $item->id }}">
-                                                            <i class="fas fa-trash"></i>
-                                                    </button>
-                                                @endif
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-danger btn-delete"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Hapus"
+                                                    data-id="{{ $item->id }}">
+                                                        <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
 										</tr>
 
@@ -219,10 +204,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <button class="btn btn-primary btn-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-save" style="width: 130px;">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
                 </div>
             </form>
-            <div class="progress m-2">
+            <div id="progress" class="progress m-2">
                 <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
             </div>
             <div id="uploadStatus"></div>
@@ -230,64 +221,26 @@
     </div>
 </div>
 
-
-{{-- modal delete  --}}
-<div class="modal fade modal-delete" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+{{-- modal delete --}}
+<div class="modal fade modal-delete" id="modal-default">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <form id="form_delete">
-
-                {{-- id  --}}
+            <form id="form-delete">
                 <input type="hidden" id="delete_id" name="delete_id">
-
                 <div class="modal-header">
-                    <h5 class="modal-title">Yakin akan dihapus ?</h5>
+                    <h5 class="modal-title">Yakin akan dihapus?</h5>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary text-center" data-dismiss="modal" style="width: 100px;">Tidak</button>
-                    <button type="submit" class="btn btn-primary text-center" style="width: 100px;">Ya</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-{{-- modal reject  --}}
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-reject">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="form-reject">
-
-                {{-- id --}}
-                <input type="hidden" id="reject_id" name="reject_id">
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Alasan Ditolak</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
+                    <button class="btn btn-primary btn-delete-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 130px;">
+                        Ya
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="reject_alasan">Alasan:</label>
-                        <textarea class="form-control" id="reject_alasan" rows="3" required></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
             </form>
-        </div>
-    </div>
-</div>
-
-{{-- modal proses berhasil  --}}
-<div class="modal fade modal-proses" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                Proses sukses.... <i class="fas fa-check" style="color: #32a893;"></i>
-            </div>
         </div>
     </div>
 </div>
@@ -298,10 +251,10 @@
 
 
 <!-- DataTables -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
 <script>
     $(function () {
@@ -316,7 +269,14 @@
     $(document).ready(function () {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-        $('.progress').hide();
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        $('#progress').hide();
 
         // btn create click
         $('.btn-create').on('click', function() {
@@ -330,7 +290,7 @@
             if ($('#create-file').val() == "") {
                 $('.notif').append("File harus diisi !!!");
             } else {
-                $('.progress').show();
+                $('#progress').show();
                 var form = this;
 
                 $.ajax({
@@ -357,10 +317,17 @@
                     dataType: 'json',
                     contentType: false,
                     beforeSend: function(){
+                        $('.btn-spinner').removeClass('d-none');
+                        $('.btn-save').addClass('d-none');
                         $(".progress-bar").width('100%');
-                        $('#uploadStatus').html('<p class=\"m-2\">Berhasil Upload</p>');
+                        $('#uploadStatus').html('<p class=\"m-2\">File Siap</p>');
                     },
                     success: function(response) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Upload berhasil'
+                        });
+
                         setTimeout(() => {
                             window.location.reload(1);
                         }, 100);
@@ -369,21 +336,32 @@
             }
         });
 
-        // btn delete click
-        $('body').on('click', '.btn-delete', function(e) {
+        // delete
+        $('body').on('click', '.btn-delete', function (e) {
             e.preventDefault();
 
             var id = $(this).attr('data-id');
+            var url = '{{ route("penggajian.delete_btn", ":id") }}';
+            url = url.replace(':id', id);
 
-            $('#delete_id').val(id);
-            $('.modal-delete').modal('show');
+            var formData = {
+                id: id,
+                _token: CSRF_TOKEN
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    $('#delete_id').val(response.id);
+                    $('.modal-delete').modal('show');
+                }
+            });
         });
 
-        // form delete submit
-        $('#form_delete').submit(function(e) {
+        $('#form-delete').submit(function (e) {
             e.preventDefault();
-
-            $('.modal-delete').modal('hide');
 
             var formData = {
                 id: $('#delete_id').val(),
@@ -391,47 +369,30 @@
             }
 
             $.ajax({
-                url: '{{ URL::route('penggajian.delete') }}',
+                url: "{{ URL::route('penggajian.delete') }}",
                 type: 'POST',
                 data: formData,
-                success: function(response) {
-                    $('.modal-proses').modal('show');
-                    setTimeout(() => {
+                beforeSend: function () {
+                    $('.btn-delete-spinner').removeClass('d-none');
+                    $('.btn-delete-yes').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil dihapus'
+                    });
+
+                    setTimeout( () => {
                         window.location.reload(1);
                     }, 1000);
-                }
-            });
-        });
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + xhar.statusText
 
-        // btn reject click
-        $('.btn-reject').on('click', function(e) {
-            e.preventDefault();
-            var id = $(this).attr('data-id');
-
-            $('#reject_id').val(id);
-            $('#modal-reject').modal('show');
-        });
-
-        // form reject submit
-        $('#form-reject').submit(function(e) {
-            e.preventDefault();
-            $('#modal-reject').hide();
-
-            var formData = {
-                id: $('#reject_id').val(),
-                alasan: $('#reject_alasan').val(),
-                _token: CSRF_TOKEN
-            }
-
-            $.ajax({
-                url: '{{ URL::route('penggajian.reject') }}',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    $('.modal-proses').modal('show');
-                    setTimeout(() => {
-                        window.location.reload(1);
-                    }, 1000);
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error - ' + errorMessage
+                    });
                 }
             });
         });
