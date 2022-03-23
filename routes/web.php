@@ -273,6 +273,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
     Route::get('penggajian/{id}/delete_btn', [PenggajianController::class, 'deleteBtn'])->name('penggajian.delete_btn');
     Route::post('penggajian/delete', [PenggajianController::class, 'delete'])->name('penggajian.delete');
+    Route::post('penggajian/reject', [PenggajianController::class, 'reject'])->name('penggajian.reject');
 
     // training
     Route::get('training', [TrainingController::class, 'index'])->name('training.index');

@@ -3,9 +3,20 @@
 @section('style')
 
 <!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+
+<style>
+    .content-header,
+    .content,
+    .content button,
+    .content a {
+        font-size: 12px;
+    }
+	table thead tr th {
+		text-align: center;
+	}
+</style>
 
 @endsection
 
@@ -13,203 +24,270 @@
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Penggajian</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Penggajian</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h5>Data Approval Penggajian</h5>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">Approval Penggajian</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
+	</section>
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
-                                    <i class="fas fa-plus"></i> Tambah
-                                </button>
-                            </h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center text-indigo">Nama Karyawan</th>
-                                        <th class="text-center text-indigo">Keterangan</th>
-                                        <th class="text-center text-indigo">Tanggal Upload</th>
-                                        <th class="text-center text-indigo">File</th>
-                                        <th class="text-center text-indigo">Status</th>
-                                        <th class="text-center text-indigo">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($penggajians as $key => $item)
-                                        <tr>
-                                            <td>{{ $item->karyawan->nama_panggilan }}</td>
-                                            <td>{{ $item->judul }}</td>
-                                            <td class="text-center">{{ date('d-m-Y', strtotime($item->tanggal_upload)) }}</td>
-                                            <td>
-                                                <a href="{{ url('laravel/storage/app/file/' . $item->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->file }}</a>
-                                            </td>
-                                            <td>
-                                                @if ($item->status == 1)
-                                                    @php
-                                                        $status = "Menunggu Persetujuan";
-                                                        $percentase = "50%";
-                                                        $background = "warning";
-                                                    @endphp
-												@elseif ($item->status == 2)
-                                                    @php
-                                                        $status = "Disetujui";
-                                                        $percentase = "100%";
-                                                        $background = "success";
-                                                    @endphp
-												@elseif ($item->status == 3)
-                                                    @php
-                                                        $status = "Ditolak";
-                                                        $percentase = "100%";
-                                                        $background = "danger";
-                                                    @endphp
-												@else
-												@endif
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+                        @if (Auth::user()->masterKaryawan->masterJabatan->id != 1)
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <button class="btn btn-primary btn-create"><i class="fa fa-plus"></i></button>
+                                </h3>
+                            </div>
+                        @endif
+						<div class="card-body">
+							<table id="example1" class="table table-bordered table-striped">
+								<thead>
+								<tr>
+									<th>No</th>
+									<th>Nama Karyawan</th>
+									<th>Keterangan</th>
+									<th>Tanggal Upload</th>
+                                    <th>File</th>
+									<th>Status</th>
+                                    <th>Aksi</th>
+								</tr>
+								</thead>
+								<tbody>
+									@foreach ($penggajians as $key => $item)
 
-                                                <div class="progress">
-                                                    <div
-                                                        class="progress-bar bg-{{ $background }}"
-                                                        role="progressbar"
-                                                        aria-valuenow="50"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="width: {{ $percentase }}">
-                                                            <span class="">{{ $percentase }}</span>
-                                                    </div>
-                                                </div>
-
-                                                <span> {{ $status }} </span>
-
-                                                @if ($item->status == 2)
-                                                    <br>
-                                                    <img src="{{ asset('assets/ttd.png') }}" alt="img-ttd" style="max-width: 50px;">
+										<tr>
+											<td class="text-center">{{ $key + 1 }}</td>
+											<td>{{ $item->karyawan->nama_lengkap }}</td>
+											<td>{{ $item->judul }}</td>
+											<td class="text-center">
+                                                @if ($item->tanggal_upload != null)
+                                                    {{ date('d-m-Y', strtotime($item->tanggal_upload)) }}
+                                                @else
+                                                    Kosong
                                                 @endif
-
-                                                @if ($item->status == 3)
+                                            </td>
+											<td class="text-center">
+                                                <a href="{{ url('../storage/app/file/' . $item->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->file }}</a>
+                                            </td>
+											<td class="text-center">
+												@if ($item->status == 1)
+													<span class="text-success font-weight-bold p-2 rounded">Menunggu Persetujuan</span>
+												@elseif ($item->status == 2)
+                                                    <span class="text-primary font-weight-bold p-2 rounded">Disetujui</span>
+                                                    <br>
+													<img src="{{ asset('assets/img/ttd.png') }}" alt="img-ttd" style="max-width: 50px;">
+												@elseif ($item->status == 3)
+                                                    <span class="text-danger font-weight-bold p-2 rounded">Ditolak</span>
                                                     <br>
                                                     <span>
                                                         @if ($item->alasan)
                                                             {{ $item->alasan }}
                                                         @endif
                                                     </span>
+												@else
+
+												@endif
+											</td>
+                                            <td class="text-center">
+                                                @if (Auth::user()->masterKaryawan->masterJabatan->id == 1 && $item->status == 1)
+                                                    <a href="{{ route('penggajian.approve', [$item->id]) }}"
+                                                        type="button"
+                                                        class="btn btn-primary btn-approve"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Approve"
+                                                        data-id="{{ $item->id }}">
+                                                            Approve
+                                                    </a> |
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-danger btn-reject"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Tolak"
+                                                        data-id="{{ $item->id }}">
+                                                            Tolak
+                                                    </button>
+                                                @elseif (Auth::user()->masterKaryawan->masterJabatan->id == 1 && $item->status != 1)
+                                                -
+                                                @elseif ($item->status == 2 || $item->status == 3)
+                                                -
+                                                @else
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-danger btn-delete"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Hapus"
+                                                        data-id="{{ $item->id }}">
+                                                            <i class="fas fa-trash"></i>
+                                                    </button>
                                                 @endif
                                             </td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a
-                                                        href="#"
-                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                            <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-item border-bottom btn-edit"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-item btn-delete"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-<!-- /.content-wrapper -->
+										</tr>
 
-{{-- modal create --}}
-<div class="modal fade modal-create" id="modal-default">
-    <div class="modal-dialog">
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+{{-- modal create  --}}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-create">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form id="form-create">
+            <form action="{{ route('penggajian.store') }}" id="form-create" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Data Penggajian</h4>
+                    <h5 class="modal-title">Upload File</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="create_nama" class="form-label">Nama Cabang</label>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            id="create_nama"
-                            name="create_nama"
-                            maxlength="30"
-                            required>
+                    <div class="form-group">
+                        <label for="create-judul">Pengajuan</label>
+                        <select name="status" id="status" class="form-control" required>
+                            <option value="baru">Baru</option>
+                            <option value="revisi">Revisi</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="create-judul">Bulan</label>
+                                <select name="bulan" id="bulan" class="form-control" required>
+                                    @php
+                                        $nama_bulan = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+                                        $jml_bulan = count($nama_bulan);
+                                        $nomor_bulan = date('n') - 1;
+                                    @endphp
+
+                                    @for ($i = 0; $i < $jml_bulan; $i++)
+                                        <option value="{{ $nama_bulan[$i] }}"
+
+                                        @if ($i == $nomor_bulan)
+                                            {{ "selected" }}
+                                        @endif
+
+                                        >{{ $nama_bulan[$i] }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="create-judul">Tahun</label>
+                                <select name="tahun" id="tahun" class="form-control" required>
+                                    @php $date = date('Y'); @endphp
+                                    @for ($i = 2021; $i <= 2040; $i++)
+                                        <option value="{{ $i }}"
+
+                                        @if ($i == $date)
+                                            {{ "selected" }}
+                                        @endif
+
+                                        >{{$i}}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="create-file">File</label>
+                        <input type="file" class="form-control-file" id="create-file" name="create_file">
+                        <span class="notif font-italic text-danger"></span>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+            <div class="progress m-2">
+                <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            <div id="uploadStatus"></div>
+        </div>
+    </div>
+</div>
+
+
+{{-- modal delete  --}}
+<div class="modal fade modal-delete" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="form_delete">
+
+                {{-- id  --}}
+                <input type="hidden" id="delete_id" name="delete_id">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Yakin akan dihapus ?</h5>
+                </div>
                 <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-create" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-create-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Simpan
-                    </button>
+                    <button type="button" class="btn btn-secondary text-center" data-dismiss="modal" style="width: 100px;">Tidak</button>
+                    <button type="submit" class="btn btn-primary text-center" style="width: 100px;">Ya</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-{{-- modal delete --}}
-<div class="modal fade modal-delete" id="modal-default">
-    <div class="modal-dialog">
+{{-- modal reject  --}}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-reject">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form id="form-delete">
-                <input type="hidden" id="delete_id" name="delete_id">
+            <form id="form-reject">
+
+                {{-- id --}}
+                <input type="hidden" id="reject_id" name="reject_id">
+
                 <div class="modal-header">
-                    <h5 class="modal-title">Yakin akan dihapus?</h5>
+                    <h5 class="modal-title">Alasan Ditolak</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
-                    <button class="btn btn-primary btn-delete-spinner" disabled style="width: 130px; display: none;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 130px;">
-                        Ya
-                    </button>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="reject_alasan">Alasan:</label>
+                        <textarea class="form-control" id="reject_alasan" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+{{-- modal proses berhasil  --}}
+<div class="modal fade modal-proses" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                Proses sukses.... <i class="fas fa-check" style="color: #32a893;"></i>
+            </div>
         </div>
     </div>
 </div>
@@ -218,105 +296,94 @@
 
 @section('script')
 
-<!-- DataTables  & Plugins -->
-<script src="{{ asset('themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+<!-- DataTables -->
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
 <script>
     $(function () {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+
+        $('[data-toggle="tooltip"]').tooltip()
     });
+
     $(document).ready(function () {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
+        $('.progress').hide();
+
+        // btn create click
+        $('.btn-create').on('click', function() {
+            $('#modal-create').modal('show');
         });
 
-        $('#btn-create').on('click', function() {
-            $('.modal-create').modal('show');
-        });
-
-        $(document).on('shown.bs.modal', '.modal-create', function() {
-            $('#create_nama').focus();
-        });
-
-        $('#form-create').submit(function (e) {
+        // form create submit
+        $('#form-create').submit(function(e) {
             e.preventDefault();
 
-            var formData = {
-                nama: $('#create_nama').val(),
-                _token: CSRF_TOKEN
+            if ($('#create-file').val() == "") {
+                $('.notif').append("File harus diisi !!!");
+            } else {
+                $('.progress').show();
+                var form = this;
+
+                $.ajax({
+                    xhr : function() {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener('progress', function(e) {
+                            if(e.lengthComputable) {
+                                console.log('Byte Loaded: ' + e.loaded);
+                                console.log('Total Size: ' + e.total);
+                                console.log('Percenage Upload:' + (e.loaded / e.total));
+
+                                var percent = Math.round((e.loaded / e.total) * 100);
+
+                                $('#progressBar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%')
+                            }
+                        });
+
+                        return xhr;
+                    },
+                    url: $(form).attr('action'),
+                    method: $(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function(){
+                        $(".progress-bar").width('100%');
+                        $('#uploadStatus').html('<p class=\"m-2\">Berhasil Upload</p>');
+                    },
+                    success: function(response) {
+                        setTimeout(() => {
+                            window.location.reload(1);
+                        }, 100);
+                    }
+                });
             }
-
-            $.ajax({
-                url: "{{ URL::route('penggajian.store') }}",
-                type: 'POST',
-                data: formData,
-                beforeSend: function () {
-                    $('.btn-spinner-create').css('display', 'inline-block');
-                    $('.btn-create-save').css('display', 'none');
-                },
-                success: function (response) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Data behasil ditambah'
-                    });
-
-                    setTimeout(() => {
-                        window.location.reload(1);
-                    }, 1000);
-                },
-                error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + statusText
-
-                    Toast.fire({
-                        icon: 'danger',
-                        title: 'Error - ' + errorMessage
-                    });
-                }
-            });
         });
 
-        // delete
-        $('body').on('click', '.btn-delete', function (e) {
+        // btn delete click
+        $('body').on('click', '.btn-delete', function(e) {
             e.preventDefault();
 
             var id = $(this).attr('data-id');
-            var url = '{{ route("penggajian.delete_btn", ":id") }}';
-            url = url.replace(':id', id);
 
-            var formData = {
-                id: id,
-                _token: CSRF_TOKEN
-            }
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: formData,
-                success: function (response) {
-                    $('#delete_id').val(response.id);
-                    $('.modal-delete').modal('show');
-                }
-            });
+            $('#delete_id').val(id);
+            $('.modal-delete').modal('show');
         });
 
-        $('#form-delete').submit(function (e) {
+        // form delete submit
+        $('#form_delete').submit(function(e) {
             e.preventDefault();
+
+            $('.modal-delete').modal('hide');
 
             var formData = {
                 id: $('#delete_id').val(),
@@ -324,30 +391,47 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('penggajian.delete') }}",
+                url: '{{ URL::route('penggajian.delete') }}',
                 type: 'POST',
                 data: formData,
-                beforeSend: function () {
-                    $('.btn-delete-spinner').css('display', 'block');
-                    $('.btn-delete-yes').css('display', 'none');
-                },
-                success: function (response) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Data berhasil dihapus'
-                    });
-
-                    setTimeout( () => {
+                success: function(response) {
+                    $('.modal-proses').modal('show');
+                    setTimeout(() => {
                         window.location.reload(1);
                     }, 1000);
-                },
-                error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhar.statusText
+                }
+            });
+        });
 
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Error - ' + errorMessage
-                    });
+        // btn reject click
+        $('.btn-reject').on('click', function(e) {
+            e.preventDefault();
+            var id = $(this).attr('data-id');
+
+            $('#reject_id').val(id);
+            $('#modal-reject').modal('show');
+        });
+
+        // form reject submit
+        $('#form-reject').submit(function(e) {
+            e.preventDefault();
+            $('#modal-reject').hide();
+
+            var formData = {
+                id: $('#reject_id').val(),
+                alasan: $('#reject_alasan').val(),
+                _token: CSRF_TOKEN
+            }
+
+            $.ajax({
+                url: '{{ URL::route('penggajian.reject') }}',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    $('.modal-proses').modal('show');
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
                 }
             });
         });
