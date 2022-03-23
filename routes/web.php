@@ -27,6 +27,7 @@ use App\Http\Controllers\LokerController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\PengajuanCutiController;
 use App\Http\Controllers\PengajuanResignController;
+use App\Http\Controllers\PenggajianApproverController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResignApproverController;
@@ -189,6 +190,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('master/resign_approver/delete', [ResignApproverController::class, 'delete'])->name('resign_approver.delete');
         Route::get('master/resign_approver/{id}/delete_btn_approver', [ResignApproverController::class, 'deleteBtnApprover'])->name('resign_approver.delete_btn_approver');
         Route::post('master/resign_approver/delete_approver', [ResignApproverController::class, 'deleteApprover'])->name('resign_approver.delete_approver');
+
+        // penggajian approver
+        Route::get('master/penggajian_approver', [PenggajianApproverController::class, 'index'])->name('penggajian_approver.index');
+        Route::get('master/penggajian_approver/get_penggajian', [PenggajianApproverController::class, 'getPenggajian'])->name('penggajian_approver.get_penggajian');
+        Route::get('master/penggajian_approver/create', [PenggajianApproverController::class, 'create'])->name('penggajian_approver.create');
+        Route::post('master/penggajian_approver/store', [PenggajianApproverController::class, 'store'])->name('penggajian_approver.store');
+        Route::post('master/penggajian_approver/update_approver', [PenggajianApproverController::class, 'updateApprover'])->name('penggajian_approver.update_approver');
+        Route::post('master/penggajian_approver/add_approver', [PenggajianApproverController::class, 'addApprover'])->name('penggajian_approver.add_approver');
+        Route::get('master/penggajian_approver/{id}/delete_btn', [PenggajianApproverController::class, 'deleteBtn'])->name('penggajian_approver.delete_btn');
+        Route::post('master/penggajian_approver/delete', [PenggajianApproverController::class, 'delete'])->name('penggajian_approver.delete');
+        Route::get('master/penggajian_approver/{id}/delete_btn_approver', [PenggajianApproverController::class, 'deleteBtnApprover'])->name('penggajian_approver.delete_btn_approver');
+        Route::post('master/penggajian_approver/delete_approver', [PenggajianApproverController::class, 'deleteApprover'])->name('penggajian_approver.delete_approver');
 
     // karyawan
     Route::resource('karyawan', MasterKaryawanController::class);

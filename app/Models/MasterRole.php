@@ -16,4 +16,8 @@ class MasterRole extends Model
     public function approveResign() {
         return $this->hasMany(ResignApprover::class, 'role_id', 'id');
     }
+
+    public function approvePenggajian() {
+        return $this->hasMany(PenggajianApprover::class, 'role_id', 'id');
+    }
 }

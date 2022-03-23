@@ -186,6 +186,11 @@
                                             <i class="fas fa-angle-right nav-icon"></i><p>Resign Approver</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('penggajian_approver.index') }}" class="nav-link {{ request()->is('master/penggajian_approver') ? 'active' : '' }}">
+                                            <i class="fas fa-angle-right nav-icon"></i><p>Penggajian Approver</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item">
