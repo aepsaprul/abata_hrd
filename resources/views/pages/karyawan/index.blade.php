@@ -622,7 +622,7 @@
             $('.show-select-jabatan').select2();
         });
 
-        $('input[name="status"]').on('change', function () {
+        $(document).on('change', 'input[name="status"]', function () {
             let id = $(this).attr('data-id');
             let val_state;
 
