@@ -30,6 +30,8 @@ class LokerController extends Controller
         $loker->master_jabatan_id = $request->jabatan_id;
         $loker->save();
 
+        activity_log($loker, "loker", "created");
+
         return response()->json([
             'status' => 'true'
         ]);
