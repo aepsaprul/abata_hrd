@@ -25,6 +25,8 @@ class NavController extends Controller
         $nav_main->aktif = $request->aktif;
         $nav_main->save();
 
+        activity_log($nav_main, "nav_main", "created");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -47,6 +49,8 @@ class NavController extends Controller
         $nav_sub->main_id = $request->main_id;
         $nav_sub->aktif = $request->aktif;
         $nav_sub->save();
+
+        activity_log($nav_sub, "nav_sub", "created");
 
         return response()->json([
             'status' => 'Data menu sub berhasil ditambah'
@@ -90,6 +94,8 @@ class NavController extends Controller
         $nav_main->aktif = $request->aktif;
         $nav_main->save();
 
+        activity_log($nav_main, "nav_main", "updated");
+
         return response()->json([
             'id' => $request->id,
             'status' => 'true',
@@ -111,6 +117,7 @@ class NavController extends Controller
 
         $nav_main = HcNavMain::find($request->main_id);
 
+        activity_log($nav_sub, "nav_sub", "updated");
 
         return response()->json([
             'id' => $request->id,
@@ -125,6 +132,8 @@ class NavController extends Controller
     public function mainDeleteBtn($id)
     {
         $nav_main = HcNavMain::find($id);
+
+        activity_log($nav_main, "nav_main", "deleted");
 
         return response()->json([
             'id' => $nav_main->id,
@@ -166,6 +175,8 @@ class NavController extends Controller
     {
         $nav_sub = HcNavSub::find($request->id);
         $nav_sub->delete();
+
+        activity_log($nav_sub, "nav_sub", "deleted");
 
         return response()->json([
             'status' => 'Data berhasil dihapus'

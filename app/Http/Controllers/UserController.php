@@ -49,6 +49,8 @@ class UserController extends Controller
             $nav_access->save();
         }
 
+        activity_log($nav_sub, "user", "created");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -58,6 +60,8 @@ class UserController extends Controller
     {
         $nav_access = HcNavAccess::where('user_id', $request->id);
         $nav_access->delete();
+
+        activity_log($nav_access, "user", "deleted");
 
         return response()->json([
             'status' => 'true'
@@ -111,6 +115,8 @@ class UserController extends Controller
 
         $nav_access->save();
 
+        activity_log($nav_access, "user", "access_save");
+
         return response()->json([
             'status' => 'success'
         ]);
@@ -141,6 +147,8 @@ class UserController extends Controller
             $nav_access->hapus = "n";
             $nav_access->save();
         }
+
+        activity_log($nav_access, "user", "sync");
 
         return response()->json([
             'status' => 'success'

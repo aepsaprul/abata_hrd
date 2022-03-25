@@ -56,6 +56,8 @@ class LokerController extends Controller
         $loker->master_jabatan_id = $request->jabatan_id;
         $loker->save();
 
+        activity_log($loker, "loker", "updated");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -74,6 +76,8 @@ class LokerController extends Controller
     {
         $loker = HcLoker::find($request->id);
         $loker->delete();
+
+        activity_log($loker, "loker", "deleted");
 
         return response()->json([
             'status' => 'true'
