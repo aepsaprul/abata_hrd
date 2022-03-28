@@ -148,7 +148,7 @@ class PengajuanResignController extends Controller
         $approve = ResignApprover::where('role_id', $role->id)->get();
 
         foreach ($approve as $key => $value) {
-            $resign_detail = new ResignDetail();
+            $resign_detail = new ResignDetail;
             $resign_detail->resign_id = $resigns->id;
             $resign_detail->hirarki = $value->hirarki;
             $resign_detail->atasan = $value->atasan_id;

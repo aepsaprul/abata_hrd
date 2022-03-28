@@ -83,19 +83,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
 </div>
-<!-- ./wrapper -->
 
 @endsection
 
