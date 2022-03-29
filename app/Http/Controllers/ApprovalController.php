@@ -99,6 +99,8 @@ class ApprovalController extends Controller
         $cuti->approved_background = "primary";
         $cuti->save();
 
+        activity_log($cuti_detail, "cuti_detail", "approved");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -130,6 +132,8 @@ class ApprovalController extends Controller
         $cuti->approved_percentage = 100;
         $cuti->approved_background = "danger";
         $cuti->save();
+
+        activity_log($cuti_detail, "cuti_detail", "disapproved");
 
         return response()->json([
             'status' => 'true'
@@ -187,13 +191,15 @@ class ApprovalController extends Controller
         $resign_detail->approved_background = "primary";
         $resign_detail->save();
 
-        $cuti = HcResign::find($resign_detail->resign_id);
-        $cuti->approved_date = date('Y-m-d H:i:s');
-        $cuti->approved_leader = Auth::user()->master_karyawan_id;
-        $cuti->approved_text = $approved_text;
-        $cuti->approved_percentage = $cuti->approved_percentage + $percentage;
-        $cuti->approved_background = "primary";
-        $cuti->save();
+        $resign = HcResign::find($resign_detail->resign_id);
+        $resign->approved_date = date('Y-m-d H:i:s');
+        $resign->approved_leader = Auth::user()->master_karyawan_id;
+        $resign->approved_text = $approved_text;
+        $resign->approved_percentage = $resign->approved_percentage + $percentage;
+        $resign->approved_background = "primary";
+        $resign->save();
+
+        activity_log($resign_detail, "resign_detail", "approved");
 
         return response()->json([
             'status' => 'true'
@@ -209,23 +215,25 @@ class ApprovalController extends Controller
             $approved_text = "Disapproved Oleh Bu";
         }
 
-        $cuti_detail = ResignDetail::find($id);
-        $cuti_detail->status = 1;
-        $cuti_detail->confirm = 2;
-        $cuti_detail->approved_date = date('Y-m-d H:i:s');
-        $cuti_detail->approved_leader = Auth::user()->master_karyawan_id;
-        $cuti_detail->approved_text = $approved_text;
-        $cuti_detail->approved_percentage = 100;
-        $cuti_detail->approved_background = "danger";
-        $cuti_detail->save();
+        $resign_detail = ResignDetail::find($id);
+        $resign_detail->status = 1;
+        $resign_detail->confirm = 2;
+        $resign_detail->approved_date = date('Y-m-d H:i:s');
+        $resign_detail->approved_leader = Auth::user()->master_karyawan_id;
+        $resign_detail->approved_text = $approved_text;
+        $resign_detail->approved_percentage = 100;
+        $resign_detail->approved_background = "danger";
+        $resign_detail->save();
 
-        $cuti = HcResign::find($cuti_detail->resign_id);
-        $cuti->approved_date = date('Y-m-d H:i:s');
-        $cuti->approved_leader = Auth::user()->master_karyawan_id;
-        $cuti->approved_text = $approved_text;
-        $cuti->approved_percentage = 100;
-        $cuti->approved_background = "danger";
-        $cuti->save();
+        $resign = HcResign::find($resign_detail->resign_id);
+        $resign->approved_date = date('Y-m-d H:i:s');
+        $resign->approved_leader = Auth::user()->master_karyawan_id;
+        $resign->approved_text = $approved_text;
+        $resign->approved_percentage = 100;
+        $resign->approved_background = "danger";
+        $resign->save();
+
+        activity_log($resign_detail, "resign_detail", "disapproved");
 
         return response()->json([
             'status' => 'true'

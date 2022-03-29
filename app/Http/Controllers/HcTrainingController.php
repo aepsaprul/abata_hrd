@@ -29,7 +29,7 @@ class HcTrainingController extends Controller
     public function create()
     {
         $divisis = MasterDivisi::get();
-        
+
         return view('training.create', ['divisis' => $divisis]);
     }
 
@@ -54,13 +54,15 @@ class HcTrainingController extends Controller
         $trainings->jenis = $request->jenis;
         $trainings->hasil = $request->hasil;
         $trainings->status = $request->status;
-        
+
         if($request->file('modul')) {
             $file = $request->file('modul')->store('modul', 'public');
             $trainings->modul = $file;
         }
 
         $trainings->save();
+
+        activity_log($trainings, "training", "created");
 
         return redirect()->route('training.index')->with('status', 'Data berhasil disimpan');
     }
@@ -116,6 +118,8 @@ class HcTrainingController extends Controller
         $training->status = $request->status;
         $training->save();
 
+        activity_log($training, "training", "updated");
+
         return redirect()->route('training.index')->with('status', 'Data berhasil diubah');
     }
 
@@ -135,9 +139,11 @@ class HcTrainingController extends Controller
         $training = HcTraining::find($id);
         $training->delete();
 
+        activity_log($training, "training", "deleted");
+
         return redirect()->route('training.index')->with('status', 'Data berhasil dihapus');
     }
-    
+
     public function datamodul(Request $request, $file_modul)
     {
         // dd($file_modul);

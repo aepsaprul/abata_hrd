@@ -18,4 +18,16 @@ class HcPendidikan extends Model
         'tahun_masuk',
         'tahun_lulus'
     ];
+
+    protected static $logAttributes = [
+        'karyawan_id',
+        'tingkat',
+        'nama',
+        'kota',
+        'jurusan',
+        'tahun_masuk',
+        'tahun_lulus'
+    ];
+
+    protected static $logName = 'karyawan_pendidikan';
 }

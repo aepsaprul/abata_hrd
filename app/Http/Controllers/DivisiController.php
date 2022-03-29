@@ -20,6 +20,8 @@ class DivisiController extends Controller
         $divisi->nama = $request->nama;
         $divisi->save();
 
+        activity_log($divisi, "divisi", "created");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -41,6 +43,8 @@ class DivisiController extends Controller
         $divisi->nama = $request->nama;
         $divisi->save();
 
+        activity_log($divisi, "divisi", "updated");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -59,6 +63,8 @@ class DivisiController extends Controller
     {
         $divisi = MasterDivisi::find($request->id);
         $divisi->delete();
+
+        activity_log($divisi, "divisi", "deleted");
 
         return response()->json([
             'status' => 'true'

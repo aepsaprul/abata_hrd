@@ -175,6 +175,7 @@ class PengajuanResignController extends Controller
             $value->notify(new ResignNotification($value));
         }
 
+        activity_log($resigns, "resign", "created");
 
         return redirect()->route('pengajuan_resign.index')->with('status', 'Data berhasil disimpan');
     }

@@ -17,4 +17,15 @@ class HcKerabatDarurat extends Model
         'telepon',
         'alamat'
     ];
+
+    protected static $logAttributes = [
+        'karyawan_id',
+        'hubungan',
+        'nama',
+        'jenis_kelamin',
+        'telepon',
+        'alamat'
+    ];
+
+    protected static $logName = 'karyawan_kerabat_darurat';
 }

@@ -17,4 +17,15 @@ class HcKeluargaSetelahMenikah extends Model
         'tanggal_lahir',
         'pekerjaan_terkahir'
     ];
+
+    protected static $logAttributes = [
+        'karyawan_id',
+        'hubungan',
+        'nama',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'pekerjaan_terkahir'
+    ];
+
+    protected static $logName = 'karyawan_setelah_menikah';
 }

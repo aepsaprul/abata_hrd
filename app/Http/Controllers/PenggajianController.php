@@ -81,6 +81,8 @@ class PenggajianController extends Controller
             $value->notify(new PenggajianNotification($value));
         }
 
+        activity_log($penggajian, "penggajian", "created");
+
         return response()->json([
             'status' => 'true',
             'tes' => $request->all()
@@ -103,6 +105,8 @@ class PenggajianController extends Controller
 
         $penggajian_detail = PenggajianDetail::where('penggajian_id', $request->id);
         $penggajian_detail->delete();
+
+        activity_log($penggajian, "penggajian", "deleted");
 
         return response()->json([
             'status' => 'Data berhasil dihapus'

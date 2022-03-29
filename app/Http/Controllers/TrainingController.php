@@ -51,6 +51,8 @@ class TrainingController extends Controller
 
         $trainings->save();
 
+        activity_log($trainings, "training", "created");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -107,6 +109,8 @@ class TrainingController extends Controller
 
         $training->save();
 
+        activity_log($training, "training", "updated");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -128,6 +132,8 @@ class TrainingController extends Controller
             File::delete(public_path("file/" . $training->modul));
         }
         $training->delete();
+
+        activity_log($training, "training", "deleted");
 
         return response()->json([
             'status' => $request->id

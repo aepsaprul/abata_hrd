@@ -51,6 +51,8 @@ class ResignApproverController extends Controller
         $approve->atasan_id = json_encode("");
         $approve->save();
 
+        activity_log($approve, "resign_approver", "created");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -71,6 +73,8 @@ class ResignApproverController extends Controller
         $approve->atasan_id = json_encode($atasan_array);
         $approve->save();
 
+        activity_log($approve, "resign_approver", "updated");
+
         return response()->json([
             'status' => 'true',
             'tes' => $atasan_array
@@ -87,6 +91,8 @@ class ResignApproverController extends Controller
         $approve->hirarki = $count_hirarki + 1;
         $approve->atasan_id = json_encode("");
         $approve->save();
+
+        activity_log($approve, "resign_approver", "updated");
 
         return response()->json([
             'status' => 'true'
@@ -105,6 +111,8 @@ class ResignApproverController extends Controller
         $approve = ResignApprover::where('role_id', $request->id);
         $approve->delete();
 
+        activity_log($approve, "resign_approver", "deleted");
+
         return response()->json([
             'status' => 'true'
         ]);
@@ -121,6 +129,8 @@ class ResignApproverController extends Controller
     {
         $approve = ResignApprover::find($request->id);
         $approve->delete();
+
+        activity_log($approve, "resign_approver", "deleted");
 
         return response()->json([
             'status' => 'true'

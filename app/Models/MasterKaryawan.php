@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\SitumpurAntrianDesainNomor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class MasterKaryawan extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsActivity;
 
     protected $fillable = [
         'nik',
@@ -25,23 +26,58 @@ class MasterKaryawan extends Model
         'telepon',
         'email',
         'nomor_ktp',
+        'jenis_sim',
         'nomor_sim',
         'status_ktp',
         'foto',
         'master_cabang_id',
         'master_jabatan_id',
+        'master_divisi_id',
         'agama',
         'jenis_kelamin',
         'tempat_lahir',
         'tanggal_lahir',
         'alamat_asal',
         'alamat_domisili',
+        'status_perkawinan',
         'tanggal_masuk',
         'tanggal_keluar',
         'alasan',
         'tanggal_pengambilan_ijazah',
-        'status'
+        'status',
+        'role'
     ];
+
+    protected static $logAttributes = [
+        'nik',
+        'nama_lengkap',
+        'nama_panggilan',
+        'telepon',
+        'email',
+        'nomor_ktp',
+        'jenis_sim',
+        'nomor_sim',
+        'status_ktp',
+        'foto',
+        'master_cabang_id',
+        'master_jabatan_id',
+        'master_divisi_id',
+        'agama',
+        'jenis_kelamin',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'alamat_asal',
+        'alamat_domisili',
+        'status_perkawinan',
+        'tanggal_masuk',
+        'tanggal_keluar',
+        'alasan',
+        'tanggal_pengambilan_ijazah',
+        'status',
+        'role'
+    ];
+
+    protected static $logName = 'master_karyawan';
 
     public function masterCabang() {
         return $this->belongsTo(MasterCabang::class, 'master_cabang_id', 'id');

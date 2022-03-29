@@ -6,10 +6,11 @@ use App\Models\MasterJabatan;
 use App\Models\MasterKaryawan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class HcCuti extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'master_karyawan_id',
@@ -18,12 +19,24 @@ class HcCuti extends Model
         'telepon',
         'alamat',
         'jenis',
-        // 'tanggal_mulai',
-        // 'tanggal_berakhir',
         'karyawan_pengganti',
         'alasan',
         'tanggal_kerja'
     ];
+
+    protected static $logAttributes = [
+        'master_karyawan_id',
+        'jenis',
+        'jml_hari',
+        'alasan',
+        'approved_date',
+        'approved_leader',
+        'approved_text',
+        'approved_percentage',
+        'approved_background'
+    ];
+
+    protected static $logName = 'cuti';
 
     public function masterKaryawan() {
         return $this->belongsTo(MasterKaryawan::class, 'master_karyawan_id', 'id');

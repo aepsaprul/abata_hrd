@@ -46,6 +46,8 @@ class HcLokerController extends Controller
         $lokers->created_by = Auth::user()->id;
         $lokers->save();
 
+        activity_log($lokers, "lokers", "created");
+
         return redirect()->route('loker.index')->with('status', 'Data berhasil disimpan');
     }
 
@@ -88,6 +90,8 @@ class HcLokerController extends Controller
         $loker->updated_by = Auth::user()->id;
         $loker->save();
 
+        activity_log($loker, "loker", "updated");
+
         return redirect()->route('loker.index')->with('status', 'Data berhasil diubah');
     }
 
@@ -109,6 +113,8 @@ class HcLokerController extends Controller
         $loker->save();
 
         $loker->delete();
+
+        activity_log($loker, "loker", "deleted");
 
         return redirect()->route('loker.index')->with('status', 'Data loker berhasil dihapus');
     }

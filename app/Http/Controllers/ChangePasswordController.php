@@ -29,6 +29,10 @@ class ChangePasswordController extends Controller
 
         User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
 
+        $user = User::find(auth()->user()->id);
+
+        activity_log($user, "user", "update_password");
+
         return redirect()->route('change.password.index')->with('status', 'Password berhasil diubah');
     }
 }

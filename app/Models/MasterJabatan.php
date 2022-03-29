@@ -7,16 +7,20 @@ use App\Models\MasterKaryawan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class MasterJabatan extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     use SoftDeletes;
 
     protected $fillable = [
-        'nama_cabang',
-        'menu_akses'
+        'nama_jabatan'
     ];
+
+    protected static $logAttributes = ['nama_jabatan'];
+
+    protected static $logName = 'master_jabatan';
 
     public function masterKaryawan()
     {

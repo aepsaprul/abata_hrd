@@ -17,4 +17,15 @@ class HcKeluargaSebelumMenikah extends Model
         'pendidikan_terakhir',
         'pekerjaan_terakhir'
     ];
+
+    protected static $logAttributes = [
+        'karyawan_id',
+        'hubungan',
+        'nama',
+        'usia',
+        'pendidikan_terakhir',
+        'pekerjaan_terakhir'
+    ];
+
+    protected static $logName = 'karyawan_sebelum_menikah';
 }

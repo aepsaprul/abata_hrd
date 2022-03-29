@@ -134,6 +134,8 @@ class PengajuanCutiController extends Controller
                 $value->notify(new CutiNotification($value));
             }
 
+            activity_log($cuti, "cuti", "created");
+
             return response()->json([
                 'status' => 200,
                 'message' => "Data berhasil ditambahkan",
