@@ -20,6 +20,7 @@ use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\CutiApproveController;
 use App\Http\Controllers\CutiApproverController;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
@@ -97,7 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 
     // dashboard hc
-    Route::get('home/dashboard', [HomeController::class, 'dashboard'])->name('home.dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     // master
         // menu

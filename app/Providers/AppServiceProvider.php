@@ -30,11 +30,9 @@ class AppServiceProvider extends ServiceProvider
         {
             if (Auth::check()) {
                 $current_nav_main = HcNavMain::whereHas('navAccess' , function ($query) { $query->where('user_id', Auth::user()->master_karyawan_id)->where('tampil', 'y'); })->get();
-
                 $current_menu = HcNavAccess::whereHas('navSub' , function ($query) { $query->where('link', '!=', '#'); })->where('user_id', Auth::user()->master_karyawan_id)->where('tampil', 'y')->get();
 
-
-                //...with this variable
+                // view
                 $view->with('current_nav_mains', $current_nav_main);
                 $view->with('current_menus', $current_menu);
             }else {

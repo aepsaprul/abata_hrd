@@ -26,15 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->masterKaryawan) {
-            if (Auth::user()->masterKaryawan->master_jabatan_id == 13 || Auth::user()->masterKaryawan->master_jabatan_id == 32 || Auth::user()->masterKaryawan->master_jabatan_id == 8) {
-                return view('pages.dashboard.index');
-            } else {
-                return view('home');
-            }
-        } else {
-            return view('home');
-        }
+        return view('home');
     }
 
     public function dashboard()
