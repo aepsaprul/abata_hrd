@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AntrianPengunjung;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -26,11 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
-
-    public function dashboard()
-    {
-        return view('pages.dashboard.index');
+        if (Hash::check('abataprinting', Auth::user()->password)) {
+            return redirect()->route('change.password.force.index');
+        } else {
+            return view('home');
+        }
     }
 }

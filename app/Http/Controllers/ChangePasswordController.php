@@ -35,4 +35,9 @@ class ChangePasswordController extends Controller
 
         return redirect()->route('change.password.index')->with('status', 'Password berhasil diubah');
     }
+
+    public function force()
+    {
+        return view('pages.change_password_force.index');
+    }
 }

@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
     // ubah password
     Route::get('change-password', [ChangePasswordController::class, 'index'])->name('change.password.index');
     Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
+    Route::get('change-password-force', [ChangePasswordController::class, 'force'])->name('change.password.force.index');
 
     // dashboard hc
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
