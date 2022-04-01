@@ -193,8 +193,8 @@
                                             <div class="form-group">
                                                 <label for="create_jenis_kelamin">Jenis Kelamin</label>
                                                 <select name="jenis_kelamin" id="create_jenis_kelamin" class="form-control form-control-sm">
-                                                    <option value="l">L (Laki - laki)</option>
-                                                    <option value="p">P (Perempuan)</option>
+                                                    <option value="L">L (Laki - laki)</option>
+                                                    <option value="P">P (Perempuan)</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -397,8 +397,8 @@
                                             <div class="form-group">
                                                 <label for="show_jenis_kelamin">Jenis Kelamin</label>
                                                 <select name="jenis_kelamin" id="show_jenis_kelamin" class="form-control form-control-sm">
-                                                    <option value="l">L (Laki - laki)</option>
-                                                    <option value="p">P (Perempuan)</option>
+                                                    <option value="L">L (Laki - laki)</option>
+                                                    <option value="P">P (Perempuan)</option>
                                                 </select>
                                             </div>
                                         </div>

@@ -49,7 +49,7 @@ class ApprovalPenggajianController extends Controller
         // end
 
         $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-        if ($karyawan->jenis_kelamin == "l") {
+        if ($karyawan->jenis_kelamin == "L") {
             $approved_text = "Approved Oleh Pak";
         } else {
             $approved_text = "Approved Oleh Bu";
@@ -82,7 +82,7 @@ class ApprovalPenggajianController extends Controller
     public function disapproved(Request $request)
     {
         $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-        if ($karyawan->jenis_kelamin == "l") {
+        if ($karyawan->jenis_kelamin == "L") {
             $approved_text = "Disapproved Oleh Pak";
         } else {
             $approved_text = "Disapproved Oleh Bu";

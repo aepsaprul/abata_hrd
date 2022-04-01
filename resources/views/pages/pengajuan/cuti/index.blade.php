@@ -180,10 +180,15 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <label for="alasan">Alasan Cuti (Secara Lebih Detail)</label>
                             <input type="text" name="alasan" id="alasan" class="form-control">
                             <small id="error_alasan" class="form-text text-danger"></small>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <label for="sisa_cuti">Sisa Cuti</label>
+                            <input type="text" name="sisa_cuti" id="sisa_cuti" class="form-control" readonly>
+                            <small id="error_sisa_cuti" class="form-text text-danger"></small>
                         </div>
                     </div>
                 </div>
@@ -271,6 +276,7 @@
                 type: 'GET',
                 success: function(response) {
                     $('#nama').val(response.karyawan.nama_lengkap);
+                    $('#telepon').val(response.karyawan.telepon);
                     $('#karyawan_id').val(response.karyawan.id);
                     $('#jabatan').val(response.karyawan.master_jabatan.nama_jabatan);
                     $('#jabatan_id').val(response.karyawan.master_jabatan.id);
@@ -288,6 +294,8 @@
                         value_pengganti += "<option value=\"" + item.id + "\">" + item.nama_lengkap + "</option>";
                     });
                     $('#pengganti').append(value_pengganti);
+
+                    $('#sisa_cuti').val(response.karyawan.total_cuti);
 
                     $('.modal-form').modal('show');
                 }
@@ -344,6 +352,8 @@
                         $('#error_form_tanggal').append(response.errors.form_tanggal);
                         $('#error_pengganti').append(response.errors.pengganti);
                         $('#error_alasan').append(response.errors.alasan);
+
+                        $('#error_sisa_cuti').append(response.error_sisa_cuti);
 
                         $('.btn-spinner').addClass('d-none');
                         $('.btn-save').removeClass('d-none');

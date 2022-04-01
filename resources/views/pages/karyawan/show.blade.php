@@ -349,16 +349,16 @@
                                 "<label for=\"jenis_kelamin\" class=\"col-form-label col-form-label-sm\">Jenis Kelamin</label>" +
                                 "<select name=\"jenis_kelamin\" id=\"jenis_kelamin\" class=\"form-control form-control-sm\" disabled>" +
                                     "<option value=\"\">-- Pilih Jenis Kelamin --</option>" +
-                                    "<option value=\"l\"";
+                                    "<option value=\"L\"";
 
-                                    if (response.karyawan.jenis_kelamin == 'l' ) {
+                                    if (response.karyawan.jenis_kelamin == 'L' ) {
                                         biodata_data += "selected";
                                     }
 
                                     biodata_data += ">L (Laki - laki)</option>";
-                                    biodata_data += "<option value=\"p\"";
+                                    biodata_data += "<option value=\"P\"";
 
-                                    if ( response.karyawan.jenis_kelamin == "p" ) {
+                                    if ( response.karyawan.jenis_kelamin == "P" ) {
                                         biodata_data += "selected";
                                     }
 

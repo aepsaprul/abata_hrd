@@ -68,6 +68,8 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                            <h6 class="text-uppercase text-danger">Silahkan Ubah Password Anda Terlebih Dahulu</h6>
+                                            <hr>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label for="current_password">Password Sekarang</label>

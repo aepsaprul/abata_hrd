@@ -66,10 +66,10 @@
                                                     @elseif ($item->confirm == 2)
                                                         <span class="bg-danger px-2">Disapproved</span>
                                                     @else
-                                                        <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
-                                                            <span class="spinner-grow spinner-grow-sm"></span>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                        <span class="spinner-grow spinner-grow-sm"></span>
+                                                    </button>
                                                         <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
                                                     @endif
                                                 </td>
@@ -212,9 +212,13 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                         <label for="alasan">Alasan Cuti (Secara Lebih Detail)</label>
                         <input type="text" name="alasan" id="alasan" class="form-control" readonly>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <label for="sisa_cuti">Sisa Cuti</label>
+                        <input type="text" name="sisa_cuti" id="sisa_cuti" class="form-control" readonly>
                     </div>
                 </div>
             </div>
@@ -358,6 +362,7 @@
                     $('#keterangan').val(response.cuti.jenis);
                     $('#jml_hari').val(response.cuti.jml_hari);
                     $('#alasan').val(response.cuti.alasan);
+                    $('#sisa_cuti').val(response.cuti.master_karyawan.total_cuti);
 
                     var value_tanggal = "";
                     $.each(response.cuti.cuti_tgl, function (index, item) {

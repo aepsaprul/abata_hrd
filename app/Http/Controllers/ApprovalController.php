@@ -76,7 +76,7 @@ class ApprovalController extends Controller
         // end
 
         $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-        if ($karyawan->jenis_kelamin == "l") {
+        if ($karyawan->jenis_kelamin == "L") {
             $approved_text = "Approved Oleh Pak";
         } else {
             $approved_text = "Approved Oleh Bu";
@@ -99,6 +99,15 @@ class ApprovalController extends Controller
         $cuti->approved_background = "primary";
         $cuti->save();
 
+        $percentage_result = $cuti->approved_percentage + $percentage;
+
+        // mengurangi cuti
+        if ($percentage_result >= 100) {
+            $karyawan_cuti = MasterKaryawan::where('id', $cuti->master_karyawan_id)->first();
+            $karyawan_cuti->total_cuti = $karyawan_cuti->total_cuti - $cuti->jml_hari;
+            $karyawan_cuti->save();
+        }
+
         activity_log($cuti_detail, "cuti_detail", "approved");
 
         return response()->json([
@@ -109,7 +118,7 @@ class ApprovalController extends Controller
     public function disapproved($id)
     {
         $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-        if ($karyawan->jenis_kelamin == "l") {
+        if ($karyawan->jenis_kelamin == "L") {
             $approved_text = "Disapproved Oleh Pak";
         } else {
             $approved_text = "Disapproved Oleh Bu";
@@ -176,7 +185,7 @@ class ApprovalController extends Controller
         // end
 
         $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-        if ($karyawan->jenis_kelamin == "l") {
+        if ($karyawan->jenis_kelamin == "L") {
             $approved_text = "Approved Oleh Pak";
         } else {
             $approved_text = "Approved Oleh Bu";
@@ -209,7 +218,7 @@ class ApprovalController extends Controller
     public function resignDisapproved($id)
     {
         $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-        if ($karyawan->jenis_kelamin == "l") {
+        if ($karyawan->jenis_kelamin == "L") {
             $approved_text = "Disapproved Oleh Pak";
         } else {
             $approved_text = "Disapproved Oleh Bu";
