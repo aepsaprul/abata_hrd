@@ -102,4 +102,8 @@ class MasterKaryawan extends Model
     public function navAccess() {
         return $this->hasMany(HcNavAccess::class, 'user_id', 'id');
     }
+
+    public function kontrak() {
+        return $this->hasMany(HcKontrak::class, 'karyawan_id', 'id');
+    }
 }

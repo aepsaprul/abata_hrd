@@ -81,6 +81,61 @@
             <div class="row">
                 <div class="col-md-12">
 
+                    {{-- karyawan kontrak --}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title font-weight-bold text-uppercase">Karyawan Kontrak</h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="tabel_karyawan_kontrak" class="table table-bordered" style="font-size: 13px; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-indigo">No</th>
+                                        <th class="text-center text-indigo">Nama</th>
+                                        <th class="text-center text-indigo">Mulai Kontrak</th>
+                                        <th class="text-center text-indigo">Akhir Kontrak</th>
+                                        <th class="text-center text-indigo">Batas Kontrak</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($karyawan_kontrak as $key => $item)
+                                        @php
+                                            $waktu_sekarang  = Date('Y-m-d');
+                                            $akhir_kontrak = Date($item->akhir_kontrak);
+                                        @endphp
+                                        @if (strtotime($waktu_sekarang) < strtotime($akhir_kontrak))
+                                            @php
+                                                $waktuawal  = date_create($akhir_kontrak);
+                                                $waktuakhir = date_create();
+                                                $diff  = date_diff($waktuawal, $waktuakhir);
+                                            @endphp
+
+                                            @if ($diff->days < 90 && $diff->days > 1)
+                                                <tr>
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td>
+                                                        @if ($item->karyawan)
+                                                            {{ $item->karyawan->nama_lengkap }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">{{ $item->mulai_kontrak }}</td>
+                                                    <td class="text-center">{{ $item->akhir_kontrak }}</td>
+                                                    <td>
+                                                        @if ($diff->m > 0)
+                                                            @php echo $diff->format('Kontrak Habis <strong> %m Bulan %d Hari </strong> Lagi') @endphp
+                                                        @else
+                                                            @php echo $diff->format('Kontrak Habis <strong> %d Hari </strong> Lagi') @endphp
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     {{-- karyawan aktif --}}
                     <div class="card">
                         <div class="card-header">
@@ -282,6 +337,7 @@
 
 <script>
     $(function () {
+        $("#tabel_karyawan_kontrak").DataTable();
         $("#tabel_karyawan_aktif").DataTable();
         $("#tabel_karyawan_nonaktif").DataTable();
         $("#tabel_cuti").DataTable();

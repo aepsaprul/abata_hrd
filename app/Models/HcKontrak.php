@@ -17,4 +17,8 @@ class HcKontrak extends Model
     ];
 
     protected static $logName = 'karyawan_kontrak';
+
+    public function karyawan() {
+        return $this->belongsTo(MasterKaryawan::class, 'karyawan_id', 'id');
+    }
 }
