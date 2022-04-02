@@ -433,7 +433,7 @@
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_cabang_id\" class=\"col-form-label col-form-label-sm\">Cabang</label>" +
                                 "<select name=\"master_cabang_id\" id=\"master_cabang_id\" class=\"form-control form-control-sm\" disabled>";
-
+                                    biodata_data += "<option value=\"\">--Pilih Cabang--</option>";
                                     $.each(response.cabangs, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.id == response.karyawan.master_cabang_id) {
@@ -450,6 +450,7 @@
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_jabatan_id\" class=\"col-form-label col-form-label-sm\">Jabatan</label>" +
                                 "<select name=\"master_jabatan_id\" id=\"master_jabatan_id\" class=\"form-control form-control-sm select2\" disabled>";
+                                    biodata_data += "<option value=\"\">--Pilih Jabatan--</option>";
                                     $.each(response.jabatans, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.id == response.karyawan.master_jabatan_id) {
@@ -465,6 +466,7 @@
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_divisi_id\" class=\"col-form-label col-form-label-sm\">Divisi</label>" +
                                 "<select name=\"master_divisi_id\" id=\"master_divisi_id\" class=\"form-control form-control-sm select2\" disabled>";
+                                    biodata_data += "<option value=\"\">--Pilih Divisi--</option>";
                                     $.each(response.divisis, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.id == response.karyawan.master_divisi_id) {
@@ -494,6 +496,7 @@
                             "<div class=\"form-group\">" +
                                 "<label for=\"role\" class=\"col-form-label col-form-label-sm\">Role</label>" +
                                 "<select name=\"role\" id=\"role\" class=\"form-control form-control-sm select2\" disabled>";
+                                    biodata_data += "<option value=\"\">--Pilih Role--</option>";
                                     $.each(response.roles, function(index, value) {
                                         biodata_data += "<option value=\"" + value.id + "\"";
                                         if (value.nama == response.karyawan.role) {
