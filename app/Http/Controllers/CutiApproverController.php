@@ -53,7 +53,7 @@ class CutiApproverController extends Controller
 
     public function create()
     {
-        $role = MasterRole::doesntHave('approve')->orderBy('hirarki', 'asc')->get();
+        $role = MasterRole::doesntHave('approveCuti')->orderBy('hirarki', 'asc')->get();
 
         return response()->json([
             'roles' => $role
@@ -123,9 +123,13 @@ class CutiApproverController extends Controller
     public function delete(Request $request)
     {
         $approve = CutiApprover::where('role_id', $request->id);
+
+        $log_delete = CutiApprover::where('role_id', $request->id)->first();
+        $approve_id = CutiApprover::find($log_delete->id);
+
         $approve->delete();
 
-        activity_log($approve, "cuti_approver", "deleted");
+        activity_log($approve_id, "cuti_approver", "deleted");
 
         return response()->json([
             'status' => 'true'

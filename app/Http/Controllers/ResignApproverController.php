@@ -109,9 +109,13 @@ class ResignApproverController extends Controller
     public function delete(Request $request)
     {
         $approve = ResignApprover::where('role_id', $request->id);
+
+        $log_delete = ResignApprover::where('role_id', $request->id)->first();
+        $approve_id = ResignApprover::find($log_delete->id);
+
         $approve->delete();
 
-        activity_log($approve, "resign_approver", "deleted");
+        activity_log($approve_id, "resign_approver", "deleted");
 
         return response()->json([
             'status' => 'true'

@@ -60,7 +60,11 @@
                                     @foreach ($lokers as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->masterJabatan->nama_jabatan }}</td>
+                                            <td>
+                                                @if ($item->masterJabatan)
+                                                    {{ $item->masterJabatan->nama_jabatan }}
+                                                @endif
+                                            </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a
@@ -253,7 +257,7 @@
         });
 
         $(document).on('shown.bs.modal', '.modal-create', function() {
-            $('#create_nama').focus();
+            $('#create_jabatan_id').focus();
 
             $('.select2').select2({
                 theme: 'bootstrap4',
@@ -334,7 +338,7 @@
         });
 
         $(document).on('shown.bs.modal', '.modal-edit', function() {
-            $('#edit_nama').focus();
+            $('#edit_jabatan_id').focus();
 
             $('.select2').select2({
                 theme: 'bootstrap4',
@@ -346,7 +350,7 @@
             e.preventDefault();
 
             var formData = {
-                nama: $('#edit_nama').val(),
+                jabatan_id: $('#edit_jabatan_id').val(),
                 _token: CSRF_TOKEN
             }
 

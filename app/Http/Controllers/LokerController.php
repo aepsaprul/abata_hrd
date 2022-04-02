@@ -41,7 +41,7 @@ class LokerController extends Controller
     {
         $loker = HcLoker::find($id);
 
-        $jabatan = MasterJabatan::get();
+        $jabatan = MasterJabatan::doesntHave('loker')->get();
 
         return response()->json([
             'id' => $loker->id,

@@ -3,8 +3,8 @@
 @section('style')
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<!-- Select2 -->
-	<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
@@ -63,10 +63,16 @@
                                             <td>Jabatan</td>
                                             <td>:</td>
                                             <td>
-                                                <select name="master_jabatan_id" id="resign_jabatan" class="form-control" required>
+                                                <select name="master_jabatan_id" id="resign_jabatan" class="form-control select2" style="width: 100%;" required>
                                                     <option value="">--Pilih Bagian--</option>
                                                     @foreach ($jabatans as $jabatan)
-                                                            <option value="{{ $jabatan->id }}"														@if ($nama_karyawan->master_jabatan_id == $jabatan->id)															selected														@else														@endif														>{{ $jabatan->nama_jabatan }}</option>
+                                                        <option value="{{ $jabatan->id }}"
+                                                            @if ($nama_karyawan->master_jabatan_id == $jabatan->id)
+                                                                selected
+                                                            @else
+                                                            @endif
+                                                                >{{ $jabatan->nama_jabatan }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </td>
@@ -602,59 +608,55 @@
 @section('script')
 
 <!-- InputMask -->
-<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/moment/moment.min.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- bs-custom-file-input -->
-<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <!-- Select2 -->
-<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-  $(function () {
-        //Initialize Select2 Elements
-    $('.select2').select2()
-		//Initialize Select2 Elements
-    $('.select2bs4').select2({
-          theme: 'bootstrap4'
-    })
-  });
 	$(document).ready(function () {
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        });
+
         $( "#resign_tanggal_masuk" ).datepicker({
             dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_keluar" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_kewajiban_keuangan" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_serah_terima" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_id_card" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_seragam_karyawan" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_laptop" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_peralatan_kantor" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_penghapusan_akun" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_penghapusan_chat" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_penutupan_rekening" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 		$( "#resign_tanggal_lain" ).datepicker({
-    			dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd"
 		});
 
         $('.btn-save').on('click', function () {

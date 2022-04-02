@@ -102,14 +102,16 @@
                                                             <span class="">{{ $percent }}%</span>
                                                     </div>
                                                 </div>
-                                                @if ($item->alasan == null)
-                                                    <div class="text-center mt-2">
-                                                        <img src="{{ url('assets/' . $item->approvedLeader->ttd) }}" alt="ttd" style="max-width: 50px;">
-                                                    </div>
-                                                @else
+                                                @if ($item->alasan)
                                                     <span>
                                                         <span>Disapproved: {{ $item->alasan }}</span>
                                                     </span>
+                                                @else
+                                                    <div class="text-center mt-2">
+                                                        @if ($item->approvedLeader)
+                                                            <img src="{{ url('assets/' . $item->approvedLeader->ttd) }}" alt="ttd" style="max-width: 50px;">
+                                                        @endif
+                                                    </div>
                                                 @endif
 											</td>
                                             <td class="text-center">

@@ -4,15 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class HcNavAccess extends Model
 {
-    use HasFactory, LogsActivity;
-
-    protected static $logAttributes = ['user_id'];
-
-    protected static $logName = 'nav_access';
+    use HasFactory;
 
     public function masterKaryawan() {
         return $this->belongsTo(MasterKaryawan::class, 'user_id', 'id');

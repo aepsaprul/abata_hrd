@@ -49,7 +49,7 @@ class UserController extends Controller
             $nav_access->save();
         }
 
-        activity_log($nav_sub, "user", "created");
+        activity_log($nav_access, "user", "created");
 
         return response()->json([
             'status' => 'true'
@@ -59,9 +59,13 @@ class UserController extends Controller
     public function delete(Request $request)
     {
         $nav_access = HcNavAccess::where('user_id', $request->id);
+
+        $log_delete = HcNavAccess::where('user_id', $request->id)->first();
+        $nav_access_id = HcNavAccess::find($log_delete->id);
+
         $nav_access->delete();
 
-        activity_log($nav_access, "user", "deleted");
+        activity_log($nav_access_id, "user", "deleted");
 
         return response()->json([
             'status' => 'true'
