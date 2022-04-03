@@ -6,11 +6,11 @@
     <title>AdminLTE 3 | Top Navigation</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="{{ asset('themes/plugins/font-google/font-google.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/themes/plugins/font-google/font-google.css') }}">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('themes/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/themes/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('themes/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/themes/dist/css/adminlte.min.css') }}">
 </head>
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
@@ -108,10 +108,10 @@
 
 
     <!-- jQuery -->
-    <script src="{{ asset('themes/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
-    <script src="{{ asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
-    <script src="{{ asset('themes/dist/js/adminlte.js') }}"></script>
+    <script src="{{ asset('public/themes/dist/js/adminlte.js') }}"></script>
 </body>
 </html>

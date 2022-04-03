@@ -164,11 +164,11 @@
 @section('script')
 
 <!-- InputMask -->
-<script src="{{ asset('themes/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/moment/moment.min.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('themes/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- bs-custom-file-input -->
-<script src="{{ asset('themes/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {

@@ -3,8 +3,8 @@
 @section('style')
 
 <!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
 
 @endsection
 
@@ -63,14 +63,14 @@
                                                                 @else
                                                                 <img
                                                                     class="profile-user-img img-fluid"
-                                                                    src="{{ asset('assets/no-image.jpg') }}"
+                                                                    src="{{ asset('public/assets/no-image.jpg') }}"
                                                                     alt="User profile picture"
                                                                     style="width: 100%;">
                                                                 @endif
                                                             @else
                                                                 <img
                                                                     class="profile-user-img img-fluid"
-                                                                    src="{{ asset('assets/no-image.jpg') }}"
+                                                                    src="{{ asset('public/assets/no-image.jpg') }}"
                                                                     alt="User profile picture"
                                                                     style="width: 100%;">
                                                             @endif
@@ -598,12 +598,12 @@
 
 @section('script')
 
-<script src="{{ asset('themes/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/moment/moment.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 <!-- Select2 -->
-<script src="{{ asset('themes/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
 <!-- Bootstrap Switch -->
-<script src="{{ asset('themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 
 <script type="text/javascript">
 

@@ -3,8 +3,8 @@
 @section('style')
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<!-- Select2 -->
-	<link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
@@ -608,13 +608,13 @@
 @section('script')
 
 <!-- InputMask -->
-<script src="{{ asset('themes/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/moment/moment.min.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('themes/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- bs-custom-file-input -->
-<script src="{{ asset('themes/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <!-- Select2 -->
-<script src="{{ asset('themes/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 	$(document).ready(function () {

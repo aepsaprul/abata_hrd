@@ -3,8 +3,8 @@
 @section('style')
 
 <!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
 <style>
     .content-header,
@@ -109,7 +109,7 @@
                                                 @else
                                                     <div class="text-center mt-2">
                                                         @if ($item->approvedLeader)
-                                                            <img src="{{ url('assets/' . $item->approvedLeader->ttd) }}" alt="ttd" style="max-width: 50px;">
+                                                            <img src="{{ url('public/assets/' . $item->approvedLeader->ttd) }}" alt="ttd" style="max-width: 50px;">
                                                         @endif
                                                     </div>
                                                 @endif
@@ -253,10 +253,10 @@
 
 
 <!-- DataTables -->
-<script src="{{ asset('themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
 <script>
     $(function () {
