@@ -108,8 +108,8 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        @if (Auth::user()->karyawan)
-                            <img src="{{ asset('public/image/' . Auth::user()->karyawan->foto) }}" class="img-circle elevation-2" alt="User Image">
+                        @if (Auth::user()->masterKaryawan)
+                            <img src="{{ asset('public/image/' . Auth::user()->masterKaryawan->foto) }}" class="img-circle elevation-2" alt="User Image">
                         @else
                             <img src="{{ asset('public/themes/dist/img/avatar5.png') }}" class="img-circle elevation-2" alt="User Image">
                         @endif

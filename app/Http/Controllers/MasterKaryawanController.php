@@ -151,7 +151,7 @@ class MasterKaryawanController extends Controller
                 $file = $request->file('foto');
                 $extension = $file->getClientOriginalExtension();
                 $filename = time() . "." . $extension;
-                $file->move('image/', $filename);
+                $file->move('public/image/', $filename);
                 $karyawan->foto = $filename;
             }
 
@@ -273,8 +273,8 @@ class MasterKaryawanController extends Controller
         $user = User::where('master_karyawan_id', $karyawan->id)->first();
         $user->delete();
 
-        if (file_exists(public_path("image/" . $karyawan->foto))) {
-            File::delete(public_path("image/" . $karyawan->foto));
+        if (file_exists("public/image/" . $karyawan->foto)) {
+            File::delete("public/image/" . $karyawan->foto);
         }
 
         $karyawan->delete();
@@ -349,13 +349,13 @@ class MasterKaryawanController extends Controller
         $karyawan->total_cuti = $request->total_cuti;
 
         if($request->hasFile('foto')) {
-            if (file_exists(public_path("image/" . $karyawan->foto))) {
-                File::delete(public_path("image/" . $karyawan->foto));
+            if (file_exists("public/image/" . $karyawan->foto)) {
+                File::delete("public/image/" . $karyawan->foto);
             }
             $file = $request->file('foto');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
-            $file->move('image/', $filename);
+            $file->move('public/image/', $filename);
             $karyawan->foto = $filename;
         }
 

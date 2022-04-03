@@ -65,13 +65,13 @@ class ProfileController extends Controller
         $karyawan->agama = $request->agama;
 
         if($request->hasFile('foto')) {
-            if (file_exists(public_path("image/" . $karyawan->foto))) {
-                File::delete(public_path("image/" . $karyawan->foto));
+            if (file_exists("public/image/" . $karyawan->foto)) {
+                File::delete("public/image/" . $karyawan->foto);
             }
             $file = $request->file('foto');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
-            $file->move('image/', $filename);
+            $file->move('public/image/', $filename);
             $karyawan->foto = $filename;
         }
 

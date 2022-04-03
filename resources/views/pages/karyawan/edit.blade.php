@@ -70,7 +70,7 @@
                                                     <div class="card-body box-profile">
                                                         <div class="text-center profile_img">
                                                             @if ($karyawan->foto)
-                                                                @if(file_exists(public_path('public/image/' . $karyawan->foto)))
+                                                                @if(file_exists('public/image/' . $karyawan->foto))
                                                                 <img
                                                                     class="profile-user-img img-fluid"
                                                                     src="{{ asset('public/image/' . $karyawan->foto) }}"

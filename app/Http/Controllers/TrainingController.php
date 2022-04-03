@@ -45,7 +45,7 @@ class TrainingController extends Controller
             $file = $request->file('modul');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
-            $file->move('file/', $filename);
+            $file->move('public/file/modul/', $filename);
             $trainings->modul = $filename;
         }
 
@@ -97,13 +97,13 @@ class TrainingController extends Controller
         $training->status = $request->status;
 
         if($request->hasFile('modul')) {
-            if (file_exists(public_path("file/" . $training->modul))) {
-                File::delete(public_path("file/" . $training->modul));
+            if (file_exists(public_path("public/file/modul/" . $training->modul))) {
+                File::delete(public_path("public/file/modul/" . $training->modul));
             }
             $file = $request->file('modul');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
-            $file->move('file/', $filename);
+            $file->move('public/file/modul/', $filename);
             $training->modul = $filename;
         }
 
@@ -128,8 +128,8 @@ class TrainingController extends Controller
     public function delete(Request $request)
     {
         $training = HcTraining::find($request->id);
-        if (file_exists(public_path("file/" . $training->modul))) {
-            File::delete(public_path("file/" . $training->modul));
+        if (file_exists("public/file/modul/" . $training->modul)) {
+            File::delete("public/file/modul/" . $training->modul);
         }
         $training->delete();
 
@@ -142,6 +142,6 @@ class TrainingController extends Controller
 
     public function modul(Request $request, $file_modul)
     {
-        return response()->download(public_path('file/'. $file_modul));
+        return response()->download(public_path('file/modul/'. $file_modul));
     }
 }

@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Notifications\PenggajianNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class PenggajianController extends Controller
 {
@@ -105,6 +106,10 @@ class PenggajianController extends Controller
 
         $penggajian_detail = PenggajianDetail::where('penggajian_id', $request->id);
         $penggajian_detail->delete();
+
+        if (file_exists("public/file/penggajuan/" . $penggajian->file)) {
+            File::delete("public/file/penggajuan/" . $penggajian->file);
+        }
 
         activity_log($penggajian, "penggajian", "deleted");
 
