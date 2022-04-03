@@ -54,10 +54,10 @@
                                                     <div class="card-body box-profile">
                                                         <div class="text-center profile_img">
                                                             @if ($karyawan->foto)
-                                                                @if(file_exists(public_path('image/' . $karyawan->foto)))
+                                                                @if(file_exists(public_path('public/image/' . $karyawan->foto)))
                                                                 <img
                                                                     class="profile-user-img img-fluid"
-                                                                    src="{{ asset('image/' . $karyawan->foto) }}"
+                                                                    src="{{ asset('public/image/' . $karyawan->foto) }}"
                                                                     alt="User profile picture"
                                                                     style="width: 100%;">
                                                                 @else

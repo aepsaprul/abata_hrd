@@ -79,7 +79,7 @@
                                                 @endif
                                             </td>
 											<td class="text-center">
-                                                <a href="{{ url('file/pengajuan/' . $item->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->file }}</a>
+                                                <a href="{{ url('public/file/pengajuan/' . $item->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->file }}</a>
                                             </td>
 											<td>
 												@if ($item->approved_percentage > 100)
