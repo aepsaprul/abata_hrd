@@ -30,12 +30,12 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#biodata" data-toggle="tab">Biodata</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#medsos" data-toggle="tab">Medsos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#sebelum_menikah" data-toggle="tab">Sebelum Menikah</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#setelah_menikah" data-toggle="tab">Setelah Menikah</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#kerabat_darurat" data-toggle="tab">Kerabat Darurat</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#biodata" data-toggle="tab">Biodata</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#medsos" data-toggle="tab">Medsos</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#sebelum_menikah" data-toggle="tab">Sebelum Menikah</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#setelah_menikah" data-toggle="tab">Setelah Menikah</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#kerabat_darurat" data-toggle="tab">Kerabat Darurat</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
                             </ul>
                         </div>
                         <div class="card-body">

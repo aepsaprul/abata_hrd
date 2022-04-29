@@ -56,43 +56,45 @@
                                     @foreach ($cuti_details as $key => $item)
                                         @if ($item->hirarki > 1 && $item->status == 0)
                                         @else
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>{{ $item->cuti->masterKaryawan->nama_lengkap }}</td>
-                                                <td>{{ $item->cuti->jenis }}</td>
-                                                <td class="text-center">
-                                                    @if ($item->confirm == 1)
-                                                        <span class="bg-success px-2">Approved</span>
-                                                    @elseif ($item->confirm == 2)
-                                                        <span class="bg-danger px-2">Disapproved</span>
-                                                    @else
-                                                    <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
-                                                    <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
-                                                        <span class="spinner-grow spinner-grow-sm"></span>
-                                                    </button>
-                                                        <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="btn-group">
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                            data-toggle="dropdown"
-                                                            aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                                <i class="fas fa-cog"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
+                                            @if ($item->cuti)
+                                                <tr>
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td>{{ $item->cuti->masterKaryawan->nama_lengkap }}</td>
+                                                    <td>{{ $item->cuti->jenis }}</td>
+                                                    <td class="text-center">
+                                                        @if ($item->confirm == 1)
+                                                            <span class="bg-success px-2">Approved</span>
+                                                        @elseif ($item->confirm == 2)
+                                                            <span class="bg-danger px-2">Disapproved</span>
+                                                        @else
+                                                        <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
+                                                        <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                            <span class="spinner-grow spinner-grow-sm"></span>
+                                                        </button>
+                                                            <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group">
                                                             <a
-                                                                href="#" class="dropdown-item btn-detail text-indigo"
-                                                                data-id="{{ $item->cuti->id }}">
-                                                                    <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                                href="#"
+                                                                class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                    <i class="fas fa-cog"></i>
                                                             </a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a
+                                                                    href="#" class="dropdown-item btn-detail text-indigo"
+                                                                    data-id="{{ $item->cuti->id }}">
+                                                                        <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endif
                                     @endforeach
                                 </tbody>
@@ -122,45 +124,47 @@
                                     @foreach ($resign_details as $key => $item)
                                         @if ($item->hirarki > 1 && $item->status == 0)
                                         @else
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>{{ $item->resign->masterKaryawan->nama_panggilan }}</td>
-                                                <td>{{ $item->resign->lokasi_kerja }}</td>
-                                                <td>{{ $item->resign->tanggal_masuk }}</td>
-                                                <td>{{ $item->resign->tanggal_keluar }}</td>
-                                                <td class="text-center">
-                                                    @if ($item->confirm == 1)
-                                                        <span class="bg-success px-2">Approved</span>
-                                                    @elseif ($item->confirm == 2)
-                                                        <span class="bg-danger px-2">Disapproved</span>
-                                                    @else
-                                                        <button class="btn btn-sm btn-primary btn-resign-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
-                                                        <button class="btn btn-primary btn-sm btn-resign-approve-spinner d-none" disabled>
-                                                            <span class="spinner-grow spinner-grow-sm"></span>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-danger btn-resign-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="btn-group">
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                            data-toggle="dropdown"
-                                                            aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                                <i class="fas fa-cog"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
+                                            @if ($item->confirm == 1)
+                                                <tr>
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td>{{ $item->resign->masterKaryawan->nama_panggilan }}</td>
+                                                    <td>{{ $item->resign->lokasi_kerja }}</td>
+                                                    <td>{{ $item->resign->tanggal_masuk }}</td>
+                                                    <td>{{ $item->resign->tanggal_keluar }}</td>
+                                                    <td class="text-center">
+                                                        @if ($item->confirm == 1)
+                                                            <span class="bg-success px-2">Approved</span>
+                                                        @elseif ($item->confirm == 2)
+                                                            <span class="bg-danger px-2">Disapproved</span>
+                                                        @else
+                                                            <button class="btn btn-sm btn-primary btn-resign-approve" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-check"></i></button>
+                                                            <button class="btn btn-primary btn-sm btn-resign-approve-spinner d-none" disabled>
+                                                                <span class="spinner-grow spinner-grow-sm"></span>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger btn-resign-disapprove" style="width: 40px;" data-id="{{ $item->id }}"><i class="fas fa-times"></i></button>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group">
                                                             <a
-                                                                href="{{ route('approval.resign_show', [$item->resign->id]) }}" class="dropdown-item btn-resign-detail text-indigo"
-                                                                data-id="{{ $item->resign->id }}">
-                                                                    <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                                href="#"
+                                                                class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                    <i class="fas fa-cog"></i>
                                                             </a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a
+                                                                    href="{{ route('approval.resign_show', [$item->resign->id]) }}" class="dropdown-item btn-resign-detail text-indigo"
+                                                                    data-id="{{ $item->resign->id }}">
+                                                                        <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endif
                                     @endforeach
                                 </tbody>

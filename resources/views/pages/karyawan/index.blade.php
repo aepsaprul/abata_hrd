@@ -622,6 +622,7 @@
             $('.show-select-jabatan').select2();
         });
 
+        // ubath status
         $(document).on('change', 'input[name="status"]', function () {
             let id = $(this).attr('data-id');
             let val_state;
