@@ -41,10 +41,12 @@ class CutiNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = url('/approval');
+
         return (new MailMessage)
                     ->greeting('Hello, '.$this->user->name)
                     ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->action('Telusuri', $url)
                     ->line('Thank you for using our application!');
     }
 
