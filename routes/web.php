@@ -165,10 +165,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('master/loker', [LokerController::class, 'index'])->name('loker.index');
         Route::get('master/loker/create', [LokerController::class, 'create'])->name('loker.create');
         Route::post('master/loker/store', [LokerController::class, 'store'])->name('loker.store');
+        Route::get('master/loker/{id}/show', [LokerController::class, 'show'])->name('loker.show');
         Route::get('master/loker/{id}/edit', [LokerController::class, 'edit'])->name('loker.edit');
-        Route::put('master/loker/{id}/update', [LokerController::class, 'update'])->name('loker.update');
+        Route::post('master/loker/update', [LokerController::class, 'update'])->name('loker.update');
         Route::get('master/loker/{id}/delete_btn', [LokerController::class, 'deleteBtn'])->name('loker.delete_btn');
         Route::post('master/loker/delete', [LokerController::class, 'delete'])->name('loker.delete');
+        Route::put('master/loker/{id}/publish', [LokerController::class, 'publish'])->name('loker.publish');
 
         // cuti approver
         Route::get('master/cuti_approver', [CutiApproverController::class, 'index'])->name('cuti_approver.index');

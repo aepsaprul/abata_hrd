@@ -52,7 +52,11 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
-                                        <th class="text-center text-indigo">Nama Jabatan</th>
+                                        <th class="text-center text-indigo">Cabang</th>
+                                        <th class="text-center text-indigo">Lokasi</th>
+                                        <th class="text-center text-indigo">Jabatan</th>
+                                        <th class="text-center text-indigo">Detail</th>
+                                        <th class="text-center text-indigo">Publish</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
@@ -61,10 +65,18 @@
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>
-                                                @if ($item->masterJabatan)
-                                                    {{ $item->masterJabatan->nama_jabatan }}
+                                                @if ($item->cabang)
+                                                    {{ $item->cabang->nama_cabang }}
                                                 @endif
                                             </td>
+                                            <td>{{ $item->lokasi }}</td>
+                                            <td>
+                                                @if ($item->jabatan)
+                                                    {{ $item->jabatan->nama_jabatan }}
+                                                @endif
+                                            </td>
+                                            <td class="text-center"><a href="#" class="btn-img" data-id="{{ $item->id }}">Gambar</a></td>
+                                            <td class="text-center"><input type="checkbox" name="index[]" id="index_{{ $item->id }}" data-id="{{ $item->id }}" value="{{ $item->publish }}" {{ $item->publish == "y" ? 'checked' : '' }}></td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a
@@ -96,22 +108,16 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 
+{{-- modal create --}}
 <div class="modal fade modal-create" id="modal-default">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="form-create">
                 <div class="modal-header">
@@ -122,14 +128,28 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
+                        <label for="create_cabang_id" class="form-label">Nama Cabang</label>
+                        <select name="create_cabang_id" id="create_cabang_id" class="form-control select2">
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="create_lokasi" class="form-label">Lokasi</label>
+                        <input type="text" name="create_lokasi" id="create_lokasi" class="form-control" maxlength="30">
+                    </div>
+                    <div class="mb-3">
                         <label for="create_jabatan_id" class="form-label">Nama Jabatan</label>
                         <select name="create_jabatan_id" id="create_jabatan_id" class="form-control select2">
 
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="create_img" class="form-label">Gambar</label>
+                        <input type="file" name="create_img" id="create_img" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-create" disabled style="width: 130px; display: none;">
+                    <button class="btn btn-primary btn-create-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
                     </button>
@@ -139,14 +159,12 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
+{{-- modal edit --}}
 <div class="modal fade modal-edit" id="modal-default">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="form-edit">
                 <input type="hidden" id="edit_id" name="edit_id">
@@ -158,14 +176,28 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
+                        <label for="edit_cabang_id" class="form-label">Nama Cabang</label>
+                        <select name="edit_cabang_id" id="edit_cabang_id" class="form-control select2">
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_lokasi" class="form-label">Lokasi</label>
+                        <input type="text" name="edit_lokasi" id="edit_lokasi" class="form-control" maxlength="30">
+                    </div>
+                    <div class="mb-3">
                         <label for="edit_jabatan_id" class="form-label">Nama Jabatan</label>
                         <select name="edit_jabatan_id" id="edit_jabatan_id" class="form-control select2">
 
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="edit_img" class="form-label">Ganti Gambar</label>
+                        <input type="file" name="edit_img" id="edit_img" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-spinner-edit" disabled style="width: 130px; display: none;">
+                    <button class="btn btn-primary btn-edit-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
                     </button>
@@ -175,14 +207,12 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 {{-- modal delete --}}
 <div class="modal fade modal-delete" id="modal-default">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="form-delete">
                 <input type="hidden" id="delete_id" name="delete_id">
@@ -201,9 +231,20 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
+</div>
+
+{{-- modal detail --}}
+<div class="modal fade modal-detail" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form-detail">
+                <div class="modal-body">
+                    <img src="" alt="" class="detail_img" style="max-width: 100%;">
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -231,7 +272,11 @@
         $("#example1").DataTable();
     });
     $(document).ready(function () {
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         var Toast = Swal.mixin({
             toast: true,
@@ -240,14 +285,55 @@
             timer: 3000
         });
 
+        // publish
+        $('input[name="index[]"]').on('change', function() {
+            var id = $(this).attr('data-id');
+            var formData;
+
+            var id = $(this).attr('data-id');
+            var url = '{{ route("loker.publish", ":id") }}';
+            url = url.replace(':id', id );
+
+            if($('#index_' + id).is(":checked")) {
+                formData = {
+                    id: id,
+                    show: "y"
+                }
+            } else {
+                formData = {
+                    id: id,
+                    show: "n"
+                }
+            }
+
+            $.ajax({
+                url: url,
+                type: 'PUT',
+                data: formData,
+                success: function(response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil disimpan.'
+                    });
+                }
+            });
+        });
+
+        // create
         $('#btn-create').on('click', function() {
             $.ajax({
                 type: "get",
                 url: "{{ URL::route('loker.create') }}",
                 success: function (response) {
+                    var value_cabang = "<option value=\"\">--Pilih Cabang--</option>";
+                    $.each(response.cabangs, function (index, value) {
+                        value_cabang += "<option value=\"" + value.id + "\">" + value.nama_cabang + "</option>";
+                    });
+                    $('#create_cabang_id').append(value_cabang);
+
                     var value_jabatan = "<option value=\"\">--Pilih Jabatan--</option>";
-                    $.each(response.jabatans, function (indexInArray, valueOfElement) {
-                        value_jabatan += "<option value=\"" + valueOfElement.id + "\">" + valueOfElement.nama_jabatan + "</option>";
+                    $.each(response.jabatans, function (index, value) {
+                        value_jabatan += "<option value=\"" + value.id + "\">" + value.nama_jabatan + "</option>";
                     });
                     $('#create_jabatan_id').append(value_jabatan);
 
@@ -268,18 +354,17 @@
         $('#form-create').submit(function (e) {
             e.preventDefault();
 
-            var formData = {
-                jabatan_id: $('#create_jabatan_id').val(),
-                _token: CSRF_TOKEN
-            }
+            let formData = new FormData($('#form-create')[0]);
 
             $.ajax({
                 url: "{{ URL::route('loker.store') }}",
                 type: 'POST',
                 data: formData,
+                contentType: false,
+                processData: false,
                 beforeSend: function () {
-                    $('.btn-spinner-create').css('display', 'inline-block');
-                    $('.btn-create-save').css('display', 'none');
+                    $('.btn-create-spinner').removeClass('d-none');
+                    $('.btn-create-save').addClass('d-none');
                 },
                 success: function (response) {
                     Toast.fire({
@@ -311,8 +396,7 @@
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -320,15 +404,26 @@
                 type: 'GET',
                 data: formData,
                 success: function (response) {
-                    $('#edit_id').val(response.id);
+                    $('#edit_id').val(response.loker.id);
+                    $('#edit_lokasi').val(response.loker.lokasi);
+
+                    var value_cabang = "<option value=\"\">--Pilih Cabang--</option>";
+                    $.each(response.cabangs, function (index, value) {
+                        value_cabang += "<option value=\"" + value.id + "\"";
+                        if (value.id == response.loker.cabang_id) {
+                            value_cabang += " selected";
+                        }
+                        value_cabang += ">" + value.nama_cabang + "</option>";
+                    });
+                    $('#edit_cabang_id').append(value_cabang);
 
                     var value_jabatan = "<option value=\"\">--Pilih Jabatan--</option>";
-                    $.each(response.jabatans, function (indexInArray, valueOfElement) {
-                        value_jabatan += "<option value=\"" + valueOfElement.id + "\"";
-                        if (valueOfElement.id == response.jabatan_id) {
+                    $.each(response.jabatans, function (index, value) {
+                        value_jabatan += "<option value=\"" + value.id + "\"";
+                        if (value.id == response.loker.jabatan_id) {
                             value_jabatan += " selected";
                         }
-                        value_jabatan += ">" + valueOfElement.nama_jabatan + "</option>";
+                        value_jabatan += ">" + value.nama_jabatan + "</option>";
                     });
                     $('#edit_jabatan_id').append(value_jabatan);
 
@@ -349,22 +444,17 @@
         $('#form-edit').submit(function (e) {
             e.preventDefault();
 
-            var formData = {
-                jabatan_id: $('#edit_jabatan_id').val(),
-                _token: CSRF_TOKEN
-            }
-
-            var id = $('#edit_id').val();
-            var url = '{{ route("loker.update", ":id") }}';
-            url = url.replace(':id', id);
+            let formData = new FormData($('#form-edit')[0]);
 
             $.ajax({
-                url: url,
-                type: 'PUT',
+                url: "{{ URL::route('loker.update') }}",
+                type: 'post',
                 data: formData,
+                contentType: false,
+                processData: false,
                 beforeSend: function () {
-                    $('.btn-spinner-edit').css("display", "block");
-                    $('.btn-edit-save').css("display", "none");
+                    $('.btn-edit-spinner').removeClass("d-none");
+                    $('.btn-edit-save').addClass("d-none");
                 },
                 success: function (response) {
                     Toast.fire({
@@ -377,7 +467,7 @@
                     }, 1000);
                 },
                 error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhar.statusText
+                    var errorMessage = xhr.status + ': ' + error
 
                     Toast.fire({
                         icon: 'error',
@@ -396,8 +486,7 @@
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -415,8 +504,7 @@
             e.preventDefault();
 
             var formData = {
-                id: $('#delete_id').val(),
-                _token: CSRF_TOKEN
+                id: $('#delete_id').val()
             }
 
             $.ajax({
@@ -447,6 +535,25 @@
                 }
             });
         });
+
+        // detail
+        $(document).on('click', '.btn-img', function (e) {
+            e.preventDefault();
+
+            var id = $(this).attr('data-id');
+            var url = '{{ route("loker.show", ":id") }}';
+            url = url.replace(':id', id);
+
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (response) {
+                    console.log(response);
+                    $('.detail_img').prop("src", "{{ URL::to('') }}" + "/public/file/loker/" + response.loker.image);
+                    $('.modal-detail').modal('show');
+                }
+            })
+        })
     });
 </script>
 
