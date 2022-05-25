@@ -29,7 +29,7 @@ class MasterKaryawanController extends Controller
      */
     public function index()
     {
-        $karyawans = MasterKaryawan::with('masterJabatan')->orderBy('id', 'desc')->get();
+        $karyawans = MasterKaryawan::with('masterJabatan')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
 
         return view('pages.karyawan.index', ['karyawans' => $karyawans]);
     }
