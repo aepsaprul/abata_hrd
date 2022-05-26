@@ -639,7 +639,7 @@
                     var nik = "" +
                         "<div class=\"col-lg-12 col-md-12 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
-                                "<label for=\"nik\" class=\"col-form-label col-form-label-sm\">NIK</label>" +
+                                "<label for=\"nik\" class=\"col-form-label col-form-label-sm\">NIP</label>" +
                                 "<input type=\"text\" class=\"form-control form-control-sm\" id=\"nik\" name=\"nik\" maxlength=\"50\" value=\"" + response.karyawan.nik + "\" readonly>" +
                                 "<small id=\"error_nik\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
