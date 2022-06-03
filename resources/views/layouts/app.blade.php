@@ -233,6 +233,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('slip_gaji.index') }}" class="nav-link {{ request()->is(['slip_gaji', 'slip_gaji/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-file-invoice-dollar text-center mr-2" style="width: 30px;"></i><p>Slip Gaji</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('training.index') }}" class="nav-link {{ request()->is(['training', 'training/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-comment-alt text-center mr-2" style="width: 30px;"></i><p>Training</p>
                                 </a>

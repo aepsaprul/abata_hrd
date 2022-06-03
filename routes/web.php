@@ -35,6 +35,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResignApproverController;
 use App\Http\Controllers\ResignController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SlipGajiController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -297,6 +298,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
     Route::get('penggajian/{id}/delete_btn', [PenggajianController::class, 'deleteBtn'])->name('penggajian.delete_btn');
     Route::post('penggajian/delete', [PenggajianController::class, 'delete'])->name('penggajian.delete');
+
+    // slip gaji
+    Route::get('slip_gaji', [SlipGajiController::class, 'index'])->name('slip_gaji.index');
+    Route::get('slip_gaji/template', [SlipGajiController::class, 'template'])->name('slip_gaji.template');
+    Route::get('slip_gaji/export', [SlipGajiController::class, 'export'])->name('slip_gaji.export');
+    Route::post('slip_gaji/import', [SlipGajiController::class, 'import'])->name('slip_gaji.import');
 
     // training
     Route::get('training', [TrainingController::class, 'index'])->name('training.index');
