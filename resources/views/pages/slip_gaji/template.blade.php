@@ -2,12 +2,10 @@
     <thead>
         <tr>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">No</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">ID</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">NIP</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Nama</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Cabang</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Periode</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Bulan</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tahun</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Gaji Pokok</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Jabatan</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Makan</th>
@@ -27,7 +25,7 @@
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Premi BPJS TK</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Alpha Ijin</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Abata Peduli</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">PPh 21</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">PPh21</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Lain</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Jml Hari Kerja</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Jml Hari Uang Makan</th>
@@ -46,6 +44,7 @@
         @foreach ($karyawans as $key => $item)
             <tr>
                 <td>{{ $key + 1 }}</td>
+                <td>{{ $item->id }}</td>
                 <td></td>
                 <td>{{ $item->nama_lengkap }}</td>
                 <td>
@@ -53,9 +52,6 @@
                         {{ $item->masterCabang->nama_cabang }}
                     @endif
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

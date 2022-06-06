@@ -56,24 +56,51 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
-                                        <th class="text-center text-indigo">NIP</th>
-                                        <th class="text-center text-indigo">Nama</th>
-                                        <th class="text-center text-indigo">Cabang</th>
+                                        <th class="text-center text-indigo">Tahun</th>
+                                        <th class="text-center text-indigo">Bulan</th>
                                         <th class="text-center text-indigo">Periode</th>
-                                        <th class="text-center text-indigo">Bulan/Tahun</th>
+                                        <th class="text-center text-indigo">Berkas</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($slips as $key => $item)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->nip }}</td>
-                                            <td>{{ $item->nama }}</td>
-                                            <td>{{ $item->cabang }}</td>
-                                            <td>{{ $item->periode }}</td>
-                                            <td>{{ $item->bulan }} / {{ $item->tahun }}</td>
-                                            <td>#</td>
+                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td class="text-center">{{ $item->tahun }}</td>
+                                            <td class="text-center text-uppercase">{{ $item->bulan }}</td>
+                                            <td class="text-center text-uppercase">{{ $item->periode }}</td>
+                                            <td class="text-center">
+                                                @if ($item->berkas)
+                                                    <a href="{{ url('public/file/slip_gaji/' . $item->berkas) }}"><i class="fas fa-download"></i> {{ $item->berkas }}</a>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a
+                                                        href="#"
+                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                            <i class="fas fa-cog"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a
+                                                            href="#"
+                                                            class="dropdown-item border-bottom btn-edit text-indigo"
+                                                            data-id="{{ $item->id }}">
+                                                                <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                        </a>
+                                                        <a
+                                                            href="{{ route('slip_gaji.delete', [$item->id]) }}"
+                                                            class="dropdown-item btn-delete text-indigo"
+                                                            onclick="return confirm('Yakin akan dihapus?')">
+                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -97,12 +124,30 @@
                     <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
                 </div>
                 <div class="modal-body">
-
-                    <label>Pilih file excel</label>
-                    <div class="form-group">
-                        <input type="file" name="file" required="required">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label>Pilih file excel</label>
+                            <input type="file" name="file" required="required">
+                        </div>
                     </div>
-
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label>Tahun</label>
+                            <input type="text" name="tahun" id="tahun" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label>Bulan</label>
+                            <input type="text" name="bulan" id="bulan" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label>Periode</label>
+                            <input type="text" name="periode" id="periode" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -110,6 +155,62 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- edit -->
+<div class="modal fade modal-edit" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form-edit" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ubah Data Slip Gaji</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <input type="hidden" name="edit_id" id="edit_id">
+
+                    <div class="mb-3">
+                        <label for="edit_tahun" class="form-label">Tahun</label>
+                        <input type="text"
+                            class="form-control form-control-sm"
+                            id="edit_tahun"
+                            name="edit_tahun"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_bulan" class="form-label">Bulan</label>
+                        <input type="text"
+                            class="form-control form-control-sm"
+                            id="edit_bulan"
+                            name="edit_bulan"
+                            maxlength="10"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_periode" class="form-label">Periode</label>
+                        <input type="text"
+                            class="form-control form-control-sm"
+                            id="edit_periode"
+                            name="edit_periode"
+                            maxlength="50"
+                            required>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-edit-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;">
+                        <i class="fas fa-save"></i> Perbaharui
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -133,7 +234,90 @@
 
 <script>
 $(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+
     $('#datatable').DataTable();
+
+    $(document).on('click', '.btn-edit', function (e) {
+        e.preventDefault();
+
+        $('#edit_tahun').empty();
+        $('#edit_bulan').empty();
+        $('#edit_periode').empty();
+        $('#edit_berkas').val(null);
+        $('#edit_berkas').hide();
+
+        let id = $(this).attr('data-id');
+        let url = '{{ route("slip_gaji.edit", ":id") }}';
+        url = url.replace(':id', id);
+
+        $.ajax({
+            url: url,
+            type: "get",
+            success: function (response) {
+                $('#edit_id').val(response.slip.id);
+                $('#edit_tahun').val(response.slip.tahun);
+                $('#edit_bulan').val(response.slip.bulan);
+                $('#edit_periode').val(response.slip.periode);
+
+                $('.modal-edit').modal('show');
+            }
+        })
+    })
+
+    $('#edit_berkas').hide();
+
+    $(document).on('click', '#ganti', function (e) {
+        e.preventDefault();
+        $('#edit_berkas').show();
+    })
+
+    $(document).on('submit', '#form-edit', function (e) {
+        e.preventDefault();
+
+        let formData = new FormData($('#form-edit')[0]);
+
+        $.ajax({
+            url: "{{ URL::route('slip_gaji.update') }}",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $('.btn-edit-spinner').removeClass('d-none');
+                $('.btn-edit-save').addClass('d-none');
+            },
+            success: function (response) {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Data behasil ditambah'
+                });
+
+                setTimeout(() => {
+                    window.location.reload(1);
+                }, 1000);
+            },
+            error: function(xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + error
+
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Error - ' + errorMessage
+                });
+            }
+        })
+    })
 });
 </script>
 

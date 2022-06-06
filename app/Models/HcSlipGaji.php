@@ -10,11 +10,8 @@ class HcSlipGaji extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nip',
-        'nama',
         'bulan',
         'tahun',
-        'periode',
-        'gaji_pokok'
+        'periode'
     ];
 }
