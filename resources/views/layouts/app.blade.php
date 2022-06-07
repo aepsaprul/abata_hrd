@@ -238,6 +238,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('slip_gaji_karyawan.index') }}" class="nav-link {{ request()->is(['slip_gaji_karyawan', 'slip_gaji_karyawan/*']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-file-invoice-dollar text-center mr-2" style="width: 30px;"></i><p>Slip Gaji Karyawan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('training.index') }}" class="nav-link {{ request()->is(['training', 'training/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-comment-alt text-center mr-2" style="width: 30px;"></i><p>Training</p>
                                 </a>

@@ -36,6 +36,7 @@ use App\Http\Controllers\ResignApproverController;
 use App\Http\Controllers\ResignController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlipGajiController;
+use App\Http\Controllers\SlipGajiKaryawanController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -307,6 +308,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('slip_gaji/{id}/edit', [SlipGajiController::class, 'edit'])->name('slip_gaji.edit');
     Route::post('slip_gaji/update', [SlipGajiController::class, 'update'])->name('slip_gaji.update');
     Route::get('slip_gaji/{id}/delete', [SlipGajiController::class, 'delete'])->name('slip_gaji.delete');
+
+    // slip gaji karyawan
+    Route::get('slip_gaji_karyawan', [SlipGajiKaryawanController::class, 'index'])->name('slip_gaji_karyawan.index');
+    Route::get('slip_gaji_karyawan/{id}/cetak_pdf', [SlipGajiKaryawanController::class, 'cetakPdf'])->name('slip_gaji_karyawan.cetak_pdf');
 
     // training
     Route::get('training', [TrainingController::class, 'index'])->name('training.index');

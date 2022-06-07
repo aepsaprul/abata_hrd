@@ -31,7 +31,7 @@ class HcSlipGajiDetail extends Model
         'retur_produksi',
         'premi_bpjs_kes',
         'premi_bpjs_tk',
-        'pot_alpah_ijin',
+        'pot_alpha_ijin',
         'pot_abata_peduli',
         'pph21',
         'pot_lain',
@@ -50,5 +50,9 @@ class HcSlipGajiDetail extends Model
 
     public function slipGaji() {
         return $this->belongsTo(HcSlipGaji::class, 'slip_gaji_id', 'id');
+    }
+
+    public function karyawan() {
+        return $this->belongsTo(MasterKaryawan::class, 'karyawan_id', 'id');
     }
 }
