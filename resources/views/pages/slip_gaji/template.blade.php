@@ -38,6 +38,7 @@
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Alpha</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Cuti</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Sisa Cuti</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Poin Kehadiran</th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +53,7 @@
                         {{ $item->masterCabang->nama_cabang }}
                     @endif
                 </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

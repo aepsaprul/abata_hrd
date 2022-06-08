@@ -57,6 +57,7 @@ class SlipGajiImport implements ToModel, WithHeadingRow
             'absensi_alpha' => $row['absensi_alpha'],
             'absensi_cuti' => $row['absensi_cuti'],
             'sisa_cuti' => $row['sisa_cuti'],
+            'poin_kehadiran' => $row['poin_kehadiran'],
         ]);
     }
 

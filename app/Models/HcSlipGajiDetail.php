@@ -45,7 +45,8 @@ class HcSlipGajiDetail extends Model
         'absensi_ijin',
         'absensi_alpha',
         'absensi_cuti',
-        'sisa_cuti'
+        'sisa_cuti',
+        'poin_kehadiran'
     ];
 
     public function slipGaji() {

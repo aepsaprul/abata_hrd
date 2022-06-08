@@ -55,7 +55,7 @@
                                             <td class="text-center text-uppercase">{{ $item->bulan }}</td>
                                             <td class="text-center text-uppercase">{{ $item->periode }}</td>
                                             <td class="text-center">
-                                                <a href="#" class="btn-detail">Detail</a>
+                                                <a href="{{ route('slip_gaji_karyawan.cetak_pdf', [$item->id]) }}" target="_blank" class="btn-detail">Detail</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -67,58 +67,6 @@
             </div>
         </div>
     </section>
-</div>
-
-{{-- modal show --}}
-<div class="modal fade modal-show" id="modal-default">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form id="form-show" method="post" enctype="multipart/form-data">
-                <div class="modal-header">
-                    <h4 class="modal-title">Detail Slip Gaji</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row border-bottom mb-3">
-                                <div class="col"><h5 class="text-uppercase float-left">pt haehoe cemerlang mulia</h5></div>
-                                <div class="col"><h5 class="text-uppercase float-right">slip gaji mei 2022</h5></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2">NIP</label>
-                                        <div class="col-sm-10 border-bottom">
-                                          <span>12345678</span>
-                                        </div>
-                                      </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2">NIP</label>
-                                        <div class="col-sm-10 border-bottom">
-                                          <span>12345678</span>
-                                        </div>
-                                      </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2">NIP</label>
-                                        <div class="col-sm-10 border-bottom">
-                                          <span>12345678</span>
-                                        </div>
-                                      </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
 
 @endsection
@@ -155,12 +103,6 @@ $(document).ready(function() {
     });
 
     $('#datatable').DataTable();
-
-    $(document).on('click', '.btn-detail', function (e) {
-        e.preventDefault();
-
-        $('.modal-show').modal('show');
-    })
 });
 </script>
 

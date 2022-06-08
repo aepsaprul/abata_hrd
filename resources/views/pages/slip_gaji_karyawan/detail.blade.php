@@ -37,7 +37,7 @@
                 <td>{{ $slip_detail->karyawan->masterJabatan->nama_jabatan }}</td>
             </tr>
             <tr>
-                <td>Rekening</td>
+                <td>No Rekening</td>
                 <td>:</td>
                 <td>-</td>
             </tr>
@@ -53,7 +53,7 @@
             <tr>
                 <td>Masa Kerja</td>
                 <td>:</td>
-                <td>-</td>
+                <td>{{ $lama_kontrak }}</td>
             </tr>
             <tr>
                 <td>Cabang</td>
@@ -71,170 +71,243 @@
         </tr>
         <tr>
             <td style="text-align: center; text-transform: uppercase;">
-                <table style="width: 100%;"  border="0">
+                <table style="width: 100%; padding-left: 10px; padding-right: 10px;"  border="0">
                     <tr>
                         <td style="text-align: left; font-size: 10px;">gaji pokok :</td>
-                        <td>rp</td>
-                        <td>1000000</td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->gaji_pokok) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">tunj jabatan :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->tunj_jabatan) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">tunj makan :</td>
-                        <td></td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->tunj_makan) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">tunj transport :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->tunj_transport) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">tunj komunikasi :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->tunj_komunikasi) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">tunj kost :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->tunj_kost) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">tunj khusus :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->tunj_khusus) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">uang lembur :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->uang_lembur) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">bonus cabang :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->bonus_cabang) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">bonus project :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->bonus_project) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">bonus desin :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->bonus_desain) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">bonus kehadiran :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->bonus_kehadiran) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">lain - lain :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->lain_lain) }}</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center; text-transform: uppercase; vertical-align: top;">
-                <table style="width: 100%;" border="0">
+                <table style="width: 100%; padding-left: 10px; padding-right: 10px;" border="0">
                     <tr>
                         <td style="text-align: left; font-size: 10px;">hutang karyawan :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->hutang_karyawan) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">retur produksi :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->retur_produksi) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">premi bpjs kes :</td>
-                        <td></td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->premi_bpjs_kes) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">premi bpjs tk :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->premi_bpjs_tk) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">pot. alpha / ijin :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->pot_alpha_ijin) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">pot. abata peduli :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->pot_abata_peduli) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">PPh 21 :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->pph21) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">pot. lain :</td>
-                        <td>rp</td>
-                        <td></td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">{{ rupiah($slip_detail->pot_lain) }}</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center; text-transform: uppercase; vertical-align: top;">
-                <table style="width: 100%;" border="0">
+                <table style="width: 100%; padding-left: 10px; padding-right: 10px;" border="0">
                     <tr>
-                        <td colspan="3"><u>priode</u></td>
+                        <td colspan="2" style="text-transform: capitalize; text-align: center;"><u>periode {{ $slip->periode }}</u></td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">jml hari kerja :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->jml_hari_kerja }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">jml hari uang makan :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->jml_hari_uang_makan }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">lembur hari biasa</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->lembur_hari_biasa }} jam</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">lembur hari libur :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->lembur_hari_libur }} jam</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">absensi telat :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->absensi_telat }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">absensi sakit :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->absensi_sakit }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">absensi sakit tanpa SKD :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->absensi_tanpa_skd }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">absensi ijin :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->absensi_ijin }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">absensi alpha :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->absensi_alpha }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">absensi cuti :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->absensi_cuti }} hari</td>
                     </tr>
                     <tr>
                         <td style="text-align: left; font-size: 10px;">sisa cuti :</td>
-                        <td></td>
+                        <td style="text-align: right; text-transform: capitalize;">{{ $slip_detail->sisa_cuti }} hari</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left; font-size: 10px;">poin kehadiran</td>
-                        <td>100 poin</td>
+                        <td style="text-align: left; font-size: 10px; font-weight: bold;">poin kehadiran</td>
+                        <td style="text-align: right; text-transform: capitalize; font-weight: bold;">{{ $slip_detail->poin_kehadiran }} poin</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="width: 100%; font-weight: bold; padding-left: 10px; padding-right: 10px;" border="0">
+                    <tr>
+                        <td style="text-align: left; text-transform: capitalize;">total penerimaan</td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">
+                            @php
+                                $total_penerimaan =     $slip_detail->gaji_pokok +
+                                                        $slip_detail->tunj_jabatan +
+                                                        $slip_detail->tunj_makan +
+                                                        $slip_detail->tunj_transport +
+                                                        $slip_detail->tunj_komunikasi +
+                                                        $slip_detail->tunj_kost +
+                                                        $slip_detail->tunj_khusus +
+                                                        $slip_detail->uang_lembur +
+                                                        $slip_detail->bonus_cabang +
+                                                        $slip_detail->bonus_project +
+                                                        $slip_detail->bonus_desain +
+                                                        $slip_detail->bonus_kehadiran +
+                                                        $slip_detail->lain_lain;
+                            @endphp
+                            {{ rupiah($total_penerimaan) }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table style="width: 100%; font-weight: bold; padding-left: 10px; padding-right: 10px;" border="0">
+                    <tr>
+                        <td style="text-align: left; text-transform: capitalize;">total potongan</td>
+                        <td style="text-transform: capitalize;">rp</td>
+                        <td style="text-align: right;">
+                            @php
+                                $total_potongan =   $slip_detail->hutang_karyawan +
+                                                    $slip_detail->retur_produksi +
+                                                    $slip_detail->premi_bpjs_kes +
+                                                    $slip_detail->premi_bpjs_tk +
+                                                    $slip_detail->pot_alpha_ijin +
+                                                    $slip_detail->pot_abata_peduli +
+                                                    $slip_detail->pph21 +
+                                                    $slip_detail->pot_lain;
+                            @endphp
+                            {{ rupiah($total_potongan) }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table style="width: 100%; font-weight: bold; padding-left: 10px; padding-right: 10px; text-transform: capitalize; background-color: lightgreen; color: #292929;" border="0">
+                    <tr>
+                        <td style="text-align: left;">penilaian</td>
+                        <td style="text-align: right;">
+                            @php
+                                $poin = $slip_detail->poin_kehadiran;
+                                if ($poin > 0 && $poin <= 30) {
+                                    $penilaian = "pemalas";
+                                } elseif ($poin > 30 && $poin <= 60) {
+                                    $penilaian = "perlu pembinaan";
+                                } elseif ($poin > 60 && $poin <= 79) {
+                                    $penilaian = "cukup rajin";
+                                } elseif ($poin > 79 && $poin <= 90) {
+                                    $penilaian = "rajin";
+                                } else {
+                                    $penilaian = "sangat rajin";
+                                }
+                            @endphp
+                            {{ $penilaian }}
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -242,7 +315,7 @@
     </table>
     <div style="clear: both;"></div>
     <div>
-        <p><span>total gaji yang diterima / take home pay (THP) :</span> <span class="float-right">rp 50000000</span></p>
+        <p style="margin-top: 30px;"><span style="text-transform: capitalize; font-size: 13px;">total gaji yang diterima / take home pay (THP) : </span> <span style="font-weight: bold; font-size: 13px; text-transform: capitalize;">rp {{ rupiah($total_penerimaan - $total_potongan) }}</span></p>
     </div>
 </body>
 </html>
