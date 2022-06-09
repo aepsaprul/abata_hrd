@@ -71,9 +71,7 @@
                                             <td class="text-center text-uppercase">{{ $item->bulan }}</td>
                                             <td class="text-center text-uppercase">{{ $item->periode }}</td>
                                             <td class="text-center">
-                                                @if ($item->berkas)
-                                                    <a href="{{ url('public/file/slip_gaji/' . $item->berkas) }}"><i class="fas fa-download"></i> {{ $item->berkas }}</a>
-                                                @endif
+                                                <a href="{{ route('slip_gaji.cetak_pdf', [$item->id]) }}" target="_blank">Lihat Berkas</a>
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group">

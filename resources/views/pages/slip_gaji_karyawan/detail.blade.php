@@ -48,7 +48,11 @@
             <tr>
                 <td>Tanggal Masuk</td>
                 <td>:</td>
-                <td>{{ tgl_indo($kontrak->mulai_kontrak) }}</td>
+                <td>
+                    @if ($kontrak)
+                        {{ tgl_indo($kontrak->mulai_kontrak) }}
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td>Masa Kerja</td>

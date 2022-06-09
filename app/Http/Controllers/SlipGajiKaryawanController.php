@@ -32,18 +32,23 @@ class SlipGajiKaryawanController extends Controller
         $kontrak = HcKontrak::where('karyawan_id', Auth::user()->master_karyawan_id)->orderBy('id', 'asc')->first();
 
         // hitung lama kontrak
-        $mulai_kontrak = new DateTime($kontrak->mulai_kontrak);
-        $akhir_kontrak = new DateTime(date('Y-m-d'));
-        $selisih = $mulai_kontrak->diff($akhir_kontrak);
+        if ($kontrak) {
+            # code...
+            $mulai_kontrak = new DateTime($kontrak->mulai_kontrak);
+            $akhir_kontrak = new DateTime(date('Y-m-d'));
+            $selisih = $mulai_kontrak->diff($akhir_kontrak);
 
-        if ($selisih->y > 0) {
-            if ($selisih->m > 0) {
-                $lama_kontrak = $selisih->y . " Tahun " . $selisih->m . " Bulan";
+            if ($selisih->y > 0) {
+                if ($selisih->m > 0) {
+                    $lama_kontrak = $selisih->y . " Tahun " . $selisih->m . " Bulan";
+                } else {
+                    $lama_kontrak = $selisih->y . " Tahun ";
+                }
             } else {
-                $lama_kontrak = $selisih->y . " Tahun ";
+                $lama_kontrak = $selisih->m . " Bulan";
             }
         } else {
-            $lama_kontrak = $selisih->m . " Bulan";
+            $lama_kontrak = null;
         }
 
         $pdf = PDF::loadView('pages.slip_gaji_karyawan.detail', ['slip' => $slip, 'slip_detail' => $slip_detail, 'kontrak' => $kontrak, 'lama_kontrak' => $lama_kontrak]);
