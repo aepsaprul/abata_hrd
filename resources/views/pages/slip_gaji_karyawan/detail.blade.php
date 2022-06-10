@@ -321,5 +321,26 @@
     <div>
         <p style="margin-top: 30px;"><span style="text-transform: capitalize; font-size: 13px;">total gaji yang diterima / take home pay (THP) : </span> <span style="font-weight: bold; font-size: 13px; text-transform: capitalize;">rp {{ rupiah($total_penerimaan - $total_potongan) }}</span></p>
     </div>
+    <div style="clear: both;"></div>
+    <table border="1" style="width: 100%; margin-top: 20px;" cellpadding="0" cellspacing="0">
+        <tr>
+            <th style="padding: 5px;">BPJS Kesehatan</th>
+            <th style="padding: 5px;">BPJS TK JHT</th>
+            <th style="padding: 5px;">BPJS TK JKM</th>
+            <th style="padding: 5px;">BPJS TK JKK</th>
+            <th style="padding: 5px;">Total Subsidi</th>
+        </tr>
+        <tr>
+            <td style="padding: 5px;"><span>Rp</span><span style="float: right;">0</span></td>
+            <td style="padding: 5px;"><span>Rp</span><span style="float: right;">0</span></td>
+            <td style="padding: 5px;"><span>Rp</span><span style="float: right;">0</span></td>
+            <td style="padding: 5px;"><span>Rp</span><span style="float: right;">0</span></td>
+            <td style="padding: 5px;"><span>Rp</span><span style="float: right;">0</span></td>
+        </tr>
+    </table>
+    <div style="clear: both;"></div>
+    <div style="margin-top: 20px;">
+        <p style="padding: 0; margin: 0;"><span style="text-transform: capitalize; font-size: 10px; color: red; font-style: italic;">*Barang siapa dengan sengaja membocorkan isi slip gaji ini akan dikenakan sanksi sesuai Perarturan Perusahaan</p>
+    </div>
 </body>
 </html>

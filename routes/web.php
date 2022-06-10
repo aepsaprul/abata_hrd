@@ -303,6 +303,9 @@ Route::group(['middleware' => 'auth'], function () {
     // slip gaji
     Route::get('slip_gaji', [SlipGajiController::class, 'index'])->name('slip_gaji.index');
     Route::get('slip_gaji/template', [SlipGajiController::class, 'template'])->name('slip_gaji.template');
+    Route::get('slip_gaji/update_template', [SlipGajiController::class, 'updateTemplate'])->name('slip_gaji.update_template');
+    Route::get('slip_gaji/update_template/create', [SlipGajiController::class, 'updateTemplateCreate'])->name('slip_gaji.update_template.create');
+    Route::post('slip_gaji/update_template/store', [SlipGajiController::class, 'updateTemplateStore'])->name('slip_gaji.update_template.store');
     Route::get('slip_gaji/export', [SlipGajiController::class, 'export'])->name('slip_gaji.export');
     Route::post('slip_gaji/import', [SlipGajiController::class, 'import'])->name('slip_gaji.import');
     Route::get('slip_gaji/{id}/edit', [SlipGajiController::class, 'edit'])->name('slip_gaji.edit');

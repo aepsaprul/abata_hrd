@@ -45,7 +45,12 @@
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-12">
                                     <a href="{{ route('slip_gaji.export') }}" id="btn-create" class="btn bg-gradient-success btn-sm btn-block">
-                                        <i class="fas fa-file-download mr-1"></i> Template
+                                        <i class="fas fa-file-download mr-1"></i> Download Template
+                                    </a>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-12">
+                                    <a href="{{ route('slip_gaji.update_template') }}" class="btn bg-gradient-warning btn-sm btn-block">
+                                        <i class="fas fa-pencil-alt mr-1"></i> Update Template
                                     </a>
                                 </div>
                             </div>

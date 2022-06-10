@@ -106,4 +106,8 @@ class MasterKaryawan extends Model
     public function kontrak() {
         return $this->hasMany(HcKontrak::class, 'karyawan_id', 'id');
     }
+
+    public function slipGaji() {
+        return $this->hasMany(HcSlipGajiTemplate::class, 'karyawan_id', 'id');
+    }
 }

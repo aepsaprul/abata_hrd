@@ -39,6 +39,10 @@
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Cuti</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Sisa Cuti</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Poin Kehadiran</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">BPJS Kesehatan</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">BPJS TK JHT</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">BPJS TK JKM</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">BPJS TK JKK</th>
         </tr>
     </thead>
     <tbody>
@@ -47,12 +51,16 @@
                 <td>{{ $key + 1 }}</td>
                 <td>{{ $item->id }}</td>
                 <td></td>
-                <td>{{ $item->nama_lengkap }}</td>
+                <td>{{ $item->karyawan->nama_lengkap }}</td>
                 <td>
-                    @if ($item->masterCabang)
-                        {{ $item->masterCabang->nama_cabang }}
+                    @if ($item->karyawan)
+                        {{ $item->karyawan->masterCabang->nama_cabang }}
                     @endif
                 </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

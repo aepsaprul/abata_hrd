@@ -6,6 +6,7 @@ use App\Exports\TemplateView;
 use App\Imports\SlipGajiImport;
 use App\Models\HcSlipGaji;
 use App\Models\HcSlipGajiDetail;
+use App\Models\HcSlipGajiTemplate;
 use App\Models\MasterCabang;
 use App\Models\MasterKaryawan;
 use Illuminate\Http\Request;
@@ -24,9 +25,100 @@ class SlipGajiController extends Controller
 
     public function template()
     {
-        $karyawan = MasterKaryawan::where('status', 'Aktif')->whereNull('deleted_at')->get();
+        $karyawan = HcSlipGajiTemplate::with('karyawan')->get();
 
         return view('pages.slip_gaji.template', ['karyawans' => $karyawan]);
+    }
+
+    public function updateTemplate()
+    {
+        $slip = HcSlipGajiTemplate::get();
+
+        return view('pages.slip_gaji.update_template', ['slips' => $slip]);
+    }
+
+    public function updateTemplateCreate()
+    {
+        $karyawan = MasterKaryawan::with('masterCabang')
+            ->where('status', 'Aktif')
+            ->doesntHave('slipGaji')
+            ->get();
+
+        return response()->json([
+            'karyawans' => $karyawan
+        ]);
+    }
+
+    public function updateTemplateStore(Request $request)
+    {
+        $karyawan = MasterKaryawan::find($request->karyawan_id);
+
+        $slip_template = new HcSlipGajiTemplate;
+        $slip_template->karyawan_id = $request->karyawan_id;
+
+        // 1. ho
+        // 2. situmpur
+        // 3. dkw
+        // 4. hr
+        // 5. purbalingga
+        // 6. cilacap
+        // 7. wahana
+        // 8. adaya
+        // 9. ua
+        // 10. makzon
+        // 11. bumiayu
+        // 12. abasoft
+        // 13. abavest
+
+        // diubh ke:
+
+        // 1. wahana
+        // 2. situmpur
+        // 3. cilacap
+        // 4. purbalingga
+        // 5. adaya
+        // 6. dkw
+        // 7. hr
+        // 8. ua
+        // 9. makzon
+        // 10. bumiayu
+        // 11. abasoft
+        // 12. ho
+
+        if ($karyawan->master_cabang_id == 1) {
+            $slip_template->hirarki_cabang = 12;
+        } elseif ($karyawan->master_cabang_id == 2) {
+            $slip_template->hirarki_cabang = 2;
+        } elseif ($karyawan->master_cabang_id == 3) {
+            $slip_template->hirarki_cabang = 6;
+        } elseif ($karyawan->master_cabang_id == 4) {
+            $slip_template->hirarki_cabang = 7;
+        } elseif ($karyawan->master_cabang_id == 5) {
+            $slip_template->hirarki_cabang = 4;
+        } elseif ($karyawan->master_cabang_id == 6) {
+            $slip_template->hirarki_cabang = 3;
+        } elseif ($karyawan->master_cabang_id == 7) {
+            $slip_template->hirarki_cabang = 1;
+        } elseif ($karyawan->master_cabang_id == 8) {
+            $slip_template->hirarki_cabang = 5;
+        } elseif ($karyawan->master_cabang_id == 9) {
+            $slip_template->hirarki_cabang = 8;
+        } elseif ($karyawan->master_cabang_id == 10) {
+            $slip_template->hirarki_cabang = 9;
+        } elseif ($karyawan->master_cabang_id == 11) {
+            $slip_template->hirarki_cabang = 10;
+        } elseif ($karyawan->master_cabang_id == 12) {
+            $slip_template->hirarki_cabang = 11;
+        } else {
+            $slip_template->hirarki_cabang = 12;
+        }
+
+
+        $slip_template->save();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
     }
 
     public function export()
