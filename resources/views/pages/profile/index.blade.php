@@ -160,7 +160,6 @@
                                                 <tr class="bg-primary">
                                                     <th class="text-center">Nama Media Sosial</th>
                                                     <th class="text-center">Nama Akun</th>
-                                                    <th class="text-center">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="data_medsos">
@@ -271,7 +270,6 @@
                                                     <th class="text-center">Jenis Kelamin</th>
                                                     <th class="text-center">Pendidikan Terakhir</th>
                                                     <th class="text-center">Pekerjaan Terakhir</th>
-                                                    <th class="text-center">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="data_sebelum_menikah">
@@ -368,7 +366,6 @@
                                                     <th class="text-center">Tempat Lahir</th>
                                                     <th class="text-center">Tanggal Lahir</th>
                                                     <th class="text-center">Pekerjaan Terakhir</th>
-                                                    <th class="text-center">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="data_setelah_menikah">
@@ -463,7 +460,6 @@
                                                     <th class="text-center">Jenis Kelamin</th>
                                                     <th class="text-center">Telepon</th>
                                                     <th class="text-center">Alamat</th>
-                                                    <th class="text-center">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="data_kerabat_darurat">
@@ -575,7 +571,6 @@
                                                     <th class="text-center">Jurusan</th>
                                                     <th class="text-center">Tahun Masuk</th>
                                                     <th class="text-center">Tahun Lulus</th>
-                                                    <th class="text-center">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="data_pendidikan">
@@ -975,11 +970,6 @@
                                     "<tr>" +
                                         "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
                                         "<td class=\"text-center\">" + value.nama_akun + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
                                     "</tr>";
                         });
                     }
@@ -1023,11 +1013,6 @@
                                 "<tr>" +
                                     "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
                                     "<td class=\"text-center\">" + value.nama_akun + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1084,11 +1069,6 @@
                                 "<tr>" +
                                     "<td class=\"text-center\">" + value.nama_media_sosial + "</td>" +
                                     "<td class=\"text-center\">" + value.nama_akun + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"medsos_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1158,11 +1138,6 @@
                                 "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
                                 "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
                                 "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                "<td class=\"text-center\">" +
-                                    "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                            "<i class=\"fa fa-trash\"></i>" +
-                                    "</button>" +
-                                "</td>" +
                             "</tr>";
                         });
                     }
@@ -1214,11 +1189,6 @@
                                     "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
                                     "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
                                     "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1284,11 +1254,6 @@
                                     "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
                                     "<td class=\"text-center\">" + value.pendidikan_terakhir + "</td>" +
                                     "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"sebelum_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1340,11 +1305,6 @@
                                 "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
                                 "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
                                 "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                "<td class=\"text-center\">" +
-                                    "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                            "<i class=\"fa fa-trash\"></i>" +
-                                    "</button>" +
-                                "</td>" +
                             "</tr>";
                         });
                     }
@@ -1394,11 +1354,6 @@
                                     "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
                                     "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
                                     "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1462,11 +1417,6 @@
                                     "<td class=\"text-center\">" + value.tempat_lahir + "</td>" +
                                     "<td class=\"text-center\">" + value.tanggal_lahir + "</td>" +
                                     "<td class=\"text-center\">" + value.pekerjaan_terakhir + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"setelah_menikah_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1518,11 +1468,6 @@
                                 "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
                                 "<td class=\"text-center\">" + value.telepon + "</td>" +
                                 "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                "<td class=\"text-center\">" +
-                                    "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                            "<i class=\"fa fa-trash\"></i>" +
-                                    "</button>" +
-                                "</td>" +
                             "</tr>";
                         });
                     }
@@ -1572,11 +1517,6 @@
                                     "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
                                     "<td class=\"text-center\">" + value.telepon + "</td>" +
                                     "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1640,11 +1580,6 @@
                                     "<td class=\"text-center\">" + value.jenis_kelamin + "</td>" +
                                     "<td class=\"text-center\">" + value.telepon + "</td>" +
                                     "<td class=\"text-center\">" + value.alamat + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"kerabat_darurat_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1697,11 +1632,6 @@
                                 "<td class=\"text-center\">" + value.jurusan + "</td>" +
                                 "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
                                 "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                "<td class=\"text-center\">" +
-                                    "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                            "<i class=\"fa fa-trash\"></i>" +
-                                    "</button>" +
-                                "</td>" +
                             "</tr>";
                         });
                     }
@@ -1753,11 +1683,6 @@
                                     "<td class=\"text-center\">" + value.jurusan + "</td>" +
                                     "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
                                     "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
@@ -1823,11 +1748,6 @@
                                     "<td class=\"text-center\">" + value.jurusan + "</td>" +
                                     "<td class=\"text-center\">" + value.tahun_masuk + "</td>" +
                                     "<td class=\"text-center\">" + value.tahun_lulus + "</td>" +
-                                    "<td class=\"text-center\">" +
-                                        "<button class=\"pendidikan_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                "<i class=\"fa fa-trash\"></i>" +
-                                        "</button>" +
-                                    "</td>" +
                                 "</tr>";
                             });
                         }
