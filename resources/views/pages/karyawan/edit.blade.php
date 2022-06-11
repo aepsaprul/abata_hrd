@@ -933,6 +933,13 @@
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
+                                "<label for=\"rekening_nomor\" class=\"col-form-label col-form-label-sm\">Nomor Rekening</label>" +
+                                "<input type=\"text\" class=\"form-control form-control-sm\" id=\"rekening_nomor\" name=\"rekening_nomor\" maxlength=\"15\" value=\"" + response.karyawan.rekening_nomor + "\">" +
+                                "<small id=\"error_rekening_nomor\" class=\"form-text text-danger font-italic\"></small>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
+                            "<div class=\"form-group\">" +
                                 "<label for=\"email\" class=\"col-form-label col-form-label-sm\">Email</label>" +
                                 "<input type=\"email\" class=\"form-control form-control-sm\" id=\"email\" name=\"email\" maxlength=\"50\" value=\"" + response.karyawan.email + "\">" +
                                 "<small id=\"error_email\" class=\"form-text text-danger font-italic\"></small>" +

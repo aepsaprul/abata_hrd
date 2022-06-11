@@ -301,6 +301,13 @@
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group">
+                                                <label for="create_rekening_nomor">Nomor Rekening</label>
+                                                <input type="text" id="create_rekening_nomor" name="rekening_nomor" class="form-control form-control-sm" maxlength="15" >
+                                                <small id="errorRekeningNomor" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
                                                 <label for="create_telepon">Telepon</label>
                                                 <input type="text" id="create_telepon" name="telepon" class="form-control form-control-sm" maxlength="15" >
                                                 <small id="errorTelepon" class="form-text text-danger"></small>
@@ -768,6 +775,7 @@
             $('#errorDivisiId').empty();
             $('#errorRole').empty();
             $('#errorFoto').empty();
+            $('#errorRekeningNomor').empty();
 
             let formData = new FormData($('#form-create')[0]);
 
@@ -801,6 +809,7 @@
                         $('#errorDivisiId').append(response.errors.master_divisi_id);
                         $('#errorRole').append(response.errors.role);
                         $('#errorFoto').append(response.errors.foto);
+                        $('#errorRekeningNomor').append(response.errors.rekening_nomor);
 
                         setTimeout(() => {
                             $('.btn-create-spinner').addClass('d-none');

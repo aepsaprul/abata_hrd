@@ -144,6 +144,7 @@ class MasterKaryawanController extends Controller
             $karyawan->tanggal_lahir = $request->tanggal_lahir;
             $karyawan->alamat_asal = $request->alamat_asal;
             $karyawan->alamat_domisili = $request->alamat_domisili;
+            $karyawan->rekening_nomor = $request->rekening_nomor;
             $karyawan->status = "Aktif";
             $karyawan->created_by = Auth::user()->id;
 
@@ -346,6 +347,7 @@ class MasterKaryawanController extends Controller
         $karyawan->master_jabatan_id = $request->master_jabatan_id;
         $karyawan->master_divisi_id = $request->master_divisi_id;
         $karyawan->role = $request->role;
+        $karyawan->rekening_nomor = $request->rekening_nomor;
         $karyawan->total_cuti = $request->total_cuti;
 
         if($request->hasFile('foto')) {
