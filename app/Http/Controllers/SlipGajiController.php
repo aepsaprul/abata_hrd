@@ -32,7 +32,9 @@ class SlipGajiController extends Controller
 
     public function updateTemplate()
     {
-        $slip = HcSlipGajiTemplate::get();
+        $slip = HcSlipGajiTemplate::orderBy('hirarki_cabang', 'asc')
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         return view('pages.slip_gaji.update_template', ['slips' => $slip]);
     }
@@ -41,6 +43,7 @@ class SlipGajiController extends Controller
     {
         $karyawan = MasterKaryawan::with('masterCabang')
             ->where('status', 'Aktif')
+            ->whereNull('deleted_at')
             ->doesntHave('slipGaji')
             ->get();
 

@@ -49,7 +49,7 @@
         @foreach ($karyawans as $key => $item)
             <tr>
                 <td>{{ $key + 1 }}</td>
-                <td>{{ $item->id }}</td>
+                <td>{{ $item->karyawan->id }}</td>
                 <td></td>
                 <td>{{ $item->karyawan->nama_lengkap }}</td>
                 <td>
