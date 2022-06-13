@@ -437,6 +437,7 @@
 
         $(document).on('click', '.btn-detail', function (e) {
             e.preventDefault();
+            $('#data_kontrak').empty();
 
             let id = $(this).attr('data-id');
             let url = '{{ route("dashboard.show", ":id") }}';
