@@ -115,7 +115,7 @@
                                                     <td class="text-center">{{ $key + 1 }}</td>
                                                     <td>
                                                         @if ($item->karyawan)
-                                                            {{ $item->karyawan->nama_lengkap }}
+                                                            <a href="#" class="btn-detail" data-id="{{ $item->karyawan->id }}">{{ $item->karyawan->nama_lengkap }}</a>
                                                         @endif
                                                     </td>
                                                     <td class="text-center">{{ $item->mulai_kontrak }}</td>
@@ -309,13 +309,87 @@
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-
         </div>
     </section>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
+
+{{-- modal show --}}
+<div class="modal fade modal-show" id="modal-default">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="kontrak_form">
+
+                    {{-- id --}}
+                    <input type="hidden" name="show_id" id="show_id">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="show_nama_lengkap">Nama Lengkap</label>
+                                        <input type="text" id="show_nama_lengkap" name="nama_lengkap" class="form-control form-control-sm" maxlength="30" readonly>
+                                        <small id="error_nama_lengkap" class="form-text text-danger"></small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="mulai_kontrak" class="col-form-label col-form-label-sm">Mulai Kontrak</label>
+                                        <input type="date" class="form-control form-control-sm" id="mulai_kontrak" name="mulai_kontrak">
+                                        <small id="error_mulai_kontrak" class="form-text text-danger"></small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="akhir_kontrak" class="col-form-label col-form-label-sm">Akhir Kontrak</label>
+                                        <input type="date" class="form-control form-control-sm" id="akhir_kontrak" name="akhir_kontrak">
+                                        <small id="error_akhir_kontrak" class="form-text text-danger"></small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="lama_kontrak" class="col-form-label col-form-label-sm">Lama Kontrak</label>
+                                        <input type="text" class="form-control form-control-sm" id="lama_kontrak" name="lama_kontrak" readonly>
+                                        <small id="error_lama_kontrak" class="form-text text-danger"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary btn-kontrak-spinner d-none" disabled style="width: 130px;">
+                                        <span class="spinner-grow spinner-grow-sm"></span>
+                                        Loading...
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary btn-kontrak-save"
+                                        style="width: 130px;">
+                                            <i class="fas fa-save"></i> Simpan
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <table class="table table-bordered" style="font-size: 14px; width: 100%;">
+                                        <thead>
+                                            <tr class="bg-primary">
+                                                <th class="text-center">Mulai Kontrak</th>
+                                                <th class="text-center">Akhir Kontrak</th>
+                                                <th class="text-center">Lama Kontrak</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_kontrak"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -334,6 +408,9 @@
 <script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+{{-- moment js --}}
+<script src="{{ asset('public/themes/plugins/moment/moment.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 
 <script>
     $(function () {
@@ -343,5 +420,122 @@
         $("#tabel_cuti").DataTable();
         $("#tabel_resign").DataTable();
     });
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        $(document).on('click', '.btn-detail', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("dashboard.show", ":id") }}';
+            url = url.replace(':id', id );
+
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (response) {
+                    $('#show_nama_lengkap').val(response.karyawan.nama_lengkap);
+                    $('#show_id').val(response.karyawan.id);
+
+                    let data_kontrak = "";
+                    $.each(response.karyawan_kontraks, function (index, item) {
+                        data_kontrak += "" +
+                            "<tr>" +
+                                "<td class='text-center'> " + tanggalIndo(item.mulai_kontrak) + " </td>" +
+                                "<td class='text-center'> " + tanggalIndo(item.akhir_kontrak) + " </td>" +
+                                "<td class='text-center'> " + item.lama_kontrak + " </td>" +
+                            "</tr>";
+                    })
+                    $('#data_kontrak').append(data_kontrak);
+
+                    $('.modal-show').modal('show');
+                }
+            })
+        })
+
+        $('#mulai_kontrak').on('change', function() {
+            if ($('#akhir_kontrak').val() != "") {
+                kontrakCalculate();
+            }
+        });
+
+        $('#akhir_kontrak').on('change', function() {
+            if ($('#mulai_kontrak').val() != "") {
+                kontrakCalculate();
+            }
+        });
+
+        function kontrakCalculate() {
+            var a = moment($('#mulai_kontrak').val());
+            var b = moment($('#akhir_kontrak').val());
+            diff = moment.preciseDiff(a, b, true);
+
+            intervals = ['years', 'months'];
+            intervalse = ['TAHUN', 'BULAN'];
+            output = [];
+
+            for(var i = 0; i < intervals.length; i++) {
+                var e = diff[intervals[i]];
+                var d = e < 10 ? '' + e : e;
+                output.push(d + ' ' + intervalse[i] + ' ');
+            }
+
+            $('#lama_kontrak').val(output);
+        }
+
+        $('#kontrak_form').submit(function(e) {
+            e.preventDefault();
+            if ($('#mulai_kontrak').val() == "" || $('#akhir_kontrak').val() == "") {
+                alert('Tanggal tidak boleh kosong');
+            } else {
+                var formData = {
+                    id: $('#show_id').val(),
+                    mulai_kontrak: $('#mulai_kontrak').val(),
+                    akhir_kontrak: $('#akhir_kontrak').val(),
+                    lama_kontrak: $('#lama_kontrak').val()
+                }
+
+                $.ajax({
+                    url: "{{ URL::route('dashboard.store') }}",
+                    type: 'POST',
+                    data: formData,
+                    beforeSend: function() {
+                        $('.btn-kontrak-spinner').removeClass('d-none');
+                        $('.btn-kontrak-save').addClass('d-none');
+                    },
+                    success: function(response) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Kontrak behasil diperbaharui'
+                        });
+
+                        setTimeout(() => {
+                            window.location.reload(1);
+                        }, 1000);
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + error
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Error - ' + errorMessage
+                        });
+                    }
+                });
+            }
+        });
+    })
 </script>
 @endsection

@@ -45,4 +45,29 @@ class DashboardController extends Controller
             'karyawan_kontrak' => $karyawan_kontrak
         ]);
     }
+
+    public function show($id)
+    {
+        $karyawan = MasterKaryawan::find($id);
+        $karyawan_kontrak = HcKontrak::where('karyawan_id', $id)->get();
+
+        return response()->json([
+            'karyawan' => $karyawan,
+            'karyawan_kontraks' => $karyawan_kontrak
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $karyawan = new HcKontrak;
+        $karyawan->karyawan_id = $request->id;
+        $karyawan->mulai_kontrak = $request->mulai_kontrak;
+        $karyawan->akhir_kontrak = $request->akhir_kontrak;
+        $karyawan->lama_kontrak = $request->lama_kontrak;
+        $karyawan->save();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
 }

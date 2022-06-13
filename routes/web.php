@@ -102,6 +102,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // dashboard hc
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('dashboard/{id}/show', [DashboardController::class, 'show'])->name('dashboard.show');
+    Route::post('dashboard/store', [DashboardController::class, 'store'])->name('dashboard.store');
 
     // master
         // menu

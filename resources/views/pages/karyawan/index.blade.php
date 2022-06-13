@@ -352,210 +352,6 @@
     </div>
 </div>
 
-{{-- modal show --}}
-<div class="modal fade modal-show" id="modal-default">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form id="form-show" method="post" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card card-primary card-outline pb-1">
-                                <div class="card-body box-profile">
-                                    <div class="text-center profile_img show_profile_img">
-                                        <img
-                                            class="profile-user-img img-fluid"
-                                            src="{{ asset('public/assets/no-image.jpg') }}"
-                                            alt="User profile picture"
-                                            style="width: 100%;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="show_foto">Foto</label>
-                                        <input type="file" id="show_foto" name="foto" class="form-control form-control-sm" >
-                                        <small id="errorFoto" class="form-text text-danger"></small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="show_nik">NIK</label>
-                                        <input type="text" id="show_nik" name="nik" class="form-control form-control-sm" value="{{ date('ymdhis') }}" maxlength="12" >
-                                        <small id="errorNik" class="form-text text-danger"></small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="card card-primary card-outline pb-1">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_nama_lengkap">Nama Lengkap</label>
-                                                <input type="text" id="show_nama_lengkap" name="nama_lengkap" class="form-control form-control-sm" maxlength="30" >
-                                                <small id="errorNamaLengkap" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_nama_panggilan">Nama Panggilan</label>
-                                                <input type="text" id="show_nama_panggilan" name="nama_panggilan" class="form-control form-control-sm" maxlength="15" >
-                                                <small id="errorNamaPanggilan" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_jenis_kelamin">Jenis Kelamin</label>
-                                                <select name="jenis_kelamin" id="show_jenis_kelamin" class="form-control form-control-sm">
-                                                    <option value="L">L (Laki - laki)</option>
-                                                    <option value="P">P (Perempuan)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_nomor_ktp">Nomor KTP</label>
-                                                <input type="text" id="show_nomor_ktp" name="nomor_ktp" class="form-control form-control-sm" maxlength="16" >
-                                                <small id="errorNomorKtp" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_status_perkawinan">Status Perkawinan</label>
-                                                <select name="status_perkawinan" id="show_status_perkawinan" class="form-control form-control-sm">
-                                                    <option value="lajang">Lajang</option>
-                                                    <option value="menikah">Menikah</option>
-                                                    <option value="cerai">Cerai</option>
-                                                </select>
-                                                <small id="errorStatusPerkawinan" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_agama">Agama</label>
-                                                <select name="agama" id="show_agama" class="form-control form-control-sm">
-                                                    <option value="islam">Islam</option>
-                                                    <option value="kristen_protestan">Kristen Protestan</option>
-                                                    <option value="katholik">Katholik</option>
-                                                    <option value="hindu">Hindu</option>
-                                                    <option value="budha">Budha</option>
-                                                    <option value="kong_hu_cu">Kong Hu Cu</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_tempat_lahir">Tempat Lahir</label>
-                                                <input type="text" id="show_tempat_lahir" name="tempat_lahir" class="form-control form-control-sm" maxlength="30" >
-                                                <small id="errorTempatLahir" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_tanggal_lahir">Tanggal Lahir</label>
-                                                <input type="date" id="show_tanggal_lahir" name="tanggal_lahir" class="form-control form-control-sm" >
-                                                <small id="errorTanggalLahir" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_alamat_asal">Alamat KTP</label>
-                                                <textarea name="alamat_asal" id="show_alamat_asal" cols="30" rows="2" class="form-control"></textarea>
-                                                <small id="errorAlamatAsal" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_alamat_domisili">Alamat Domisili</label>
-                                                <textarea name="alamat_domisili" id="show_alamat_domisili" cols="30" rows="2" class="form-control"></textarea>
-                                                <small id="errorAlamatDomisili" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="sim">Jenis & Nomor SIM</label>
-                                                <div class="row">
-                                                    <div class="col-md-4 col-sm-4 col-4">
-                                                        <input type="text" id="show_jenis_sim" name="jenis_sim" class="form-control form-control-sm" maxlength="10">
-                                                        <small id="errorJenisSim" class="form-text text-danger"></small>
-                                                    </div>
-                                                    <div class="col-md-8 col-sm-8 col-8">
-                                                        <input type="text" id="show_nomor_sim" name="nomor_sim" class="form-control form-control-sm" maxlength="15">
-                                                        <small id="errorNomorSim" class="form-text text-danger"></small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_cabang_id">Cabang</label>
-                                                <select name="master_cabang_id" id="show_cabang_id" class="form-control form-control-sm" >
-
-                                                </select>
-                                                <small id="errorCabangId" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_jabatan_id">Jabatan</label>
-                                                <select name="master_jabatan_id" id="show_jabatan_id" class="form-control form-control-sm show-select-jabatan" >
-
-                                                </select>
-                                                <small id="errorJabatanId" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_divisi_id">Divisi</label>
-                                                <select name="master_divisi_id" id="show_divisi_id" class="form-control form-control-sm" >
-
-                                                </select>
-                                                <small id="errorDivisiId" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_telepon">Telepon</label>
-                                                <input type="text" id="show_telepon" name="telepon" class="form-control form-control-sm" maxlength="15" >
-                                                <small id="errorTelepon" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="show_email">Email</label>
-                                                <input type="email" id="show_email" name="email" class="form-control form-control-sm" maxlength="50" >
-                                                <small id="errorEmail" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="role">Role</label>
-                                                <select name="role" id="role" class="form-control form-control-sm show-select2-role" >
-
-                                                </select>
-                                                <small id="errorRole" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;">
-                        <span aria-hidden="true"><i class="fas fa-times"></i> Tutup</span>
-                    </button>
-                    <button class="btn btn-primary btn-create-spinner d-none" disabled style="width: 130px;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading...
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-create-save" style="width: 130px;">
-                        <i class="fas fa-save"></i> Simpan
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 {{-- modal delete --}}
 <div class="modal fade modal-delete" id="modal-default">
     <div class="modal-dialog">
@@ -586,23 +382,23 @@
 
 @section('script')
 
-<!-- DataTables  & Plugins -->
-<script src="{{ asset('public/themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-<!-- Select2 -->
-<script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
-<!-- Bootstrap Switch -->
-<script src="{{ asset('public/themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('public/themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
+    <!-- Bootstrap Switch -->
+    <script src="{{ asset('public/themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 
 <script>
     $(function () {
