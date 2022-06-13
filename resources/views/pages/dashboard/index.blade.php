@@ -274,7 +274,11 @@
                                     @foreach ($resign as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->karyawan->nama_lengkap }}</td>
+                                            <td>
+                                                @if ($item->karyawan)
+                                                    {{ $item->karyawan->nama_lengkap }}
+                                                @endif
+                                            </td>
                                             <td>{{ $item->alasan }}</td>
                                             <td>
                                                 @if ($item->approved_percentage > 100)

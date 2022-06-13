@@ -59,15 +59,21 @@
                                     @foreach ($users as $key => $item)
                                     <tr>
                                         <td class="text-center">{{ $key + 1 }}</td>
-                                        <td>{{ $item->masterKaryawan->nama_lengkap }}</td>
                                         <td>
-                                            @if ($item->masterKaryawan->masterJabatan)
+                                            @if ($item->masterKaryawan)
+                                                {{ $item->masterKaryawan->nama_lengkap }}</td>
+                                            @endif
+                                        <td>
+                                            @if ($item->masterKaryawan)
                                                 {{ $item->masterKaryawan->masterJabatan->nama_jabatan }}
                                             @endif
                                         </td>
-                                        <td>{{ $item->masterKaryawan->email }}</td>
+                                        <td>
+                                            @if ($item->masterKaryawan)
+                                                {{ $item->masterKaryawan->email }}</td>
+                                            @endif
                                         <td style="width: 150px;">
-                                            @if ($item->masterKaryawan->masterCabang)
+                                            @if ($item->masterKaryawan)
                                                 {{ $item->masterKaryawan->masterCabang->nama_cabang }}
                                             @endif
                                         </td>

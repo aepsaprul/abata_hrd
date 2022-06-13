@@ -124,7 +124,7 @@
                                     @foreach ($resign_details as $key => $item)
                                         @if ($item->hirarki > 1 && $item->status == 0)
                                         @else
-                                            @if ($item->confirm == 1)
+                                            @if ($item->resign)
                                                 <tr>
                                                     <td class="text-center">{{ $key + 1 }}</td>
                                                     <td>{{ $item->resign->masterKaryawan->nama_panggilan }}</td>
