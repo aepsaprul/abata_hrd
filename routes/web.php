@@ -269,6 +269,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('resign/{id}/show', [ResignController::class, 'show'])->name('resign.show');
     Route::get('resign/{id}/delete_btn', [ResignController::class, 'deleteBtn'])->name('resign.delete_btn');
     Route::post('resign/delete', [ResignController::class, 'delete'])->name('resign.delete');
+    Route::get('resign/{id}/paklaring', [ResignController::class, 'paklaring'])->name('resign.paklaring');
 
     // approval
     Route::get('approval', [ApprovalController::class, 'index'])->name('approval.index');

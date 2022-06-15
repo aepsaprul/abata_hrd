@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HcKontrak;
 use App\Models\HcResign;
 use App\Models\HcResignCeklis;
 use App\Models\HcResignSurveiCeklis;
@@ -65,6 +66,31 @@ class ResignController extends Controller
 
         return response()->json([
             'status' => 'true'
+        ]);
+    }
+
+    public function paklaring($id)
+    {
+        $karyawan = MasterKaryawan::find($id);
+
+        $kontrak_awal = HcKontrak::where('karyawan_id', $id)->first();
+        if ($kontrak_awal) {
+            $awal = $kontrak_awal->mulai_kontrak;
+        } else {
+            $awal = "kosong";
+        }
+
+        $kontrak_akhir = HcKontrak::where('karyawan_id', $id)->orderBy('id', 'desc')->first();
+        if ($kontrak_akhir) {
+            $akhir = $kontrak_akhir->akhir_kontrak;
+        } else {
+            $akhir = "kosong";
+        }
+
+        return view('pages.resign.paklaring', [
+            'karyawan' => $karyawan,
+            'kontrak_awal' => $awal,
+            'kontrak_akhir' => $akhir
         ]);
     }
 }

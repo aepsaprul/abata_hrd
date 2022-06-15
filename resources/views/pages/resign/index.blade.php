@@ -53,10 +53,15 @@
                                     @foreach ($resigns as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->masterKaryawan ? $item->masterKaryawan->nama_panggilan : '' }}</td>
+                                            <td>
+                                                {{ $item->masterKaryawan ? $item->masterKaryawan->nama_panggilan : '' }}
+                                                @if ($item->approved_percentage >= 100)
+                                                    <span class="float-right"><a href="{{ route('resign.paklaring', [$item->masterKaryawan->id]) }}" target="_blank"><i class="fas fa-download ml-2"></i> Paklaring</a></span>
+                                                @endif
+                                            </td>
                                             <td>{{ $item->lokasi_kerja }}</td>
-                                            <td>{{ $item->tanggal_masuk }}</td>
-                                            <td>{{ $item->tanggal_keluar }}</td>
+                                            <td class="text-center">{{ $item->tanggal_masuk }}</td>
+                                            <td class="text-center">{{ $item->tanggal_keluar }}</td>
                                             <td>
                                                 @if ($item->approved_percentage > 100)
                                                     @php
