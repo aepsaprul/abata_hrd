@@ -8,31 +8,34 @@
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Cabang</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Gaji Pokok</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Jabatan</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Makan</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Transport</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Komunikasi</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Kost</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Khusus</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Uang Lembur</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Bonus Cabang</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Bonus Project</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Bonus Desain</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Bonus Kehadiran</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Lain Lain</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tunj Makan</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Uang Lembur</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Total Tambahan Penghasilan</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Hutang Karyawan</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Retur Produksi</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Premi BPJS Kesehatan</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Premi BPJS TK</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Alpha Ijin</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Abata Peduli</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">PPh21</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Lain</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Sakit</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Alpha Ijin</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Premi BPJS Kesehatan</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Premi BPJS TK</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Total Potongan Penghasilan</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Take Home Pay (THP)</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Jml Hari Kerja</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Jml Hari Uang Makan</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Lembur Hari Biasa</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Lembur Hari Libur</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Telat</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Sakit</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Tanpa SKD</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Ijin</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Absensi Alpha</th>
@@ -49,14 +52,23 @@
         @foreach ($karyawans as $key => $item)
             <tr>
                 <td>{{ $key + 1 }}</td>
-                <td>{{ $item->karyawan->id }}</td>
+                <td>
+                    @if ($item->karyawan)
+                        {{ $item->karyawan->id }}
+                    @endif
+                </td>
                 <td></td>
-                <td>{{ $item->karyawan->nama_lengkap }}</td>
+                <td>
+                    @if ($item->karyawan)
+                        {{ $item->karyawan->nama_lengkap }}
+                    @endif
+                </td>
                 <td>
                     @if ($item->karyawan)
                         {{ $item->karyawan->masterCabang->nama_cabang }}
                     @endif
                 </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

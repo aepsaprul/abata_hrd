@@ -57,7 +57,10 @@
                                     @foreach ($slips as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->karyawan->nama_lengkap }}</td>
+                                            <td>
+                                                @if ($item->karyawan)
+                                                    {{ $item->karyawan->nama_lengkap }}</td>
+                                                @endif
                                             <td>
                                                 @if ($item->hirarki_cabang == 1) Wahana Satria
                                                 @elseif ($item->hirarki_cabang == 2) Abata Situmpur
