@@ -32,6 +32,7 @@ class HcSlipGajiDetail extends Model
         'premi_bpjs_kes',
         'premi_bpjs_tk',
         'pot_alpha_ijin',
+        'pot_sakit',
         'pot_abata_peduli',
         'pph21',
         'pot_lain',
@@ -46,7 +47,11 @@ class HcSlipGajiDetail extends Model
         'absensi_alpha',
         'absensi_cuti',
         'sisa_cuti',
-        'poin_kehadiran'
+        'poin_kehadiran',
+        'bpjs_kesehatan',
+        'bpjs_tk_jht',
+        'bpjs_tk_jkm',
+        'bpjs_tk_jkk'
     ];
 
     public function slipGaji() {

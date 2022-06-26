@@ -28,6 +28,7 @@
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Premi BPJS Kesehatan</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Premi BPJS TK</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Alpha Ijin</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pot Sakit</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Jml Hari Kerja</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Jml Hari Uang Makan</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Lembur Hari Biasa</th>
@@ -66,6 +67,7 @@
                         {{ $item->karyawan->masterCabang->nama_cabang }}
                     @endif
                 </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

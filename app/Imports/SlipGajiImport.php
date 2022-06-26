@@ -43,6 +43,7 @@ class SlipGajiImport implements ToModel, WithHeadingRow
             'premi_bpjs_kes' => $row['premi_bpjs_kesehatan'],
             'premi_bpjs_tk' => $row['premi_bpjs_tk'],
             'pot_alpha_ijin' => $row['pot_alpha_ijin'],
+            'pot_sakit' => $row['pot_sakit'],
             'pot_abata_peduli' => $row['pot_abata_peduli'],
             'pph21' => $row['pph21'],
             'pot_lain' => $row['pot_lain'],
@@ -58,6 +59,10 @@ class SlipGajiImport implements ToModel, WithHeadingRow
             'absensi_cuti' => $row['absensi_cuti'],
             'sisa_cuti' => $row['sisa_cuti'],
             'poin_kehadiran' => $row['poin_kehadiran'],
+            'bpjs_kesehatan' => $row['bpjs_kesehatan'],
+            'bpjs_tk_jht' => $row['bpjs_tk_jht'],
+            'bpjs_tk_jkm' => $row['bpjs_tk_jkm'],
+            'bpjs_tk_jkk' => $row['bpjs_tk_jkk'],
         ]);
     }
 
