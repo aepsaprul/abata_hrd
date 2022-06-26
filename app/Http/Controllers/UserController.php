@@ -25,6 +25,7 @@ class UserController extends Controller
     {
         $karyawan = MasterKaryawan::with('masterCabang')
             ->where('status', 'Aktif')
+            ->whereNull('deleted_at')
             ->doesntHave('navAccess')
             ->get();
 

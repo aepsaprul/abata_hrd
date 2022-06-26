@@ -55,24 +55,33 @@
                                         @if ($item->hirarki > 1 && $item->status == 0)
                                         @else
                                             <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>{{ $item->penggajian->masterKaryawan->nama_lengkap }}</td>
-                                                <td>{{ $item->penggajian->judul }}</td>
-                                                <td>{{ $item->penggajian->tanggal_upload }}</td>
-                                                <td><a href="{{ url('file/pengajuan/' . $item->penggajian->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->penggajian->file }}</a></td>
-                                                <td class="text-center">
-                                                    @if ($item->confirm == 1)
-                                                        <span class="bg-success px-2">Approved</span>
-                                                    @elseif ($item->confirm == 2)
-                                                        <span class="bg-danger px-2">Disapproved</span>
-                                                    @else
-                                                        <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
-                                                            <span class="spinner-grow spinner-grow-sm"></span>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}" title="Approved"><i class="fas fa-check"></i></button>
-                                                        <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}" title="Disapproved"><i class="fas fa-times"></i></button>
-                                                    @endif
-                                                </td>
+                                                @if ($item->penggajian)
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td>{{ $item->penggajian->masterKaryawan->nama_lengkap }}</td>
+                                                    <td>{{ $item->penggajian->judul }}</td>
+                                                    <td>{{ $item->penggajian->tanggal_upload }}</td>
+                                                    <td><a href="{{ url('file/pengajuan/' . $item->penggajian->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->penggajian->file }}</a></td>
+                                                    <td class="text-center">
+                                                        @if ($item->confirm == 1)
+                                                            <span class="bg-success px-2">Approved</span>
+                                                        @elseif ($item->confirm == 2)
+                                                            <span class="bg-danger px-2">Disapproved</span>
+                                                        @else
+                                                            <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                                <span class="spinner-grow spinner-grow-sm"></span>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}" title="Approved"><i class="fas fa-check"></i></button>
+                                                            <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}" title="Disapproved"><i class="fas fa-times"></i></button>
+                                                        @endif
+                                                    </td>
+                                                @else
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-center"></td>
+                                                @endif
                                             </tr>
                                         @endif
                                     @endforeach
