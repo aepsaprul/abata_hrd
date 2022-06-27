@@ -12,7 +12,9 @@ class TemplateView implements FromView
     public function view(): View
     {
         return view('pages.slip_gaji.template', [
-            'karyawans' => HcSlipGajiTemplate::get()
+            'karyawans' => HcSlipGajiTemplate::orderBy('hirarki_cabang', 'asc')
+            ->orderBy('created_at', 'asc')
+            ->get()
         ]);
     }
 
