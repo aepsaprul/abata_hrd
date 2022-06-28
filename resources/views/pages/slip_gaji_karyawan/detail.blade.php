@@ -129,7 +129,7 @@
                             <td style="text-align: right;">{{ rupiah($slip_detail->bonus_project) }}</td>
                         </tr>
                         <tr>
-                            <td style="text-align: left; font-size: 10px;">bonus desin :</td>
+                            <td style="text-align: left; font-size: 10px;">bonus desain :</td>
                             <td style="text-transform: capitalize;">rp</td>
                             <td style="text-align: right;">{{ rupiah($slip_detail->bonus_desain) }}</td>
                         </tr>
@@ -329,6 +329,9 @@
             <p style="margin-top: 30px;"><span style="text-transform: capitalize; font-size: 13px;">total gaji yang diterima / take home pay (THP) : </span> <span style="font-weight: bold; font-size: 13px; text-transform: capitalize;">rp {{ rupiah($total_penerimaan - $total_potongan) }}</span></p>
         </div>
         <div style="clear: both;"></div>
+        <p style="text-align: center; padding: 20px;">
+            Subsidi Perusahaan atas BPJS Karyawan yang sudah dibayarkan melalui transfer bank secara rutin ke BPJS Kesehatan dan BPJS Ketenagakerjaan
+        </p>
         <table border="1" style="width: 100%; margin-top: 20px;" cellpadding="0" cellspacing="0">
             <tr>
                 <th style="padding: 5px;">BPJS Kesehatan</th>
