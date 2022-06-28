@@ -39,7 +39,7 @@ class PenggajianController extends Controller
             $file = $request->file('create_file');
             $extension = $file->getClientOriginalExtension();
             $filename = $file->getClientOriginalName();
-            $file->move('file/pengajuan/', $filename);
+            $file->move('public/file/pengajuan/', $filename);
             $penggajian->file = $filename;
         }
 
