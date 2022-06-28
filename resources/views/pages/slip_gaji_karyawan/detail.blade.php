@@ -52,7 +52,7 @@
                     <td>:</td>
                     <td>
                         @if ($kontrak)
-                            {{ tgl_indo($kontrak->mulai_kontrak) }}
+                            {{ $kontrak->mulai_kontrak }}
                         @endif
                     </td>
                 </tr>
