@@ -306,7 +306,7 @@
                                 @php
                                     $poin = $slip_detail->poin_kehadiran;
                                     if ($poin > 0 && $poin <= 30) {
-                                        $penilaian = "pemalas";
+                                        $penilaian = "attitude buruk";
                                     } elseif ($poin > 30 && $poin <= 60) {
                                         $penilaian = "perlu pembinaan";
                                     } elseif ($poin > 60 && $poin <= 79) {
