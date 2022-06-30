@@ -31,7 +31,7 @@ class ChangePasswordController extends Controller
 
         $user = User::find(auth()->user()->id);
 
-        activity_log($user, "user", "update_password");
+        // activity_log($user, "user", "update_password");
 
         return redirect()->route('change.password.index')->with('status', 'Password berhasil diubah');
     }

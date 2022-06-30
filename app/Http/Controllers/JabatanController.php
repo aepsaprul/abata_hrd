@@ -20,7 +20,7 @@ class JabatanController extends Controller
         $jabatan->nama_jabatan = $request->nama;
         $jabatan->save();
 
-        activity_log($jabatan, "jabatan", "created");
+        // activity_log($jabatan, "jabatan", "created");
 
         return response()->json([
             'status' => 'true'
@@ -43,7 +43,7 @@ class JabatanController extends Controller
         $jabatan->nama_jabatan = $request->nama;
         $jabatan->save();
 
-        activity_log($jabatan, "jabatan", "updated");
+        // activity_log($jabatan, "jabatan", "updated");
 
         return response()->json([
             'status' => 'true'
@@ -64,7 +64,7 @@ class JabatanController extends Controller
         $jabatan = MasterJabatan::find($request->id);
         $jabatan->delete();
 
-        activity_log($jabatan, "jabatan", "deleted");
+        // activity_log($jabatan, "jabatan", "deleted");
 
         return response()->json([
             'status' => 'true'

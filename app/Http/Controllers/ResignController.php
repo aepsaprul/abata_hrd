@@ -62,7 +62,7 @@ class ResignController extends Controller
 
         $resign->delete();
 
-        activity_log($resign, "resign", "deleted");
+        // activity_log($resign, "resign", "deleted");
 
         return response()->json([
             'status' => 'true'

@@ -46,7 +46,7 @@ class LokerController extends Controller
 
         $loker->save();
 
-        activity_log($loker, "loker", "created");
+        // activity_log($loker, "loker", "created");
 
         return response()->json([
             'status' => 'true'
@@ -95,7 +95,7 @@ class LokerController extends Controller
 
         $loker->save();
 
-        activity_log($loker, "loker", "updated");
+        // activity_log($loker, "loker", "updated");
 
         return response()->json([
             'status' => 'true'
@@ -116,7 +116,7 @@ class LokerController extends Controller
         $loker = LokerData::find($request->id);
         $loker->delete();
 
-        activity_log($loker, "loker", "deleted");
+        // activity_log($loker, "loker", "deleted");
 
         return response()->json([
             'status' => 'true'

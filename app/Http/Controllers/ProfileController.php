@@ -77,11 +77,11 @@ class ProfileController extends Controller
 
         $karyawan->save();
 
-        $user = User::find(1);
-        $masterKaryawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
-        $user->notify(new BiodataNotification($masterKaryawan));
+        // $user = User::find(1);
+        // $masterKaryawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
+        // $user->notify(new BiodataNotification($masterKaryawan));
 
-        activity_log($karyawan, "karyawan", "updated");
+        // activity_log($karyawan, "karyawan", "updated");
 
         return response()->json([
             'status' => 'Data berhasil diperbaharui'
@@ -107,7 +107,7 @@ class ProfileController extends Controller
 
         $medsoss = HcMedsos::where('karyawan_id', $medsos->karyawan_id)->get();
 
-        activity_log($medsos, "karyawan_medsos", "created");
+        // activity_log($medsos, "karyawan_medsos", "created");
 
         return response()->json([
             'status' => 'Data media sosial berhasil ditambahkan',
@@ -122,7 +122,7 @@ class ProfileController extends Controller
 
         $medsoss = HcMedsos::where('karyawan_id', $medsos->karyawan_id)->get();
 
-        activity_log($medsos, "karyawan_medsos", "deleted");
+        // activity_log($medsos, "karyawan_medsos", "deleted");
 
         return response()->json([
             'status' => 'Data media sosial berhasil dihapus',
@@ -153,7 +153,7 @@ class ProfileController extends Controller
 
         $sebelumMenikahs = HcKeluargaSebelumMenikah::where('karyawan_id', $sebelumMenikah->karyawan_id)->get();
 
-        activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "created");
+        // activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "created");
 
         return response()->json([
             'status' => 'Data keluarga sebelum menikah berhasil diperbaharui',
@@ -168,7 +168,7 @@ class ProfileController extends Controller
 
         $sebelumMenikahs = HcKeluargaSebelumMenikah::where('karyawan_id', $sebelumMenikah->karyawan_id)->get();
 
-        activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "deleted");
+        // activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "deleted");
 
         return response()->json([
             'status' => 'Data keluarga sebelum menikah berhasil dihapus',
@@ -198,7 +198,7 @@ class ProfileController extends Controller
 
         $setelahMenikahs = HcKeluargaSetelahMenikah::where('karyawan_id', $setelahMenikah->karyawan_id)->get();
 
-        activity_log($setelahMenikah, "karyawan_setelah_menikah", "created");
+        // activity_log($setelahMenikah, "karyawan_setelah_menikah", "created");
 
         return response()->json([
             'status' => 'Data keluarga setelah menikah berhasil diperbaharui',
@@ -213,7 +213,7 @@ class ProfileController extends Controller
 
         $setelahMenikahs = HcKeluargaSetelahMenikah::where('karyawan_id', $setelahMenikah->karyawan_id)->get();
 
-        activity_log($setelahMenikah, "karyawan_setelah_menikah", "deleted");
+        // activity_log($setelahMenikah, "karyawan_setelah_menikah", "deleted");
 
         return response()->json([
             'status' => 'Data keluarga setelah menikah berhasil dihapus',
@@ -243,7 +243,7 @@ class ProfileController extends Controller
 
         $kerabatDarurats = HcKerabatDarurat::where('karyawan_id', $kerabatDarurat->karyawan_id)->get();
 
-        activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "created");
+        // activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "created");
 
         return response()->json([
             'status' => 'Data kerabat darurat berhasil diperbaharui',
@@ -258,7 +258,7 @@ class ProfileController extends Controller
 
         $kerabatDarurats = HcKerabatDarurat::where('karyawan_id', $kerabatDarurat->karyawan_id)->get();
 
-        activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "deleted");
+        // activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "deleted");
 
         return response()->json([
             'status' => 'Data kerabat darurat berhasil dihapus',
@@ -289,7 +289,7 @@ class ProfileController extends Controller
 
         $pendidikans = HcPendidikan::where('karyawan_id', $pendidikan->karyawan_id)->get();
 
-        activity_log($pendidikan, "karyawan_pendidikan", "created");
+        // activity_log($pendidikan, "karyawan_pendidikan", "created");
 
         return response()->json([
             'status' => 'Data pendidikan berhasil diperbaharui',
@@ -304,7 +304,7 @@ class ProfileController extends Controller
 
         $pendidikans = HcPendidikan::where('karyawan_id', $pendidikan->karyawan_id)->get();
 
-        activity_log($pendidikan, "karyawan_pendidikan", "deleted");
+        // activity_log($pendidikan, "karyawan_pendidikan", "deleted");
 
         return response()->json([
             'status' => 'Data pendidikan berhasil dihapus',

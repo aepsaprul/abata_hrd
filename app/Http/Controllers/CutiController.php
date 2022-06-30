@@ -48,7 +48,7 @@ class CutiController extends Controller
 
         $cuti->delete();
 
-        activity_log($cuti, "cuti", "deleted");
+        // activity_log($cuti, "cuti", "deleted");
 
         return response()->json([
             'status' => 'true'

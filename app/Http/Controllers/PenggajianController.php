@@ -76,13 +76,13 @@ class PenggajianController extends Controller
             $a[] = $value;
         }
 
-        $tes = User::whereIn('master_karyawan_id', $a)->get();
-        foreach ($tes as $key => $value) {
-            # code...
-            $value->notify(new PenggajianNotification($value));
-        }
+        // $tes = User::whereIn('master_karyawan_id', $a)->get();
+        // foreach ($tes as $key => $value) {
+        //     # code...
+        //     $value->notify(new PenggajianNotification($value));
+        // }
 
-        activity_log($penggajian, "penggajian", "created");
+        // activity_log($penggajian, "penggajian", "created");
 
         return response()->json([
             'status' => 'true',
@@ -111,7 +111,7 @@ class PenggajianController extends Controller
             File::delete("public/file/penggajuan/" . $penggajian->file);
         }
 
-        activity_log($penggajian, "penggajian", "deleted");
+        // activity_log($penggajian, "penggajian", "deleted");
 
         return response()->json([
             'status' => 'Data berhasil dihapus'

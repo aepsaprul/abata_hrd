@@ -135,18 +135,18 @@ class PengajuanCutiController extends Controller
                     $a[] = $value;
                 }
 
-                $tes = User::whereIn('master_karyawan_id', $a)->get();
-                foreach ($tes as $key => $value) {
-                    # code...
-                    $value->notify(new CutiNotification($value));
-                }
+                // $tes = User::whereIn('master_karyawan_id', $a)->get();
+                // foreach ($tes as $key => $value) {
+                //     # code...
+                //     $value->notify(new CutiNotification($value));
+                // }
 
-                activity_log($cuti, "cuti", "created");
+                // activity_log($cuti, "cuti", "created");
 
                 return response()->json([
                     'status' => 200,
                     'message' => "Data berhasil ditambahkan",
-                    'tes' => $tes
+                    // 'tes' => $tes
                 ]);
             }
         }

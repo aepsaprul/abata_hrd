@@ -169,13 +169,13 @@ class PengajuanResignController extends Controller
             $a[] = $value;
         }
 
-        $tes = User::whereIn('master_karyawan_id', $a)->get();
-        foreach ($tes as $key => $value) {
-            # code...
-            $value->notify(new ResignNotification($value));
-        }
+        // $tes = User::whereIn('master_karyawan_id', $a)->get();
+        // foreach ($tes as $key => $value) {
+        //     # code...
+        //     $value->notify(new ResignNotification($value));
+        // }
 
-        activity_log($resigns, "resign", "created");
+        // activity_log($resigns, "resign", "created");
 
         return redirect()->route('pengajuan_resign.index')->with('status', 'Data berhasil disimpan');
     }

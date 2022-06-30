@@ -68,7 +68,7 @@ class CutiApproverController extends Controller
         $approve->atasan_id = json_encode([""]);
         $approve->save();
 
-        activity_log($approve, "cuti_approver", "created");
+        // activity_log($approve, "cuti_approver", "created");
 
         return response()->json([
             'status' => 'true'
@@ -88,7 +88,7 @@ class CutiApproverController extends Controller
         $approve->atasan_id = json_encode($atasan_array);
         $approve->save();
 
-        activity_log($approve, "cuti_approver", "updated");
+        // activity_log($approve, "cuti_approver", "updated");
 
         return response()->json([
             'status' => 'true'
@@ -106,7 +106,7 @@ class CutiApproverController extends Controller
         $approve->atasan_id = json_encode([""]);
         $approve->save();
 
-        activity_log($approve, "cuti_approver", "updated");
+        // activity_log($approve, "cuti_approver", "updated");
 
         return response()->json([
             'status' => 'true'
@@ -129,7 +129,7 @@ class CutiApproverController extends Controller
 
         $approve->delete();
 
-        activity_log($approve_id, "cuti_approver", "deleted");
+        // activity_log($approve_id, "cuti_approver", "deleted");
 
         return response()->json([
             'status' => 'true'
@@ -148,7 +148,7 @@ class CutiApproverController extends Controller
         $approve = CutiApprover::find($request->id);
         $approve->delete();
 
-        activity_log($approve, "cuti_approver", "deleted");
+        // activity_log($approve, "cuti_approver", "deleted");
 
         return response()->json([
             'status' => 'true'

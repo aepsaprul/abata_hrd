@@ -25,7 +25,7 @@ class NavController extends Controller
         $nav_main->aktif = $request->aktif;
         $nav_main->save();
 
-        activity_log($nav_main, "nav_main", "created");
+        // activity_log($nav_main, "nav_main", "created");
 
         return response()->json([
             'status' => 'true'
@@ -50,7 +50,7 @@ class NavController extends Controller
         $nav_sub->aktif = $request->aktif;
         $nav_sub->save();
 
-        activity_log($nav_sub, "nav_sub", "created");
+        // activity_log($nav_sub, "nav_sub", "created");
 
         return response()->json([
             'status' => 'Data menu sub berhasil ditambah'
@@ -94,7 +94,7 @@ class NavController extends Controller
         $nav_main->aktif = $request->aktif;
         $nav_main->save();
 
-        activity_log($nav_main, "nav_main", "updated");
+        // activity_log($nav_main, "nav_main", "updated");
 
         return response()->json([
             'id' => $request->id,
@@ -117,7 +117,7 @@ class NavController extends Controller
 
         $nav_main = HcNavMain::find($request->main_id);
 
-        activity_log($nav_sub, "nav_sub", "updated");
+        // activity_log($nav_sub, "nav_sub", "updated");
 
         return response()->json([
             'id' => $request->id,
@@ -133,7 +133,7 @@ class NavController extends Controller
     {
         $nav_main = HcNavMain::find($id);
 
-        activity_log($nav_main, "nav_main", "deleted");
+        // activity_log($nav_main, "nav_main", "deleted");
 
         return response()->json([
             'id' => $nav_main->id,
@@ -176,7 +176,7 @@ class NavController extends Controller
         $nav_sub = HcNavSub::find($request->id);
         $nav_sub->delete();
 
-        activity_log($nav_sub, "nav_sub", "deleted");
+        // activity_log($nav_sub, "nav_sub", "deleted");
 
         return response()->json([
             'status' => 'Data berhasil dihapus'

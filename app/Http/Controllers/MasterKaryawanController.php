@@ -167,7 +167,7 @@ class MasterKaryawanController extends Controller
             $user->roles = "guest";
             $user->save();
 
-            activity_log($karyawan, "karyawan", "created");
+            // activity_log($karyawan, "karyawan", "created");
 
             return response()->json([
                 'status' => 200,
@@ -280,7 +280,7 @@ class MasterKaryawanController extends Controller
 
         $karyawan->delete();
 
-        activity_log($karyawan, "karyawan", "deleted");
+        // activity_log($karyawan, "karyawan", "deleted");
 
         return response()->json([
             'status' => 'true'
@@ -293,7 +293,7 @@ class MasterKaryawanController extends Controller
         $karyawan->status = $request->status;
         $karyawan->save();
 
-        activity_log($karyawan, "karyawan", "ubah_status");
+        // activity_log($karyawan, "karyawan", "ubah_status");
 
         return response()->json([
             'status' => 'true',
@@ -363,7 +363,7 @@ class MasterKaryawanController extends Controller
 
         $karyawan->save();
 
-        activity_log($karyawan, "karyawan", "update_biodata");
+        // activity_log($karyawan, "karyawan", "update_biodata");
 
         return response()->json([
             'status' => 'Data berhasil diperbaharui'
@@ -390,7 +390,7 @@ class MasterKaryawanController extends Controller
 
         $kontraks = HcKontrak::where('karyawan_id', $request->id)->get();
 
-        activity_log($kontrak, "karyawan_kontrak", "created_kontrak");
+        // activity_log($kontrak, "karyawan_kontrak", "created_kontrak");
 
         return response()->json([
             'status' => 'Kontrak berhasil di tambahkan',
@@ -405,7 +405,7 @@ class MasterKaryawanController extends Controller
 
         $kontraks = HcKontrak::where('karyawan_id', $kontrak->karyawan_id)->get();
 
-        activity_log($kontrak, "karyawan_kontrak", "deleted_kontrak");
+        // activity_log($kontrak, "karyawan_kontrak", "deleted_kontrak");
 
         return response()->json([
             'status' => 'Data kontrak berhasil dihapus',
@@ -432,7 +432,7 @@ class MasterKaryawanController extends Controller
 
         $medsoss = HcMedsos::where('karyawan_id', $medsos->karyawan_id)->get();
 
-        activity_log($medsos, "karyawan_medsos", "created_medsos");
+        // activity_log($medsos, "karyawan_medsos", "created_medsos");
 
         return response()->json([
             'status' => 'Data media sosial berhasil ditambahkan',
@@ -447,7 +447,7 @@ class MasterKaryawanController extends Controller
 
         $medsoss = HcMedsos::where('karyawan_id', $medsos->karyawan_id)->get();
 
-        activity_log($medsos, "karyawan_medsos", "deleted_medsos");
+        // activity_log($medsos, "karyawan_medsos", "deleted_medsos");
 
         return response()->json([
             'status' => 'Data media sosial berhasil dihapus',
@@ -478,7 +478,7 @@ class MasterKaryawanController extends Controller
 
         $sebelumMenikahs = HcKeluargaSebelumMenikah::where('karyawan_id', $sebelumMenikah->karyawan_id)->get();
 
-        activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "created_sebelum_menikah");
+        // activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "created_sebelum_menikah");
 
         return response()->json([
             'status' => 'Data keluarga sebelum menikah berhasil diperbaharui',
@@ -493,7 +493,7 @@ class MasterKaryawanController extends Controller
 
         $sebelumMenikahs = HcKeluargaSebelumMenikah::where('karyawan_id', $sebelumMenikah->karyawan_id)->get();
 
-        activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "deleted_sebelum_menikah");
+        // activity_log($sebelumMenikah, "karyawan_sebelum_menikah", "deleted_sebelum_menikah");
 
         return response()->json([
             'status' => 'Data keluarga sebelum menikah berhasil dihapus',
@@ -523,7 +523,7 @@ class MasterKaryawanController extends Controller
 
         $setelahMenikahs = HcKeluargaSetelahMenikah::where('karyawan_id', $setelahMenikah->karyawan_id)->get();
 
-        activity_log($setelahMenikah, "karyawan_setelah_menikah", "created_setelah_menikah");
+        // activity_log($setelahMenikah, "karyawan_setelah_menikah", "created_setelah_menikah");
 
         return response()->json([
             'status' => 'Data keluarga setelah menikah berhasil diperbaharui',
@@ -538,7 +538,7 @@ class MasterKaryawanController extends Controller
 
         $setelahMenikahs = HcKeluargaSetelahMenikah::where('karyawan_id', $setelahMenikah->karyawan_id)->get();
 
-        activity_log($setelahMenikah, "karyawan_setelah_menikah", "deleted_setelah_menikah");
+        // activity_log($setelahMenikah, "karyawan_setelah_menikah", "deleted_setelah_menikah");
 
         return response()->json([
             'status' => 'Data keluarga setelah menikah berhasil dihapus',
@@ -568,7 +568,7 @@ class MasterKaryawanController extends Controller
 
         $kerabatDarurats = HcKerabatDarurat::where('karyawan_id', $kerabatDarurat->karyawan_id)->get();
 
-        activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "created_kerabat_darurat");
+        // activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "created_kerabat_darurat");
 
         return response()->json([
             'status' => 'Data kerabat darurat berhasil diperbaharui',
@@ -583,7 +583,7 @@ class MasterKaryawanController extends Controller
 
         $kerabatDarurats = HcKerabatDarurat::where('karyawan_id', $kerabatDarurat->karyawan_id)->get();
 
-        activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "deleted_kerabat_darurat");
+        // activity_log($kerabatDarurat, "karyawan_kerabat_darurat", "deleted_kerabat_darurat");
 
         return response()->json([
             'status' => 'Data kerabat darurat berhasil dihapus',
@@ -614,7 +614,7 @@ class MasterKaryawanController extends Controller
 
         $pendidikans = HcPendidikan::where('karyawan_id', $pendidikan->karyawan_id)->get();
 
-        activity_log($pendidikan, "karyawan_pendidikan", "created_pendidikan");
+        // activity_log($pendidikan, "karyawan_pendidikan", "created_pendidikan");
 
         return response()->json([
             'status' => 'Data pendidikan berhasil diperbaharui',
@@ -629,7 +629,7 @@ class MasterKaryawanController extends Controller
 
         $pendidikans = HcPendidikan::where('karyawan_id', $pendidikan->karyawan_id)->get();
 
-        activity_log($pendidikan, "karyawan_pendidikan", "deleted_pendidikan");
+        // activity_log($pendidikan, "karyawan_pendidikan", "deleted_pendidikan");
 
         return response()->json([
             'status' => 'Data pendidikan berhasil dihapus',

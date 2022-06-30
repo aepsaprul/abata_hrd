@@ -21,7 +21,7 @@ class RoleController extends Controller
         $role->hirarki = $request->hirarki;
         $role->save();
 
-        activity_log($role, "role", "created");
+        // activity_log($role, "role", "created");
 
         return response()->json([
             'status' => 'true'
@@ -46,7 +46,7 @@ class RoleController extends Controller
         $role->hirarki = $request->hirarki;
         $role->save();
 
-        activity_log($role, "role", "updated");
+        // activity_log($role, "role", "updated");
 
         return response()->json([
             'status' => 'true'
@@ -67,7 +67,7 @@ class RoleController extends Controller
         $role = MasterRole::find($request->id);
         $role->delete();
 
-        activity_log($role, "role", "deleted");
+        // activity_log($role, "role", "deleted");
 
         return response()->json([
             'status' => 'true'
@@ -78,7 +78,7 @@ class RoleController extends Controller
         $role->hirarki = $request->hirarki;
         $role->save();
 
-        activity_log($role, "role", "updated");
+        // activity_log($role, "role", "updated");
 
         return response()->json([
             'status' => 'true'

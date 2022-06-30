@@ -63,11 +63,11 @@ class ApprovalController extends Controller
                 $a[] = $value;
             }
 
-            $tes = User::whereIn('master_karyawan_id', $a)->get();
-            foreach ($tes as $key => $value) {
-                # code...
-                $value->notify(new CutiNotification($value));
-            }
+            // $tes = User::whereIn('master_karyawan_id', $a)->get();
+            // foreach ($tes as $key => $value) {
+            //     # code...
+            //     $value->notify(new CutiNotification($value));
+            // }
         }
         // end
 
@@ -108,7 +108,7 @@ class ApprovalController extends Controller
             $karyawan_cuti->save();
         }
 
-        activity_log($cuti_detail, "cuti_detail", "approved");
+        // activity_log($cuti_detail, "cuti_detail", "approved");
 
         return response()->json([
             'status' => 'true'
@@ -142,7 +142,7 @@ class ApprovalController extends Controller
         $cuti->approved_background = "danger";
         $cuti->save();
 
-        activity_log($cuti_detail, "cuti_detail", "disapproved");
+        // activity_log($cuti_detail, "cuti_detail", "disapproved");
 
         return response()->json([
             'status' => 'true'
@@ -172,11 +172,11 @@ class ApprovalController extends Controller
                 $a[] = $value;
             }
 
-            $tes = User::whereIn('master_karyawan_id', $a)->get();
-            foreach ($tes as $key => $value) {
-                # code...
-                $value->notify(new ResignNotification($value));
-            }
+            // $tes = User::whereIn('master_karyawan_id', $a)->get();
+            // foreach ($tes as $key => $value) {
+            //     # code...
+            //     $value->notify(new ResignNotification($value));
+            // }
         }
         // end
 
@@ -208,7 +208,7 @@ class ApprovalController extends Controller
         $resign->approved_background = "primary";
         $resign->save();
 
-        activity_log($resign_detail, "resign_detail", "approved");
+        // activity_log($resign_detail, "resign_detail", "approved");
 
         return response()->json([
             'status' => 'true'
@@ -242,7 +242,7 @@ class ApprovalController extends Controller
         $resign->approved_background = "danger";
         $resign->save();
 
-        activity_log($resign_detail, "resign_detail", "disapproved");
+        // activity_log($resign_detail, "resign_detail", "disapproved");
 
         return response()->json([
             'status' => 'true'

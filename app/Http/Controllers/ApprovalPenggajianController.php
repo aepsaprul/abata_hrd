@@ -72,7 +72,7 @@ class ApprovalPenggajianController extends Controller
         $penggajian->approved_background = "primary";
         $penggajian->save();
 
-        activity_log($penggajian_detail, "penggajian_detail", "approved");
+        // activity_log($penggajian_detail, "penggajian_detail", "approved");
 
         return response()->json([
             'status' => 'true'
@@ -107,7 +107,7 @@ class ApprovalPenggajianController extends Controller
         $penggajian->approved_background = "danger";
         $penggajian->save();
 
-        activity_log($penggajian_detail, "penggajian_detail", "disapproved");
+        // activity_log($penggajian_detail, "penggajian_detail", "disapproved");
 
         return response()->json([
             'status' => 'true'
