@@ -52,16 +52,14 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($penggajian_details as $key => $item)
-                                        @if ($item->hirarki > 1 && $item->status == 0)
-                                        @else
                                             <tr>
-                                                @if ($item->penggajian)
-                                                    <td class="text-center">{{ $key + 1 }}</td>
-                                                    <td>{{ $item->penggajian->masterKaryawan->nama_lengkap }}</td>
-                                                    <td>{{ $item->penggajian->judul }}</td>
-                                                    <td>{{ $item->penggajian->tanggal_upload }}</td>
-                                                    <td><a href="{{ url('file/pengajuan/' . $item->penggajian->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->penggajian->file }}</a></td>
-                                                    <td class="text-center">
+                                                <td class="text-center">{{ $key + 1 }}</td>
+                                                <td>{{ $item->penggajian->masterKaryawan->nama_lengkap }}</td>
+                                                <td>{{ $item->penggajian->judul }}</td>
+                                                <td>{{ $item->penggajian->tanggal_upload }}</td>
+                                                <td><a href="{{ url('file/pengajuan/' . $item->penggajian->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->penggajian->file }}</a></td>
+                                                <td class="text-center">
+                                                    @if ($item->penggajian)
                                                         @if ($item->confirm == 1)
                                                             <span class="bg-success px-2">Approved</span>
                                                         @elseif ($item->confirm == 2)
@@ -73,17 +71,9 @@
                                                             <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item->id }}" title="Approved"><i class="fas fa-check"></i></button>
                                                             <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item->id }}" title="Disapproved"><i class="fas fa-times"></i></button>
                                                         @endif
-                                                    </td>
-                                                @else
-                                                    <td class="text-center">{{ $key + 1 }}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td class="text-center"></td>
-                                                @endif
+                                                    @endif
+                                                </td>
                                             </tr>
-                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>

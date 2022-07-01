@@ -302,6 +302,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
     Route::get('penggajian/{id}/delete_btn', [PenggajianController::class, 'deleteBtn'])->name('penggajian.delete_btn');
     Route::post('penggajian/delete', [PenggajianController::class, 'delete'])->name('penggajian.delete');
+    Route::get('penggajian/{id}/approved', [PenggajianController::class, 'approved'])->name('penggajian.approved');
+    Route::post('penggajian/disapproved', [PenggajianController::class, 'disapproved'])->name('penggajian.disapproved');
 
     // slip gaji
     Route::get('slip_gaji', [SlipGajiController::class, 'index'])->name('slip_gaji.index');

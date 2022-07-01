@@ -56,7 +56,7 @@
 								<thead>
 								<tr>
 									<th>No</th>
-									<th>Nama Karyawan</th>
+									<th>Karyawan</th>
 									<th>Keterangan</th>
 									<th>Tanggal Upload</th>
                                     <th>File</th>
@@ -66,10 +66,13 @@
 								</thead>
 								<tbody>
 									@foreach ($penggajians as $key => $item)
-
 										<tr>
 											<td class="text-center">{{ $key + 1 }}</td>
-											<td>{{ $item->masterKaryawan->nama_lengkap }}</td>
+											<td>
+                                                @if ($item->masterKaryawan)
+                                                    {{ $item->masterKaryawan->nama_lengkap }}
+                                                @endif
+                                            </td>
 											<td>{{ $item->judul }}</td>
 											<td class="text-center">
                                                 @if ($item->tanggal_upload != null)
@@ -82,16 +85,30 @@
                                                 <a href="{{ url('public/file/pengajuan/' . $item->file) }}" class="text-primary"><i class="fas fa-download"></i> {{ $item->file }}</a>
                                             </td>
 											<td>
-												@if ($item->approved_percentage > 100)
-                                                    @php
-                                                        $percent = 100;
-                                                    @endphp
+												@if ($item->approved_percentage >= 100)
+                                                    @if ($item->alasan)
+                                                        <span>
+                                                            <span>Disapproved: {{ $item->alasan }}</span>
+                                                        </span>
+                                                    @else
+                                                        <div class="text-center mt-2">
+                                                            @if ($item->approvedLeader)
+                                                                <img src="{{ url('public/assets/' . $item->approvedLeader->ttd) }}" alt="ttd" style="max-width: 50px;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 @else
-                                                    @php
-                                                        $percent = $item->approved_percentage
-                                                    @endphp
+                                                    @foreach ($penggajian_details as $key => $item_detail)
+                                                        @if ($item_detail->penggajian_id == $item->id)
+                                                            <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                                <span class="spinner-grow spinner-grow-sm"></span>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item_detail->id }}" title="Approved"><i class="fas fa-check"></i></button>
+                                                            <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item_detail->id }}" title="Disapproved"><i class="fas fa-times"></i></button>
+                                                        @endif
+                                                    @endforeach
                                                 @endif
-                                                <div class="progress">
+                                                {{-- <div class="progress">
                                                     <div
                                                         class="progress-bar bg-{{ $item->approved_background }}"
                                                         role="progressbar"
@@ -101,18 +118,8 @@
                                                         style="width: {{ $percent }}%;">
                                                             <span class="">{{ $percent }}%</span>
                                                     </div>
-                                                </div>
-                                                @if ($item->alasan)
-                                                    <span>
-                                                        <span>Disapproved: {{ $item->alasan }}</span>
-                                                    </span>
-                                                @else
-                                                    <div class="text-center mt-2">
-                                                        @if ($item->approvedLeader)
-                                                            <img src="{{ url('public/assets/' . $item->approvedLeader->ttd) }}" alt="ttd" style="max-width: 50px;">
-                                                        @endif
-                                                    </div>
-                                                @endif
+                                                </div> --}}
+
 											</td>
                                             <td class="text-center">
                                                 <button
@@ -126,7 +133,6 @@
                                                 </button>
                                             </td>
 										</tr>
-
 									@endforeach
 								</tbody>
 							</table>
@@ -223,6 +229,37 @@
     </div>
 </div>
 
+{{-- modal alasan --}}
+<div class="modal fade modal-alasan" tabindex="-1" role="dialog" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form-alasan">
+                <div class="modal-header">
+                    <h4 class="modal-title">Alasan Ditolak</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="id">
+                    <div class="mb-3">
+                        <textarea name="alasan" id="alasan" cols="10" rows="3" class="form-control" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-alasan-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-alasan-save" style="width: 130px;">
+                        <i class="fas fa-paper-plane"></i> Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {{-- modal delete --}}
 <div class="modal fade modal-delete" id="modal-default">
     <div class="modal-dialog">
@@ -269,7 +306,11 @@
     });
 
     $(document).ready(function () {
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         var Toast = Swal.mixin({
             toast: true,
@@ -347,8 +388,7 @@
             url = url.replace(':id', id);
 
             var formData = {
-                id: id,
-                _token: CSRF_TOKEN
+                id: id
             }
 
             $.ajax({
@@ -366,8 +406,7 @@
             e.preventDefault();
 
             var formData = {
-                id: $('#delete_id').val(),
-                _token: CSRF_TOKEN
+                id: $('#delete_id').val()
             }
 
             $.ajax({
@@ -395,6 +434,80 @@
                         icon: 'error',
                         title: 'Error - ' + errorMessage
                     });
+                }
+            });
+        });
+
+        // btn approve
+        $(document).on('click', '.btn-approve', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("penggajian.approved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-approve-spinner').removeClass('d-none');
+                    $('.btn-approve').addClass('d-none');
+                },
+                success: function (response) {
+                    console.log(response);
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Penggajian telah disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
+        });
+
+        // btn disapprove
+        $(document).on('click', '.btn-disapprove', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+
+            $('#id').val(id);
+
+            $('.modal-alasan').modal('show');
+        });
+
+        $('#form-alasan').submit(function(e) {
+            e.preventDefault();
+
+            let formData = {
+                id: $('#id').val(),
+                alasan: $('#alasan').val()
+            }
+
+            $.ajax({
+                url: "{{ URL::route('penggajian.disapproved') }}",
+                type: 'POST',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-alasan-spinner').removeClass('d-none');
+                    $('.btn-alasan-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Penggajian tidak disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
                 }
             });
         });

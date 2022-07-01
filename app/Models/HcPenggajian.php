@@ -33,4 +33,8 @@ class HcPenggajian extends Model
     public function approvedLeader() {
         return $this->belongsTo(MasterKaryawan::class, 'approved_leader', 'id');
     }
+
+    public function penggajianDetail() {
+        return $this->hasMany(PenggajianDetail::class, 'penggajian_id', 'id');
+    }
 }
