@@ -36,32 +36,98 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
+                                    <i class="fas fa-plus"></i> Tambah
+                                </button>
+                            </h3>
+                        </div>
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
+                            <table id="example1" class="table table-bordered" style="font-size: 13px;">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Nama Karyawan</th>
                                         <th class="text-center text-indigo">Jenis Cuti</th>
-                                        <th class="text-center text-indigo">Status</th>
+                                        {{-- <th class="text-center text-indigo">Status</th> --}}
+                                        <th class="text-center text-indigo">Approver</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($cutis as $key => $item)
                                         <tr>
-                                            <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $item->masterKaryawan->nama_lengkap }}</td>
-                                            <td>{{ $item->jenis }}</td>
+                                            <td class="text-center" width="30px">{{ $key + 1 }}</td>
+                                            <td width="150px">{{ $item->masterKaryawan->nama_lengkap }}</td>
+                                            <td width="150px">{{ $item->jenis }}</td>
                                             <td>
+                                                <div class="d-flex justify-content-center">
+                                                    @foreach ($item->cutiDetail as $item_cuti_detail)
+                                                        <div class="col-4">
+                                                            <div class="text-center border">
+                                                                @php
+                                                                    $atasan = preg_replace("/[^0-9\,]/", "", $item_cuti_detail->atasan);
+                                                                    $atasan_replace = str_replace(",","/",$atasan);
+                                                                    $atasan_explode = explode("/", $atasan_replace);
+                                                                @endphp
+                                                                @foreach ($atasan_explode as $key => $item_atasan)
+                                                                    @foreach ($karyawans as $item_karyawan)
+                                                                        @if ($item_karyawan->id == $item_atasan)
+                                                                            @if (count($atasan_explode) > 1)
+                                                                                @if ($key === array_key_last($atasan_explode))
+                                                                                    {{ $item_karyawan->nama_panggilan }}
+                                                                                @else
+                                                                                    {{ $item_karyawan->nama_panggilan }} /
+                                                                                @endif
+                                                                            @else
+                                                                            {{ $item_karyawan->nama_panggilan }}
+                                                                            @endif
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="text-center border p-2">
+                                                                <div>
+                                                                    @php
+                                                                        $karyawan_id = Auth::user()->master_karyawan_id;
+                                                                    @endphp
+                                                                    @if ($item_cuti_detail->confirm == 1)
+                                                                        <span class="bg-success px-2">Approved</span>
+                                                                    @elseif ($item_cuti_detail->confirm == 2)
+                                                                        <span class="bg-danger px-2">Disapproved</span>
+                                                                    @else
+                                                                        @if (preg_match("/\b$karyawan_id\b/i", $atasan, ))
+                                                                            <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item_cuti_detail->id }}"><i class="fas fa-check"></i></button>
+                                                                            <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                                                <span class="spinner-grow spinner-grow-sm"></span>
+                                                                            </button>
+                                                                            <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item_cuti_detail->id }}"><i class="fas fa-times"></i></button>
+                                                                        @else
+                                                                            -
+                                                                        @endif
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            {{-- <td>
                                                 @if ($item->approved_percentage > 100)
                                                     @php
                                                         $percent = 100;
                                                     @endphp
                                                 @else
-                                                    @php
-                                                        $percent = $item->approved_percentage
-                                                    @endphp
+                                                    @if ($item->approved_percentage == null)
+                                                        @php
+                                                            $percent = 0;
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $percent = $item->approved_percentage;
+                                                        @endphp
+                                                    @endif
                                                 @endif
                                                 <div class="progress">
                                                     <div
@@ -77,8 +143,8 @@
                                                 <span style="font-size: 14px;">
                                                     {{ $item->approved_text }} {{ $item->approvedLeader ? $item->approvedLeader->nama_panggilan : "" }}
                                                 </span>
-                                            </td>
-                                            <td class="text-center">
+                                            </td> --}}
+                                            <td class="text-center" width="70px">
                                                 <div class="btn-group">
                                                     <a
                                                         href="#"
@@ -223,6 +289,73 @@
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
+        });
+
+        // btn approve cuti
+        $(document).on('click', '.btn-approve', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("cuti.approved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-approve-spinner').removeClass('d-none');
+                    $('.btn-approve').addClass('d-none');
+                },
+                success: function (response) {
+                    console.log(response);
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Cuti telah disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
+        });
+
+        // btn disapprove cuti
+        $(document).on('click', '.btn-disapprove', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("cuti.disapproved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-approve-spinner').removeClass('d-none');
+                    $('.btn-disapprove').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Cuti tidak disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
         });
 
         // detail

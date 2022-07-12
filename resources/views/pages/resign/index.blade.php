@@ -68,9 +68,15 @@
                                                         $percent = 100;
                                                     @endphp
                                                 @else
-                                                    @php
-                                                        $percent = $item->approved_percentage
-                                                    @endphp
+                                                    @if ($item->approved_percentage == null)
+                                                        @php
+                                                            $percent = 0;
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $percent = $item->approved_percentage;
+                                                        @endphp
+                                                    @endif
                                                 @endif
                                                 <div class="progress">
                                                     <div
