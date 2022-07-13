@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HcKontrak;
 use App\Models\HcResign;
 use App\Models\HcResignCeklis;
 use App\Models\HcResignSurveiCeklis;
 use App\Models\HcResignSurveiEssay;
+use App\Models\MasterCabang;
 use App\Models\MasterJabatan;
 use App\Models\MasterKaryawan;
 use App\Models\MasterRole;
@@ -13,6 +15,7 @@ use App\Models\ResignApprover;
 use App\Models\ResignDetail;
 use App\Models\User;
 use App\Notifications\ResignNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,11 +30,26 @@ class PengajuanResignController extends Controller
 
     public function create()
     {
-        $nama_karyawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
+        if (Auth::user()->master_karyawan_id == 0) {
+            $nama_karyawan = MasterKaryawan::find(45);
+        } else {
+            $nama_karyawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
+        }
+
         $karyawans = MasterKaryawan::get();
         $jabatans = MasterJabatan::get();
+        $cabangs = MasterCabang::get();
 
-        return view('pages.pengajuan.resign.create', ['nama_karyawan' => $nama_karyawan,'karyawans' => $karyawans, 'jabatans' => $jabatans]);
+        $kontrak = HcKontrak::where('karyawan_id', $nama_karyawan->id)->first();
+        $tanggal_masuk = tgl_indo($kontrak->mulai_kontrak);
+
+        return view('pages.pengajuan.resign.create', [
+            'nama_karyawan' => $nama_karyawan,
+            'karyawans' => $karyawans,
+            'jabatans' => $jabatans,
+            'cabangs' => $cabangs,
+            'tanggal_masuk' => $tanggal_masuk
+        ]);
     }
 
     public function store(Request $request)

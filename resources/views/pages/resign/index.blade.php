@@ -36,6 +36,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <a href="{{ route('resign.create') }}" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
+                                    <i class="fas fa-plus"></i> Tambah
+                                </a>
+                            </h3>
+                        </div>
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
                                 <thead>
@@ -45,7 +52,7 @@
                                         <th class="text-center text-indigo">Lokasi Kerja</th>
                                         <th class="text-center text-indigo">Tanggal Masuk</th>
                                         <th class="text-center text-indigo">Tanggal Keluar</th>
-                                        <th class="text-center text-indigo">Status</th>
+                                        <th class="text-center text-indigo">Approver</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>

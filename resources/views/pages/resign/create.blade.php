@@ -38,14 +38,17 @@
                                 {{ $nama_karyawan->nama_lengkap }}
                             </h3>
                             <div class="card-tools mr-0">
-                                <a href="{{ route('pengajuan_resign.index') }}" class="btn bg-gradient-danger btn-sm"><i class="fa fa-arrow-left"></i> Kembali</a>
+                                <a href="{{ route('resign.index') }}" class="btn bg-gradient-danger btn-sm"><i class="fa fa-arrow-left"></i> Kembali</a>
                             </div>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form role="form" action="{{ route('pengajuan_resign.store') }}" method="POST">
+                        <form role="form" action="{{ route('resign.store') }}" method="POST">
                             @csrf
                             <div class="card-body">
+
+                                {{-- karyawan id --}}
+                                <input type="hidden" name="master_karyawan_id" id="master_karyawan_id" value="{{ $nama_karyawan->id }}">
 
                                 {{-- formulir resign  --}}
                                 <div id="formulir_resign">

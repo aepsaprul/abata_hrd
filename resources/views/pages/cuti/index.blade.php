@@ -46,7 +46,7 @@
                                 </button>
                             </h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="overflow: auto;">
                             <table id="example1" class="table table-bordered" style="font-size: 13px;">
                                 <thead>
                                     <tr>
@@ -67,7 +67,7 @@
                                             <td>
                                                 <div class="d-flex justify-content-center">
                                                     @foreach ($item->cutiDetail as $item_cuti_detail)
-                                                        <div class="col-4">
+                                                        <div class="col-6">
                                                             <div class="text-center border-top border-left border-right">
                                                                 @php
                                                                     $atasan = preg_replace("/[^0-9\,]/", "", $item_cuti_detail->atasan);
