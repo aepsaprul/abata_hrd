@@ -1,3 +1,11 @@
+*** UPDATE APLIKASI HC VERSI 2.2.0
+
+- data cuti & approvalnya jadi satu
+- tambah data user namanya admin
+- menu data cuti (tambah data cuti)
+
+------------------------------------------------------------------
+
 *status
 
 >> keterangan status di tabel hc_cutis

@@ -55,7 +55,7 @@ class LoginController extends Controller
 
         if ($this->attemptLogin($request)) {
             //check user status
-            if (Auth::user()->roles == "admin_hc") {
+            if (Auth::user()->roles == "admin_hc" || Auth::user()->roles == "admin") {
                 return $this->sendLoginResponse($request);
             } elseif (Auth::user()->masterKaryawan->status == 'Aktif') {
 

@@ -134,7 +134,7 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
-                        @if (Auth::user()->roles == "admin_hc")
+                        @if (Auth::user()->roles == "admin_hc" || Auth::user()->roles == "admin")
                             <li class="nav-item">
                                 <a href="{{ route('home.index') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
