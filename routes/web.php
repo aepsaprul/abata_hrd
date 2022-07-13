@@ -256,6 +256,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // cuti
     Route::get('cuti', [CutiController::class, 'index'])->name('cuti.index');
+    Route::get('cuti/create', [CutiController::class, 'create'])->name('cuti.create');
+    Route::post('cuti/store', [CutiController::class, 'store'])->name('cuti.store');
     Route::get('cuti/{id}/show', [CutiController::class, 'show'])->name('cuti.show');
     Route::get('cuti/{id}/delete_btn', [CutiController::class, 'deleteBtn'])->name('cuti.delete_btn');
     Route::post('cuti/delete', [CutiController::class, 'delete'])->name('cuti.delete');
