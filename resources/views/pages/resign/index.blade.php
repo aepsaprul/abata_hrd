@@ -70,35 +70,56 @@
                                             <td class="text-center">{{ $item->tanggal_masuk }}</td>
                                             <td class="text-center">{{ $item->tanggal_keluar }}</td>
                                             <td>
-                                                @if ($item->approved_percentage > 100)
-                                                    @php
-                                                        $percent = 100;
-                                                    @endphp
-                                                @else
-                                                    @if ($item->approved_percentage == null)
-                                                        @php
-                                                            $percent = 0;
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            $percent = $item->approved_percentage;
-                                                        @endphp
-                                                    @endif
-                                                @endif
-                                                <div class="progress">
-                                                    <div
-                                                        class="progress-bar bg-{{ $item->approved_background }}"
-                                                        role="progressbar"
-                                                        aria-valuenow="40"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="width: {{ $percent }}%;">
-                                                            <span class="">{{ $percent }}%</span>
-                                                    </div>
+                                                <div class="d-flex justify-content-center">
+                                                    @foreach ($item->resignDetail as $item_resign_detail)
+                                                        <div class="col-6">
+                                                            <div class="text-center border-top border-left border-right">
+                                                                @php
+                                                                    $atasan = preg_replace("/[^0-9\,]/", "", $item_resign_detail->atasan);
+                                                                    $atasan_replace = str_replace(",","/",$atasan);
+                                                                    $atasan_explode = explode("/", $atasan_replace);
+                                                                @endphp
+                                                                @foreach ($atasan_explode as $key => $item_atasan)
+                                                                    @foreach ($karyawans as $item_karyawan)
+                                                                        @if ($item_karyawan->id == $item_atasan)
+                                                                            @if (count($atasan_explode) > 1)
+                                                                                @if ($key === array_key_last($atasan_explode))
+                                                                                    {{ $item_karyawan->nama_panggilan }}
+                                                                                @else
+                                                                                    {{ $item_karyawan->nama_panggilan }} /
+                                                                                @endif
+                                                                            @else
+                                                                            {{ $item_karyawan->nama_panggilan }}
+                                                                            @endif
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="text-center border p-2">
+                                                                <div>
+                                                                    @php
+                                                                        $karyawan_id = Auth::user()->master_karyawan_id;
+                                                                    @endphp
+                                                                    @if ($item_resign_detail->confirm == 1)
+                                                                        <span class="bg-success px-2">Approved</span>
+                                                                    @elseif ($item_resign_detail->confirm == 2)
+                                                                        <span class="bg-danger px-2">Disapproved</span>
+                                                                    @else
+                                                                        @if (preg_match("/\b$karyawan_id\b/i", $atasan, ))
+                                                                            <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item_resign_detail->id }}"><i class="fas fa-check"></i></button>
+                                                                            <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                                                <span class="spinner-grow spinner-grow-sm"></span>
+                                                                            </button>
+                                                                            <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item_resign_detail->id }}"><i class="fas fa-times"></i></button>
+                                                                        @else
+                                                                            -
+                                                                        @endif
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
-                                                <span style="font-size: 14px;">
-                                                    {{ $item->approved_text }} {{ $item->approvedLeader ? $item->approvedLeader->nama_panggilan : "" }}
-                                                </span>
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group">

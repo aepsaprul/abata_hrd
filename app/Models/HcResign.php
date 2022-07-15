@@ -39,4 +39,8 @@ class HcResign extends Model
     public function approvedLeader() {
         return $this->belongsTo(MasterKaryawan::class, 'approved_leader', 'id');
     }
+
+    public function resignDetail() {
+        return $this->hasMany(ResignDetail::class, 'resign_id', 'id');
+    }
 }

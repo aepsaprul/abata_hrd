@@ -20,9 +20,29 @@ class ResignController extends Controller
 {
     public function index()
     {
-        $resign = HcResign::orderBy('id', 'desc')->get();
+        // $resign = HcResign::orderBy('id', 'desc')->get();
+        if (Auth::user()->master_karyawan_id == 0 || Auth::user()->masterKaryawan->master_cabang_id == 1) {
+            $resign = HcResign::orderBy('id', 'desc')->get();
+        } else {
+            $resign_approvers = ResignApprover::where('atasan_id', 'like', '%'.Auth::user()->master_karyawan_id.'%')->get();
+            if (count($resign_approvers) > 0) {
+                $resign = HcResign::with('masterKaryawan')
+                    ->whereHas('masterKaryawan', function ($query) {
+                        $query->where('master_cabang_id', Auth::user()->masterKaryawan->master_cabang_id);
+                    })
+                    ->orderBy('id', 'desc')
+                    ->get();
+            } else {
+                $resign = HcResign::where('master_karyawan_id', Auth::user()->master_karyawan_id)->orderBy('id', 'desc')->get();
+            }
+        }
 
-        return view('pages.resign.index', ['resigns' => $resign]);
+        $karyawan = MasterKaryawan::get();
+
+        return view('pages.resign.index', [
+            'resigns' => $resign,
+            'karyawans' => $karyawan
+        ]);
     }
 
     public function create()
@@ -38,7 +58,14 @@ class ResignController extends Controller
         $cabangs = MasterCabang::get();
 
         $kontrak = HcKontrak::where('karyawan_id', $nama_karyawan->id)->first();
-        $tanggal_masuk = $kontrak->mulai_kontrak;
+
+        if ($kontrak) {
+            $tanggal_masuk = $kontrak->mulai_kontrak;
+        } else {
+            $tanggal_masuk = "";
+        }
+
+
 
         return view('pages.resign.create', [
             'nama_karyawan' => $nama_karyawan,

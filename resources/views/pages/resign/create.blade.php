@@ -78,7 +78,7 @@
                                                 <select name="lokasi_kerja" id="resign_lokasi" class="form-control select2" style="width: 100%;" required>
                                                     <option value="">--Pilih Cabang--</option>
                                                     @foreach ($cabangs as $cabang)
-                                                        <option value="{{ $cabang->id }}"
+                                                        <option value="{{ $cabang->nama_cabang }}"
                                                             @if ($nama_karyawan->master_cabang_id == $cabang->id)
                                                                 selected
                                                             @else
