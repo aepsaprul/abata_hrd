@@ -28,4 +28,8 @@ class CutiDetail extends Model
     public function cuti() {
         return $this->belongsTo(HcCuti::class, 'cuti_id', 'id');
     }
+
+    public function approvedLeader() {
+        return $this->belongsTo(MasterKaryawan::class, 'approved_leader', 'id');
+    }
 }

@@ -79,12 +79,12 @@
                                                                         @if ($item_karyawan->id == $item_atasan)
                                                                             @if (count($atasan_explode) > 1)
                                                                                 @if ($key === array_key_last($atasan_explode))
-                                                                                    {{ $item_karyawan->nama_panggilan }}
-                                                                                @else
-                                                                                    {{ $item_karyawan->nama_panggilan }} /
+                                                                                    {{ $item_karyawan->masterDivisi->nama }}
+                                                                                {{-- @else
+                                                                                    {{ $item_karyawan->masterDivisi->nama }} / --}}
                                                                                 @endif
                                                                             @else
-                                                                            {{ $item_karyawan->nama_panggilan }}
+                                                                            {{ $item_karyawan->masterJabatan->nama_jabatan }} - {{ $item_karyawan->masterCabang->nama_cabang }}
                                                                             @endif
                                                                         @endif
                                                                     @endforeach
@@ -96,9 +96,11 @@
                                                                         $karyawan_id = Auth::user()->master_karyawan_id;
                                                                     @endphp
                                                                     @if ($item_cuti_detail->confirm == 1)
-                                                                        <span class="bg-success px-2">Approved</span>
+                                                                        <span class="bg-success px-2">Approved</span><br><br>
+                                                                        <span>{{ $item_cuti_detail->approvedLeader->nama_lengkap }}</span>
                                                                     @elseif ($item_cuti_detail->confirm == 2)
-                                                                        <span class="bg-danger px-2">Disapproved</span>
+                                                                        <span class="bg-danger px-2">Disapproved</span><br><br>
+                                                                        <span>{{ $item_cuti_detail->approvedLeader->nama_lengkap }}</span>
                                                                     @else
                                                                         @if (preg_match("/\b$karyawan_id\b/i", $atasan, ))
                                                                             <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item_cuti_detail->id }}"><i class="fas fa-check"></i></button>
