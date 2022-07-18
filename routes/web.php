@@ -27,6 +27,7 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\LokerController;
 use App\Http\Controllers\NavController;
+use App\Http\Controllers\NavigasiController;
 use App\Http\Controllers\PengajuanCutiController;
 use App\Http\Controllers\PengajuanResignController;
 use App\Http\Controllers\PenggajianApproverController;
@@ -123,13 +124,37 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('master/nav/{id}/sub_delete_btn', [NavController::class, 'subDeleteBtn'])->name('nav.sub_delete_btn');
             Route::post('master/nav/sub_delete', [NavController::class, 'subDelete'])->name('nav.sub_delete');
 
+        // navgasi
+        Route::get('master/navigasi', [NavigasiController::class, 'index'])->name('navigasi.index');
+        Route::post('master/navigasi/main_store', [NavigasiController::class, 'mainStore'])->name('navigasi.main_store');
+        Route::get('master/navigasi/{id}/main_edit', [NavigasiController::class, 'mainEdit'])->name('navigasi.main_edit');
+        Route::post('master/navigasi/main_update', [NavigasiController::class, 'mainUpdate'])->name('navigasi.main_update');
+        Route::get('master/navigasi/{id}/main_delete_btn', [NavigasiController::class, 'mainDeleteBtn'])->name('navigasi.main_delete_btn');
+        Route::post('master/navigasi/main_delete', [NavigasiController::class, 'mainDelete'])->name('navigasi.main_delete');
+
+        // navigasi sub
+        Route::get('master/navigasi/sub_create', [NavigasiController::class, 'subCreate'])->name('navigasi.sub_create');
+        Route::post('master/navigasi/sub_store', [NavigasiController::class, 'subStore'])->name('navigasi.sub_store');
+        Route::get('master/navigasi/{id}/sub_edit', [NavigasiController::class, 'subEdit'])->name('navigasi.sub_edit');
+        Route::post('master/navigasi/sub_update', [NavigasiController::class, 'subUpdate'])->name('navigasi.sub_update');
+        Route::get('master/navigasi/{id}/sub_delete_btn', [NavigasiController::class, 'subDeleteBtn'])->name('navigasi.sub_delete_btn');
+        Route::post('master/navigasi/sub_delete', [NavigasiController::class, 'subDelete'])->name('navigasi.sub_delete');
+
+        // navigasi tombol
+        Route::get('master/navigasi/tombol_create', [NavigasiController::class, 'tombolCreate'])->name('navigasi.tombol_create');
+        Route::post('master/navigasi/tombol_store', [NavigasiController::class, 'tombolStore'])->name('navigasi.tombol_store');
+        Route::get('master/navigasi/{id}/tombol_edit', [NavigasiController::class, 'tombolEdit'])->name('navigasi.tombol_edit');
+        Route::post('master/navigasi/tombol_update', [NavigasiController::class, 'tombolUpdate'])->name('navigasi.tombol_update');
+        Route::get('master/navigasi/{id}/tombol_delete_btn', [NavigasiController::class, 'tombolDeleteBtn'])->name('navigasi.tombol_delete_btn');
+        Route::post('master/navigasi/tombol_delete', [NavigasiController::class, 'tombolDelete'])->name('navigasi.tombol_delete');
+
         // user
         Route::get('master/user', [UserController::class, 'index'])->name('user.index');
         Route::get('master/user/create', [UserController::class, 'create'])->name('user.create');
         Route::post('master/user/store', [UserController::class, 'store'])->name('user.store');
         Route::post('master/user/delete', [UserController::class, 'delete'])->name('user.delete');
         Route::get('master/user/{id}/access', [UserController::class, 'access'])->name('user.access');
-        Route::put('master/user/{id}/access_save', [UserController::class, 'accessSave'])->name('user.access_save');
+        Route::post('master/user/access_store', [UserController::class, 'accessStore'])->name('user.access_store');
         Route::post('master/user/sync', [UserController::class, 'sync'])->name('user.sync');
 
         // cabang

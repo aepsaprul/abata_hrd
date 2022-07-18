@@ -61,8 +61,11 @@
                                         <td class="text-center">{{ $key + 1 }}</td>
                                         <td>
                                             @if ($item->masterKaryawan)
-                                                {{ $item->masterKaryawan->nama_lengkap }}</td>
+                                                {{ $item->masterKaryawan->nama_lengkap }}
+                                            @else
+                                                {{ $item->name }}
                                             @endif
+                                        </td>
                                         <td>
                                             @if ($item->masterKaryawan)
                                                 {{ $item->masterKaryawan->masterJabatan->nama_jabatan }}
@@ -70,8 +73,11 @@
                                         </td>
                                         <td>
                                             @if ($item->masterKaryawan)
-                                                {{ $item->masterKaryawan->email }}</td>
+                                                {{ $item->masterKaryawan->email }}
+                                            @else
+                                                {{ $item->email }}
                                             @endif
+                                        </td>
                                         <td style="width: 150px;">
                                             @if ($item->masterKaryawan)
                                                 {{ $item->masterKaryawan->masterCabang->nama_cabang }}
@@ -88,16 +94,19 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a
-                                                        class="dropdown-item text-indigo border-bottom btn-access"
-                                                        href="{{ route('user.access', [$item->user_id]) }}">
-                                                            <i class="fa fa-key px-2"></i> Access
-                                                    </a>
-                                                    <a
-                                                        class="dropdown-item text-indigo btn-delete"
                                                         href="#"
-                                                        data-id="{{ $item->user_id }}">
-                                                            <i class="fa fa-trash-alt px-2"></i> Hapus
+                                                        class="dropdown-item text-indigo btn-access"
+                                                        data-id="{{ $item->id }}">
+                                                            <i class="fas fa-lock pr-1"></i> Akses
                                                     </a>
+                                                    @if ($item->master_karyawan_id != 0)
+                                                        <a
+                                                            class="dropdown-item text-indigo btn-delete"
+                                                            href="#"
+                                                            data-id="{{ $item->user_id }}">
+                                                                <i class="fa fa-trash-alt pr-1"></i> Hapus
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </td>
@@ -150,74 +159,37 @@
     </div>
 </div>
 
-{{-- modal edit  --}}
-<div class="modal fade modal-edit" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+{{-- modal access --}}
+<div class="modal fade modal-access" id="modal-default">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form id="form_edit">
+            <form id="form-access">
 
-                {{-- id  --}}
-                <input
-                    type="hidden"
-                    id="edit_id"
-                    name="edit_id">
+                {{-- karyawan id --}}
+                <input type="hidden" name="access_karyawan_id" id="access_karyawan_id">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Ubah Customer</h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal">
-                            <span aria-hidden="true">x</span>
-                    </button>
-                </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="edit_nama" class="form-label">Nama</label>
-                        <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="edit_nama"
-                            name="edit_nama"
-                            maxlength="30"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_email" class="form-label">Email</label>
-                        <input
-                            type="email"
-                            class="form-control form-control-sm"
-                            id="edit_email"
-                            name="edit_email"
-                            maxlength="30"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_telepon" class="form-label">Telepon</label>
-                        <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="edit_telepon"
-                            name="edit_telepon"
-                            maxlength="15"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_alamat" class="form-label">Alamat</label>
-                        <textarea
-                            class="form-control form-control-sm"
-                            rows="3"
-                            id="edit_alamat"
-                            name="edit_alamat"
-                            required></textarea>
-                    </div>
+                    <table id="datatable" class="table table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-indigo">Main</th>
+                                <th class="text-center text-indigo">Sub</th>
+                                <th class="text-center text-indigo">Button</th>
+                                <th class="text-center text-indigo">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data_navigasi">
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary btn-edit-spinner" disabled style="width: 130px; display: none;">
+                    <button class="btn btn-primary btn-access-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
-                        Loading..
+                        Loading...
                     </button>
-                    <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;"><i class="fa fa-save"></i> Perbaharui</button>
+                    <button type="submit" class="btn btn-primary btn-access-save" style="width: 130px;">
+                        <i class="fas fa-save"></i> Simpan
+                    </button>
                 </div>
             </form>
         </div>
@@ -277,7 +249,11 @@
     });
 
     $(document).ready(function() {
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         var Toast = Swal.mixin({
             toast: true,
@@ -349,6 +325,103 @@
                 }
             });
         });
+
+        // access
+        $(document).on('click', '.btn-access', function(e) {
+            e.preventDefault();
+            $('#data_navigasi').empty();
+
+            var id = $(this).attr('data-id');
+            var url = '{{ route("user.access", ":id") }}';
+            url = url.replace(':id', id);
+
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (response) {
+                    $('#access_karyawan_id').val(response.karyawan_id);
+
+                    let val_navigasi = '';
+                    $.each(response.nav_mains, function (index, iteme) {
+                        val_navigasi += '' +
+                            '<tr>' +
+                                '<td rowspan="' + iteme.navigasi_button.length + '" style="padding: 5px;">' + iteme.title + '</td>';
+                                $.each(iteme.navigasi_sub, function (index, item) {
+                                    val_navigasi += '' +
+                                        '<td rowspan="' + item.navigasi_button.length + '" style="padding: 5px;">';
+                                            if (item.title != iteme.title) {
+                                                val_navigasi += item.title;
+                                            }
+                                    val_navigasi += '</td>';
+                                    $.each(item.navigasi_button, function (index, item_nav_button) {
+                                        val_navigasi += '' +
+                                            '<td style="padding: 5px;">' +
+                                                item_nav_button.title +
+                                            '</td>' +
+                                            '<td class="text-center" style="padding: 5px;">' +
+                                                '<input type="checkbox" id="button_check_ ' + item_nav_button.id + '" name="button_check[]" value="' + item_nav_button.id + '"';
+                                                $.each(response.nav_access, function (index, item_nav_access) {
+                                                    if (item_nav_access.button_id == item_nav_button.id) {
+                                                        val_navigasi += ' checked';
+                                                    }
+                                                })
+                                                val_navigasi += '>' +
+                                            '</td>' +
+                                        '</tr>';
+                                    })
+                                    val_navigasi += '</tr>';
+                                })
+                                val_navigasi += '</tr>';
+                    })
+                    $('#data_navigasi').append(val_navigasi);
+
+                    $('.modal-access').modal('show');
+                }
+            })
+        });
+
+        $(document).on('submit', '#form-access', function (e) {
+            e.preventDefault();
+
+            let val_check = [];
+            $('input[name="button_check[]"]:checked').each(function() {
+                data_check = this.value;
+                val_check.push(data_check);
+            });
+
+            let formData = {
+                data_navigasi: val_check,
+                karyawan_id: $('#access_karyawan_id').val()
+            }
+
+            $.ajax({
+                url: "{{ URL::route('user.access_store') }}",
+                type: "post",
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-access-spinner').removeClass('d-none');
+                    $('.btn-access-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil disimpan'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
+        })
 
         // delete
         $('body').on('click', '.btn-delete', function(e) {

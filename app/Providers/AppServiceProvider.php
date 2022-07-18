@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\HcNavAccess;
+use App\Models\HcNavigasiButton;
 use App\Models\HcNavMain;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -29,15 +30,27 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view)
         {
             if (Auth::check()) {
-                $current_nav_main = HcNavMain::whereHas('navAccess' , function ($query) { $query->where('user_id', Auth::user()->master_karyawan_id)->where('tampil', 'y'); })->orderBy('hirarki', 'asc')->get();
-                $current_menu = HcNavAccess::whereHas('navSub' , function ($query) { $query->where('link', '!=', '#'); })->where('user_id', Auth::user()->master_karyawan_id)->where('tampil', 'y')->get();
+
+                $current_nav_button = HcNavigasiButton::whereHas('navigasiAccess', function ($query) {
+                    $query->where('karyawan_id', Auth::user()->master_karyawan_id);
+                })
+                ->select('main_id')
+                ->groupBy('main_id')
+                ->get();
+
+                $current_nav_button_sub = HcNavigasiButton::whereHas('navigasiAccess', function ($query) {
+                    $query->where('karyawan_id', Auth::user()->master_karyawan_id);
+                })
+                ->select('sub_id')
+                ->groupBy('sub_id')
+                ->get();
 
                 // view
-                $view->with('current_nav_mains', $current_nav_main);
-                $view->with('current_menus', $current_menu);
+                $view->with('current_nav_button', $current_nav_button);
+                $view->with('current_nav_button_sub', $current_nav_button_sub);
             }else {
-                $view->with('current_nav_mains', null);
-                $view->with('current_menus', null);
+                $view->with('current_nav_button', null);
+                $view->with('current_nav_button_sub', null);
             }
         });
     }

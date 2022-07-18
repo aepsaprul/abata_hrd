@@ -134,7 +134,7 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
-                        @if (Auth::user()->roles == "admin_hc" || Auth::user()->roles == "admin")
+                        {{-- @if (Auth::user()->roles == "admin_hc" || Auth::user()->roles == "admin")
                             <li class="nav-item">
                                 <a href="{{ route('home.index') }}" class="nav-link {{ request()->is(['home', 'home/*']) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-tachometer-alt text-center mr-2" style="width: 30px;"></i><p>Dashboard</p>
@@ -269,34 +269,34 @@
                                     <i class="nav-icon fas fa-inbox text-center mr-2" style="width: 30px;"></i><p>Kritik & Saran</p>
                                 </a>
                             </li>
-                        @else
-                            @foreach ($current_nav_mains as $item)
-                                @if ($item->link == '#')
-                                    <li class="nav-item {{ request()->is(''.$item->aktif.'/*') ? 'menu-open' : '' }}">
-                                        <a href="#" class="nav-link {{ request()->is(''.$item->aktif.'/*') ? 'active' : '' }}">
-                                            <i class="nav-icon {{ $item->icon }} text-center mr-2" style="width: 30px;"></i> <p>{{ $item->title }}<i class="right fas fa-angle-left"></i></p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            @foreach ($current_menus as $item_menu)
-                                                @if ($item_menu->main_id == $item->id)
-                                                    <li class="nav-item">
-                                                        <a href="{{ route($item_menu->navSub->link) }}" class="nav-link {{ request()->is([''.$item_menu->navSub->aktif.'', ''.$item_menu->navSub->aktif.'/*']) ? 'active' : '' }}">
-                                                            <i class="fas fa-angle-right nav-icon"></i> <p>{{ $item_menu->navSub->title }}</p>
-                                                        </a>
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                @else
-                                    <li class="nav-item">
-                                        <a href="{{ route($item->link) }}" class="nav-link {{ request()->is([''.$item->aktif.'', ''.$item->aktif.'/*']) ? 'active' : '' }}">
-                                            <i class="nav-icon {{ $item->icon }} text-center mr-2" style="width: 30px;"></i> <p>{{ $item->title }}</p>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endforeach
-                        @endif
+                        @else --}}
+                        @foreach ($current_nav_button as $item)
+                            @if ($item->navigasiMain->link == '#')
+                                <li class="nav-item {{ request()->is(''.$item->navigasiMain->aktif.'/*') ? 'menu-open' : '' }}">
+                                    <a href="#" class="nav-link {{ request()->is(''.$item->navigasiMain->aktif.'/*') ? 'active' : '' }} text-capitalize">
+                                        <i class="nav-icon {{ $item->navigasiMain->icon }} text-center mr-2" style="width: 30px;"></i> <p>{{ $item->navigasiMain->title }}<i class="right fas fa-angle-left"></i></p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @foreach ($current_nav_button_sub as $item_sub)
+                                            @if ($item_sub->navigasiSub->link != '#' && $item_sub->navigasiSub->main_id == $item->navigasiMain->id)
+                                                <li class="nav-item">
+                                                    <a href="{{ route($item_sub->navigasiSub->link) }}" class="nav-link {{ request()->is([''.$item_sub->navigasiSub->aktif.'', ''.$item_sub->navigasiSub->aktif.'/*']) ? 'active' : '' }} text-capitalize">
+                                                        <i class="fas fa-angle-right nav-icon"></i> <p>{{ $item_sub->navigasiSub->title }}</p>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @else
+                                <li class="nav-item">
+                                    <a href="{{ route($item->navigasiMain->link) }}" class="nav-link {{ request()->is([''.$item->navigasiMain->aktif.'', ''.$item->navigasiMain->aktif.'/*']) ? 'active' : '' }} text-capitalize">
+                                        <i class="nav-icon {{ $item->navigasiMain->icon }} text-center mr-2" style="width: 30px;"></i> <p>{{ $item->navigasiMain->title }}</p>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                        {{-- @endif --}}
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -306,14 +306,7 @@
 
         @yield('content')
 
-        <!-- Main Footer -->
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">Abata</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.1.0
-            </div>
-        </footer>
+
     </div>
     <!-- ./wrapper -->
 

@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\HcNavAccess;
+use App\Models\HcNavigasiAccess;
+use App\Models\HcNavigasiButton;
+use App\Models\HcNavigasiMain;
+use App\Models\HcNavigasiSub;
 use App\Models\HcNavSub;
 use App\Models\MasterKaryawan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,13 +17,15 @@ class UserController extends Controller
 {
     public function index()
     {
-        $nav_access = HcNavAccess::with('masterKaryawan')
-            ->select(DB::raw('count(*) as nav_access_count, user_id'))
-            ->groupBy('user_id')
-            ->orderBy('id', 'desc')
-            ->get();
+        // $nav_access = HcNavAccess::with('masterKaryawan')
+        //     ->select(DB::raw('count(*) as nav_access_count, user_id'))
+        //     ->groupBy('user_id')
+        //     ->orderBy('id', 'desc')
+        //     ->get();
 
-        return view('pages.master.user.index', ['users' => $nav_access]);
+        $users = User::get();
+
+        return view('pages.master.user.index', ['users' => $users]);
     }
 
     public function create()
@@ -75,88 +82,60 @@ class UserController extends Controller
 
     public function access($id)
     {
-        $karyawan = MasterKaryawan::where('id', $id)->first();
-        $menu = HcNavAccess::where('user_id', $id)->get();
-        $sub = HcNavAccess::with('navMain')
-            ->where('user_id', $id)
-            ->select(DB::raw('count(main_id) as total'),'main_id')
+        $user = User::find($id);
+
+        $nav_access = HcNavigasiAccess::where('karyawan_id', $user->master_karyawan_id)->get();
+
+        $nav_button = HcNavigasiButton::get();
+        $nav_sub = HcNavigasiSub::get();
+        $nav_main = HcNavigasiMain::with(['navigasiSub', 'navigasiSub.navigasiButton', 'navigasiButton'])
+            ->get();
+
+        $button = HcNavigasiButton::with('navigasiSub')
+            ->select(DB::raw('count(sub_id) as total'), DB::raw('count(main_id) as mainid'), 'sub_id')
+            ->groupBy('sub_id')
+            ->get();
+
+        $total_main = HcNavigasiButton::with('navigasiSub')
+            ->select(DB::raw('count(main_id) as total_main'), 'main_id')
             ->groupBy('main_id')
             ->get();
 
-        $karyawan_id = $id;
-        $sync = DB::table('hc_nav_subs')
-            ->select('hc_nav_subs.id AS nav_sub_id', 'hc_nav_subs.title AS title', 'hc_nav_subs.main_id AS nav_main')
-            ->leftJoin('hc_nav_accesses', function($join) use ($karyawan_id) {
-                $join->on('hc_nav_subs.id', '=', 'hc_nav_accesses.sub_id')
-                    ->where('hc_nav_accesses.user_id', '=', $karyawan_id);
-            })
-            ->whereNull('user_id')
-            ->get();
-
-        return view('pages.master.user.access', [
-            'karyawan' => $karyawan,
-            'menus' => $menu,
-            'subs' => $sub,
-            'syncs' => $sync
+        return response()->json([
+            'karyawan_id' => $user->master_karyawan_id,
+            'nav_access' => $nav_access,
+            'nav_buttons' => $nav_button,
+            'buttons' => $button,
+            'total_main' => $total_main,
+            'nav_subs' => $nav_sub,
+            'nav_mains' => $nav_main
         ]);
     }
 
-    public function accessSave(Request $request, $id)
+    public function accessStore(Request $request)
     {
-        $nav_access = HcNavAccess::find($id);
+        $nav_access = HcNavigasiAccess::where('karyawan_id', $request->karyawan_id);
 
-        if ($request->show) {
-            $nav_access->tampil = $request->show;
-        }
-        if ($request->create) {
-            $nav_access->tambah = $request->create;
-        }
-        if ($request->edit) {
-            $nav_access->ubah = $request->edit;
-        }
-        if ($request->delete) {
-            $nav_access->hapus = $request->delete;
-        }
+        if ($nav_access) {
+            $nav_access->delete();
 
-        $nav_access->save();
-
-        activity_log($nav_access, "user", "access_save");
+            foreach ($request->data_navigasi as $key => $value) {
+                $nav_access = new HcNavigasiAccess;
+                $nav_access->karyawan_id = $request->karyawan_id;
+                $nav_access->button_id = $value;
+                $nav_access->save();
+            }
+        } else {
+            foreach ($request->data_navigasi as $key => $value) {
+                $nav_access = new HcNavigasiAccess;
+                $nav_access->karyawan_id = $request->karyawan_id;
+                $nav_access->button_id = $value;
+                $nav_access->save();
+            }
+        }
 
         return response()->json([
-            'status' => 'success'
-        ]);
-    }
-
-    public function sync(Request $request)
-    {
-        $karyawan = MasterKaryawan::where('id', $request->id)->first();
-
-        $karyawan_id = $karyawan->id;
-        $sync = DB::table('hc_nav_subs')
-            ->select('hc_nav_subs.id AS nav_sub_id', 'hc_nav_subs.title AS title', 'hc_nav_subs.main_id AS nav_main')
-            ->leftJoin('hc_nav_accesses', function($join) use ($karyawan_id) {
-                $join->on('hc_nav_subs.id', '=', 'hc_nav_accesses.sub_id')
-                    ->where('hc_nav_accesses.user_id', '=', $karyawan_id);
-            })
-            ->whereNull('user_id')
-            ->get();
-
-        foreach ($sync as $key => $item) {
-            $nav_access = new HcNavAccess;
-            $nav_access->user_id = $karyawan->id;
-            $nav_access->main_id = $item->nav_main;
-            $nav_access->sub_id = $item->nav_sub_id;
-            $nav_access->tampil = "n";
-            $nav_access->tambah = "n";
-            $nav_access->ubah = "n";
-            $nav_access->hapus = "n";
-            $nav_access->save();
-        }
-
-        activity_log($nav_access, "user", "sync");
-
-        return response()->json([
-            'status' => 'success'
+            'status' => $request->all()
         ]);
     }
 }
