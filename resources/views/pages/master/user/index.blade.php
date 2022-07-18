@@ -40,9 +40,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            <button id="button-create" type="button" class="btn bg-gradient-primary btn-sm pl-3 pr-3"><i class="fa fa-plus"></i> Tambah</button>
-                        </div>
+                        @if (in_array("tambah", $current_data_navigasi))
+                            <div class="card-header">
+                                <button id="button-create" type="button" class="btn bg-gradient-primary btn-sm pl-3 pr-3"><i class="fa fa-plus"></i> Tambah</button>
+                            </div>
+                        @endif
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
                                 <thead>
@@ -85,29 +87,35 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <a
-                                                    class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                    data-toggle="dropdown"
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                        <i class="fa fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
+                                                @if (in_array("akses", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
                                                     <a
-                                                        href="#"
-                                                        class="dropdown-item text-indigo btn-access"
-                                                        data-id="{{ $item->id }}">
-                                                            <i class="fas fa-lock pr-1"></i> Akses
+                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                            <i class="fa fa-cog"></i>
                                                     </a>
-                                                    @if ($item->master_karyawan_id != 0)
-                                                        <a
-                                                            class="dropdown-item text-indigo btn-delete"
-                                                            href="#"
-                                                            data-id="{{ $item->user_id }}">
-                                                                <i class="fa fa-trash-alt pr-1"></i> Hapus
-                                                        </a>
-                                                    @endif
-                                                </div>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        @if (in_array("akses", $current_data_navigasi))
+                                                            <a
+                                                                href="#"
+                                                                class="dropdown-item text-indigo btn-access"
+                                                                data-id="{{ $item->id }}">
+                                                                    <i class="fas fa-lock pr-1"></i> Akses
+                                                            </a>
+                                                        @endif
+                                                        @if (in_array("hapus", $current_data_navigasi))
+                                                            @if ($item->master_karyawan_id != 0)
+                                                                <a
+                                                                    class="dropdown-item text-indigo btn-delete"
+                                                                    href="#"
+                                                                    data-id="{{ $item->user_id }}">
+                                                                        <i class="fa fa-trash-alt pr-1"></i> Hapus
+                                                                </a>
+                                                            @endif
+                                                        @endif
+                                                    </div>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
