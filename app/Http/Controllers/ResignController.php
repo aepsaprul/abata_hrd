@@ -271,6 +271,108 @@ class ResignController extends Controller
         ]);
     }
 
+    public function resignApproved($id)
+    {
+        $resign_detail = ResignDetail::find($id);
+
+        // update status, agar cuti tampil di approver selanjutnya
+        $hirarki = $resign_detail->hirarki + 1;
+
+        $total_resign_detail = count(ResignDetail::where('resign_id', $resign_detail->resign_id)->get());
+
+        if ($hirarki <= $total_resign_detail) {
+            $resign_detail_next = ResignDetail::where('resign_id', $resign_detail->resign_id)->where('hirarki', $hirarki)->first();
+            $resign_detail_next->status = 1;
+            $resign_detail_next->save();
+
+            $approve_mail = ResignDetail::where('resign_id', $resign_detail->resign_id)
+                ->where('hirarki', $hirarki)
+                ->first();
+
+            $a = [];
+            foreach (json_decode($approve_mail->atasan) as $value) {
+                $a[] = $value;
+            }
+
+            // $tes = User::whereIn('master_karyawan_id', $a)->get();
+            // foreach ($tes as $key => $value) {
+            //     # code...
+            //     $value->notify(new ResignNotification($value));
+            // }
+        }
+        // end
+
+        // hitung persentase progress
+        $percentage = ceil(100 / $total_resign_detail);
+        // end
+
+        $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
+        if ($karyawan->jenis_kelamin == "L") {
+            $approved_text = "Approved Oleh Pak";
+        } else {
+            $approved_text = "Approved Oleh Bu";
+        }
+
+        $resign_detail->status = 1;
+        $resign_detail->confirm = 1;
+        $resign_detail->approved_date = date('Y-m-d H:i:s');
+        $resign_detail->approved_leader = Auth::user()->master_karyawan_id;
+        $resign_detail->approved_text = $approved_text;
+        $resign_detail->approved_percentage = $resign_detail->approved_percentage + $percentage;
+        $resign_detail->approved_background = "primary";
+        $resign_detail->save();
+
+        $resign = HcResign::find($resign_detail->resign_id);
+        $resign->status = 1;
+        $resign->approved_date = date('Y-m-d H:i:s');
+        $resign->approved_leader = Auth::user()->master_karyawan_id;
+        $resign->approved_text = $approved_text;
+        $resign->approved_percentage = $resign->approved_percentage + $percentage;
+        $resign->approved_background = "primary";
+        $resign->save();
+
+        // activity_log($resign_detail, "resign_detail", "approved");
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
+    public function resignDisapproved($id)
+    {
+        $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
+        if ($karyawan->jenis_kelamin == "L") {
+            $approved_text = "Disapproved Oleh Pak";
+        } else {
+            $approved_text = "Disapproved Oleh Bu";
+        }
+
+        $resign_detail = ResignDetail::find($id);
+        $resign_detail->status = 1;
+        $resign_detail->confirm = 2;
+        $resign_detail->approved_date = date('Y-m-d H:i:s');
+        $resign_detail->approved_leader = Auth::user()->master_karyawan_id;
+        $resign_detail->approved_text = $approved_text;
+        $resign_detail->approved_percentage = 100;
+        $resign_detail->approved_background = "danger";
+        $resign_detail->save();
+
+        $resign = HcResign::find($resign_detail->resign_id);
+        $resign->status = 2;
+        $resign->approved_date = date('Y-m-d H:i:s');
+        $resign->approved_leader = Auth::user()->master_karyawan_id;
+        $resign->approved_text = $approved_text;
+        $resign->approved_percentage = 100;
+        $resign->approved_background = "danger";
+        $resign->save();
+
+        // activity_log($resign_detail, "resign_detail", "disapproved");
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
     public function paklaring($id)
     {
         $karyawan = MasterKaryawan::find($id);

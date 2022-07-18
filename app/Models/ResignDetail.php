@@ -28,4 +28,8 @@ class ResignDetail extends Model
     public function resign() {
         return $this->belongsTo(HcResign::class, 'resign_id', 'id');
     }
+
+    public function approvedLeader() {
+        return $this->belongsTo(MasterKaryawan::class, 'approved_leader', 'id');
+    }
 }

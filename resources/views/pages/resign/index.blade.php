@@ -44,7 +44,7 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
+                            <table id="example1" class="table table-bordered" style="font-size: 13px;">
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
@@ -63,7 +63,13 @@
                                             <td>
                                                 {{ $item->masterKaryawan ? $item->masterKaryawan->nama_panggilan : '' }}
                                                 @if ($item->approved_percentage >= 100)
-                                                    <span class="float-right"><a href="{{ route('resign.paklaring', [$item->masterKaryawan->id]) }}" target="_blank"><i class="fas fa-download ml-2"></i> Paklaring</a></span>
+                                                    @if ($item->status == 1)
+                                                        <span class="float-right">
+                                                            <a href="{{ route('resign.paklaring', [$item->masterKaryawan->id]) }}" target="_blank">
+                                                                <i class="fas fa-download ml-2"></i> Paklaring
+                                                            </a>
+                                                        </span>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td>{{ $item->lokasi_kerja }}</td>
@@ -84,12 +90,12 @@
                                                                         @if ($item_karyawan->id == $item_atasan)
                                                                             @if (count($atasan_explode) > 1)
                                                                                 @if ($key === array_key_last($atasan_explode))
-                                                                                    {{ $item_karyawan->nama_panggilan }}
-                                                                                @else
-                                                                                    {{ $item_karyawan->nama_panggilan }} /
+                                                                                    {{ $item_karyawan->masterDivisi->nama }}
+                                                                                {{-- @else
+                                                                                    {{ $item_karyawan->nama_panggilan }} / --}}
                                                                                 @endif
                                                                             @else
-                                                                            {{ $item_karyawan->nama_panggilan }}
+                                                                                {{ $item_karyawan->masterJabatan->nama_jabatan }} - {{ $item_karyawan->masterCabang->nama_cabang }}
                                                                             @endif
                                                                         @endif
                                                                     @endforeach
@@ -101,16 +107,18 @@
                                                                         $karyawan_id = Auth::user()->master_karyawan_id;
                                                                     @endphp
                                                                     @if ($item_resign_detail->confirm == 1)
-                                                                        <span class="bg-success px-2">Approved</span>
+                                                                        <span class="bg-success px-2">Approved</span><br><br>
+                                                                        <span>{{ $item_resign_detail->approvedLeader->nama_lengkap }}</span>
                                                                     @elseif ($item_resign_detail->confirm == 2)
-                                                                        <span class="bg-danger px-2">Disapproved</span>
+                                                                        <span class="bg-danger px-2">Disapproved</span><br><br>
+                                                                        <span>{{ $item_resign_detail->approvedLeader->nama_lengkap }}</span>
                                                                     @else
                                                                         @if (preg_match("/\b$karyawan_id\b/i", $atasan, ))
-                                                                            <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item_resign_detail->id }}"><i class="fas fa-check"></i></button>
-                                                                            <button class="btn btn-primary btn-sm btn-approve-spinner d-none" disabled>
+                                                                            <button class="btn btn-sm btn-primary btn-resign-approve" style="width: 40px;" data-id="{{ $item_resign_detail->id }}"><i class="fas fa-check"></i></button>
+                                                                            <button class="btn btn-primary btn-sm btn-resign-approve-spinner d-none" disabled>
                                                                                 <span class="spinner-grow spinner-grow-sm"></span>
                                                                             </button>
-                                                                            <button class="btn btn-sm btn-danger btn-disapprove" style="width: 40px;" data-id="{{ $item_resign_detail->id }}"><i class="fas fa-times"></i></button>
+                                                                            <button class="btn btn-sm btn-danger btn-resign-disapprove" style="width: 40px;" data-id="{{ $item_resign_detail->id }}"><i class="fas fa-times"></i></button>
                                                                         @else
                                                                             -
                                                                         @endif
@@ -160,7 +168,7 @@
 
 {{-- modal delete --}}
 <div class="modal fade modal-delete" id="modal-default">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="form-delete">
                 <input type="hidden" id="delete_id" name="delete_id">
@@ -212,6 +220,73 @@
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
+        });
+
+        // btn approve resign
+        $(document).on('click', '.btn-resign-approve', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("resign.resign_approved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-resign-approve-spinner').removeClass('d-none');
+                    $('.btn-resign-approve').addClass('d-none');
+                },
+                success: function (response) {
+                    console.log(response);
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Resign telah disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
+        });
+
+        // btn disapprove resign
+        $(document).on('click', '.btn-resign-disapprove', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("resign.resign_disapproved", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-resign-approve-spinner').removeClass('d-none');
+                    $('.btn-resign-disapprove').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Resign tidak disetujui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            });
         });
 
         // delete

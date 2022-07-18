@@ -62,7 +62,11 @@
                                     @foreach ($cutis as $key => $item)
                                         <tr>
                                             <td class="text-center" width="30px">{{ $key + 1 }}</td>
-                                            <td width="150px">{{ $item->masterKaryawan->nama_lengkap }}</td>
+                                            <td width="150px">
+                                                @if ($item->masterKaryawan)
+                                                    {{ $item->masterKaryawan->nama_lengkap }}
+                                                @endif
+                                            </td>
                                             <td width="150px">{{ $item->jenis }}</td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
@@ -84,7 +88,7 @@
                                                                                     {{ $item_karyawan->masterDivisi->nama }} / --}}
                                                                                 @endif
                                                                             @else
-                                                                            {{ $item_karyawan->masterJabatan->nama_jabatan }} - {{ $item_karyawan->masterCabang->nama_cabang }}
+                                                                                {{ $item_karyawan->masterJabatan->nama_jabatan }} - {{ $item_karyawan->masterCabang->nama_cabang }}
                                                                             @endif
                                                                         @endif
                                                                     @endforeach
