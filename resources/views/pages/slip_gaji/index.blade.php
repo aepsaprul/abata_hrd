@@ -36,26 +36,33 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-lg-2 col-md-2 col-12">
-                                    <button type="button" class="btn bg-gradient-primary btn-sm btn-block" data-toggle="modal" data-target="#importExcel">
-                                        <i class="fas fa-file-upload mr-1"></i> Import File
-                                    </button>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-12">
-                                    <a href="{{ route('slip_gaji.export') }}" id="btn-create" class="btn bg-gradient-success btn-sm btn-block">
-                                        <i class="fas fa-file-download mr-1"></i> Download Template
-                                    </a>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-12">
-                                    <a href="{{ route('slip_gaji.update_template') }}" class="btn bg-gradient-warning btn-sm btn-block">
-                                        <i class="fas fa-pencil-alt mr-1"></i> Update Template
-                                    </a>
+                        @if (in_array("import_file", $current_data_navigasi) || in_array("download_template", $current_data_navigasi) || in_array("update_template", $current_data_navigasi))
+                            <div class="card-header">
+                                <div class="row">
+                                    @if (in_array("import_file", $current_data_navigasi))
+                                        <div class="col-lg-2 col-md-2 col-12">
+                                            <button type="button" class="btn bg-gradient-primary btn-sm btn-block" data-toggle="modal" data-target="#importExcel">
+                                                <i class="fas fa-file-upload mr-1"></i> Import File
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if (in_array("download_template", $current_data_navigasi))
+                                        <div class="col-lg-2 col-md-2 col-12">
+                                            <a href="{{ route('slip_gaji.export') }}" id="btn-create" class="btn bg-gradient-success btn-sm btn-block">
+                                                <i class="fas fa-file-download mr-1"></i> Download Template
+                                            </a>
+                                        </div>
+                                    @endif
+                                    @if (in_array("update_template", $current_data_navigasi))
+                                        <div class="col-lg-2 col-md-2 col-12">
+                                            <a href="{{ route('slip_gaji.update_template') }}" class="btn bg-gradient-warning btn-sm btn-block">
+                                                <i class="fas fa-pencil-alt mr-1"></i> Update Template
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
-                        </div>
-                        <!-- /.card-header -->
+                        @endif
                         <div class="card-body">
                             <table id="datatable" class="table table-bordered table-striped">
                                 <thead>

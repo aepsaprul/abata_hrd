@@ -59,53 +59,65 @@
                                             <td>{{ $item->email }}</td>
                                             <td class="text-center">{{ $item->status }}</td>
                                             <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a
-                                                        href="#"
-                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                            <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        @php $nomor_telepon =  substr($item->biodata->telepon, 1,13); @endphp
-
-                                                        @if ($item->status == "cek berkas")
-                                                            <a
-                                                                href="https://api.whatsapp.com/send?phone=+62{{ $nomor_telepon }}&text=Terima kasih atas lamarannya, berkas anda sudah kami terima dan sedang kami cek." target="_blank"
-                                                                class="dropdown-item border-bottom"
-                                                                title="view">
-                                                                    <i class="fas fa-comment text-center mr-2" style="width: 20px;"></i> Whatsapp
-                                                            </a>
-                                                            <a
-                                                                href="{{ route('lamaran.interview', [$item->id]) }}"
-                                                                class="dropdown-item border-bottom"
-                                                                title="view">
-                                                                    <i class="fas fa-check text-center mr-2" style="width: 20px;"></i> Interview
-                                                            </a>
-                                                            <a
-                                                                href="{{ route('lamaran.gagal', [$item->id]) }}"
-                                                                class="dropdown-item border-bottom"
-                                                                title="view">
-                                                                    <i class="fas fa-times text-center mr-2" style="width: 20px;"></i> Gagal
-                                                            </a>
-                                                        @endif
+                                                @if (in_array("whatsapp", $current_data_navigasi) || in_array("interview", $current_data_navigasi) || in_array("gagal", $current_data_navigasi) || in_array("detail", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
+                                                    <div class="btn-group">
                                                         <a
-                                                            href="{{ route('lamaran.show', [$item->email]) }}"
-                                                            class="dropdown-item border-bottom"
-                                                            title="view">
-                                                                <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Detail
+                                                            href="#"
+                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                                <i class="fas fa-cog"></i>
                                                         </a>
-														<a
-                                                            href="{{ route('lamaran.delete', [$item->id]) }}"
-                                                            class="dropdown-item"
-                                                            onclick="return confirm('Yakin akan dihapus?')"
-                                                            title="hapus">
-                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
-                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            @php $nomor_telepon =  substr($item->biodata->telepon, 1,13); @endphp
+
+                                                            @if ($item->status == "cek berkas")
+                                                                @if (in_array("whatsapp", $current_data_navigasi))
+                                                                    <a
+                                                                        href="https://api.whatsapp.com/send?phone=+62{{ $nomor_telepon }}&text=Terima kasih atas lamarannya, berkas anda sudah kami terima dan sedang kami cek." target="_blank"
+                                                                        class="dropdown-item border-bottom"
+                                                                        title="view">
+                                                                            <i class="fas fa-comment text-center mr-2" style="width: 20px;"></i> Whatsapp
+                                                                    </a>
+                                                                @endif
+                                                                @if (in_array("interview", $current_data_navigasi))
+                                                                    <a
+                                                                        href="{{ route('lamaran.interview', [$item->id]) }}"
+                                                                        class="dropdown-item border-bottom"
+                                                                        title="view">
+                                                                            <i class="fas fa-check text-center mr-2" style="width: 20px;"></i> Interview
+                                                                    </a>
+                                                                @endif
+                                                                @if (in_array("gagal", $current_data_navigasi))
+                                                                    <a
+                                                                        href="{{ route('lamaran.gagal', [$item->id]) }}"
+                                                                        class="dropdown-item border-bottom"
+                                                                        title="view">
+                                                                            <i class="fas fa-times text-center mr-2" style="width: 20px;"></i> Gagal
+                                                                    </a>
+                                                                @endif
+                                                            @endif
+                                                            @if (in_array("detail", $current_data_navigasi))
+                                                                <a
+                                                                    href="{{ route('lamaran.show', [$item->email]) }}"
+                                                                    class="dropdown-item border-bottom"
+                                                                    title="view">
+                                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Detail
+                                                                </a>
+                                                            @endif
+                                                            @if (in_array("hapus", $current_data_navigasi))
+                                                                <a
+                                                                    href="{{ route('lamaran.delete', [$item->id]) }}"
+                                                                    class="dropdown-item"
+                                                                    onclick="return confirm('Yakin akan dihapus?')"
+                                                                    title="hapus">
+                                                                        <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                                </a>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

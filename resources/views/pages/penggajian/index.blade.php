@@ -46,11 +46,13 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <button class="btn btn-primary btn-create"><i class="fa fa-plus"></i></button>
-                            </h3>
-                        </div>
+                        @if (in_array("tambah", $current_data_navigasi))
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <button class="btn btn-primary btn-create"><i class="fa fa-plus"></i> Tambah</button>
+                                </h3>
+                            </div>
+                        @endif
 						<div class="card-body">
 							<table id="example1" class="table table-bordered table-striped">
 								<thead>
@@ -122,15 +124,17 @@
 
 											</td>
                                             <td class="text-center">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-danger btn-delete"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Hapus"
-                                                    data-id="{{ $item->id }}">
-                                                        <i class="fas fa-trash"></i>
-                                                </button>
+                                                @if (in_array("hapus", $current_data_navigasi))
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-danger btn-delete"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Hapus"
+                                                        data-id="{{ $item->id }}">
+                                                            <i class="fa fa-trash-alt"></i>
+                                                    </button>
+                                                @endif
                                             </td>
 										</tr>
 									@endforeach

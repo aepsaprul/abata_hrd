@@ -23,7 +23,8 @@ class UserController extends Controller
         //     ->orderBy('id', 'desc')
         //     ->get();
 
-        $users = User::get();
+        // $users = User::orderBy('id', 'desc')->get();
+        $users = User::where('master_karyawan_id', '!=', 0)->orderBy('id', 'desc')->get();
 
         return view('pages.master.user.index', ['users' => $users]);
     }

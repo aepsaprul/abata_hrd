@@ -36,13 +36,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <a href="{{ route('resign.create') }}" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
-                                    <i class="fas fa-plus"></i> Tambah
-                                </a>
-                            </h3>
-                        </div>
+                        @if (in_array("tambah", $current_data_navigasi))
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <a href="{{ route('resign.create') }}" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
+                                        <i class="fas fa-plus"></i> Tambah
+                                    </a>
+                                </h3>
+                            </div>
+                        @endif
                         <div class="card-body">
                             <table id="example1" class="table table-bordered" style="font-size: 13px;">
                                 <thead>
@@ -76,7 +78,7 @@
                                             <td class="text-center">{{ $item->tanggal_masuk }}</td>
                                             <td class="text-center">{{ $item->tanggal_keluar }}</td>
                                             <td>
-                                                <div class="d-flex justify-content-center">
+                                                <div class="row">
                                                     @foreach ($item->resignDetail as $item_resign_detail)
                                                         <div class="col-6">
                                                             <div class="text-center border-top border-left border-right">
@@ -130,29 +132,35 @@
                                                 </div>
                                             </td>
                                             <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a
-                                                        href="#"
-                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                            <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a
-                                                            href="{{ route('resign.show', [$item->id]) }}" class="dropdown-item border-bottom btn-detail text-indigo"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                        </a>
+                                                @if (in_array("detail", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
+                                                    <div class="btn-group">
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item btn-delete text-indigo"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                                <i class="fas fa-cog"></i>
                                                         </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            @if (in_array("detail", $current_data_navigasi))
+                                                                <a
+                                                                    href="{{ route('resign.show', [$item->id]) }}" class="dropdown-item btn-detail text-indigo"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                                </a>
+                                                            @endif
+                                                            @if (in_array("hapus", $current_data_navigasi))
+                                                                <a
+                                                                    href="#"
+                                                                    class="dropdown-item btn-delete text-indigo"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                                </a>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

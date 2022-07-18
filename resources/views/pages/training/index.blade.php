@@ -36,14 +36,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
-                                    <i class="fas fa-plus"></i> Tambah
-                                </button>
-                            </h3>
-                        </div>
-                        <!-- /.card-header -->
+                        @if (in_array("tambah", $current_data_navigasi))
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
+                                        <i class="fas fa-plus"></i> Tambah
+                                    </button>
+                                </h3>
+                            </div>
+                        @endif
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped" style="font-size: 13px;">
                                 <thead>
@@ -77,36 +78,44 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a
-                                                        href="#"
-                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                            <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
+                                                    <div class="btn-group">
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item border-bottom btn-show text-indigo"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                                <i class="fas fa-cog"></i>
                                                         </a>
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-item border-bottom btn-edit text-indigo"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            class="dropdown-item btn-delete text-indigo"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
-                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            @if (in_array("detail", $current_data_navigasi))
+                                                                <a
+                                                                    href="#"
+                                                                    class="dropdown-item border-bottom btn-show text-indigo"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                                </a>
+                                                            @endif
+                                                            @if (in_array("ubah", $current_data_navigasi))
+                                                                <a
+                                                                    href="#"
+                                                                    class="dropdown-item border-bottom btn-edit text-indigo"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                                </a>
+                                                            @endif
+                                                            @if (in_array("hapus", $current_data_navigasi))
+                                                                <a
+                                                                    href="#"
+                                                                    class="dropdown-item btn-delete text-indigo"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                                </a>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
