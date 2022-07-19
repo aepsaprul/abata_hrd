@@ -422,11 +422,21 @@
 
 <script>
     $(function () {
-        $("#tabel_karyawan_kontrak").DataTable();
-        $("#tabel_karyawan_aktif").DataTable();
-        $("#tabel_karyawan_nonaktif").DataTable();
-        $("#tabel_cuti").DataTable();
-        $("#tabel_resign").DataTable();
+        $("#tabel_karyawan_kontrak").DataTable({
+            'responsive': true
+        });
+        $("#tabel_karyawan_aktif").DataTable({
+            'responsive': true
+        });
+        $("#tabel_karyawan_nonaktif").DataTable({
+            'responsive': true
+        });
+        $("#tabel_cuti").DataTable({
+            'responsive': true
+        });
+        $("#tabel_resign").DataTable({
+            'responsive': true
+        });
     });
 
     $(document).ready(function () {

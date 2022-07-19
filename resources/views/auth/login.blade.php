@@ -6,6 +6,12 @@
     <link href="{{ asset('public/themes/dist/img/logo-daun.png') }}" rel="icon" type="image/x-icon">
     <title>{{ config('app.name', 'Abata') }}</title>
 
+    <!-- PWA  -->
+    <meta name="theme-color" content="#6777ef">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="manifest" href="public/manifest.json">
+    <!-- end pwa -->
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="{{ asset('public/themes/plugins/font-google/font-google.css') }}">
     <!-- Font Awesome -->
@@ -14,25 +20,7 @@
     <link rel="stylesheet" href="{{ asset('public/themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('public/themes/dist/css/adminlte.min.css') }}">
-    <style>
-        .login-page {
-            background-image: url('https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        .h2 {
-            font-style: normal;
-            font-variant-ligatures: normal;
-            font-variant-caps: normal;
-            font-variant-numeric: normal;
-            font-variant-east-asian: normal;
-            font-weight: normal;
-            font-stretch: normal;
-            font-size: 25px;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-    </style>
+
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -100,8 +88,6 @@
                         </a>
                     @endif
                 </div>
-                <hr>
-                <div class="text-center mb-2 text-secondary" style="font-size: 14px;">©2022 All Rights Reserved - AdminLTE</div>
             </div>
             <!-- /.card-body -->
         </div>
@@ -113,5 +99,15 @@
     <script src="{{ asset('public/themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('public/themes/dist/js/adminlte.min.js') }}"></script>
+
+    <script src="{{ asset('public/service-worker.js') }}"></script>
+
+    <script>
+        if (!navigator.serviceWorker.controller) {
+        navigator.serviceWorker.register("public/service-worker.js").then(function (reg) {
+            console.log("service worker terdaftar untuk scope: " + reg.scope);
+        });
+        }
+    </script>
 </body>
 </html>

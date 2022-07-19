@@ -80,7 +80,7 @@
                                             <td>
                                                 <div class="row">
                                                     @foreach ($item->resignDetail as $item_resign_detail)
-                                                        <div class="col-6">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                                             <div class="text-center border-top border-left border-right">
                                                                 @php
                                                                     $atasan = preg_replace("/[^0-9\,]/", "", $item_resign_detail->atasan);
@@ -218,7 +218,9 @@
 
 <script>
     $(function () {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+            'responsive': true
+        });
     });
     $(document).ready(function () {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
