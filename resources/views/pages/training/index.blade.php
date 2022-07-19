@@ -78,7 +78,7 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
+                                                @if (in_array("detail", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
                                                     <div class="btn-group">
                                                         <a
                                                             href="#"

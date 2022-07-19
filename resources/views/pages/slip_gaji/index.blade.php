@@ -86,42 +86,52 @@
                                                 <a href="{{ route('slip_gaji.cetak_pdf', [$item->id]) }}" target="_blank">Lihat Berkas</a>
                                             </td> --}}
                                             <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a
-                                                        href="#"
-                                                        class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                            <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a
-                                                            href="{{ route('slip_gaji.cetak_pdf', [$item->id]) }}"
-                                                            class="dropdown-item text-indigo"
-                                                            target="_blank">
-                                                                <i class="fas fa-archive text-center mr-2" style="width: 20px;"></i> Lihat Berkas
-                                                        </a>
-                                                        <a
-                                                            href="{{ route('slip_gaji.cetak_pdf_karyawan', [$item->id]) }}"
-                                                            class="dropdown-item text-indigo btn-detail"
-                                                            target="_blank">
-                                                                <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                        </a>
+                                                @if (in_array("lihat_berkas", $current_data_navigasi) || in_array("detail", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
+                                                    <div class="btn-group">
                                                         <a
                                                             href="#"
-                                                            class="dropdown-item btn-edit text-indigo"
-                                                            data-id="{{ $item->id }}">
-                                                                <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                            class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                                <i class="fas fa-cog"></i>
                                                         </a>
-                                                        <a
-                                                            href="{{ route('slip_gaji.delete', [$item->id]) }}"
-                                                            class="dropdown-item btn-delete text-indigo"
-                                                            onclick="return confirm('Yakin akan dihapus?')">
-                                                                <i class="fas fa-trash-alt text-center mr-2" style="width: 20px;"></i> Hapus
-                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            @if (in_array("lihat_berkas", $current_data_navigasi))
+                                                                <a
+                                                                    href="{{ route('slip_gaji.cetak_pdf', [$item->id]) }}"
+                                                                    class="dropdown-item text-indigo"
+                                                                    target="_blank">
+                                                                        <i class="fas fa-archive text-center mr-2" style="width: 20px;"></i> Lihat Berkas
+                                                                </a>
+                                                            @endif
+                                                            @if (in_array("detail", $current_data_navigasi))
+                                                                <a
+                                                                    href="{{ route('slip_gaji.cetak_pdf_karyawan', [$item->id]) }}"
+                                                                    class="dropdown-item text-indigo btn-detail"
+                                                                    target="_blank">
+                                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                                </a>
+                                                            @endif
+                                                            @if (in_array("ubah", $current_data_navigasi))
+                                                                <a
+                                                                    href="#"
+                                                                    class="dropdown-item btn-edit text-indigo"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                                </a>
+                                                            @endif
+                                                            @if (in_array("hapus", $current_data_navigasi))
+                                                                <a
+                                                                    href="{{ route('slip_gaji.delete', [$item->id]) }}"
+                                                                    class="dropdown-item btn-delete text-indigo"
+                                                                    onclick="return confirm('Yakin akan dihapus?')">
+                                                                        <i class="fas fa-trash-alt text-center mr-2" style="width: 20px;"></i> Hapus
+                                                                </a>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
