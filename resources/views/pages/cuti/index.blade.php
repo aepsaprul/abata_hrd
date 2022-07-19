@@ -54,7 +54,7 @@
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Nama Karyawan</th>
-                                        <th class="text-center text-indigo">Jenis Cuti</th>
+                                        <th class="text-center text-indigo">Cabang</th>
                                         {{-- <th class="text-center text-indigo">Status</th> --}}
                                         <th class="text-center text-indigo">Approver</th>
                                         <th class="text-center text-indigo">Aksi</th>
@@ -64,16 +64,26 @@
                                     @foreach ($cutis as $key => $item)
                                         <tr>
                                             <td class="text-center" width="30px">{{ $key + 1 }}</td>
-                                            <td width="150px">
+                                            <td class="text-center">
                                                 @if ($item->masterKaryawan)
                                                     {{ $item->masterKaryawan->nama_lengkap }}
+                                                    <br>
+                                                    @if (file_exists('public/image/' . $item->masterKaryawan->foto))
+                                                        @if ($item->masterKaryawan->foto)
+                                                            <img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;">
+                                                        @endif
+                                                    @endif
                                                 @endif
                                             </td>
-                                            <td width="150px">{{ $item->jenis }}</td>
+                                            <td>
+                                                @if ($item->masterKaryawan)
+                                                    {{ $item->masterKaryawan->masterCabang->nama_cabang }}
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="row">
                                                     @foreach ($item->cutiDetail as $item_cuti_detail)
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
                                                             <div class="text-center border-top border-left border-right">
                                                                 @php
                                                                     $atasan = preg_replace("/[^0-9\,]/", "", $item_cuti_detail->atasan);
@@ -429,7 +439,6 @@
                 url: "{{ URL::route('cuti.create') }}",
                 type: 'GET',
                 success: function(response) {
-                    console.log(response);
                     $('#nama').val(response.karyawan.nama_lengkap);
                     $('#telepon').val(response.karyawan.telepon);
                     $('#karyawan_id').val(response.karyawan.id);
@@ -482,7 +491,7 @@
             var formData = new FormData($('#form')[0]);
 
             $.ajax({
-                url: "{{ URL::route('pengajuan_cuti.store') }}",
+                url: "{{ URL::route('cuti.store') }}",
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -636,6 +645,7 @@
         $(document).on('click', '.btn-detail', function (e) {
             e.preventDefault();
             $('#form_tanggal').empty();
+            $('#detail_form_tanggal').empty();
 
             var id = $(this).attr('data-id');
             var url = '{{ route("cuti.show", ":id") }}';
@@ -663,7 +673,7 @@
                     $.each(response.cuti.cuti_tgl, function (index, item) {
                         value_tanggal += "" +
                         "<label>Tanggal " + (index + 1) + "</label>" +
-                        "<input type=\"text\" class=\"form-control\" value=\"" + item.tanggal + "\" readonly>";
+                        "<input type=\"text\" class=\"form-control\" value=\"" + tanggalIndo(item.tanggal) + "\" readonly>";
                     });
                     $('#detail_form_tanggal').append(value_tanggal);
                     console.log(value_tanggal);

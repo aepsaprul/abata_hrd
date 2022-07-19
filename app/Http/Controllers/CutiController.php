@@ -164,6 +164,8 @@ class CutiController extends Controller
                 }
 
                 $karyawan = MasterKaryawan::find($request->karyawan_id);
+                $karyawan->total_cuti = $karyawan->total_cuti - $request->jml_hari;
+                $karyawan->save();
 
                 $role = MasterRole::where('nama', $karyawan->role)->first();
 

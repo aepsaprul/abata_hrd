@@ -51,7 +51,7 @@
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Karyawan</th>
-                                        <th class="text-center text-indigo">Lokasi Kerja</th>
+                                        <th class="text-center text-indigo">Cabang</th>
                                         <th class="text-center text-indigo">Tanggal Masuk</th>
                                         <th class="text-center text-indigo">Tanggal Keluar</th>
                                         <th class="text-center text-indigo">Approver</th>
@@ -63,14 +63,24 @@
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>
-                                                {{ $item->masterKaryawan ? $item->masterKaryawan->nama_panggilan : '' }}
-                                                @if ($item->approved_percentage >= 100)
-                                                    @if ($item->status == 1)
-                                                        <span class="float-right">
-                                                            <a href="{{ route('resign.paklaring', [$item->masterKaryawan->id]) }}" target="_blank">
-                                                                <i class="fas fa-download ml-2"></i> Paklaring
-                                                            </a>
-                                                        </span>
+                                                @if ($item->masterKaryawan)
+                                                    {{ $item->masterKaryawan->nama_panggilan }}
+
+                                                    @if ($item->approved_percentage >= 100)
+                                                        @if ($item->status == 1)
+                                                            <span class="float-right">
+                                                                <a href="{{ route('resign.paklaring', [$item->masterKaryawan->id]) }}" target="_blank">
+                                                                    <i class="fas fa-download ml-2"></i> Paklaring
+                                                                </a>
+                                                            </span>
+                                                        @endif
+                                                    @endif
+
+                                                    <br>
+                                                    @if (file_exists('public/image/' . $item->masterKaryawan->foto))
+                                                        @if ($item->masterKaryawan->foto)
+                                                            <center><img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;"></center>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             </td>
