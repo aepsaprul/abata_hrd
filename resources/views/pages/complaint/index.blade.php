@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
 @section('style')
-    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css" rel="stylesheet">
+
+<!-- DataTables -->
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
 @endsection
 
 @section('content')
@@ -35,29 +39,29 @@
                     @endif
                     <div class="card">
                         <div class="card-body">
-                            <table id="example" class="table-bordered" style="width:100%;">
-                                <thead class="bg-secondary text-white mt-3">
-                                    <tr class="text-center">
-                                        <th>No</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Telepon</th>
-                                        <th>Email</th>
-                                        <th>Kritik</th>
-                                        <th>Tanggal</th>
-                                        <th>Status</th>
-                                        <th>#</th>
+                            <table id="example" class="table table-bordered" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-indigo">No</th>
+                                        <th class="text-center text-indigo">Nama Lengkap</th>
+                                        <th class="text-center text-indigo">Telepon</th>
+                                        <th class="text-center text-indigo">Email</th>
+                                        <th class="text-center text-indigo">Kritik</th>
+                                        <th class="text-center text-indigo">Tanggal</th>
+                                        <th class="text-center text-indigo">Status</th>
+                                        <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($complaints as $key => $complaint)
                                     <tr>
                                         <td class="text-center">{{ $key +1 }}</td>
-                                        <td style="padding: 5px;">{{ $complaint->nama_lengkap }}</td>
-                                        <td style="padding: 5px;">{{ $complaint->telepon }}</td>
-                                        <td style="padding: 5px;">{{ $complaint->email }}</td>
-                                        <td style="padding: 5px;">{{ $complaint->pengaduan }}</td>
-                                        <td style="padding: 5px;" class="text-center">{{ date('d-m-Y', strtotime($complaint->tanggal)) }}</td>
-                                        <td style="padding: 5px;">
+                                        <td>{{ $complaint->nama_lengkap }}</td>
+                                        <td>{{ $complaint->telepon }}</td>
+                                        <td>{{ $complaint->email }}</td>
+                                        <td>{{ $complaint->pengaduan }}</td>
+                                        <td class="text-center">{{ date('d-m-Y', strtotime($complaint->tanggal)) }}</td>
+                                        <td>
                                             @if ($complaint->status == "proses")
                                                 Proses Followup
                                             @elseif($complaint->status == "sudah")
@@ -67,8 +71,20 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('complaint.edit', [$complaint->id]) }}" class="btn btn-primary" title="Ubah" style="margin-left: 9px; margin-top: 5px; font-size: 12px;"><i class="fas fa-pencil-alt"></i></a>
-                                            <a href="{{ route('complaint.delete', [$complaint->id]) }}" class="btn btn-danger" title="Hapus" style="margin-left: 9px; margin-top: 5px; font-size: 12px;" onclick="return confirm('Yakin akan menghapus?')"><i class="fas fa-trash"></i></a>
+                                            <a
+                                                href="#"
+                                                data-id="{{ $complaint->id }}"
+                                                class="btn btn-sm btn-primary btn-edit"
+                                                title="Ubah">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                data-id="{{ $complaint->id }}"
+                                                class="btn btn-sm btn-danger btn-delete"
+                                                title="Hapus">
+                                                    <i class="fas fa-trash-alt"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -81,30 +97,223 @@
         </div>
     </section>
 </div>
+
+{{-- modal edit --}}
+<div class="modal fade modal-edit" id="modal-default">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="form-edit">
+                <input type="hidden" id="edit_id" name="edit_id">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ubah Data Kritik & Saran</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_status" class="form-label">Ubah Status</label>
+                        <select name="edit_status" id="edit_status" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-edit-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-edit-save" style="width: 130px;">
+                        <i class="fas fa-save"></i> Perbaharui
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+{{-- modal delete --}}
+<div class="modal fade modal-delete" id="modal-default">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="form-delete">
+                <input type="hidden" id="delete_id" name="delete_id">
+                <div class="modal-header">
+                    <h5 class="modal-title">Yakin akan dihapus?</h5>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
+                    <button class="btn btn-primary btn-delete-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 130px;">
+                        Ya
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                "ordering": false,
-                dom: 'Bfrtip',
-                buttons: [ {
-                    extend: 'excelHtml5',
-                    customize: function( xlsx ) {
-                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('public/themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
-                        $('row c[r^="C"]', sheet).attr( 's', '2' );
-                    }
-                } ]
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        $('#example').DataTable({
+            "ordering": false,
+            dom: 'Bfrtip',
+            buttons: [ {
+                extend: 'excelHtml5',
+                customize: function( xlsx ) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                    $('row c[r^="C"]', sheet).attr( 's', '2' );
+                }
+            } ]
+        });
+
+        // edit
+        $('body').on('click', '.btn-edit', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            let url = '{{ route("complaint.edit", ":id") }}';
+            url = url.replace(':id', id);
+
+            let formData = {
+                id: id
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                    $('#edit_id').val(response.complaint.id);
+
+                    let val_status = '' +
+                        '<option value="">--Pilih Status--</option>' +
+                        '<option value="baru"'; if (response.complaint.status == null) { val_status += ' selected'; } val_status += '>Baru</option>' +
+                        '<option value="proses"'; if (response.complaint.status == "proses") { val_status += ' selected'; } val_status += '>Proses Followup</option>' +
+                        '<option value="sudah"'; if (response.complaint.status == "sudah") { val_status += ' selected'; } val_status += '>Sudah Followup</option>';
+                    $('#edit_status').append(val_status);
+
+                    $('.modal-edit').modal('show');
+                }
+            })
+        });
+
+        $('#form-edit').submit(function (e) {
+            e.preventDefault();
+
+            let formData = {
+                id: $('#edit_id').val(),
+                status: $('#edit_status').val()
+            }
+
+            $.ajax({
+                url: '{{ URL::route("complaint.update") }}',
+                type: 'post',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-edit-spinner').removeClass("d-none");
+                    $('.btn-edit-save').addClass("d-none");
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil diperbaharui'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
             });
-        } );
-    </script>
+        });
+
+        // delete
+        $('body').on('click', '.btn-delete', function (e) {
+            e.preventDefault();
+
+            let id = $(this).attr('data-id');
+            $('#delete_id').val(id);
+            $('.modal-delete').modal('show');
+        });
+
+        $('#form-delete').submit(function (e) {
+            e.preventDefault();
+
+            var formData = {
+                id: $('#delete_id').val()
+            }
+
+            $.ajax({
+                url: "{{ URL::route('complaint.delete') }}",
+                type: 'POST',
+                data: formData,
+                beforeSend: function () {
+                    $('.btn-delete-spinner').removeClass('d-none');
+                    $('.btn-delete-yes').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil dihapus'
+                    });
+
+                    setTimeout( () => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            });
+        });
+    } );
+</script>
 @endsection

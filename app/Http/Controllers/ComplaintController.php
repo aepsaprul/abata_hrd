@@ -61,7 +61,9 @@ class ComplaintController extends Controller
     {
         $complaint = ComplaintCustomer::find($id);
 
-        return view('complaint.edit', ['complaint' => $complaint]);
+        return response()->json([
+            'complaint' => $complaint
+        ]);
     }
 
     /**
@@ -71,24 +73,15 @@ class ComplaintController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $validated = $request->validate = ([
-            'nama_lengkap' => 'required',
-            'telepon' => 'required',
-            'email' => 'required|email:rfc,dns',
-            'pengaduan' => 'required'
-        ]);
-
-        $complaints = ComplaintCustomer::find($id);
-        $complaints->nama_lengkap = $request->nama_lengkap;
-        $complaints->telepon = $request->telepon;
-        $complaints->email = $request->email;
-        $complaints->pengaduan = $request->pengaduan;
+        $complaints = ComplaintCustomer::find($request->id);
         $complaints->status = $request->status;
         $complaints->save();
 
-        return redirect()->route('complaint.index')->with('status', 'Data berhasil diubah');
+        return response()->json([
+            'status' => 'true'
+        ]);
     }
 
     /**
@@ -102,11 +95,13 @@ class ComplaintController extends Controller
         //
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
-        $kritik = ComplaintCustomer::find($id);
+        $kritik = ComplaintCustomer::find($request->id);
         $kritik->delete();
 
-        return redirect()->route('complaint.index')->with('status', 'Data berhasil dihapus');
+        return response()->json([
+            'status' => 'true'
+        ]);
     }
 }
