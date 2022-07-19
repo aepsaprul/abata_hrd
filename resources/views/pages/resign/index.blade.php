@@ -80,7 +80,7 @@
                                             <td>
                                                 <div class="row">
                                                     @foreach ($item->resignDetail as $item_resign_detail)
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
                                                             <div class="text-center border-top border-left border-right">
                                                                 @php
                                                                     $atasan = preg_replace("/[^0-9\,]/", "", $item_resign_detail->atasan);

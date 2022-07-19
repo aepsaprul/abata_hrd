@@ -51,6 +51,7 @@
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Nama Karyawan</th>
                                         <th class="text-center text-indigo">Cabang</th>
+                                        <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,8 +60,9 @@
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>
                                                 @if ($item->karyawan)
-                                                    {{ $item->karyawan->nama_lengkap }}</td>
+                                                    {{ $item->karyawan->nama_lengkap }}
                                                 @endif
+                                            </td>
                                             <td>
                                                 @if ($item->hirarki_cabang == 1) Wahana Satria
                                                 @elseif ($item->hirarki_cabang == 2) Abata Situmpur
@@ -76,6 +78,15 @@
                                                 @elseif ($item->hirarki_cabang == 12) Head Office
                                                 @else Head Office
                                                 @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <a
+                                                    href="#"
+                                                    class="btn btn-sm btn-danger btn-delete"
+                                                    title="hapus"
+                                                    data-id="{{ $item->id }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -122,6 +133,32 @@
             </form>
         </div>
     </div>
+</div>
+
+{{-- modal delete --}}
+<div class="modal fade modal-delete" id="modal-default">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="form-delete">
+                <input type="hidden" id="delete_id" name="delete_id">
+                <div class="modal-header">
+                    <h5 class="modal-title">Yakin akan dihapus?</h5>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
+                    <button class="btn btn-primary btn-delete-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-delete-yes text-center" style="width: 130px;">
+                        Ya
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 
 @endsection
@@ -216,6 +253,50 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error){
                 var errorMessage = xhr.status + ': ' + error
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Error - ' + errorMessage
+                });
+            }
+        });
+    });
+
+    // delete
+    $('body').on('click', '.btn-delete', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        $('#delete_id').val(id);
+        $('.modal-delete').modal('show');
+    });
+
+    $('#form-delete').submit(function (e) {
+        e.preventDefault();
+
+        var formData = {
+            id: $('#delete_id').val()
+        }
+
+        $.ajax({
+            url: "{{ URL::route('slip_gaji.update_template.delete') }}",
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+                $('.btn-delete-spinner').removeClass('d-none');
+                $('.btn-delete-yes').addClass('d-none');
+            },
+            success: function (response) {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Data berhasil dihapus'
+                });
+
+                setTimeout( () => {
+                    window.location.reload(1);
+                }, 1000);
+            },
+            error: function(xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + error
+
                 Toast.fire({
                     icon: 'error',
                     title: 'Error - ' + errorMessage

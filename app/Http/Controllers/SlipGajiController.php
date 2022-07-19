@@ -127,6 +127,16 @@ class SlipGajiController extends Controller
         ]);
     }
 
+    public function updateTemplateDelete(Request $request)
+    {
+        $slip_template = HcSlipGajiTemplate::where('id', $request->id);
+        $slip_template->delete();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
     public function export()
     {
         return Excel::download(new TemplateView, 'template.xlsx');
