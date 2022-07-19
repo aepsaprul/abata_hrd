@@ -71,7 +71,7 @@
                                         <th class="text-center text-indigo">Tahun</th>
                                         <th class="text-center text-indigo">Bulan</th>
                                         <th class="text-center text-indigo">Periode</th>
-                                        <th class="text-center text-indigo">Berkas</th>
+                                        {{-- <th class="text-center text-indigo">Berkas</th> --}}
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
@@ -82,9 +82,9 @@
                                             <td class="text-center">{{ $item->tahun }}</td>
                                             <td class="text-center text-uppercase">{{ $item->bulan }}</td>
                                             <td class="text-center text-uppercase">{{ $item->periode }}</td>
-                                            <td class="text-center">
+                                            {{-- <td class="text-center">
                                                 <a href="{{ route('slip_gaji.cetak_pdf', [$item->id]) }}" target="_blank">Lihat Berkas</a>
-                                            </td>
+                                            </td> --}}
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a
@@ -97,8 +97,20 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a
+                                                            href="{{ route('slip_gaji.cetak_pdf', [$item->id]) }}"
+                                                            class="dropdown-item text-indigo"
+                                                            target="_blank">
+                                                                <i class="fas fa-archive text-center mr-2" style="width: 20px;"></i> Lihat Berkas
+                                                        </a>
+                                                        <a
+                                                            href="{{ route('slip_gaji.cetak_pdf_karyawan', [$item->id]) }}"
+                                                            class="dropdown-item text-indigo btn-detail"
+                                                            target="_blank">
+                                                                <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                        </a>
+                                                        <a
                                                             href="#"
-                                                            class="dropdown-item border-bottom btn-edit text-indigo"
+                                                            class="dropdown-item btn-edit text-indigo"
                                                             data-id="{{ $item->id }}">
                                                                 <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
                                                         </a>
@@ -106,7 +118,7 @@
                                                             href="{{ route('slip_gaji.delete', [$item->id]) }}"
                                                             class="dropdown-item btn-delete text-indigo"
                                                             onclick="return confirm('Yakin akan dihapus?')">
-                                                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                                                                <i class="fas fa-trash-alt text-center mr-2" style="width: 20px;"></i> Hapus
                                                         </a>
                                                     </div>
                                                 </div>

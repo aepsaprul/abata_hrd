@@ -350,6 +350,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('slip_gaji/update', [SlipGajiController::class, 'update'])->name('slip_gaji.update');
     Route::get('slip_gaji/{id}/delete', [SlipGajiController::class, 'delete'])->name('slip_gaji.delete');
     Route::get('slip_gaji/{id}/cetak_pdf', [SlipGajiController::class, 'cetakPdf'])->name('slip_gaji.cetak_pdf');
+    Route::get('slip_gaji/{id}/cetak_pdf_karyawan', [SlipGajiController::class, 'cetakPdfKaryawan'])->name('slip_gaji.cetak_pdf_karyawan');
 
     // slip gaji karyawan
     Route::get('slip_gaji_karyawan', [SlipGajiKaryawanController::class, 'index'])->name('slip_gaji_karyawan.index');
