@@ -6,12 +6,6 @@
     <link href="{{ asset('public/themes/dist/img/logo-daun.png') }}" rel="icon" type="image/x-icon">
     <title>{{ config('app.name', 'Abata') }}</title>
 
-    <!-- PWA  -->
-    <meta name="theme-color" content="#6777ef">
-    <link rel="apple-touch-icon" href="icon-192x192.png">
-    <link rel="manifest" href="public/manifest.json">
-    <!-- end pwa -->
-
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="{{ asset('public/themes/plugins/font-google/font-google.css') }}">
     <!-- Font Awesome -->
@@ -99,15 +93,5 @@
     <script src="{{ asset('public/themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('public/themes/dist/js/adminlte.min.js') }}"></script>
-
-    <script src="{{ asset('public/service-worker.js') }}"></script>
-
-    <script>
-        if (!navigator.serviceWorker.controller) {
-        navigator.serviceWorker.register("public/service-worker.js").then(function (reg) {
-            console.log("service worker terdaftar untuk scope: " + reg.scope);
-        });
-        }
-    </script>
 </body>
 </html>
