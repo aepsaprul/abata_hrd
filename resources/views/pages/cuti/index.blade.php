@@ -112,10 +112,10 @@
                                                                         $karyawan_id = Auth::user()->master_karyawan_id;
                                                                     @endphp
                                                                     @if ($item_cuti_detail->confirm == 1)
-                                                                        <span class="bg-success px-2">Approved</span><br><br>
+                                                                        <span class="bg-success px-2">Approved</span><br>
                                                                         <span>{{ $item_cuti_detail->approvedLeader->nama_lengkap }}</span>
                                                                     @elseif ($item_cuti_detail->confirm == 2)
-                                                                        <span class="bg-danger px-2">Disapproved</span><br><br>
+                                                                        <span class="bg-danger px-2">Disapproved</span><br>
                                                                         <span>{{ $item_cuti_detail->approvedLeader->nama_lengkap }}</span>
                                                                     @else
                                                                         @if (preg_match("/\b$karyawan_id\b/i", $atasan, ))

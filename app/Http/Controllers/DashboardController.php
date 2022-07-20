@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $karyawan_aktif = MasterKaryawan::where('status', 'aktif')->whereNull('deleted_at')->get();
+        $karyawan_aktif = MasterKaryawan::where('status', 'aktif')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
 
         $karyawan_kontrak = HcKontrak::with('karyawan')
             ->where('karyawan_id', '!=', null)
@@ -24,13 +24,13 @@ class DashboardController extends Controller
 
         $count_karyawan_aktif = count($karyawan_aktif);
 
-        $karyawan_nonaktif = MasterKaryawan::where('status', 'nonaktif')->whereNull('deleted_at')->get();
+        $karyawan_nonaktif = MasterKaryawan::where('status', 'nonaktif')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
         $count_karyawan_nonaktif = count($karyawan_nonaktif);
 
-        $cuti = HcCuti::where('approved_percentage', '<', 100)->get();
+        $cuti = HcCuti::where('approved_percentage', '<', 100)->orderBy('id', 'desc')->get();
         $count_cuti = count($cuti);
 
-        $resign = HcResign::where('approved_percentage', '<', 100)->get();
+        $resign = HcResign::where('approved_percentage', '<', 100)->orderBy('id', 'desc')->get();
         $count_resign = count($resign);
 
         return view('pages.dashboard.index', [

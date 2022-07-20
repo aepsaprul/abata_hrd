@@ -51,7 +51,24 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
+                        @if (count($current_cuti) > 0 || count($current_resign) > 0)
+                            <span class="badge badge-warning navbar-badge">!</span>
+                        @endif
                     </a>
+                    @if (count($current_cuti) > 0 || count($current_resign) > 0)
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @if (count($current_cuti) > 0)
+                                <a href="{{ route('cuti.index') }}" class="dropdown-item">
+                                    <i class="fas fa-mug-hot text-center mr-2" style="width: 20px;"></i> pengajuan cuti
+                                </a>
+                            @endif
+                            @if (count($current_resign) > 0)
+                                <a href="{{ route('resign.index') }}" class="dropdown-item">
+                                    <i class="fas fa-handshake text-center mr-2" style="width: 20px;"></i> pengajuan resign
+                                </a>
+                            @endif
+                        </div>
+                    @endif
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -116,18 +133,6 @@
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                    </div>
-                </div>
-
-                <!-- SidebarSearch Form -->
-                <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                            <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
 

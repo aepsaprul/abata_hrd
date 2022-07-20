@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\HcCuti;
 use App\Models\HcNavAccess;
 use App\Models\HcNavigasiAccess;
 use App\Models\HcNavigasiButton;
 use App\Models\HcNavMain;
+use App\Models\HcResign;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -58,14 +60,21 @@ class AppServiceProvider extends ServiceProvider
                     $data_navigasi[] = $value->navigasiButton->title;
                 }
 
+                $current_cuti = HcCuti::where('approved_percentage', '<', 100)->get();
+                $current_resign = HcResign::where('approved_percentage', '<', 100)->get();
+
                 // view
                 $view->with('current_nav_button', $current_nav_button);
                 $view->with('current_nav_button_sub', $current_nav_button_sub);
                 $view->with('current_data_navigasi', $data_navigasi);
-            }else {
+                $view->with('current_cuti', $current_cuti);
+                $view->with('current_resign', $current_resign);
+            } else {
                 $view->with('current_nav_button', null);
                 $view->with('current_nav_button_sub', null);
                 $view->with('current_data_navigasi', null);
+                $view->with('current_cuti', null);
+                $view->with('current_resign', null);
             }
         });
     }

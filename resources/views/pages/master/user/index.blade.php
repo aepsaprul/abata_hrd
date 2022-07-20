@@ -41,9 +41,9 @@
                 <div class="col-md-12">
                     <div class="card">
                         @if (in_array("tambah", $current_data_navigasi))
-                            <div class="card-header">
+                            {{-- <div class="card-header">
                                 <button id="button-create" type="button" class="btn bg-gradient-primary btn-sm pl-3 pr-3"><i class="fa fa-plus"></i> Tambah</button>
-                            </div>
+                            </div> --}}
                         @endif
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
