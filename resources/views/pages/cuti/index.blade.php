@@ -179,7 +179,7 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             @if (in_array("detail", $current_data_navigasi))
                                                                 <a
-                                                                    href="#" class="dropdown-item border-bottom btn-detail text-indigo"
+                                                                    href="#" class="dropdown-item btn-detail text-indigo"
                                                                     data-id="{{ $item->id }}">
                                                                         <i class="fa fa-eye text-center mr-2" style="width: 20px;"></i> Detail
                                                                 </a>

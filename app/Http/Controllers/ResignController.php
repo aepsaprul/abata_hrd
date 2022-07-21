@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EventPengajuan;
 use App\Models\HcKontrak;
 use App\Models\HcResign;
 use App\Models\HcResignCeklis;
@@ -218,6 +219,8 @@ class ResignController extends Controller
         // }
 
         // activity_log($resigns, "resign", "created");
+
+        event(new EventPengajuan("resign"));
 
         return redirect()->route('resign.index')->with('status', 'Data berhasil disimpan');
     }

@@ -51,10 +51,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
+                        <div class="badge_notifikasi"></div>
                         @if (count($current_cuti) > 0 || count($current_resign) > 0)
                             <span class="badge badge-warning navbar-badge">!</span>
                         @endif
                     </a>
+                    <div class="dropdown_notifikasi"></div>
                     @if (count($current_cuti) > 0 || count($current_resign) > 0)
                         <div class="dropdown-menu dropdown-menu-right">
                             @if (count($current_cuti) > 0)
@@ -326,6 +328,66 @@
     <script src="{{ asset('public/themes/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('public/themes/dist/js/adminlte.js') }}"></script>
+
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('1304fb22794d15099e3e', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('pengajuan-channel');
+        channel.bind('pengajuan-event', function(data) {
+            let badge_notifikasi = '<span class="badge badge-warning navbar-badge">!</span>';
+            $('.badge_notifikasi').append(badge_notifikasi);
+
+            if (data.nama_pengajuan == "cuti") {
+                let dropdown_notifikasi = '' +
+                    '<div class="dropdown-menu dropdown-menu-right">' +
+                        '<div>' +
+                            '<a href="{{ route("cuti.index") }}" class="dropdown-item">' +
+                                '<i class="fas fa-mug-hot text-center mr-2" style="width: 20px;"></i> Pengajuan Cuti' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>';
+                $('.dropdown_notifikasi').append(dropdown_notifikasi);
+            }
+
+            if (data.nama_pengajuan == "resign") {
+                let dropdown_notifikasi = '' +
+                    '<div class="dropdown-menu dropdown-menu-right">' +
+                        '<div>' +
+                            '<a href="{{ route("resign.index") }}" class="dropdown-item">' +
+                                '<i class="fas fa-handshake text-center mr-2" style="width: 20px;"></i> Pengajuan Resign' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>';
+                $('.dropdown_notifikasi').append(dropdown_notifikasi);
+            }
+
+            if (Notification.permission === "granted") {
+                showNotification();
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        showNotification();
+                    }
+                });
+            }
+
+            function showNotification() {
+                const notification = new Notification("Ada pengajuan baru", {
+                    body: "Buka halaman"
+                });
+
+                notification.onclick = (e) => {
+                    window.location.href = "";
+                }
+            }
+        });
+    </script>
 
     <script>
         function tanggalIndo(date) {

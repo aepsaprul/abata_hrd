@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EventPengajuan;
 use App\Models\CutiApprover;
 use App\Models\CutiDetail;
 use App\Models\HcCuti;
@@ -200,6 +201,8 @@ class CutiController extends Controller
                 // }
 
                 // activity_log($cuti, "cuti", "created");
+
+                event(new EventPengajuan("cuti"));
 
                 return response()->json([
                     'status' => 200,
