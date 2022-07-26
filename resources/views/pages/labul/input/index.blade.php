@@ -92,23 +92,43 @@
                     <div class="mb-3">
                         <label for="activity_plan_jumlah_rencana_kunjungan" class="form-label">Jumlah Rencana Kunjungan</label>
                         <input type="number" name="activity_plan_jumlah_rencana_kunjungan" id="activity_plan_jumlah_rencana_kunjungan" class="form-control">
+                        <div class="spinner-border spinner-border-sm mt-2 activity_plan_jumlah_rencana_kunjungan_spinner d-none" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+                    <div class="list_activity_plan_rencana_kunjungan"></div>
                     <div class="mb-3">
                         <label for="activity_plan_jumlah_rencana_salescall" class="form-label">Jumlah Rencana Salescall</label>
                         <input type="number" name="activity_plan_jumlah_rencana_salescall" id="activity_plan_jumlah_rencana_salescall" class="form-control">
+                        <div class="spinner-border spinner-border-sm mt-2 activity_plan_jumlah_rencana_salescall_spinner d-none" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+                    <div class="list_activity_plan_rencana_salescall"></div>
                     <div class="mb-3">
                         <label for="activity_plan_jumlah_rencana_sebar_brosur" class="form-label">Jumlah Rencana Sebar Brosur</label>
                         <input type="number" name="activity_plan_jumlah_rencana_sebar_brosur" id="activity_plan_jumlah_rencana_sebar_brosur" class="form-control">
+                        <div class="spinner-border spinner-border-sm mt-2 activity_plan_jumlah_rencana_sebar_brosur_spinner d-none" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+                    <div class="list_activity_plan_rencana_sebar_brosur"></div>
                     <div class="mb-3">
                         <label for="activity_plan_jumlah_rencana_penawaran" class="form-label">Jumlah Rencana Penawaran</label>
                         <input type="number" name="activity_plan_jumlah_rencana_penawaran" id="activity_plan_jumlah_rencana_penawaran" class="form-control">
+                        <div class="spinner-border spinner-border-sm mt-2 activity_plan_jumlah_rencana_penawaran_spinner d-none" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+                    <div class="list_activity_plan_rencana_penawaran"></div>
                     <div class="mb-3">
                         <label for="activity_plan_jumlah_penawaran_merchant" class="form-label">Jumlah Penawaran Merchant</label>
                         <input type="number" name="activity_plan_jumlah_penawaran_merchant" id="activity_plan_jumlah_penawaran_merchant" class="form-control">
+                        <div class="spinner-border spinner-border-sm mt-2 activity_plan_jumlah_penawaran_merchant_spinner d-none" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+                    <div class="list_activity_plan_penawaran_merchant"></div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary btn-activity-plan-spinner d-none" disabled style="width: 130px;">
@@ -142,7 +162,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="data_member_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="data_member_tanggal" id="data_member_tanggal" class="form-control">
+                        <input type="datetime-local" name="data_member_tanggal" id="data_member_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="data_member_nama_member" class="form-label">Nama Member</label>
@@ -189,7 +209,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="reseller_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="reseller_tanggal" id="reseller_tanggal" class="form-control">
+                        <input type="datetime-local" name="reseller_tanggal" id="reseller_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="reseller_reseller_id" class="form-label">Nama Reseller</label>
@@ -197,7 +217,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="reseller_hasil_kunjungan" class="form-label">Hasil Kunjungan</label>
-                        <input type="number" name="reseller_hasil_kunjungan" id="reseller_hasil_kunjungan" class="form-control">
+                        <input type="text" name="reseller_hasil_kunjungan" id="reseller_hasil_kunjungan" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="reseller_foto" class="form-label">Foto</label>
@@ -236,7 +256,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="data_reseller_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="data_reseller_tanggal" id="data_reseller_tanggal" class="form-control">
+                        <input type="datetime-local" name="data_reseller_tanggal" id="data_reseller_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="data_reseller_nama_reseller" class="form-label">Nama Reseller</label>
@@ -287,7 +307,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="instansi_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="instansi_tanggal" id="instansi_tanggal" class="form-control">
+                        <input type="datetime-local" name="instansi_tanggal" id="instansi_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="instansi_instansi_id" class="form-label">Nama Instansi</label>
@@ -316,7 +336,7 @@
 <div class="modal fade modal-survey-kompetitor" id="modal-default">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form id="form-instansi">
+            <form id="form-survey-kompetitor">
                 <div class="modal-header">
                     <h5 class="modal-title">Form Survey Kompetitor</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -330,7 +350,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="survey_kompetitor_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="survey_kompetitor_tanggal" id="survey_kompetitor_tanggal" class="form-control">
+                        <input type="datetime-local" name="survey_kompetitor_tanggal" id="survey_kompetitor_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="survey_kompetitor_nama_kompetitor" class="form-label">Nama Kompetitor</label>
@@ -381,7 +401,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="komplain_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="komplain_tanggal" id="komplain_tanggal" class="form-control">
+                        <input type="datetime-local" name="komplain_tanggal" id="komplain_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="komplain_nama_customer" class="form-label">Nama Customer</label>
@@ -432,7 +452,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="data_instansi_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="data_instansi_tanggal" id="data_instansi_tanggal" class="form-control">
+                        <input type="datetime-local" name="data_instansi_tanggal" id="data_instansi_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="data_instansi_pic" class="form-label">PIC</label>
@@ -702,6 +722,132 @@
             $('.modal-activity-plan').modal('show');
         })
 
+        let keyupTimer;
+        $(document).on('keyup', '#activity_plan_jumlah_rencana_kunjungan', function () {
+            $(".activity_plan_jumlah_rencana_kunjungan_spinner").removeClass('d-none');
+            $('.list_activity_plan_rencana_kunjungan').empty();
+            let val_rencana_kunjungan = $('#activity_plan_jumlah_rencana_kunjungan').val();
+            clearTimeout(keyupTimer);
+
+            if (val_rencana_kunjungan != "") {
+                keyupTimer = setTimeout(function () {
+                    $(".activity_plan_jumlah_rencana_kunjungan_spinner").addClass('d-none');
+
+                    let val_list_activity_plan_rencana_kunjungan = "";
+                    for (let index = 1; index <= val_rencana_kunjungan; index++) {
+                        val_list_activity_plan_rencana_kunjungan += '' +
+                            '<div class="mb-3">' +
+                                '<label for="activity_plan_rencana_kunjungan" class="form-label text-success">Rencana Kunjungan ' + index + '</label>' +
+                                '<input type="number" name="activity_plan_rencana_kunjungan" id="activity_plan_rencana_kunjungan" class="form-control">' +
+                            '</div>';
+                    }
+                    $('.list_activity_plan_rencana_kunjungan').append(val_list_activity_plan_rencana_kunjungan);
+                }, 1000);
+            } else {
+                $(".activity_plan_jumlah_rencana_kunjungan_spinner").addClass('d-none');
+            }
+        })
+
+        $(document).on('keyup', '#activity_plan_jumlah_rencana_salescall', function () {
+            $(".activity_plan_jumlah_rencana_salescall_spinner").removeClass('d-none');
+            $('.list_activity_plan_rencana_salescall').empty();
+            let val_rencana_salescall = $('#activity_plan_jumlah_rencana_salescall').val();
+            clearTimeout(keyupTimer);
+
+            if (val_rencana_salescall != "") {
+                keyupTimer = setTimeout(function () {
+                    $(".activity_plan_jumlah_rencana_salescall_spinner").addClass('d-none');
+
+                    let val_list_activity_plan_rencana_salescall = "";
+                    for (let index = 1; index <= val_rencana_salescall; index++) {
+                        val_list_activity_plan_rencana_salescall += '' +
+                            '<div class="mb-3">' +
+                                '<label for="activity_plan_rencana_salescall" class="form-label text-success">Rencana Salescall ' + index + '</label>' +
+                                '<input type="number" name="activity_plan_rencana_salescall" id="activity_plan_rencana_salescall" class="form-control">' +
+                            '</div>';
+                    }
+                    $('.list_activity_plan_rencana_salescall').append(val_list_activity_plan_rencana_salescall);
+                }, 1000);
+            } else {
+                $(".activity_plan_jumlah_rencana_salescall_spinner").addClass('d-none');
+            }
+        })
+
+        $(document).on('keyup', '#activity_plan_jumlah_rencana_sebar_brosur', function () {
+            $(".activity_plan_jumlah_rencana_sebar_brosur_spinner").removeClass('d-none');
+            $('.list_activity_plan_rencana_sebar_brosur').empty();
+            let val_rencana_sebar_brosur = $('#activity_plan_jumlah_rencana_sebar_brosur').val();
+            clearTimeout(keyupTimer);
+
+            if (val_rencana_sebar_brosur != "") {
+                keyupTimer = setTimeout(function () {
+                    $(".activity_plan_jumlah_rencana_sebar_brosur_spinner").addClass('d-none');
+
+                    let val_list_activity_plan_rencana_sebar_brosur = "";
+                    for (let index = 1; index <= val_rencana_sebar_brosur; index++) {
+                        val_list_activity_plan_rencana_sebar_brosur += '' +
+                            '<div class="mb-3">' +
+                                '<label for="activity_plan_rencana_sebar_brosur" class="form-label text-success">Rencana Sebar Brosur ' + index + '</label>' +
+                                '<input type="number" name="activity_plan_rencana_sebar_brosur" id="activity_plan_rencana_sebar_brosur" class="form-control">' +
+                            '</div>';
+                    }
+                    $('.list_activity_plan_rencana_sebar_brosur').append(val_list_activity_plan_rencana_sebar_brosur);
+                }, 1000);
+            } else {
+                $(".activity_plan_jumlah_rencana_sebar_brosur_spinner").addClass('d-none');
+            }
+        })
+
+        $(document).on('keyup', '#activity_plan_jumlah_rencana_penawaran', function () {
+            $(".activity_plan_jumlah_rencana_penawaran_spinner").removeClass('d-none');
+            $('.list_activity_plan_rencana_penawaran').empty();
+            let val_rencana_penawaran = $('#activity_plan_jumlah_rencana_penawaran').val();
+            clearTimeout(keyupTimer);
+
+            if (val_rencana_penawaran != "") {
+                keyupTimer = setTimeout(function () {
+                    $(".activity_plan_jumlah_rencana_penawaran_spinner").addClass('d-none');
+
+                    let val_list_activity_plan_rencana_penawaran = "";
+                    for (let index = 1; index <= val_rencana_penawaran; index++) {
+                        val_list_activity_plan_rencana_penawaran += '' +
+                            '<div class="mb-3">' +
+                                '<label for="activity_plan_rencana_penawaran" class="form-label text-success">Rencana Penawaran ' + index + '</label>' +
+                                '<input type="number" name="activity_plan_rencana_penawaran" id="activity_plan_rencana_penawaran" class="form-control">' +
+                            '</div>';
+                    }
+                    $('.list_activity_plan_rencana_penawaran').append(val_list_activity_plan_rencana_penawaran);
+                }, 1000);
+            } else {
+                $(".activity_plan_jumlah_rencana_penawaran_spinner").addClass('d-none');
+            }
+        })
+
+        $(document).on('keyup', '#activity_plan_jumlah_penawaran_merchant', function () {
+            $(".activity_plan_jumlah_penawaran_merchant_spinner").removeClass('d-none');
+            $('.list_activity_plan_penawaran_merchant').empty();
+            let val_penawaran_merchant = $('#activity_plan_jumlah_penawaran_merchant').val();
+            clearTimeout(keyupTimer);
+
+            if (val_penawaran_merchant != "") {
+                keyupTimer = setTimeout(function () {
+                    $(".activity_plan_jumlah_penawaran_merchant_spinner").addClass('d-none');
+
+                    let val_list_activity_plan_penawaran_merchant = "";
+                    for (let index = 1; index <= val_penawaran_merchant; index++) {
+                        val_list_activity_plan_penawaran_merchant += '' +
+                            '<div class="mb-3">' +
+                                '<label for="activity_plan_penawaran_merchant" class="form-label text-success">Rencana Penawaran Merchant ' + index + '</label>' +
+                                '<input type="number" name="activity_plan_penawaran_merchant" id="activity_plan_penawaran_merchant" class="form-control">' +
+                            '</div>';
+                    }
+                    $('.list_activity_plan_penawaran_merchant').append(val_list_activity_plan_penawaran_merchant);
+                }, 1000);
+            } else {
+                $(".activity_plan_jumlah_penawaran_merchant_spinner").addClass('d-none');
+            }
+        })
+
         // data member
         $(document).on('click', '#data_member', function (e) {
             e.preventDefault();
@@ -717,6 +863,42 @@
                 }
             })
             $('.modal-data-member').modal('show');
+        })
+
+        $(document).on('submit', '#form-data-member', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-data-member')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.data_member.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-data-member-spinner').removeClass('d-none');
+                    $('.btn-data-member-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
         })
 
         // reseller
@@ -742,6 +924,42 @@
             $('.modal-reseller').modal('show');
         })
 
+        $(document).on('submit', '#form-reseller', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-reseller')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.reseller.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-reseller-spinner').removeClass('d-none');
+                    $('.btn-reseller-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
+        })
+
         // data reseller
         $(document).on('click', '#data_reseller', function (e) {
             e.preventDefault();
@@ -757,6 +975,42 @@
                 }
             })
             $('.modal-data-reseller').modal('show');
+        })
+
+        $(document).on('submit', '#form-data-reseller', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-data-reseller')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.data_reseller.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-data-reseller-spinner').removeClass('d-none');
+                    $('.btn-data-reseller-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
         })
 
         // instansi
@@ -782,6 +1036,42 @@
             $('.modal-instansi').modal('show');
         })
 
+        $(document).on('submit', '#form-instansi', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-instansi')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.instansi.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-instansi-spinner').removeClass('d-none');
+                    $('.btn-instansi-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
+        })
+
         // survey kompetitor
         $(document).on('click', '#survey_kompetitor', function (e) {
             e.preventDefault();
@@ -797,6 +1087,42 @@
                 }
             })
             $('.modal-survey-kompetitor').modal('show');
+        })
+
+        $(document).on('submit', '#form-survey-kompetitor', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-survey-kompetitor')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.survey_kompetitor.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-survey-kompetitor-spinner').removeClass('d-none');
+                    $('.btn-survey-kompetitor-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
         })
 
         // komplain
@@ -816,7 +1142,43 @@
             $('.modal-komplain').modal('show');
         })
 
-        // data reseller
+        $(document).on('submit', '#form-komplain', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-komplain')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.komplain.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-komplain-spinner').removeClass('d-none');
+                    $('.btn-komplain-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
+        })
+
+        // data instansi
         $(document).on('click', '#data_instansi', function (e) {
             e.preventDefault();
             $.ajax({
@@ -831,6 +1193,42 @@
                 }
             })
             $('.modal-data-instansi').modal('show');
+        })
+
+        $(document).on('submit', '#form-data-instansi', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-data-instansi')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.data_instansi.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-data-instansi-spinner').removeClass('d-none');
+                    $('.btn-data-instansi-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
         })
 
         // reqor

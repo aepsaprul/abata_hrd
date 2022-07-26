@@ -392,15 +392,31 @@ Route::group(['middleware' => 'auth'], function () {
     // labul
     Route::get('labul/input', [LabulController::class, 'input'])->name('labul.input');
     Route::get('labul/input/activity_plan', [LabulController::class, 'inputActivityPlan'])->name('labul.input.activity_plan');
+
     Route::get('labul/input/data_member', [LabulController::class, 'inputDataMember'])->name('labul.input.data_member');
+    Route::post('labul/input/data_member/store', [LabulController::class, 'inputDataMemberStore'])->name('labul.input.data_member.store');
+
     Route::get('labul/input/reseller', [LabulController::class, 'inputReseller'])->name('labul.input.reseller');
+    Route::post('labul/input/reseller/store', [LabulController::class, 'inputResellerStore'])->name('labul.input.reseller.store');
+
     Route::get('labul/input/data_reseller', [LabulController::class, 'inputDataReseller'])->name('labul.input.data_reseller');
+    Route::post('labul/input/data_reseller/store', [LabulController::class, 'inputDataResellerStore'])->name('labul.input.data_reseller.store');
+
     Route::get('labul/input/instansi', [LabulController::class, 'inputInstansi'])->name('labul.input.instansi');
+    Route::post('labul/input/instansi/store', [LabulController::class, 'inputInstansiStore'])->name('labul.input.instansi.store');
+
     Route::get('labul/input/survey_kompetitor', [LabulController::class, 'inputSurveyKompetitor'])->name('labul.input.survey_kompetitor');
+    Route::post('labul/input/survey_kompetitor/store', [LabulController::class, 'inputSurveyKompetitorStore'])->name('labul.input.survey_kompetitor.store');
+
     Route::get('labul/input/komplain', [LabulController::class, 'inputKomplain'])->name('labul.input.komplain');
+    Route::post('labul/input/komplain/store', [LabulController::class, 'inputKomplainStore'])->name('labul.input.komplain.store');
+
     Route::get('labul/input/data_instansi', [LabulController::class, 'inputDataInstansi'])->name('labul.input.data_instansi');
+    Route::post('labul/input/data_instansi/store', [LabulController::class, 'inputDataInstansiStore'])->name('labul.input.data_instansi.store');
+
     Route::get('labul/input/reqor', [LabulController::class, 'inputReqor'])->name('labul.input.reqor');
     Route::get('labul/input/omzet_cabang', [LabulController::class, 'inputOmzetCabang'])->name('labul.input.omzet_cabang');
+
     Route::get('labul/result', [LabulController::class, 'result'])->name('labul.result');
 
     // Route::resource('hc/cir', HcCirController::class);
