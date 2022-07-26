@@ -24,6 +24,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\LabulController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\LokerController;
 use App\Http\Controllers\NavController;
@@ -387,6 +388,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('complaint/update', [ComplaintController::class, 'update'])->name('complaint.update');
     Route::get('complaint/{id}/delete_btn', [ComplaintController::class, 'deleteBtn'])->name('complaint.delete_btn');
     Route::post('complaint/delete', [ComplaintController::class, 'delete'])->name('complaint.delete');
+
+    // labul
+    Route::get('labul/input', [LabulController::class, 'input'])->name('labul.input');
+    Route::get('labul/input/activity_plan', [LabulController::class, 'inputActivityPlan'])->name('labul.input.activity_plan');
+    Route::get('labul/input/data_member', [LabulController::class, 'inputDataMember'])->name('labul.input.data_member');
+    Route::get('labul/input/reseller', [LabulController::class, 'inputReseller'])->name('labul.input.reseller');
+    Route::get('labul/input/data_reseller', [LabulController::class, 'inputDataReseller'])->name('labul.input.data_reseller');
+    Route::get('labul/input/instansi', [LabulController::class, 'inputInstansi'])->name('labul.input.instansi');
+    Route::get('labul/input/survey_kompetitor', [LabulController::class, 'inputSurveyKompetitor'])->name('labul.input.survey_kompetitor');
+    Route::get('labul/input/komplain', [LabulController::class, 'inputKomplain'])->name('labul.input.komplain');
+    Route::get('labul/input/data_instansi', [LabulController::class, 'inputDataInstansi'])->name('labul.input.data_instansi');
+    Route::get('labul/input/reqor', [LabulController::class, 'inputReqor'])->name('labul.input.reqor');
+    Route::get('labul/input/omzet_cabang', [LabulController::class, 'inputOmzetCabang'])->name('labul.input.omzet_cabang');
+    Route::get('labul/result', [LabulController::class, 'result'])->name('labul.result');
 
     // Route::resource('hc/cir', HcCirController::class);
     // Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');
