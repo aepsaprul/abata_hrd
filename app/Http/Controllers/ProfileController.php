@@ -77,9 +77,9 @@ class ProfileController extends Controller
 
         $karyawan->save();
 
-        $user = User::find(1);
-        $masterKaryawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
-        $user->notify(new BiodataNotification($masterKaryawan));
+        // $user = User::find(1);
+        // $masterKaryawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
+        // $user->notify(new BiodataNotification($masterKaryawan));
 
         // activity_log($karyawan, "karyawan", "updated");
 

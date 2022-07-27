@@ -87,7 +87,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="activity_plan_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="activity_plan_tanggal" id="activity_plan_tanggal" class="form-control">
+                        <input type="datetime-local" name="activity_plan_tanggal" id="activity_plan_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="activity_plan_jumlah_rencana_kunjungan" class="form-label">Jumlah Rencana Kunjungan</label>
@@ -738,7 +738,7 @@
                         val_list_activity_plan_rencana_kunjungan += '' +
                             '<div class="mb-3">' +
                                 '<label for="activity_plan_rencana_kunjungan" class="form-label text-success">Rencana Kunjungan ' + index + '</label>' +
-                                '<input type="number" name="activity_plan_rencana_kunjungan" id="activity_plan_rencana_kunjungan" class="form-control">' +
+                                '<input type="text" name="activity_plan_rencana_kunjungan[]" id="activity_plan_rencana_kunjungan" class="form-control">' +
                             '</div>';
                     }
                     $('.list_activity_plan_rencana_kunjungan').append(val_list_activity_plan_rencana_kunjungan);
@@ -763,7 +763,7 @@
                         val_list_activity_plan_rencana_salescall += '' +
                             '<div class="mb-3">' +
                                 '<label for="activity_plan_rencana_salescall" class="form-label text-success">Rencana Salescall ' + index + '</label>' +
-                                '<input type="number" name="activity_plan_rencana_salescall" id="activity_plan_rencana_salescall" class="form-control">' +
+                                '<input type="text" name="activity_plan_rencana_salescall[]" id="activity_plan_rencana_salescall" class="form-control">' +
                             '</div>';
                     }
                     $('.list_activity_plan_rencana_salescall').append(val_list_activity_plan_rencana_salescall);
@@ -788,7 +788,7 @@
                         val_list_activity_plan_rencana_sebar_brosur += '' +
                             '<div class="mb-3">' +
                                 '<label for="activity_plan_rencana_sebar_brosur" class="form-label text-success">Rencana Sebar Brosur ' + index + '</label>' +
-                                '<input type="number" name="activity_plan_rencana_sebar_brosur" id="activity_plan_rencana_sebar_brosur" class="form-control">' +
+                                '<input type="text" name="activity_plan_rencana_sebar_brosur[]" id="activity_plan_rencana_sebar_brosur" class="form-control">' +
                             '</div>';
                     }
                     $('.list_activity_plan_rencana_sebar_brosur').append(val_list_activity_plan_rencana_sebar_brosur);
@@ -813,7 +813,7 @@
                         val_list_activity_plan_rencana_penawaran += '' +
                             '<div class="mb-3">' +
                                 '<label for="activity_plan_rencana_penawaran" class="form-label text-success">Rencana Penawaran ' + index + '</label>' +
-                                '<input type="number" name="activity_plan_rencana_penawaran" id="activity_plan_rencana_penawaran" class="form-control">' +
+                                '<input type="text" name="activity_plan_rencana_penawaran[]" id="activity_plan_rencana_penawaran" class="form-control">' +
                             '</div>';
                     }
                     $('.list_activity_plan_rencana_penawaran').append(val_list_activity_plan_rencana_penawaran);
@@ -838,7 +838,7 @@
                         val_list_activity_plan_penawaran_merchant += '' +
                             '<div class="mb-3">' +
                                 '<label for="activity_plan_penawaran_merchant" class="form-label text-success">Rencana Penawaran Merchant ' + index + '</label>' +
-                                '<input type="number" name="activity_plan_penawaran_merchant" id="activity_plan_penawaran_merchant" class="form-control">' +
+                                '<input type="text" name="activity_plan_penawaran_merchant[]" id="activity_plan_penawaran_merchant" class="form-control">' +
                             '</div>';
                     }
                     $('.list_activity_plan_penawaran_merchant').append(val_list_activity_plan_penawaran_merchant);
@@ -846,6 +846,42 @@
             } else {
                 $(".activity_plan_jumlah_penawaran_merchant_spinner").addClass('d-none');
             }
+        })
+
+        $(document).on('submit', '#form-activity-plan', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-activity-plan')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.activity_plan.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-activity-plan-spinner').removeClass('d-none');
+                    $('.btn-activity-plan-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
         })
 
         // data member

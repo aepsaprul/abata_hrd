@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LabulActivityPlan;
+use App\Models\LabulActivityPlanDetail;
 use App\Models\LabulDataInstansi;
 use App\Models\LabulDataMember;
 use App\Models\LabulDataReseller;
@@ -22,12 +24,81 @@ class LabulController extends Controller
         return view('pages.labul.input.index');
     }
 
+    // activity plan
     public function inputActivityPlan()
     {
         $cabang = MasterCabang::get();
 
         return response()->json([
             'cabangs' => $cabang
+        ]);
+    }
+
+    public function inputActivityPlanStore(Request $request)
+    {
+        $activity_plan = new LabulActivityPlan;
+        $activity_plan->karyawan_id = Auth::user()->master_karyawan_id;
+        $activity_plan->cabang_id = $request->activity_plan_cabang_id;
+        $activity_plan->tanggal = $request->activity_plan_tanggal;
+        $activity_plan->jumlah_rencana_kunjungan = $request->activity_plan_jumlah_rencana_kunjungan;
+        $activity_plan->jumlah_rencana_salescall = $request->activity_plan_jumlah_rencana_salescall;
+        $activity_plan->jumlah_rencana_sebar_brosur = $request->activity_plan_jumlah_rencana_sebar_brosur;
+        $activity_plan->jumlah_rencana_penawaran = $request->activity_plan_jumlah_rencana_penawaran;
+        $activity_plan->jumlah_penawaran_merchant = $request->activity_plan_jumlah_penawaran_merchant;
+        $activity_plan->save();
+
+        if ($request->activity_plan_rencana_kunjungan) {
+            foreach ($request->activity_plan_rencana_kunjungan as $key => $value) {
+                $activity_plan_rencana_kunjungan = new LabulActivityPlanDetail;
+                $activity_plan_rencana_kunjungan->activity_plan_id = $activity_plan->id;
+                $activity_plan_rencana_kunjungan->jenis_rencana = "rencana_kunjungan";
+                $activity_plan_rencana_kunjungan->detail_rencana = $value;
+                $activity_plan_rencana_kunjungan->save();
+            }
+        }
+
+        if ($request->activity_plan_rencana_salescall) {
+            foreach ($request->activity_plan_rencana_salescall as $key => $value) {
+                $activity_plan_rencana_salescall = new LabulActivityPlanDetail;
+                $activity_plan_rencana_salescall->activity_plan_id = $activity_plan->id;
+                $activity_plan_rencana_salescall->jenis_rencana = "rencana_salescall";
+                $activity_plan_rencana_salescall->detail_rencana = $value;
+                $activity_plan_rencana_salescall->save();
+            }
+        }
+
+        if ($request->activity_plan_rencana_sebar_brosur) {
+            foreach ($request->activity_plan_rencana_sebar_brosur as $key => $value) {
+                $activity_plan_rencana_sebar_brosur = new LabulActivityPlanDetail;
+                $activity_plan_rencana_sebar_brosur->activity_plan_id = $activity_plan->id;
+                $activity_plan_rencana_sebar_brosur->jenis_rencana = "rencana_sebar_brosur";
+                $activity_plan_rencana_sebar_brosur->detail_rencana = $value;
+                $activity_plan_rencana_sebar_brosur->save();
+            }
+        }
+
+        if ($request->activity_plan_rencana_penawaran) {
+            foreach ($request->activity_plan_rencana_penawaran as $key => $value) {
+                $activity_plan_rencana_penawaran = new LabulActivityPlanDetail;
+                $activity_plan_rencana_penawaran->activity_plan_id = $activity_plan->id;
+                $activity_plan_rencana_penawaran->jenis_rencana = "rencana_penawaran";
+                $activity_plan_rencana_penawaran->detail_rencana = $value;
+                $activity_plan_rencana_penawaran->save();
+            }
+        }
+
+        if ($request->activity_plan_penawaran_merchant) {
+            foreach ($request->activity_plan_penawaran_merchant as $key => $value) {
+                $activity_plan_penawaran_merchant = new LabulActivityPlanDetail;
+                $activity_plan_penawaran_merchant->activity_plan_id = $activity_plan->id;
+                $activity_plan_penawaran_merchant->jenis_rencana = "penawaran_merchant";
+                $activity_plan_penawaran_merchant->detail_rencana = $value;
+                $activity_plan_penawaran_merchant->save();
+            }
+        }
+
+        return response()->json([
+            'status' => $request->all()
         ]);
     }
 

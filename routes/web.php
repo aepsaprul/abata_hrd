@@ -392,6 +392,7 @@ Route::group(['middleware' => 'auth'], function () {
     // labul
     Route::get('labul/input', [LabulController::class, 'input'])->name('labul.input');
     Route::get('labul/input/activity_plan', [LabulController::class, 'inputActivityPlan'])->name('labul.input.activity_plan');
+    Route::post('labul/input/activity_plan/store', [LabulController::class, 'inputActivityPlanStore'])->name('labul.input.activity_plan.store');
 
     Route::get('labul/input/data_member', [LabulController::class, 'inputDataMember'])->name('labul.input.data_member');
     Route::post('labul/input/data_member/store', [LabulController::class, 'inputDataMemberStore'])->name('labul.input.data_member.store');

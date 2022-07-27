@@ -97,8 +97,8 @@ class TrainingController extends Controller
         $training->status = $request->status;
 
         if($request->hasFile('modul')) {
-            if (file_exists(public_path("public/file/modul/" . $training->modul))) {
-                File::delete(public_path("public/file/modul/" . $training->modul));
+            if (file_exists(public_path("file/modul/" . $training->modul))) {
+                File::delete(public_path("file/modul/" . $training->modul));
             }
             $file = $request->file('modul');
             $extension = $file->getClientOriginalExtension();
