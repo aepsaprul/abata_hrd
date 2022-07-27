@@ -7,6 +7,8 @@ use App\Models\LabulDataMember;
 use App\Models\LabulDataReseller;
 use App\Models\LabulInstansi;
 use App\Models\LabulKomplain;
+use App\Models\LabulLaporanOmsetCabang;
+use App\Models\LabulReqor;
 use App\Models\LabulReseller;
 use App\Models\LabulSurveyKompetitor;
 use App\Models\MasterCabang;
@@ -232,6 +234,7 @@ class LabulController extends Controller
         ]);
     }
 
+    // reqor
     public function inputReqor()
     {
         $cabang = MasterCabang::get();
@@ -241,12 +244,72 @@ class LabulController extends Controller
         ]);
     }
 
+    public function inputReqorStore(Request $request)
+    {
+        $reqor = new LabulReqor;
+        $reqor->karyawan_id = Auth::user()->master_karyawan_id;
+        $reqor->cabang_id = $request->reqor_cabang_id;
+        $reqor->tanggal = $request->reqor_tanggal;
+        $reqor->nama_customer = $request->reqor_nama_customer;
+        $reqor->nomor_hp = $request->reqor_nomor_hp;
+        $reqor->request_produk = $request->reqor_request_produk;
+        $reqor->produk_tertolak = $request->reqor_produk_tertolak;
+        $reqor->alasan = $request->reqor_alasan;
+        $reqor->save();
+
+        return response()->json([
+            'status' => 'true'
+        ]);
+    }
+
+    // omzet cabang
     public function inputOmzetCabang()
     {
         $cabang = MasterCabang::get();
 
         return response()->json([
             'cabangs' => $cabang
+        ]);
+    }
+
+    public function inputOmzetCabangStore(Request $request)
+    {
+        $omzet = new LabulLaporanOmsetCabang;
+        $omzet->karyawan_id = Auth::user()->master_karyawan_id;
+        $omzet->cabang_id = $request->omzet_cabang_cabang_id;
+        $omzet->tanggal = $request->omzet_cabang_tanggal;
+        $omzet->transaksi = $request->omzet_cabang_transaksi;
+        $omzet->traffic_online = $request->omzet_cabang_traffic_online;
+        $omzet->traffic_offline = $request->omzet_cabang_traffic_offline;
+        $omzet->retail = str_replace(".", "", $request->omzet_cabang_retail);
+        $omzet->instansi = str_replace(".", "", $request->omzet_cabang_instansi);
+        $omzet->reseller = str_replace(".", "", $request->omzet_cabang_reseller);
+        $omzet->cabang = str_replace(".", "", $request->omzet_cabang_cabang);
+        $omzet->omzet_harian = str_replace(".", "", $request->omzet_cabang_omzet_harian);
+        $omzet->omzet_terbayar = str_replace(".", "", $request->omzet_cabang_omzet_terbayar);
+        $omzet->leads = $request->omzet_cabang_leads;
+        $omzet->konsumen_bertanya = $request->omzet_cabang_konsumen_bertanya;
+        $omzet->cetak_banner_harian = str_replace(".", "", $request->omzet_cabang_cetak_banner_harian);
+        $omzet->cetak_a3_harian = str_replace(".", "", $request->omzet_cabang_cetak_a3_harian);
+        $omzet->print_outdoor = str_replace(".", "", $request->omzet_cabang_print_outdoor);
+        $omzet->print_indoor = str_replace(".", "", $request->omzet_cabang_print_indoor);
+        $omzet->offset = str_replace(".", "", $request->omzet_cabang_offset);
+        $omzet->merchandise = str_replace(".", "", $request->omzet_cabang_merchandise);
+        $omzet->akrilik = str_replace(".", "", $request->omzet_cabang_akrilik);
+        $omzet->design = str_replace(".", "", $request->omzet_cabang_design);
+        $omzet->laminasi = str_replace(".", "", $request->omzet_cabang_laminasi);
+        $omzet->fotocopy = str_replace(".", "", $request->omzet_cabang_fotocopy);
+        $omzet->dtf = str_replace(".", "", $request->omzet_cabang_dtf);
+        $omzet->uv = str_replace(".", "", $request->omzet_cabang_uv);
+        $omzet->advertising_produk = str_replace(".", "", $request->omzet_cabang_advertising_produk);
+        $omzet->advertising_jasa = str_replace(".", "", $request->omzet_cabang_advertising_jasa);
+        $omzet->cash_harian = str_replace(".", "", $request->omzet_cabang_cash_harian);
+        $omzet->piutang_bulan_berjalan = str_replace(".", "", $request->omzet_cabang_piutang_bulan_berjalan);
+        $omzet->piutang_terbayar = str_replace(".", "", $request->omzet_cabang_piutang_terbayar);
+        $omzet->save();
+
+        return response()->json([
+            'status' => 'true'
         ]);
     }
 

@@ -415,7 +415,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/input/data_instansi/store', [LabulController::class, 'inputDataInstansiStore'])->name('labul.input.data_instansi.store');
 
     Route::get('labul/input/reqor', [LabulController::class, 'inputReqor'])->name('labul.input.reqor');
+    Route::post('labul/input/reqor/store', [LabulController::class, 'inputReqorStore'])->name('labul.input.reqor.store');
+
     Route::get('labul/input/omzet_cabang', [LabulController::class, 'inputOmzetCabang'])->name('labul.input.omzet_cabang');
+    Route::post('labul/input/omzet_cabang/store', [LabulController::class, 'inputOmzetCabangStore'])->name('labul.input.omzet_cabang.store');
 
     Route::get('labul/result', [LabulController::class, 'result'])->name('labul.result');
 

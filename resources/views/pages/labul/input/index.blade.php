@@ -503,7 +503,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="reqor_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="reqor_tanggal" id="reqor_tanggal" class="form-control">
+                        <input type="datetime-local" name="reqor_tanggal" id="reqor_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="reqor_nama_customer" class="form-label">Nama Customer</label>
@@ -511,7 +511,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="reqor_nomor_hp" class="form-label">Nomor HP</label>
-                        <input type="text" name="reqor_nomor_hp" id="reqor_nomor_hp" class="form-control">
+                        <input type="number" name="reqor_nomor_hp" id="reqor_nomor_hp" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="reqor_request_produk" class="form-label">Request Produk</label>
@@ -558,19 +558,19 @@
                     </div>
                     <div class="mb-3">
                         <label for="omzet_cabang_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="omzet_cabang_tanggal" id="omzet_cabang_tanggal" class="form-control">
+                        <input type="datetime-local" name="omzet_cabang_tanggal" id="omzet_cabang_tanggal" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="omzet_cabang_transaksi" class="form-label">Transaksi</label>
                         <input type="number" name="omzet_cabang_transaksi" id="omzet_cabang_transaksi" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="omzet_cabang_transaksi_online" class="form-label">Transaksi Online</label>
-                        <input type="number" name="omzet_cabang_transaksi_online" id="omzet_cabang_transaksi_online" class="form-control">
+                        <label for="omzet_cabang_traffic_online" class="form-label">Traffic Online</label>
+                        <input type="number" name="omzet_cabang_traffic_online" id="omzet_cabang_traffic_online" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="omzet_cabang_transaksi_offline" class="form-label">Transaksi Offline</label>
-                        <input type="number" name="omzet_cabang_transaksi_offline" id="omzet_cabang_transaksi_offline" class="form-control">
+                        <label for="omzet_cabang_traffic_offline" class="form-label">Traffic Offline</label>
+                        <input type="number" name="omzet_cabang_traffic_offline" id="omzet_cabang_traffic_offline" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="omzet_cabang_retail" class="form-label">Retail</label>
@@ -674,11 +674,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary btn-alasan-spinner d-none" disabled style="width: 130px;">
+                    <button class="btn btn-primary btn-omzet-cabang-spinner d-none" disabled style="width: 130px;">
                         <span class="spinner-grow spinner-grow-sm"></span>
                         Loading...
                     </button>
-                    <button type="submit" class="btn btn-primary btn-alasan-save" style="width: 130px;">
+                    <button type="submit" class="btn btn-primary btn-omzet-cabang-save" style="width: 130px;">
                         <i class="fas fa-save"></i> Simpan
                     </button>
                 </div>
@@ -1248,6 +1248,42 @@
             $('.modal-reqor').modal('show');
         })
 
+        $(document).on('submit', '#form-reqor', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-reqor')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.reqor.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-reqor-spinner').removeClass('d-none');
+                    $('.btn-reqor-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
+        })
+
         // omzet cabang
         $(document).on('click', '#omzet_cabang', function (e) {
             e.preventDefault();
@@ -1263,6 +1299,159 @@
                 }
             })
             $('.modal-omzet-cabang').modal('show');
+        })
+
+        $(document).on('shown.bs.modal', '.modal-omzet-cabang', function() {
+            let retail = document.getElementById("omzet_cabang_retail");
+            retail.addEventListener("keyup", function(e) {
+                retail.value = formatRupiah(this.value, "");
+            });
+
+            let instansi = document.getElementById("omzet_cabang_instansi");
+            instansi.addEventListener("keyup", function(e) {
+                instansi.value = formatRupiah(this.value, "");
+            });
+
+            let reseller = document.getElementById("omzet_cabang_reseller");
+            reseller.addEventListener("keyup", function(e) {
+                reseller.value = formatRupiah(this.value, "");
+            });
+
+            let cabang = document.getElementById("omzet_cabang_cabang");
+            cabang.addEventListener("keyup", function(e) {
+                cabang.value = formatRupiah(this.value, "");
+            });
+
+            let omzet_harian = document.getElementById("omzet_cabang_omzet_harian");
+            omzet_harian.addEventListener("keyup", function(e) {
+                omzet_harian.value = formatRupiah(this.value, "");
+            });
+
+            let omzet_terbayar = document.getElementById("omzet_cabang_omzet_terbayar");
+            omzet_terbayar.addEventListener("keyup", function(e) {
+                omzet_terbayar.value = formatRupiah(this.value, "");
+            });
+
+            let cetak_banner_harian = document.getElementById("omzet_cabang_cetak_banner_harian");
+            cetak_banner_harian.addEventListener("keyup", function(e) {
+                cetak_banner_harian.value = formatRupiah(this.value, "");
+            });
+
+            let cetak_a3_harian = document.getElementById("omzet_cabang_cetak_a3_harian");
+            cetak_a3_harian.addEventListener("keyup", function(e) {
+                cetak_a3_harian.value = formatRupiah(this.value, "");
+            });
+
+            let print_outdoor = document.getElementById("omzet_cabang_print_outdoor");
+            print_outdoor.addEventListener("keyup", function(e) {
+                print_outdoor.value = formatRupiah(this.value, "");
+            });
+
+            let print_indoor = document.getElementById("omzet_cabang_print_indoor");
+            print_indoor.addEventListener("keyup", function(e) {
+                print_indoor.value = formatRupiah(this.value, "");
+            });
+
+            let offset = document.getElementById("omzet_cabang_offset");
+            offset.addEventListener("keyup", function(e) {
+                offset.value = formatRupiah(this.value, "");
+            });
+
+            let merchandise = document.getElementById("omzet_cabang_merchandise");
+            merchandise.addEventListener("keyup", function(e) {
+                merchandise.value = formatRupiah(this.value, "");
+            });
+
+            let akrilik = document.getElementById("omzet_cabang_akrilik");
+            akrilik.addEventListener("keyup", function(e) {
+                akrilik.value = formatRupiah(this.value, "");
+            });
+
+            let design = document.getElementById("omzet_cabang_design");
+            design.addEventListener("keyup", function(e) {
+                design.value = formatRupiah(this.value, "");
+            });
+
+            let laminasi = document.getElementById("omzet_cabang_laminasi");
+            laminasi.addEventListener("keyup", function(e) {
+                laminasi.value = formatRupiah(this.value, "");
+            });
+
+            let fotocopy = document.getElementById("omzet_cabang_fotocopy");
+            fotocopy.addEventListener("keyup", function(e) {
+                fotocopy.value = formatRupiah(this.value, "");
+            });
+
+            let dtf = document.getElementById("omzet_cabang_dtf");
+            dtf.addEventListener("keyup", function(e) {
+                dtf.value = formatRupiah(this.value, "");
+            });
+
+            let uv = document.getElementById("omzet_cabang_uv");
+            uv.addEventListener("keyup", function(e) {
+                uv.value = formatRupiah(this.value, "");
+            });
+
+            let advertising_produk = document.getElementById("omzet_cabang_advertising_produk");
+            advertising_produk.addEventListener("keyup", function(e) {
+                advertising_produk.value = formatRupiah(this.value, "");
+            });
+
+            let advertising_jasa = document.getElementById("omzet_cabang_advertising_jasa");
+            advertising_jasa.addEventListener("keyup", function(e) {
+                advertising_jasa.value = formatRupiah(this.value, "");
+            });
+
+            let cash_harian = document.getElementById("omzet_cabang_cash_harian");
+            cash_harian.addEventListener("keyup", function(e) {
+                cash_harian.value = formatRupiah(this.value, "");
+            });
+
+            let piutang_bulan_berjalan = document.getElementById("omzet_cabang_piutang_bulan_berjalan");
+            piutang_bulan_berjalan.addEventListener("keyup", function(e) {
+                piutang_bulan_berjalan.value = formatRupiah(this.value, "");
+            });
+
+            let piutang_terbayar = document.getElementById("omzet_cabang_piutang_terbayar");
+            piutang_terbayar.addEventListener("keyup", function(e) {
+                piutang_terbayar.value = formatRupiah(this.value, "");
+            });
+        });
+
+        $(document).on('submit', '#form-omzet-cabang', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-omzet-cabang')[0]);
+
+            $.ajax({
+                url: "{{ URL::route('labul.input.omzet_cabang.store') }}",
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('.btn-omzet-cabang-spinner').removeClass('d-none');
+                    $('.btn-omzet-cabang-save').addClass('d-none');
+                },
+                success: function (response) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data behasil di input'
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + error
+
+                    Toast.fire({
+                        icon: 'danger',
+                        title: 'Error - ' + errorMessage
+                    });
+                }
+            })
         })
     });
 </script>
