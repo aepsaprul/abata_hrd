@@ -384,8 +384,31 @@ class LabulController extends Controller
         ]);
     }
 
+    // result
     public function result()
     {
-        return view('pages.labul.result.index');
+        $activity_plan = LabulActivityPlan::get();
+        $data_member = LabulDataMember::get();
+        $reseller = LabulReseller::get();
+        $data_reseller = LabulDataReseller::get();
+        $instansi = LabulInstansi::get();
+        $survey = LabulSurveyKompetitor::get();
+        $komplain = LabulKomplain::get();
+        $data_instansi = LabulDataInstansi::get();
+        $reqor = LabulReqor::get();
+        $omzet_cabang = LabulLaporanOmsetCabang::get();
+
+        return view('pages.labul.result.index', [
+            'activity_plans' => $activity_plan,
+            'data_members' => $data_member,
+            'resellers' => $reseller,
+            'data_resellers' => $data_reseller,
+            'instansis' => $instansi,
+            'surveys' => $survey,
+            'komplains' => $komplain,
+            'data_instansis' => $data_instansi,
+            'reqors' => $reqor,
+            'omzet_cabangs' => $omzet_cabang
+        ]);
     }
 }
