@@ -42,8 +42,6 @@
                 <a href="#" class="h2 text-uppercase"><strong>Login</strong></a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in untuk memulai Aplikasi</p>
-
                 <form action="{{ route('login') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
@@ -102,6 +100,8 @@
                     @endif
                 </div>
             </div>
+            <hr>
+            <p class="login-box-msg text-danger text-sm">*kendala aplikasi bisa laporkan ke bagian IT</p>
             <!-- /.card-body -->
         </div>
     </div>

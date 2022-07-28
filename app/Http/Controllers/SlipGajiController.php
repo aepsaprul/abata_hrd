@@ -205,6 +205,7 @@ class SlipGajiController extends Controller
 
     public function cetakPdf($id)
     {
+        $slip_title = HcSlipGaji::orderBy('id', 'desc')->limit(2)->get();
         $slip = HcSlipGaji::find($id);
         $slip_detail = HcSlipGajiDetail::select(DB::raw('sum(gaji_pokok) as gaji_pokok'),
                 DB::raw('sum(tunj_jabatan) as tunj_jabatan'),
@@ -236,7 +237,12 @@ class SlipGajiController extends Controller
         $cabang = MasterCabang::get();
         // $slip_detail = HcSlipGajiDetail::where('slip_gaji_id', $id)->where('karyawan_id', Auth::user()->master_karyawan_id)->first();
 
-        $pdf = PDF::loadView('pages.slip_gaji.detail', ['slip' => $slip, 'slip_detail' => $slip_detail, 'cabangs' => $cabang]);
+        $pdf = PDF::loadView('pages.slip_gaji.detail', [
+            'slip' => $slip,
+            'slip_detail' => $slip_detail,
+            'cabangs' => $cabang,
+            'slip_title' => $slip_title
+        ]);
         return $pdf->stream();
     }
     public function cetakPdfKaryawan($id)

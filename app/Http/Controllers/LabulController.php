@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LabulActivityPlanExport;
 use App\Models\LabulActivityPlan;
 use App\Models\LabulActivityPlanDetail;
 use App\Models\LabulDataInstansi;
@@ -9,13 +10,14 @@ use App\Models\LabulDataMember;
 use App\Models\LabulDataReseller;
 use App\Models\LabulInstansi;
 use App\Models\LabulKomplain;
-use App\Models\LabulLaporanOmsetCabang;
+use App\Models\LabulOmzet;
 use App\Models\LabulReqor;
 use App\Models\LabulReseller;
 use App\Models\LabulSurveyKompetitor;
 use App\Models\MasterCabang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LabulController extends Controller
 {
@@ -345,7 +347,7 @@ class LabulController extends Controller
 
     public function inputOmzetCabangStore(Request $request)
     {
-        $omzet = new LabulLaporanOmsetCabang;
+        $omzet = new LabulOmzet;
         $omzet->karyawan_id = Auth::user()->master_karyawan_id;
         $omzet->cabang_id = $request->omzet_cabang_cabang_id;
         $omzet->tanggal = $request->omzet_cabang_tanggal;
@@ -396,7 +398,7 @@ class LabulController extends Controller
         $komplain = LabulKomplain::get();
         $data_instansi = LabulDataInstansi::get();
         $reqor = LabulReqor::get();
-        $omzet_cabang = LabulLaporanOmsetCabang::get();
+        $omzet = LabulOmzet::get();
 
         return view('pages.labul.result.index', [
             'activity_plans' => $activity_plan,
@@ -408,7 +410,12 @@ class LabulController extends Controller
             'komplains' => $komplain,
             'data_instansis' => $data_instansi,
             'reqors' => $reqor,
-            'omzet_cabangs' => $omzet_cabang
+            'omzets' => $omzet
         ]);
+    }
+
+    public function resultExportActivityPlan()
+    {
+        return Excel::download(new LabulActivityPlanExport, 'activity_plan.xlsx');
     }
 }

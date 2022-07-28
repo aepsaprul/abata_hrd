@@ -30,36 +30,56 @@
                     <div class="d-flex justify-content-center">
                         <div class="col-lg-10 col-md-10 col-sm-10 col-12">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="activity_plan" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">activity plan</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="data_member" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data member</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">reseller</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="data_reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data reseller</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">instansi</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="survey_kompetitor" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">survey kompetitor</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="komplain" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">komplain (kritik & saran)</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="data_instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data instansi</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="reqor" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">request & orderan tertolak</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                    <button id="omzet_cabang" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">omzet cabang</button>
-                                </div>
+                                @if (in_array("activity plan", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="activity_plan" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">activity plan</button>
+                                    </div>
+                                @endif
+                                @if (in_array("data member", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="data_member" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data member</button>
+                                    </div>
+                                @endif
+                                @if (in_array("reseller", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">reseller</button>
+                                    </div>
+                                @endif
+                                @if (in_array("data reseller", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="data_reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data reseller</button>
+                                    </div>
+                                @endif
+                                @if (in_array("instansi", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">instansi</button>
+                                    </div>
+                                @endif
+                                @if (in_array("survey kompetitor", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="survey_kompetitor" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">survey kompetitor</button>
+                                    </div>
+                                @endif
+                                @if (in_array("komplain", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="komplain" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">komplain (kritik & saran)</button>
+                                    </div>
+                                @endif
+                                @if (in_array("data instansi", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="data_instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data instansi</button>
+                                    </div>
+                                @endif
+                                @if (in_array("reqor", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="reqor" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">request & orderan tertolak</button>
+                                    </div>
+                                @endif
+                                @if (in_array("omzet", $current_data_navigasi))
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
+                                        <button id="omzet_cabang" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">omzet cabang</button>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

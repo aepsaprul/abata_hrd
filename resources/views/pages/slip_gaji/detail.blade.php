@@ -23,8 +23,9 @@
         <tr style="background-color: blue; color: #fff;">
             <th style="padding: 5px;">No</th>
             <th style="padding: 5px;">Nama Cabang</th>
-            <th style="padding: 5px;">Biaya Gaji Maret</th>
-            <th style="padding: 5px;">Biaya Gaji April</th>
+            @foreach ($slip_title as $item)
+                <th style="padding: 5px; text-transform: capitalize;">Biaya Gaji {{ $item->bulan }}</th>
+            @endforeach
             <th style="padding: 5px;">Biaya Admin</th>
             <th style="padding: 5px;">Total Gaji April</th>
             <th style="padding: 5px;">Efisiensi Biaya Gaji</th>

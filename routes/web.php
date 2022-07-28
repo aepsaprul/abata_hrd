@@ -422,6 +422,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/input/omzet_cabang/store', [LabulController::class, 'inputOmzetCabangStore'])->name('labul.input.omzet_cabang.store');
 
     Route::get('labul/result', [LabulController::class, 'result'])->name('labul.result');
+    Route::get('labul/result/export_activity_plan', [LabulController::class, 'resultExportActivityPlan'])->name('labul.result.export_activity_plan');
 
     // Route::resource('hc/cir', HcCirController::class);
     // Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');

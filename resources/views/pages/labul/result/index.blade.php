@@ -36,8 +36,11 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Activity Plan</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Activity Plan</span>
+                                <a href="{{ route('labul.result.export_activity_plan') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="activity_plan_tabel" class="table table-bordered table-striped">
@@ -419,7 +422,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($omzet_cabangs as $key => $item)
+                                    @foreach ($omzets as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>
