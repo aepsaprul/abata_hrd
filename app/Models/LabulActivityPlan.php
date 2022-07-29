@@ -16,4 +16,12 @@ class LabulActivityPlan extends Model
     public function cabang() {
         return $this->belongsTo(MasterCabang::class, 'cabang_id', 'id');
     }
+
+    public function activityPlanJumlah() {
+        return $this->hasMany(LabulActivityPlanJumlah::class, 'activity_plan_id', 'id');
+    }
+
+    public function activityPlanRencana() {
+        return $this->hasMany(LabulActivityPlanRencana::class, 'activity_plan_id', 'id');
+    }
 }

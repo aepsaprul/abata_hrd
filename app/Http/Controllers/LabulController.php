@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\LabulActivityPlanExport;
 use App\Models\LabulActivityPlan;
-use App\Models\LabulActivityPlanDetail;
+use App\Models\LabulActivityPlanJumlah;
+use App\Models\LabulActivityPlanRencana;
 use App\Models\LabulDataInstansi;
 use App\Models\LabulDataMember;
 use App\Models\LabulDataReseller;
@@ -17,6 +18,7 @@ use App\Models\LabulSurveyKompetitor;
 use App\Models\MasterCabang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LabulController extends Controller
@@ -38,63 +40,101 @@ class LabulController extends Controller
 
     public function inputActivityPlanStore(Request $request)
     {
+        // labul activity plan
         $activity_plan = new LabulActivityPlan;
         $activity_plan->karyawan_id = Auth::user()->master_karyawan_id;
         $activity_plan->cabang_id = $request->activity_plan_cabang_id;
         $activity_plan->tanggal = $request->activity_plan_tanggal;
-        $activity_plan->jumlah_rencana_kunjungan = $request->activity_plan_jumlah_rencana_kunjungan;
-        $activity_plan->jumlah_rencana_salescall = $request->activity_plan_jumlah_rencana_salescall;
-        $activity_plan->jumlah_rencana_sebar_brosur = $request->activity_plan_jumlah_rencana_sebar_brosur;
-        $activity_plan->jumlah_rencana_penawaran = $request->activity_plan_jumlah_rencana_penawaran;
-        $activity_plan->jumlah_penawaran_merchant = $request->activity_plan_jumlah_penawaran_merchant;
         $activity_plan->save();
 
+        // labul jumlah rencana
+        if ($request->activity_plan_jumlah_rencana_kunjungan) {
+            $activity_plan_jumlah_rencana_kunjungan = new LabulActivityPlanJumlah;
+            $activity_plan_jumlah_rencana_kunjungan->activity_plan_id = $activity_plan->id;
+            $activity_plan_jumlah_rencana_kunjungan->nama = "Jumlah Rencana Kunjungan";
+            $activity_plan_jumlah_rencana_kunjungan->jumlah = $request->activity_plan_jumlah_rencana_kunjungan;
+            $activity_plan_jumlah_rencana_kunjungan->save();
+        }
+
+        if ($request->activity_plan_jumlah_rencana_salescall) {
+            $activity_plan_jumlah_rencana_salescall = new LabulActivityPlanJumlah;
+            $activity_plan_jumlah_rencana_salescall->activity_plan_id = $activity_plan->id;
+            $activity_plan_jumlah_rencana_salescall->nama = "Jumlah Rencana Salescall";
+            $activity_plan_jumlah_rencana_salescall->jumlah = $request->activity_plan_jumlah_rencana_salescall;
+            $activity_plan_jumlah_rencana_salescall->save();
+        }
+
+        if ($request->activity_plan_jumlah_rencana_sebar_brosur) {
+            $activity_plan_jumlah_rencana_sebar_brosur = new LabulActivityPlanJumlah;
+            $activity_plan_jumlah_rencana_sebar_brosur->activity_plan_id = $activity_plan->id;
+            $activity_plan_jumlah_rencana_sebar_brosur->nama = "Jumlah Rencana Sebar Brosur";
+            $activity_plan_jumlah_rencana_sebar_brosur->jumlah = $request->activity_plan_jumlah_rencana_sebar_brosur;
+            $activity_plan_jumlah_rencana_sebar_brosur->save();
+        }
+
+        if ($request->activity_plan_jumlah_rencana_penawaran) {
+            $activity_plan_jumlah_rencana_penawaran = new LabulActivityPlanJumlah;
+            $activity_plan_jumlah_rencana_penawaran->activity_plan_id = $activity_plan->id;
+            $activity_plan_jumlah_rencana_penawaran->nama = "Jumlah Rencana Penawaran";
+            $activity_plan_jumlah_rencana_penawaran->jumlah = $request->activity_plan_jumlah_rencana_penawaran;
+            $activity_plan_jumlah_rencana_penawaran->save();
+        }
+
+        if ($request->activity_plan_jumlah_penawaran_merchant) {
+            $activity_plan_jumlah_penawaran_merchant = new LabulActivityPlanJumlah;
+            $activity_plan_jumlah_penawaran_merchant->activity_plan_id = $activity_plan->id;
+            $activity_plan_jumlah_penawaran_merchant->nama = "Jumlah Penawaran Merchant";
+            $activity_plan_jumlah_penawaran_merchant->jumlah = $request->activity_plan_jumlah_penawaran_merchant;
+            $activity_plan_jumlah_penawaran_merchant->save();
+        }
+
+        // labul rencana
         if ($request->activity_plan_rencana_kunjungan) {
             foreach ($request->activity_plan_rencana_kunjungan as $key => $value) {
-                $activity_plan_rencana_kunjungan = new LabulActivityPlanDetail;
+                $activity_plan_rencana_kunjungan = new LabulActivityPlanRencana;
                 $activity_plan_rencana_kunjungan->activity_plan_id = $activity_plan->id;
-                $activity_plan_rencana_kunjungan->jenis_rencana = "rencana_kunjungan";
-                $activity_plan_rencana_kunjungan->detail_rencana = $value;
+                $activity_plan_rencana_kunjungan->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_kunjungan->id;
+                $activity_plan_rencana_kunjungan->nama = $value;
                 $activity_plan_rencana_kunjungan->save();
             }
         }
 
         if ($request->activity_plan_rencana_salescall) {
             foreach ($request->activity_plan_rencana_salescall as $key => $value) {
-                $activity_plan_rencana_salescall = new LabulActivityPlanDetail;
+                $activity_plan_rencana_salescall = new LabulActivityPlanRencana;
                 $activity_plan_rencana_salescall->activity_plan_id = $activity_plan->id;
-                $activity_plan_rencana_salescall->jenis_rencana = "rencana_salescall";
-                $activity_plan_rencana_salescall->detail_rencana = $value;
+                $activity_plan_rencana_salescall->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_salescall->id;
+                $activity_plan_rencana_salescall->nama = $value;
                 $activity_plan_rencana_salescall->save();
             }
         }
 
         if ($request->activity_plan_rencana_sebar_brosur) {
             foreach ($request->activity_plan_rencana_sebar_brosur as $key => $value) {
-                $activity_plan_rencana_sebar_brosur = new LabulActivityPlanDetail;
+                $activity_plan_rencana_sebar_brosur = new LabulActivityPlanRencana;
                 $activity_plan_rencana_sebar_brosur->activity_plan_id = $activity_plan->id;
-                $activity_plan_rencana_sebar_brosur->jenis_rencana = "rencana_sebar_brosur";
-                $activity_plan_rencana_sebar_brosur->detail_rencana = $value;
+                $activity_plan_rencana_sebar_brosur->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_sebar_brosur->id;
+                $activity_plan_rencana_sebar_brosur->nama = $value;
                 $activity_plan_rencana_sebar_brosur->save();
             }
         }
 
         if ($request->activity_plan_rencana_penawaran) {
             foreach ($request->activity_plan_rencana_penawaran as $key => $value) {
-                $activity_plan_rencana_penawaran = new LabulActivityPlanDetail;
+                $activity_plan_rencana_penawaran = new LabulActivityPlanRencana;
                 $activity_plan_rencana_penawaran->activity_plan_id = $activity_plan->id;
-                $activity_plan_rencana_penawaran->jenis_rencana = "rencana_penawaran";
-                $activity_plan_rencana_penawaran->detail_rencana = $value;
+                $activity_plan_rencana_penawaran->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_penawaran->id;
+                $activity_plan_rencana_penawaran->nama = $value;
                 $activity_plan_rencana_penawaran->save();
             }
         }
 
         if ($request->activity_plan_penawaran_merchant) {
             foreach ($request->activity_plan_penawaran_merchant as $key => $value) {
-                $activity_plan_penawaran_merchant = new LabulActivityPlanDetail;
+                $activity_plan_penawaran_merchant = new LabulActivityPlanRencana;
                 $activity_plan_penawaran_merchant->activity_plan_id = $activity_plan->id;
-                $activity_plan_penawaran_merchant->jenis_rencana = "penawaran_merchant";
-                $activity_plan_penawaran_merchant->detail_rencana = $value;
+                $activity_plan_penawaran_merchant->activity_plan_jumlah_id = $activity_plan_jumlah_penawaran_merchant->id;
+                $activity_plan_penawaran_merchant->nama = $value;
                 $activity_plan_penawaran_merchant->save();
             }
         }
@@ -389,6 +429,11 @@ class LabulController extends Controller
     // result
     public function result()
     {
+        // $a = LabulActivityPlanDetail::select(DB::raw('COUNT(jenis_rencana) AS tes', 'activity_plan_id', 'jenis_rencana'), DB::raw('activity_plan_id AS a'))
+        // ->groupBy('activity_plan_id', 'jenis_rencana')
+        // ->get();
+
+        // dd($a);
         $activity_plan = LabulActivityPlan::get();
         $data_member = LabulDataMember::get();
         $reseller = LabulReseller::get();
