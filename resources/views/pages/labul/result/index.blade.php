@@ -80,8 +80,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Data Member</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Data Member</span>
+                                <a href="{{ route('labul.result.export_data_member') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="data_member_tabel" class="table table-bordered table-striped">
@@ -121,8 +124,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Reseller</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Reseller</span>
+                                <a href="{{ route('labul.result.export_reseller') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="reseller_tabel" class="table table-bordered table-striped">
@@ -162,8 +168,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Data Reseller</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Data Reseller</span>
+                                <a href="{{ route('labul.result.export_data_reseller') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="data_reseller_tabel" class="table table-bordered table-striped">
@@ -203,8 +212,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Instansi</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Instansi</span>
+                                <a href="{{ route('labul.result.export_instansi') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="instansi_tabel" class="table table-bordered table-striped">
@@ -244,8 +256,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Survey Kompetitor</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Survey Kompetitor</span>
+                                <a href="{{ route('labul.result.export_survey_kompetitor') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="survey_kompetitor_tabel" class="table table-bordered table-striped">
@@ -285,8 +300,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Komplain (Kritik & Saran)</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Komplain (Kritik & Saran)</span>
+                                <a href="{{ route('labul.result.export_komplain') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="komplain_tabel" class="table table-bordered table-striped">
@@ -326,8 +344,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Data Instansi</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Data Instansi</span>
+                                <a href="{{ route('labul.result.export_data_instansi') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="data_instansi_tabel" class="table table-bordered table-striped">
@@ -367,8 +388,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Request & Orderan Tertolak</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Request & Orderan Tertolak</span>
+                                <a href="{{ route('labul.result.export_reqor') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="reqor_tabel" class="table table-bordered table-striped">
@@ -408,8 +432,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card card-info card-outline">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Omzet Cabang</span>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-weight-bold">Laporan Omzet Cabang</span>
+                                <a href="{{ route('labul.result.export_omzet') }}" class="btn btn-sm btn-success px-4">Excel</a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="omzet_cabang_tabel" class="table table-bordered table-striped">

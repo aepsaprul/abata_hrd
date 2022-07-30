@@ -16,4 +16,8 @@ class LabulReseller extends Model
     public function cabang() {
         return $this->belongsTo(MasterCabang::class, 'cabang_id', 'id');
     }
+
+    public function dataReseller() {
+        return $this->belongsTo(LabulDataReseller::class, 'reseller_id', 'id');
+    }
 }

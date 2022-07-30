@@ -16,4 +16,8 @@ class LabulInstansi extends Model
     public function cabang() {
         return $this->belongsTo(MasterCabang::class, 'cabang_id', 'id');
     }
+
+    public function dataInstansi() {
+        return $this->belongsTo(LabulDataInstansi::class, 'instansi_id', 'id');
+    }
 }

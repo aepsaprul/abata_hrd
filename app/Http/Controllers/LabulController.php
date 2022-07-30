@@ -3,6 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Exports\LabulActivityPlanExport;
+use App\Exports\LabulDataInstansiExport;
+use App\Exports\LabulDataMemberExport;
+use App\Exports\LabulDataResellerExport;
+use App\Exports\LabulInstansiExport;
+use App\Exports\LabulKomplainExport;
+use App\Exports\LabulOmzetExport;
+use App\Exports\LabulReqorExport;
+use App\Exports\LabulResellerExport;
+use App\Exports\LabulSurveyKompetitorExport;
 use App\Models\LabulActivityPlan;
 use App\Models\LabulActivityPlanJumlah;
 use App\Models\LabulActivityPlanRencana;
@@ -20,6 +29,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class LabulController extends Controller
 {
@@ -462,5 +472,50 @@ class LabulController extends Controller
     public function resultExportActivityPlan()
     {
         return Excel::download(new LabulActivityPlanExport, 'activity_plan.xlsx');
+    }
+
+    public function resultExportDataInstansi()
+    {
+        return Excel::download(new LabulDataInstansiExport, 'data_instansi.xlsx');
+    }
+
+    public function resultExportDataMember()
+    {
+        return Excel::download(new LabulDataMemberExport, 'data_member.xlsx');
+    }
+
+    public function resultExportDataReseller()
+    {
+        return Excel::download(new LabulDataResellerExport, 'data_reseller.xlsx');
+    }
+
+    public function resultExportInstansi()
+    {
+        return Excel::download(new LabulInstansiExport, 'instansi.xlsx');
+    }
+
+    public function resultExportKomplain()
+    {
+        return Excel::download(new LabulKomplainExport, 'komplain.xlsx');
+    }
+
+    public function resultExportOmzet()
+    {
+        return Excel::download(new LabulOmzetExport, 'omzet.xlsx');
+    }
+
+    public function resultExportReqor()
+    {
+        return Excel::download(new LabulReqorExport, 'reqor.xlsx');
+    }
+
+    public function resultExportReseller()
+    {
+        return Excel::download(new LabulResellerExport, 'reseller.xlsx');
+    }
+
+    public function resultExportSurveyKompetitor()
+    {
+        return Excel::download(new LabulSurveyKompetitorExport, 'survey_kompetitor.xlsx');
     }
 }
