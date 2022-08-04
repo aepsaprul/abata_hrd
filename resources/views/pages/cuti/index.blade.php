@@ -56,6 +56,7 @@
                                         <th class="text-center text-indigo">Nama Karyawan</th>
                                         <th class="text-center text-indigo">Cabang</th>
                                         {{-- <th class="text-center text-indigo">Status</th> --}}
+                                        <th class="text-center text-indigo">Tgl Pengajuan</th>
                                         <th class="text-center text-indigo">Approver</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
@@ -63,7 +64,7 @@
                                 <tbody>
                                     @foreach ($cutis as $key => $item)
                                         <tr>
-                                            <td class="text-center" width="30px">{{ $key + 1 }}</td>
+                                            <td class="text-center">{{ $key + 1 }}</td>
                                             <td class="text-center">
                                                 @if ($item->masterKaryawan)
                                                     {{ $item->masterKaryawan->nama_lengkap }}
@@ -80,6 +81,7 @@
                                                     {{ $item->masterKaryawan->masterCabang->nama_cabang }}
                                                 @endif
                                             </td>
+                                            <td class="text-center">{{ $item->created_at->format('d-m-Y') }}</td>
                                             <td>
                                                 <div class="row">
                                                     @foreach ($item->cutiDetail as $item_cuti_detail)
@@ -134,38 +136,7 @@
                                                     @endforeach
                                                 </div>
                                             </td>
-                                            {{-- <td>
-                                                @if ($item->approved_percentage > 100)
-                                                    @php
-                                                        $percent = 100;
-                                                    @endphp
-                                                @else
-                                                    @if ($item->approved_percentage == null)
-                                                        @php
-                                                            $percent = 0;
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            $percent = $item->approved_percentage;
-                                                        @endphp
-                                                    @endif
-                                                @endif
-                                                <div class="progress">
-                                                    <div
-                                                        class="progress-bar bg-{{ $item->approved_background }}"
-                                                        role="progressbar"
-                                                        aria-valuenow="40"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="width: {{ $percent }}%">
-                                                            <span class="">{{ $percent }}%</span>
-                                                    </div>
-                                                </div>
-                                                <span style="font-size: 14px;">
-                                                    {{ $item->approved_text }} {{ $item->approvedLeader ? $item->approvedLeader->nama_panggilan : "" }}
-                                                </span>
-                                            </td> --}}
-                                            <td class="text-center" width="70px">
+                                            <td class="text-center">
                                                 @if (in_array("detail", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
                                                     <div class="btn-group">
                                                         <a

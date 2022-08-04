@@ -52,8 +52,8 @@
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Karyawan</th>
                                         <th class="text-center text-indigo">Cabang</th>
-                                        <th class="text-center text-indigo">Tanggal Masuk</th>
-                                        <th class="text-center text-indigo">Tanggal Keluar</th>
+                                        <th class="text-center text-indigo">Tgl Pengajuan</th>
+                                        <th class="text-center text-indigo">Tgl Keluar</th>
                                         <th class="text-center text-indigo">Approver</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
@@ -85,8 +85,8 @@
                                                 @endif
                                             </td>
                                             <td>{{ $item->lokasi_kerja }}</td>
-                                            <td class="text-center">{{ $item->tanggal_masuk }}</td>
-                                            <td class="text-center">{{ $item->tanggal_keluar }}</td>
+                                            <td class="text-center">{{ $item->created_at->format('d-m-Y') }}</td>
+                                            <td class="text-center">{{ tgl_indo($item->tanggal_keluar) }}</td>
                                             <td>
                                                 <div class="row">
                                                     @foreach ($item->resignDetail as $item_resign_detail)

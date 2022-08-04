@@ -36,7 +36,7 @@ use Spatie\Activitylog\Models\Activity;
         // variabel pecahkan 1 = bulan
         // variabel pecahkan 2 = tahun
 
-        return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+        return $pecahkan[2] . '-' . $pecahkan[1] . '-' . $pecahkan[0];
     }
 
     function activity_log($model, $log_name, $description) {

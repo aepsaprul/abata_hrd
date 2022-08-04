@@ -407,7 +407,7 @@ class LabulController extends Controller
         $omzet->retail = str_replace(".", "", $request->omzet_cabang_retail);
         $omzet->instansi = str_replace(".", "", $request->omzet_cabang_instansi);
         $omzet->reseller = str_replace(".", "", $request->omzet_cabang_reseller);
-        $omzet->cabang = str_replace(".", "", $request->omzet_cabang_cabang);
+        $omzet->cabang_rp = str_replace(".", "", $request->omzet_cabang_cabang);
         $omzet->omzet_harian = str_replace(".", "", $request->omzet_cabang_omzet_harian);
         $omzet->omzet_terbayar = str_replace(".", "", $request->omzet_cabang_omzet_terbayar);
         $omzet->leads = $request->omzet_cabang_leads;
