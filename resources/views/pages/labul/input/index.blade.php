@@ -657,8 +657,12 @@
                         <input type="text" name="omzet_cabang_design" id="omzet_cabang_design" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="omzet_cabang_laminasi" class="form-label">Laminasi</label>
-                        <input type="text" name="omzet_cabang_laminasi" id="omzet_cabang_laminasi" class="form-control">
+                        <label for="omzet_cabang_laminasi_dingin" class="form-label">Laminasi Dingin</label>
+                        <input type="text" name="omzet_cabang_laminasi_dingin" id="omzet_cabang_laminasi_dingin" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="omzet_cabang_laminasi_a3" class="form-label">Laminasi A3</label>
+                        <input type="text" name="omzet_cabang_laminasi_a3" id="omzet_cabang_laminasi_a3" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="omzet_cabang_fotocopy" class="form-label">Fotocopy</label>
@@ -1428,9 +1432,14 @@
                 design.value = formatRupiah(this.value, "");
             });
 
-            let laminasi = document.getElementById("omzet_cabang_laminasi");
-            laminasi.addEventListener("keyup", function(e) {
-                laminasi.value = formatRupiah(this.value, "");
+            let laminasi_dingin = document.getElementById("omzet_cabang_laminasi_dingin");
+            laminasi_dingin.addEventListener("keyup", function(e) {
+                laminasi_dingin.value = formatRupiah(this.value, "");
+            });
+
+            let laminasi_a3 = document.getElementById("omzet_cabang_laminasi_a3");
+            laminasi_a3.addEventListener("keyup", function(e) {
+                laminasi_a3.value = formatRupiah(this.value, "");
             });
 
             let fotocopy = document.getElementById("omzet_cabang_fotocopy");

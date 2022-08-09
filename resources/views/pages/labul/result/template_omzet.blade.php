@@ -24,7 +24,8 @@
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Merchandise</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Akrilik</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Design</th>
-            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Laminasi</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Laminasi Dingin</th>
+            <th style="background-color: lightblue; font-weight: bold; text-align: center;">Laminasi A3</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">Fotocopy</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">DTF</th>
             <th style="background-color: lightblue; font-weight: bold; text-align: center;">UV</th>
@@ -73,7 +74,8 @@
                 <td>{{ $item->merchandhise }}</td>
                 <td>{{ $item->akrilik }}</td>
                 <td>{{ $item->design }}</td>
-                <td>{{ $item->laminasi }}</td>
+                <td>{{ $item->laminasi_dingin }}</td>
+                <td>{{ $item->laminasi_a3 }}</td>
                 <td>{{ $item->fotocopy }}</td>
                 <td>{{ $item->dtf }}</td>
                 <td>{{ $item->uv }}</td>
