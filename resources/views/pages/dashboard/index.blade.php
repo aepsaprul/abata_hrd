@@ -284,9 +284,26 @@
                                     @foreach ($resign as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>
-                                                @if ($item->karyawan)
-                                                    {{ $item->karyawan->nama_lengkap }}
+                                            <td class="text-center">
+                                                @if ($item->masterKaryawan)
+                                                    {{ $item->masterKaryawan->nama_panggilan }}
+
+                                                    @if ($item->approved_percentage >= 100)
+                                                        @if ($item->status == 1)
+                                                            <span class="float-right">
+                                                                <a href="{{ route('resign.paklaring', [$item->masterKaryawan->id]) }}" target="_blank">
+                                                                    <i class="fas fa-download ml-2"></i> Paklaring
+                                                                </a>
+                                                            </span>
+                                                        @endif
+                                                    @endif
+
+                                                    <br>
+                                                    @if (file_exists('public/image/' . $item->masterKaryawan->foto))
+                                                        @if ($item->masterKaryawan->foto)
+                                                            <center><img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;"></center>
+                                                        @endif
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td>{{ $item->alasan }}</td>
