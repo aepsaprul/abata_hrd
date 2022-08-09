@@ -221,9 +221,15 @@
                                     @foreach ($cuti as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>
-                                                @if ($item->karyawan)
-                                                    {{ $item->karyawan->nama_lengkap }}
+                                            <td class="text-center">
+                                                @if ($item->masterKaryawan)
+                                                    {{ $item->masterKaryawan->nama_lengkap }}
+                                                    <br>
+                                                    @if (file_exists('public/image/' . $item->masterKaryawan->foto))
+                                                        @if ($item->masterKaryawan->foto)
+                                                            <img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;">
+                                                        @endif
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td>{{ $item->alasan }}</td>

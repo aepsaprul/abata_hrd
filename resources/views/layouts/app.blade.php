@@ -332,11 +332,17 @@
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script>
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+        // Pusher.logToConsole = true;
 
+        // dev
         var pusher = new Pusher('1304fb22794d15099e3e', {
             cluster: 'ap1'
         });
+
+        // prod
+        // var pusher = new Pusher('5df84db3442172c7d71a', {
+        //     cluster: 'ap1'
+        // });
 
         var channel = pusher.subscribe('pengajuan-channel');
         channel.bind('pengajuan-event', function(data) {
