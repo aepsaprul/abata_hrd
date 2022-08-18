@@ -80,7 +80,7 @@
                                                                 <div class="form-group">
                                                                     <label for="create_foto">Foto</label>
                                                                     <input type="file" id="create_foto" name="foto" class="form-control form-control-sm" >
-                                                                    <small id="errorFoto" class="form-text text-danger"></small>
+                                                                    <small id="error_foto" class="form-text text-danger"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -784,11 +784,11 @@
                                 "<div class=\"row\">" +
                                     "<div class=\"col-md-4 col-sm-4 col-4\">" +
                                         "<input type=\"text\" id=\"edit_jenis_sim\" name=\"jenis_sim\" class=\"form-control form-control-sm\" maxlength=\"10\" value=\"" + response.karyawan.jenis_sim + "\" onkeyup=\"this.value = this.value.toUpperCase()\">" +
-                                        "<small id=\"errorJenisSim\" class=\"form-text text-danger\"></small>" +
+                                        "<small id=\"error_jenis_sim\" class=\"form-text text-danger\"></small>" +
                                     "</div>" +
                                     "<div class=\"col-md-8 col-sm-8 col-8\">" +
                                         "<input type=\"text\" id=\"edit_nomor_sim\" name=\"nomor_sim\" class=\"form-control form-control-sm\" maxlength=\"15\" value=\"" + response.karyawan.nomor_sim + "\">" +
-                                        "<small id=\"errorNomorSim\" class=\"form-text text-danger\"></small>" +
+                                        "<small id=\"error_nomor_sim\" class=\"form-text text-danger\"></small>" +
                                     "</div>" +
                                 "</div>" +
                             "</div>" +
@@ -808,7 +808,7 @@
                                     });
 
                                 biodata_data += "</select>" +
-                                "<small id=\"error_cabang\" class=\"form-text text-danger font-italic\"></small>" +
+                                "<small id=\"error_cabang_id\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
@@ -825,7 +825,7 @@
                                         biodata_data += ">" + value.nama_jabatan + "</option>";
                                     });
                                 biodata_data += "</select>" +
-                                "<small id=\"error_jabatan\" class=\"form-text text-danger font-italic\"></small>" +
+                                "<small id=\"error_jabatan_id\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
@@ -842,7 +842,7 @@
                                         biodata_data += ">" + value.nama + "</option>";
                                     });
                                 biodata_data += "</select>" +
-                                "<small id=\"error_divisi\" class=\"form-text text-danger font-italic\"></small>" +
+                                "<small id=\"error_divisi_id\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
@@ -925,14 +925,40 @@
                         $('.btn-biodata-save').addClass('d-none');
                     },
                     success: function(response) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Data behasil diperbaharui'
-                        });
+                        if (response.status == 400) {
+                            $('#error_nik').append(response.errors.nik);
+                            $('#error_telepon').append(response.errors.telepon);
+                            $('#error_email').append(response.errors.email);
+                            $('#error_nama_lengkap').append(response.errors.nama_lengkap);
+                            $('#error_nama_panggilan').append(response.errors.nama_panggilan);
+                            $('#error_nomor_ktp').append(response.errors.nomor_ktp);
+                            $('#error_status_perkawinan').append(response.errors.status_perkawinan);
+                            $('#error_tempat_lahir').append(response.errors.tempat_lahir);
+                            $('#error_tanggal_lahir').append(response.errors.tanggal_lahir);
+                            $('#error_alamat_asal').append(response.errors.alamat_asal);
+                            $('#error_alamat_domisili').append(response.errors.alamat_domisili);
+                            $('#error_jenis_sim').append(response.errors.jenis_sim);
+                            $('#error_nomor_sim').append(response.errors.nomor_sim);
+                            $('#error_cabang_id').append(response.errors.master_cabang_id);
+                            $('#error_jabatan_id').append(response.errors.master_jabatan_id);
+                            $('#error_divisi_id').append(response.errors.master_divisi_id);
+                            $('#error_foto').append(response.errors.foto);
+                            $('#error_rekening_nomor').append(response.errors.rekening_nomor);
 
-                        setTimeout(() => {
-                            window.location.reload(1);
-                        }, 1000);
+                            setTimeout(() => {
+                                $('.btn-biodata-spinner').addClass('d-none');
+                                $('.btn-biodata-save').removeClass('d-none');
+                            }, 1000);
+                        } else {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Data behasil ditambah'
+                            });
+
+                            setTimeout(() => {
+                                window.location.reload(1);
+                            }, 1000);
+                        }
                     },
                     error: function(xhr, status, error) {
                         var errorMessage = xhr.status + ': ' + error
