@@ -445,6 +445,8 @@ class LabulController extends Controller
         // ->get();
 
         // dd($a);
+        $cabangs = MasterCabang::get();
+
         $activity_plan = LabulActivityPlan::get();
         $data_member = LabulDataMember::get();
         $reseller = LabulReseller::get();
@@ -457,6 +459,7 @@ class LabulController extends Controller
         $omzet = LabulOmzet::get();
 
         return view('pages.labul.result.index', [
+            'cabangs' => $cabangs,
             'activity_plans' => $activity_plan,
             'data_members' => $data_member,
             'resellers' => $reseller,
@@ -470,53 +473,93 @@ class LabulController extends Controller
         ]);
     }
 
-    public function resultExportActivityPlan()
+    public function resultExportActivityPlan(Request $request)
     {
-        return Excel::download(new LabulActivityPlanExport, 'activity_plan.xlsx');
+        $startDate = $request->activity_plan_start_date . " 00:00:00";
+        $endDate = $request->activity_plan_end_date . " 23:59:00";
+        $cabang_id = $request->activity_plan_cabang_id;
+
+        return Excel::download(new LabulActivityPlanExport($startDate, $endDate, $cabang_id), 'activity_plan.xlsx');
     }
 
-    public function resultExportDataInstansi()
+    public function resultExportDataInstansi(Request $request)
     {
-        return Excel::download(new LabulDataInstansiExport, 'data_instansi.xlsx');
+        $startDate = $request->data_instansi_start_date . " 00:00:00";
+        $endDate = $request->data_instansi_end_date . " 23:59:00";
+        $cabang_id = $request->data_instansi_cabang_id;
+
+        return Excel::download(new LabulDataInstansiExport($startDate, $endDate, $cabang_id), 'data_instansi.xlsx');
     }
 
-    public function resultExportDataMember()
+    public function resultExportDataMember(Request $request)
     {
-        return Excel::download(new LabulDataMemberExport, 'data_member.xlsx');
+        $startDate = $request->data_member_start_date . " 00:00:00";
+        $endDate = $request->data_member_end_date . " 23:59:00";
+        $cabang_id = $request->data_member_cabang_id;
+
+        return Excel::download(new LabulDataMemberExport($startDate, $endDate, $cabang_id), 'data_member.xlsx');
     }
 
-    public function resultExportDataReseller()
+    public function resultExportDataReseller(Request $request)
     {
-        return Excel::download(new LabulDataResellerExport, 'data_reseller.xlsx');
+        $startDate = $request->data_reseller_start_date . " 00:00:00";
+        $endDate = $request->data_reseller_end_date . " 23:59:00";
+        $cabang_id = $request->data_reseller_cabang_id;
+
+        return Excel::download(new LabulDataResellerExport($startDate, $endDate, $cabang_id), 'data_reseller.xlsx');
     }
 
-    public function resultExportInstansi()
+    public function resultExportInstansi(Request $request)
     {
-        return Excel::download(new LabulInstansiExport, 'instansi.xlsx');
+        $startDate = $request->instansi_start_date . " 00:00:00";
+        $endDate = $request->instansi_end_date . " 23:59:00";
+        $cabang_id = $request->instansi_cabang_id;
+
+        return Excel::download(new LabulInstansiExport($startDate, $endDate, $cabang_id), 'instansi.xlsx');
     }
 
-    public function resultExportKomplain()
+    public function resultExportKomplain(Request $request)
     {
-        return Excel::download(new LabulKomplainExport, 'komplain.xlsx');
+        $startDate = $request->komplain_start_date . " 00:00:00";
+        $endDate = $request->komplain_end_date . " 23:59:00";
+        $cabang_id = $request->komplain_cabang_id;
+
+        return Excel::download(new LabulKomplainExport($startDate, $endDate, $cabang_id), 'komplain.xlsx');
     }
 
-    public function resultExportOmzet()
+    public function resultExportOmzet(Request $request)
     {
-        return Excel::download(new LabulOmzetExport, 'omzet.xlsx');
+        $startDate = $request->omzet_start_date . " 00:00:00";
+        $endDate = $request->omzet_end_date . " 23:59:00";
+        $cabang_id = $request->omzet_cabang_id;
+
+        return Excel::download(new LabulOmzetExport($startDate, $endDate, $cabang_id), 'omzet.xlsx');
     }
 
-    public function resultExportReqor()
+    public function resultExportReqor(Request $request)
     {
-        return Excel::download(new LabulReqorExport, 'reqor.xlsx');
+        $startDate = $request->reqor_start_date . " 00:00:00";
+        $endDate = $request->reqor_end_date . " 23:59:00";
+        $cabang_id = $request->reqor_cabang_id;
+
+        return Excel::download(new LabulReqorExport($startDate, $endDate, $cabang_id), 'reqor.xlsx');
     }
 
-    public function resultExportReseller()
+    public function resultExportReseller(Request $request)
     {
-        return Excel::download(new LabulResellerExport, 'reseller.xlsx');
+        $startDate = $request->reseller_start_date . " 00:00:00";
+        $endDate = $request->reseller_end_date . " 23:59:00";
+        $cabang_id = $request->reseller_cabang_id;
+
+        return Excel::download(new LabulResellerExport($startDate, $endDate, $cabang_id), 'reseller.xlsx');
     }
 
-    public function resultExportSurveyKompetitor()
+    public function resultExportSurveyKompetitor(Request $request)
     {
-        return Excel::download(new LabulSurveyKompetitorExport, 'survey_kompetitor.xlsx');
+        $startDate = $request->survey_kompetitor_start_date . " 00:00:00";
+        $endDate = $request->survey_kompetitor_end_date . " 23:59:00";
+        $cabang_id = $request->survey_kompetitor_cabang_id;
+
+        return Excel::download(new LabulSurveyKompetitorExport($startDate, $endDate, $cabang_id), 'survey_kompetitor.xlsx');
     }
 }

@@ -9,10 +9,26 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class LabulInstansiExport implements FromView
 {
+    public function __construct($startDate, $endDate, $cabang_id)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+        $this->cabang_id = $cabang_id;
+    }
+
     public function view(): View
     {
-        return view('pages.labul.result.template_instansi', [
-            'instansi' => LabulInstansi::get()
-        ]);
+        if ($this->cabang_id == "") {
+            return view('pages.labul.result.template_instansi', [
+                'instansi' => LabulInstansi::whereBetween('created_at', [$this->startDate, $this->endDate])
+                    ->get()
+            ]);
+        } else {
+            return view('pages.labul.result.template_instansi', [
+                'instansi' => LabulInstansi::whereBetween('created_at', [$this->startDate, $this->endDate])
+                    ->where('cabang_id', $this->cabang_id)
+                    ->get()
+            ]);
+        }
     }
 }
