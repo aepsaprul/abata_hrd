@@ -148,6 +148,7 @@ class MasterKaryawanController extends Controller
             $karyawan->status = "Aktif";
             $karyawan->created_by = Auth::user()->id;
 
+            // dev
             if($request->hasFile('foto')) {
                 $file = $request->file('foto');
                 $extension = $file->getClientOriginalExtension();
@@ -155,6 +156,15 @@ class MasterKaryawanController extends Controller
                 $file->move('public/image/', $filename);
                 $karyawan->foto = $filename;
             }
+
+            // prod
+            // if($request->hasFile('foto')) {
+            //     $file = $request->file('foto');
+            //     $extension = $file->getClientOriginalExtension();
+            //     $filename = time() . "." . $extension;
+            //     $file->move('image/', $filename);
+            //     $karyawan->foto = $filename;
+            // }
 
             $karyawan->save();
 
@@ -274,9 +284,15 @@ class MasterKaryawanController extends Controller
         $user = User::where('master_karyawan_id', $karyawan->id)->first();
         $user->delete();
 
+        // dev
         if (file_exists("public/image/" . $karyawan->foto)) {
             File::delete("public/image/" . $karyawan->foto);
         }
+
+        // prod
+        // if (file_exists("image/" . $karyawan->foto)) {
+        //     File::delete("image/" . $karyawan->foto);
+        // }
 
         $karyawan->delete();
 
@@ -409,6 +425,7 @@ class MasterKaryawanController extends Controller
             $karyawan->rekening_nomor = $request->rekening_nomor;
             $karyawan->total_cuti = $request->total_cuti;
 
+            // dev
             if($request->hasFile('foto')) {
                 if (file_exists("public/image/" . $karyawan->foto)) {
                     File::delete("public/image/" . $karyawan->foto);
@@ -419,6 +436,18 @@ class MasterKaryawanController extends Controller
                 $file->move('public/image/', $filename);
                 $karyawan->foto = $filename;
             }
+
+            // prod
+            // if($request->hasFile('foto')) {
+            //     if (file_exists("image/" . $karyawan->foto)) {
+            //         File::delete("image/" . $karyawan->foto);
+            //     }
+            //     $file = $request->file('foto');
+            //     $extension = $file->getClientOriginalExtension();
+            //     $filename = time() . "." . $extension;
+            //     $file->move('image/', $filename);
+            //     $karyawan->foto = $filename;
+            // }
 
             $karyawan->save();
 

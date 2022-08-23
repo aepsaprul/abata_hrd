@@ -113,6 +113,7 @@ class ProfileController extends Controller
             $karyawan->status_perkawinan = $request->status_perkawinan;
             $karyawan->agama = $request->agama;
 
+            // dev
             if($request->hasFile('foto')) {
                 if (file_exists("public/image/" . $karyawan->foto)) {
                     File::delete("public/image/" . $karyawan->foto);
@@ -123,6 +124,18 @@ class ProfileController extends Controller
                 $file->move('public/image/', $filename);
                 $karyawan->foto = $filename;
             }
+
+            // prod
+            // if($request->hasFile('foto')) {
+            //     if (file_exists("image/" . $karyawan->foto)) {
+            //         File::delete("image/" . $karyawan->foto);
+            //     }
+            //     $file = $request->file('foto');
+            //     $extension = $file->getClientOriginalExtension();
+            //     $filename = time() . "." . $extension;
+            //     $file->move('image/', $filename);
+            //     $karyawan->foto = $filename;
+            // }
 
             $karyawan->save();
 
