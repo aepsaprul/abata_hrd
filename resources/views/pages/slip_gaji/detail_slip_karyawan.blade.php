@@ -41,7 +41,7 @@
                 <tr>
                     <td>No Rekening</td>
                     <td>:</td>
-                    <td>-</td>
+                    <td>{{ $slip_detail->karyawan->rekening_nomor }}</td>
                 </tr>
             </table>
         </div>
