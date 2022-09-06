@@ -341,11 +341,11 @@
                 <th style="padding: 5px;">Total Subsidi</th>
             </tr>
             <tr>
-                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ $slip_detail->bpjs_kesehatan }}</span></td>
-                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ $slip_detail->bpjs_tk_jht }}</span></td>
-                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ $slip_detail->bpjs_tk_jkm }}</td>
-                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ $slip_detail->bpjs_tk_jkk }}</td>
-                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ $slip_detail->bpjs_kesehatan + $slip_detail->bpjs_tk_jht + $slip_detail->bpjs_tk_jkm + $slip_detail->bpjs_tk_jkk }}</span></td>
+                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ rupiah($slip_detail->bpjs_kesehatan) }}</span></td>
+                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ rupiah($slip_detail->bpjs_tk_jht) }}</span></td>
+                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ rupiah($slip_detail->bpjs_tk_jkm) }}</td>
+                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ rupiah($slip_detail->bpjs_tk_jkk) }}</td>
+                <td style="padding: 5px;"><span>Rp</span><span style="float: right;">{{ rupiah($slip_detail->bpjs_kesehatan + $slip_detail->bpjs_tk_jht + $slip_detail->bpjs_tk_jkm + $slip_detail->bpjs_tk_jkk) }}</span></td>
             </tr>
         </table>
         <div style="clear: both;"></div>
