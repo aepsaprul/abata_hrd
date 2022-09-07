@@ -363,7 +363,6 @@ class MasterKaryawanController extends Controller
             'tanggal_lahir.date' => 'Tanggal lahir harus diisi dengan tipe date',
             'alamat_asal.required' => 'Alamat asal harus diisi',
             'alamat_domisili.required' => 'Alamat domisili harus diisi',
-            'foto.required' => 'foto harus diisi',
             'foto.image' => 'foto harus diisi dengan tipe gambar',
             'foto.mimes' => 'foto harus diisi dengan format jpg/jpeg/png',
             'foto.max' => 'foto maksimal 2 Mb'
@@ -387,7 +386,7 @@ class MasterKaryawanController extends Controller
             'tanggal_lahir' => 'required|date',
             'alamat_asal' => 'required',
             'alamat_domisili' => 'required',
-            'foto' => 'required|image|mimes:jpg,png,jpeg|max:2048'
+            'foto' => 'image|mimes:jpg,png,jpeg|max:2048'
         ], $messages);
 
         if ($validator->fails()) {
