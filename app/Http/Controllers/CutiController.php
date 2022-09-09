@@ -18,7 +18,7 @@ class CutiController extends Controller
     public function index()
     {
         if (Auth::user()->master_karyawan_id == 0 || Auth::user()->masterKaryawan->master_cabang_id == 1) {
-            $cuti = HcCuti::orderBy('id', 'desc')->get();
+            $cuti = HcCuti::orderBy('id', 'desc')->limit(30)->get();
         } else {
             $cuti_approvers = CutiApprover::where('atasan_id', 'like', '%'.Auth::user()->master_karyawan_id.'%')->get();
             if (count($cuti_approvers) > 0) {
@@ -27,9 +27,13 @@ class CutiController extends Controller
                         $query->where('master_cabang_id', Auth::user()->masterKaryawan->master_cabang_id);
                     })
                     ->orderBy('id', 'desc')
+                    ->limit(30)
                     ->get();
             } else {
-                $cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)->orderBy('id', 'desc')->get();
+                $cuti = HcCuti::where('master_karyawan_id', Auth::user()->master_karyawan_id)
+                    ->orderBy('id', 'desc')
+                    ->limit(30)
+                    ->get();
             }
         }
 
