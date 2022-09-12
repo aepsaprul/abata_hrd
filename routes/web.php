@@ -291,8 +291,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cuti/{id}/atasan_tolak', [CutiController::class, 'atasanTolak'])->name('cuti.atasan_tolak');
     Route::get('cuti/{id}/hc_approve', [CutiController::class, 'hcApprove'])->name('cuti.hc_approve');
     Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
-    Route::get('cuti/{id}/approved', [CutiController::class, 'approved'])->name('cuti.approved');
-    Route::get('cuti/{id}/disapproved', [CutiController::class, 'disapproved'])->name('cuti.disapproved');
+    Route::post('cuti/approved', [CutiController::class, 'approved'])->name('cuti.approved');
+    Route::post('cuti/disapproved', [CutiController::class, 'disapproved'])->name('cuti.disapproved');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');

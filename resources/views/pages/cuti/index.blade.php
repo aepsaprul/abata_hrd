@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 <!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
 @endsection
@@ -116,9 +116,13 @@
                                                                     @if ($item_cuti_detail->confirm == 1)
                                                                         <span class="bg-success px-2">Approved</span><br>
                                                                         <span>{{ $item_cuti_detail->approvedLeader->nama_lengkap }}</span>
+                                                                        <br>
+                                                                        <span>{{ $item_cuti_detail->approved_keterangan }}</span>
                                                                     @elseif ($item_cuti_detail->confirm == 2)
                                                                         <span class="bg-danger px-2">Disapproved</span><br>
                                                                         <span>{{ $item_cuti_detail->approvedLeader->nama_lengkap }}</span>
+                                                                        <br>
+                                                                        <span>{{ $item_cuti_detail->approved_keterangan }}</span>
                                                                     @else
                                                                         @if (preg_match("/\b$karyawan_id\b/i", $atasan, ))
                                                                             <button class="btn btn-sm btn-primary btn-approve" style="width: 40px;" data-id="{{ $item_cuti_detail->id }}"><i class="fas fa-check"></i></button>
@@ -340,6 +344,68 @@
     </div>
 </div>
 
+{{-- modal approved --}}
+<div class="modal fade modal_approved" id="modal-default">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="form_approved" method="POST">
+                <div class="modal-header">
+                    <h4 class="modal-title">Keterangan Approve</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="approved_id" id="approved_id">
+                    <div class="mb-3">
+                        <input type="text" name="approved_keterangan" id="approved_keterangan" class="form-control" placeholder="kosongkan bila tidak ada">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-approved-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-approved-save" style="width: 130px;">
+                        <i class="fas fa-paper-plane"></i> Approved
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- modal disapproved --}}
+<div class="modal fade modal_disapproved" id="modal-default">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="form_disapproved" method="POST">
+                <div class="modal-header">
+                    <h4 class="modal-title">Keterangan Disapprove</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="disapproved_id" id="disapproved_id">
+                    <div class="mb-3">
+                        <input type="text" name="disapproved_keterangan" id="disapproved_keterangan" class="form-control" placeholder="kosongkan bila tidak ada">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-disapproved-spinner d-none" disabled style="width: 130px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Loading...
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-disapproved-save" style="width: 130px;">
+                        <i class="fas fa-paper-plane"></i> Disapproved
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {{-- modal delete --}}
 <div class="modal fade modal-delete" id="modal-default">
     <div class="modal-dialog modal-dialog-centered">
@@ -441,8 +507,7 @@
             $('#nama').focus();
 
             $('.select_pengganti').select2({
-                theme: 'bootstrap4',
-                dropdownParent: $(".modal-form")
+                theme: 'bootstrap4'
             });
         });
 
@@ -548,22 +613,26 @@
         // btn approve cuti
         $(document).on('click', '.btn-approve', function (e) {
             e.preventDefault();
-
             let id = $(this).attr('data-id');
-            let url = '{{ route("cuti.approved", ":id") }}';
-            url = url.replace(':id', id);
+            $('#approved_id').val(id);
+            $('.modal_approved').modal('show');
+        })
+
+        $(document).on('submit', '#form_approved', function (e) {
+            e.preventDefault();
 
             let formData = {
-                id: id
+                id: $('#approved_id').val(),
+                keterangan: $('#approved_keterangan').val()
             }
 
             $.ajax({
-                url: url,
-                type: 'GET',
+                url: "{{ URL::route('cuti.approved') }}",
+                type: 'post',
                 data: formData,
                 beforeSend: function () {
-                    $('.btn-approve-spinner').removeClass('d-none');
-                    $('.btn-approve').addClass('d-none');
+                    $('.btn-approved-spinner').removeClass('d-none');
+                    $('.btn-approved-save').addClass('d-none');
                 },
                 success: function (response) {
                     console.log(response);
@@ -582,24 +651,29 @@
         // btn disapprove cuti
         $(document).on('click', '.btn-disapprove', function (e) {
             e.preventDefault();
-
             let id = $(this).attr('data-id');
-            let url = '{{ route("cuti.disapproved", ":id") }}';
-            url = url.replace(':id', id);
+            $('#disapproved_id').val(id);
+            $('.modal_disapproved').modal('show');
+        })
+
+        $(document).on('submit', '#form_disapproved', function (e) {
+            e.preventDefault();
 
             let formData = {
-                id: id
+                id: $('#disapproved_id').val(),
+                keterangan: $('#disapproved_keterangan').val()
             }
 
             $.ajax({
-                url: url,
-                type: 'GET',
+                url: "{{ URL::route('cuti.disapproved') }}",
+                type: 'post',
                 data: formData,
                 beforeSend: function () {
-                    $('.btn-approve-spinner').removeClass('d-none');
-                    $('.btn-disapprove').addClass('d-none');
+                    $('.btn-disapproved-spinner').removeClass('d-none');
+                    $('.btn-disapproved-save').addClass('d-none');
                 },
                 success: function (response) {
+                    console.log(response);
                     Toast.fire({
                         icon: 'success',
                         title: 'Cuti tidak disetujui'

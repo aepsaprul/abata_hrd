@@ -217,9 +217,9 @@ class CutiController extends Controller
         }
     }
 
-    public function approved($id)
+    public function approved(Request $request)
     {
-        $cuti_detail = CutiDetail::find($id);
+        $cuti_detail = CutiDetail::find($request->id);
 
         // update status, agar cuti tampil di approver selanjutnya
         $hirarki = $cuti_detail->hirarki + 1;
@@ -266,6 +266,7 @@ class CutiController extends Controller
         $cuti_detail->approved_text = $approved_text;
         $cuti_detail->approved_percentage = $cuti_detail->approved_percentage + $percentage;
         $cuti_detail->approved_background = "primary";
+        $cuti_detail->approved_keterangan = $request->keterangan;
         $cuti_detail->save();
 
         $cuti = HcCuti::find($cuti_detail->cuti_id);
@@ -292,7 +293,7 @@ class CutiController extends Controller
         ]);
     }
 
-    public function disapproved($id)
+    public function disapproved(Request $request)
     {
         $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
         if ($karyawan->jenis_kelamin == "L") {
@@ -301,7 +302,7 @@ class CutiController extends Controller
             $approved_text = "Disapproved Oleh Bu";
         }
 
-        $cuti_detail = CutiDetail::find($id);
+        $cuti_detail = CutiDetail::find($request->id);
         $cuti_detail->status = 1;
         $cuti_detail->confirm = 2;
         $cuti_detail->approved_date = date('Y-m-d H:i:s');
@@ -309,6 +310,7 @@ class CutiController extends Controller
         $cuti_detail->approved_text = $approved_text;
         $cuti_detail->approved_percentage = 100;
         $cuti_detail->approved_background = "danger";
+        $cuti_detail->approved_keterangan = $request->keterangan;
         $cuti_detail->save();
 
         $cuti = HcCuti::find($cuti_detail->cuti_id);
