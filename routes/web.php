@@ -17,6 +17,7 @@ use App\Http\Controllers\MasterKaryawanController;
 use App\Http\Controllers\MasterJabatanController;
 use App\Http\Controllers\MasterCabangController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\ComproController;
 use App\Http\Controllers\CutiApproveController;
 use App\Http\Controllers\CutiApproverController;
 use App\Http\Controllers\CutiController;
@@ -432,6 +433,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/result/export_reqor', [LabulController::class, 'resultExportReqor'])->name('labul.result.export_reqor');
     Route::post('labul/result/export_reseller', [LabulController::class, 'resultExportReseller'])->name('labul.result.export_reseller');
     Route::post('labul/result/export_survey_kompetitor', [LabulController::class, 'resultExportSurveyKompetitor'])->name('labul.result.export_survey_kompetitor');
+
+    Route::get('compro/tentang', [ComproController::class, 'tentang'])->name('compro.tentang');
+    Route::post('compro/tentang/store', [ComproController::class, 'tentangStore'])->name('compro.tentang.store');
+    Route::get('compro/{id}/edit', [ComproController::class, 'tentangEdit'])->name('compro.tentang.edit');
+    Route::post('compro/update', [ComproController::class, 'tentangUpdate'])->name('compro.tentang.update');
+    Route::post('compro/delete', [ComproController::class, 'tentangDelete'])->name('compro.tentang.delete');
+
+    
 
     // Route::resource('hc/cir', HcCirController::class);
     // Route::get('hc/cir/{id}/delete', [HcCirController::class, 'delete'])->name('cir.delete');
