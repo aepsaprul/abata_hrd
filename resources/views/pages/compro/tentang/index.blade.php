@@ -35,7 +35,17 @@
                             <div class="card-header">
                               <form action="{{ route('compro.tentang.store') }}" method="POST">
                                 @csrf
-                                <div class="mb-3">
+                                <div class="row">
+                                  <div class="col-lg-6 col-md-4 col-sm-6 col-12">
+                                    <label for="create_grup">Grup</label>
+                                    <select name="create_grup" id="create_grup" class="form-control" required>
+                                      <option value="">--Pilih Grup--</option>
+                                      <option value="abata">Abata</option>
+                                      <option value="adaya">Adaya</option>
+                                      <option value="utakatik">Utak atik</option>
+                                      <option value="wahana">Wahana</option>
+                                    </select>
+                                  </div>
                                   <div class="col-lg-6 col-md-4 col-sm-6 col-12">
                                     <label for="create_nama">Nama</label>
                                     <select name="create_nama" id="create_nama" class="form-control" required>
@@ -45,15 +55,13 @@
                                       <option value="misi">Misi</option>
                                     </select>
                                   </div>
-                                </div>
-                                <div class="mb-3">
-                                  <div class="col-lg-6 col-md-4 col-sm-6 col-12">
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
                                     <label for="create_deskripsi">Deskripsi</label>
-                                    <textarea name="create_deskripsi" id="create_deskripsi" cols="30" rows="2" class="form-control" required></textarea>
+                                    <textarea name="create_deskripsi" id="create_deskripsi" cols="30" rows="3" class="form-control" required></textarea>
                                   </div>
                                 </div>
-                                <div class="mb-3">
-                                  <div class="col-4">
+                                <div class="row">
+                                  <div class="col-4 mt-3">
                                     <button type="submit" id="btn-simpan" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
                                   </div>
                                 </div>
@@ -65,6 +73,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
+                                        <th class="text-center text-indigo">Grup</th>
                                         <th class="text-center text-indigo">Nama</th>
                                         <th class="text-center text-indigo">Deskripsi</th>
                                         <th class="text-center text-indigo">Aksi</th>
@@ -74,6 +83,7 @@
                                     @foreach ($tentangs as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
+                                            <td>{{ $item->grup }}</td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->deskripsi }}</td>
                                             <td class="text-center">
@@ -121,7 +131,7 @@
 
 {{-- modal delete --}}
 <div class="modal fade modal-delete" id="modal-default">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <form id="form-delete">
               <input type="hidden" id="delete_id" name="delete_id">

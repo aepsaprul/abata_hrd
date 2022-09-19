@@ -434,11 +434,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/result/export_reseller', [LabulController::class, 'resultExportReseller'])->name('labul.result.export_reseller');
     Route::post('labul/result/export_survey_kompetitor', [LabulController::class, 'resultExportSurveyKompetitor'])->name('labul.result.export_survey_kompetitor');
 
+    // compro tentang
     Route::get('compro/tentang', [ComproController::class, 'tentang'])->name('compro.tentang');
     Route::post('compro/tentang/store', [ComproController::class, 'tentangStore'])->name('compro.tentang.store');
-    Route::get('compro/{id}/edit', [ComproController::class, 'tentangEdit'])->name('compro.tentang.edit');
-    Route::post('compro/update', [ComproController::class, 'tentangUpdate'])->name('compro.tentang.update');
-    Route::post('compro/delete', [ComproController::class, 'tentangDelete'])->name('compro.tentang.delete');
+    Route::get('compro/tentang/{id}/edit', [ComproController::class, 'tentangEdit'])->name('compro.tentang.edit');
+    Route::post('compro/tentang/update', [ComproController::class, 'tentangUpdate'])->name('compro.tentang.update');
+    Route::post('compro/tentang/delete', [ComproController::class, 'tentangDelete'])->name('compro.tentang.delete');
+
+    // compro kontak
+    Route::get('compro/kontak', [ComproController::class, 'kontak'])->name('compro.kontak');
+    Route::post('compro/kontak/store', [ComproController::class, 'kontakStore'])->name('compro.kontak.store');
+    Route::get('compro/kontak/{id}/edit', [ComproController::class, 'kontakEdit'])->name('compro.kontak.edit');
+    Route::post('compro/kontak/update', [ComproController::class, 'kontakUpdate'])->name('compro.kontak.update');
+    Route::post('compro/kontak/delete', [ComproController::class, 'kontakDelete'])->name('compro.kontak.delete');
 
     
 

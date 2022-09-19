@@ -35,6 +35,16 @@
                           @csrf
                           <input type="hidden" name="edit_id" id="edit_id" value="{{ $tentang->id }}">
                           <div class="mb-3">
+                            <label for="edit_grup">Grup</label>
+                            <select name="edit_grup" id="edit_grup" class="form-control">
+                              <option value="">--Pilih Grup--</option>
+                              <option value="abata" {{ $tentang->nama == "abata" ? "selected" : "" }}>Abata</option>
+                              <option value="adaya" {{ $tentang->nama == "adaya" ? "selected" : "" }}>Adaya</option>
+                              <option value="utakatik" {{ $tentang->nama == "utakatik" ? "selected" : "" }}>Utak atik</option>
+                              <option value="wahana" {{ $tentang->nama == "wahana" ? "selected" : "" }}>Wahana</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
                             <label for="edit_nama">Nama</label>
                             <select name="edit_nama" id="edit_nama" class="form-control">
                               <option value="">--Pilih Nama--</option>
