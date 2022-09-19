@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\ComproCabang;
 use App\Models\ComproKontak;
 use App\Models\ComproTentang;
+use App\Models\ComproTestimoni;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class ComproController extends Controller
@@ -153,5 +155,105 @@ class ComproController extends Controller
         $cabang->delete();
 
         return redirect()->route('compro.cabang');
+    }
+
+    // testimoni
+    public function testimoni()
+    {
+        $testimoni = ComproTestimoni::get();
+
+        return view('pages.compro.testimoni.index', ['testimonis' => $testimoni]);
+    }
+
+    public function testimoniStore(Request $request)
+    {
+        $testimoni = new ComproTestimoni;
+        $testimoni->grup = $request->create_grup;
+        $testimoni->nama = $request->create_nama;
+        $testimoni->komentar = $request->create_komentar;
+
+        // dev
+        if($request->hasFile('create_foto')) {
+            $file = $request->file('create_foto');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . "." . $extension;
+            $file->move('public/compro/testimoni/', $filename);
+            $testimoni->foto = $filename;
+        }
+
+        // prod
+        // if($request->hasFile('create_foto')) {
+        //     $file = $request->file('create_foto');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = time() . "." . $extension;
+        //     $file->move('compro/testimoni/', $filename);
+        //     $testimoni->foto = $filename;
+        // }
+        
+        $testimoni->save();
+
+        return redirect()->route('compro.testimoni');
+    }
+
+    public function testimoniEdit($id)
+    {
+        $testimoni = ComproTestimoni::find($id);
+
+        return view('pages.compro.testimoni.edit', ['testimoni' => $testimoni]);
+    }
+
+    public function testimoniUpdate(Request $request)
+    {
+        $testimoni = ComproTestimoni::find($request->edit_id);
+        $testimoni->grup = $request->edit_grup;
+        $testimoni->nama = $request->edit_nama;
+        $testimoni->komentar = $request->edit_komentar;
+
+        // dev
+        if($request->hasFile('edit_foto')) {
+            if (file_exists("public/compro/testimoni/" . $testimoni->foto)) {
+                File::delete("public/compro/testimoni/" . $testimoni->foto);
+            }
+            $file = $request->file('edit_foto');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . "." . $extension;
+            $file->move('public/compro/testimoni/', $filename);
+            $testimoni->foto = $filename;
+        }
+
+        // prod
+        // if($request->hasFile('edit_foto')) {
+        //     if (file_exists("compro/testimoni/" . $testimoni->foto)) {
+        //         File::delete("compro/testimoni/" . $testimoni->foto);
+        //     }
+        //     $file = $request->file('edit_foto');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = time() . "." . $extension;
+        //     $file->move('compro/testimoni/', $filename);
+        //     $testimoni->foto = $filename;
+        // }
+
+        $testimoni->save();
+
+        return redirect()->route('compro.testimoni');
+    }
+
+    public function testimoniDelete(Request $request)
+    {
+        $testimoni = ComproTestimoni::find($request->id);
+
+        // dev
+        if (file_exists("public/compro/testimoni/" . $testimoni->foto)) {
+            File::delete("public/compro/testimoni/" . $testimoni->foto);
+        }
+
+        // prod
+        // if (file_exists("compro/testimoni" . $testimoni->foto)) {
+        //     File::delete("compro/testimoni" . $testimoni->foto);
+        // }
+
+        $testimoni->delete();
+
+        return redirect()->route('compro.testimoni');
     }
 }
