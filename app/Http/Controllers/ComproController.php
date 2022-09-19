@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ComproCabang;
 use App\Models\ComproKontak;
 use App\Models\ComproTentang;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class ComproController extends Controller
 {
@@ -102,5 +104,54 @@ class ComproController extends Controller
         $kontak->delete();
 
         return redirect()->route('compro.kontak');
+    }
+
+    // cabang
+    public function cabang()
+    {
+        $cabang = ComproCabang::get();
+
+        return view('pages.compro.cabang.index', ['cabangs' => $cabang]);
+    }
+
+    public function cabangStore(Request $request)
+    {
+        $cabang = new ComproCabang;
+        $cabang->grup = $request->create_grup;
+        $cabang->nama = $request->create_nama;
+        $cabang->alamat = $request->create_alamat;
+        $cabang->kontak = $request->create_kontak;
+        $cabang->maps = $request->create_maps;
+        $cabang->save();
+
+        return redirect()->route('compro.cabang');
+    }
+
+    public function cabangEdit($id)
+    {
+        $cabang = ComproCabang::find($id);
+
+        return view('pages.compro.cabang.edit', ['cabang' => $cabang]);
+    }
+
+    public function cabangUpdate(Request $request)
+    {
+        $cabang = ComproCabang::find($request->edit_id);
+        $cabang->grup = $request->edit_grup;
+        $cabang->nama = $request->edit_nama;
+        $cabang->alamat = $request->edit_alamat;
+        $cabang->kontak = $request->edit_kontak;
+        $cabang->maps = $request->edit_maps;
+        $cabang->save();
+
+        return redirect()->route('compro.cabang');
+    }
+
+    public function cabangDelete(Request $request)
+    {
+        $cabang = ComproCabang::find($request->id);
+        $cabang->delete();
+
+        return redirect()->route('compro.cabang');
     }
 }
