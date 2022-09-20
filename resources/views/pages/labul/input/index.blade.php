@@ -696,6 +696,18 @@
                         <label for="omzet_cabang_piutang_terbayar" class="form-label">Piutang Terbayar</label>
                         <input type="text" name="omzet_cabang_piutang_terbayar" id="omzet_cabang_piutang_terbayar" class="form-control">
                     </div>
+                    <div class="mb-3">
+                        <label for="omzet_cabang_karyawan_sales_id" class="form-label">Nama Sales</label>
+                        <select name="omzet_cabang_karyawan_sales_id" id="omzet_cabang_karyawan_sales_id" class="form-control"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="omzet_cabang_pencapaian_omset_sales" class="form-label">Pencapaian Omset Sales</label>
+                        <input type="text" name="omzet_cabang_pencapaian_omset_sales" id="omzet_cabang_pencapaian_omset_sales" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="omzet_cabang_pencapaian_cash_sales" class="form-label">Pencapaian Cash Sales</label>
+                        <input type="text" name="omzet_cabang_pencapaian_cash_sales" id="omzet_cabang_pencapaian_cash_sales" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary btn-omzet-cabang-spinner d-none" disabled style="width: 130px;">
@@ -1356,6 +1368,12 @@
                         val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
                     })
                     $('#omzet_cabang_cabang_id').append(val_cabang);
+
+                    let val_sales = '<option value="">--Pilih Sales--</option>';
+                    $.each(response.sales, function (index, item) {
+                        val_sales += '<option value="' + item.id + '">' + item.nama_lengkap + '</option>';
+                    })
+                    $('#omzet_cabang_karyawan_sales_id').append(val_sales);
                 }
             })
             $('.modal-omzet-cabang').modal('show');
@@ -1480,6 +1498,16 @@
             let piutang_terbayar = document.getElementById("omzet_cabang_piutang_terbayar");
             piutang_terbayar.addEventListener("keyup", function(e) {
                 piutang_terbayar.value = formatRupiah(this.value, "");
+            });
+
+            let pencapaian_omset_sales = document.getElementById("omzet_cabang_pencapaian_omset_sales");
+            pencapaian_omset_sales.addEventListener("keyup", function(e) {
+                pencapaian_omset_sales.value = formatRupiah(this.value, "");
+            });
+
+            let pencapaian_cash_sales = document.getElementById("omzet_cabang_pencapaian_cash_sales");
+            pencapaian_cash_sales.addEventListener("keyup", function(e) {
+                pencapaian_cash_sales.value = formatRupiah(this.value, "");
             });
         });
 

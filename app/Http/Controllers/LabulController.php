@@ -25,6 +25,7 @@ use App\Models\LabulReqor;
 use App\Models\LabulReseller;
 use App\Models\LabulSurveyKompetitor;
 use App\Models\MasterCabang;
+use App\Models\MasterKaryawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -389,9 +390,11 @@ class LabulController extends Controller
     public function inputOmzetCabang()
     {
         $cabang = MasterCabang::get();
+        $sales = MasterKaryawan::where('master_jabatan_id', '56')->get();
 
         return response()->json([
-            'cabangs' => $cabang
+            'cabangs' => $cabang,
+            'sales' => $sales
         ]);
     }
 
@@ -430,6 +433,9 @@ class LabulController extends Controller
         $omzet->cash_harian = str_replace(",", "", $request->omzet_cabang_cash_harian);
         $omzet->piutang_bulan_berjalan = str_replace(",", "", $request->omzet_cabang_piutang_bulan_berjalan);
         $omzet->piutang_terbayar = str_replace(",", "", $request->omzet_cabang_piutang_terbayar);
+        $omzet->karyawan_sales_id = str_replace(",", "", $request->omzet_cabang_karyawan_sales_id);
+        $omzet->pencapaian_omset_sales = str_replace(",", "", $request->omzet_cabang_pencapaian_omset_sales);
+        $omzet->pencapaian_cash_sales = str_replace(",", "", $request->omzet_cabang_pencapaian_cash_sales);
         $omzet->save();
 
         return response()->json([
