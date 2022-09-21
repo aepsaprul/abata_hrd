@@ -462,6 +462,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('compro/testimoni/update', [ComproController::class, 'testimoniUpdate'])->name('compro.testimoni.update');
     Route::post('compro/testimoni/delete', [ComproController::class, 'testimoniDelete'])->name('compro.testimoni.delete');
 
+    // compro produk
+    Route::get('compro/produk', [ComproController::class, 'produk'])->name('compro.produk');
+    Route::post('compro/produk/store', [ComproController::class, 'produkStore'])->name('compro.produk.store');
+    Route::get('compro/produk/{id}/edit', [ComproController::class, 'produkEdit'])->name('compro.produk.edit');
+    Route::post('compro/produk/update', [ComproController::class, 'produkUpdate'])->name('compro.produk.update');
+    Route::post('compro/produk/delete', [ComproController::class, 'produkDelete'])->name('compro.produk.delete');
+
     
 
     // Route::resource('hc/cir', HcCirController::class);

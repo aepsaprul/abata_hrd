@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ComproCabang;
 use App\Models\ComproKontak;
+use App\Models\ComproProduk;
 use App\Models\ComproTentang;
 use App\Models\ComproTestimoni;
 use Illuminate\Http\Request;
@@ -255,5 +256,104 @@ class ComproController extends Controller
         $testimoni->delete();
 
         return redirect()->route('compro.testimoni');
+    }
+
+    public function produk()
+    {
+      $produk = ComproProduk::get();
+
+      return view('pages.compro.produk.index', ['produks' => $produk]);
+    }
+
+    public function produkStore(Request $request)
+    {
+      $produk = new ComproProduk;
+      $produk->grup = $request->create_grup;
+      $produk->nama_produk = $request->create_nama_produk;
+      
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/produk/', $filename);
+        $produk->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/produk/', $filename);
+      //     $produk->gambar = $filename;
+      // }
+
+      $produk->save();
+
+      return redirect()->route('compro.produk');
+    }
+
+    public function produkEdit($id)
+    {
+      $produk = ComproProduk::find($id);
+      
+      return view('pages.compro.produk.edit', ['produk' => $produk]);
+    }
+
+    public function produkUpdate(Request $request)
+    {
+      $produk = ComproProduk::find($request->edit_id);
+      $produk->grup = $request->edit_grup;
+      $produk->nama_produk = $request->edit_nama_produk;
+      
+      // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/produk/" . $produk->gambar)) {
+            File::delete("public/compro/produk/" . $produk->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/produk/', $filename);
+        $produk->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/produk/" . $produk->gambar)) {
+      //         File::delete("compro/produk/" . $produk->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/produk/', $filename);
+      //     $produk->gambar = $filename;
+      // }
+      
+      $produk->save();
+
+      return redirect()->route('compro.produk');
+    }
+
+    public function produkDelete(Request $request)
+    {
+      $produk = ComproProduk::find($request->id);
+
+      // dev
+      if (file_exists("public/compro/produk/" . $produk->gambar)) {
+        File::delete("public/compro/produk/" . $produk->gambar);
+      }
+
+      // prod
+      // if (file_exists("compro/produk" . $produk->gambar)) {
+      //     File::delete("compro/produk" . $produk->gambar);
+      // }
+      
+      $produk->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
     }
 }
