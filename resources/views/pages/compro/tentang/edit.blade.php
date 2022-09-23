@@ -38,10 +38,10 @@
                             <label for="edit_grup">Grup</label>
                             <select name="edit_grup" id="edit_grup" class="form-control">
                               <option value="">--Pilih Grup--</option>
-                              <option value="abata" {{ $tentang->nama == "abata" ? "selected" : "" }}>Abata</option>
-                              <option value="adaya" {{ $tentang->nama == "adaya" ? "selected" : "" }}>Adaya</option>
-                              <option value="utakatik" {{ $tentang->nama == "utakatik" ? "selected" : "" }}>Utak atik</option>
-                              <option value="wahana" {{ $tentang->nama == "wahana" ? "selected" : "" }}>Wahana</option>
+                              <option value="abata" {{ $tentang->grup == "abata" ? "selected" : "" }}>Abata</option>
+                              <option value="adaya" {{ $tentang->grup == "adaya" ? "selected" : "" }}>Adaya</option>
+                              <option value="utakatik" {{ $tentang->grup == "utakatik" ? "selected" : "" }}>Utak atik</option>
+                              <option value="wahana" {{ $tentang->grup == "wahana" ? "selected" : "" }}>Wahana</option>
                             </select>
                           </div>
                           <div class="mb-3">

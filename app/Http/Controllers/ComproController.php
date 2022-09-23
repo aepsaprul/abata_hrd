@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ComproCabang;
+use App\Models\ComproGabung;
 use App\Models\ComproKontak;
 use App\Models\ComproProduk;
 use App\Models\ComproTentang;
@@ -351,6 +352,108 @@ class ComproController extends Controller
       // }
       
       $produk->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    // gabung
+    public function gabung()
+    {
+      $gabung = ComproGabung::get();
+
+      return view('pages.compro.gabung.index', ['gabungs' => $gabung]);
+    }
+
+    public function gabungStore(Request $request)
+    {
+      $gabung = new ComproGabung;
+      $gabung->grup = $request->create_grup;
+      $gabung->nama = $request->create_nama;
+      $gabung->deskripsi = $request->create_deskripsi;
+
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/gabung/', $filename);
+        $gabung->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/gabung/', $filename);
+      //     $gabung->gambar = $filename;
+      // }
+
+      $gabung->save();
+
+      return redirect()->route('compro.gabung');
+    }
+
+    public function gabungEdit($id)
+    {
+      $gabung = ComproGabung::find($id);
+
+      return view('pages.compro.gabung.edit', ['gabung' => $gabung]);
+    }
+
+    public function gabungUpdate(Request $request)
+    {
+      $gabung = ComproGabung::find($request->edit_id);
+      $gabung->grup = $request->edit_grup;
+      $gabung->nama = $request->edit_nama;
+      $gabung->deskripsi = $request->edit_deskripsi;
+
+      // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/gabung/" . $gabung->gambar)) {
+            File::delete("public/compro/gabung/" . $gabung->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/gabung/', $filename);
+        $gabung->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/gabung/" . $gabung->gambar)) {
+      //         File::delete("compro/gabung/" . $gabung->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/gabung/', $filename);
+      //     $gabung->gambar = $filename;
+      // }
+
+      $gabung->save();
+
+      return redirect()->route('compro.gabung');
+    }
+
+    public function gabungDelete(Request $request)
+    {
+      $gabung = ComproGabung::find($request->id);
+
+      // dev
+      if (file_exists("public/compro/gabung/" . $gabung->gambar)) {
+        File::delete("public/compro/gabung/" . $gabung->gambar);
+      }
+
+      // prod
+      // if (file_exists("compro/gabung" . $gabung->gambar)) {
+      //     File::delete("compro/gabung" . $gabung->gambar);
+      // }
+
+      $gabung->delete();
 
       return response()->json([
         'status' => 200

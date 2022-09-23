@@ -469,6 +469,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('compro/produk/update', [ComproController::class, 'produkUpdate'])->name('compro.produk.update');
     Route::post('compro/produk/delete', [ComproController::class, 'produkDelete'])->name('compro.produk.delete');
 
+    // compro gabung
+    Route::get('compro/gabung', [ComproController::class, 'gabung'])->name('compro.gabung');
+    Route::post('compro/gabung/store', [ComproController::class, 'gabungStore'])->name('compro.gabung.store');
+    Route::get('compro/gabung/{id}/edit', [ComproController::class, 'gabungEdit'])->name('compro.gabung.edit');
+    Route::post('compro/gabung/update', [ComproController::class, 'gabungUpdate'])->name('compro.gabung.update');
+    Route::post('compro/gabung/delete', [ComproController::class, 'gabungDelete'])->name('compro.gabung.delete');
+
     
 
     // Route::resource('hc/cir', HcCirController::class);
