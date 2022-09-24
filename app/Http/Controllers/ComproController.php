@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\ComproCabang;
 use App\Models\ComproGabung;
 use App\Models\ComproKontak;
+use App\Models\ComproPartner;
 use App\Models\ComproProduk;
 use App\Models\ComproTentang;
 use App\Models\ComproTestimoni;
+use App\Models\ComproTim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
@@ -458,5 +460,194 @@ class ComproController extends Controller
       return response()->json([
         'status' => 200
       ]);
+    }
+
+    // tim
+    public function tim()
+    {
+      $tim = ComproTim::get();
+
+      return view('pages.compro.tim.index', ['tims' => $tim]);
+    }
+
+    public function timStore(Request $request)
+    {
+      $tim = new ComproTim;
+      $tim->grup = $request->create_grup;
+      $tim->nama = $request->create_nama;
+      $tim->jabatan = $request->create_jabatan;
+      $tim->deskripsi = $request->create_deskripsi;
+
+      // dev
+      if($request->hasFile('create_foto')) {
+        $file = $request->file('create_foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/tim/', $filename);
+        $tim->foto = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_foto')) {
+      //     $file = $request->file('create_foto');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/tim/', $filename);
+      //     $tim->foto = $filename;
+      // }
+
+      $tim->save();
+
+      return redirect()->route('compro.tim');
+    }
+
+    public function timEdit($id)
+    {
+      $tim = ComproTim::find($id);
+
+      return view('pages.compro.tim.edit', ['tim' => $tim]);
+    }
+
+    public function timUpdate(Request $request)
+    {
+      $tim = ComproTim::find($request->edit_id);
+      $tim->grup = $request->edit_grup;
+      $tim->nama = $request->edit_nama;
+      $tim->jabatan = $request->edit_jabatan;
+      $tim->deskripsi = $request->edit_deskripsi;
+      
+      // dev
+      if($request->hasFile('edit_foto')) {
+        if (file_exists("public/compro/tim/" . $tim->foto)) {
+            File::delete("public/compro/tim/" . $tim->foto);
+        }
+        $file = $request->file('edit_foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/tim/', $filename);
+        $tim->foto = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_foto')) {
+      //     if (file_exists("compro/tim/" . $tim->foto)) {
+      //         File::delete("compro/tim/" . $tim->foto);
+      //     }
+      //     $file = $request->file('edit_foto');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/tim/', $filename);
+      //     $tim->foto = $filename;
+      // }
+
+      $tim->save();
+
+      return redirect()->route('compro.tim');
+    }
+
+    public function timDelete(Request $request)
+    {
+      $tim = ComproTim::find($request->id);
+
+      // dev
+      if (file_exists("public/compro/tim/" . $tim->foto)) {
+        File::delete("public/compro/tim/" . $tim->foto);
+      }
+
+      // prod
+      // if (file_exists("compro/tim" . $tim->foto)) {
+      //     File::delete("compro/tim" . $tim->foto);
+      // }
+
+      $tim->delete();
+
+      return redirect()->route('compro.tim');
+    }
+
+    // partner
+    public function partner()
+    {
+      $partner = ComproPartner::get();
+
+      return view('pages.compro.partner.index', ['partners' => $partner]);
+    }
+
+    public function partnerStore(Request $request)
+    {
+      $partner = new ComproPartner;
+      $partner->grup = $request->create_grup;
+      $partner->nama = $request->create_nama;
+
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/partner/', $filename);
+        $partner->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/partner/', $filename);
+      //     $partner->gambar = $filename;
+      // }
+
+      $partner->save();
+
+      return redirect()->route('compro.partner');
+    }
+
+    public function partnerEdit($id)
+    {
+      $partner = ComproPartner::find($id);
+
+      return view('pages.compro.partner.edit', ['partner' => $partner]);
+    }
+
+    public function partnerUpdate(Request $request)
+    {
+      $partner = ComproPartner::find($request->edit_id);
+      $partner->grup = $request->edit_grup;
+      $partner->nama = $request->edit_nama;
+
+      // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/partner/" . $partner->gambar)) {
+            File::delete("public/compro/partner/" . $partner->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/partner/', $filename);
+        $partner->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/partner/" . $partner->gambar)) {
+      //         File::delete("compro/partner/" . $partner->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/partner/', $filename);
+      //     $partner->gambar = $filename;
+      // }
+
+      $partner->save();
+
+      return redirect()->route('compro.partner');
+    }
+
+    public function partnerDelete(Request $request)
+    {
+      $partner = ComproPartner::find($request->id);
+      $partner->delete();
+
+      return response()->route('compro.partner');
     }
 }

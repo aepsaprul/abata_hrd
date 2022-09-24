@@ -476,6 +476,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('compro/gabung/update', [ComproController::class, 'gabungUpdate'])->name('compro.gabung.update');
     Route::post('compro/gabung/delete', [ComproController::class, 'gabungDelete'])->name('compro.gabung.delete');
 
+    // compro tim
+    Route::get('compro/tim', [ComproController::class, 'tim'])->name('compro.tim');
+    Route::post('compro/tim/store', [ComproController::class, 'timStore'])->name('compro.tim.store');
+    Route::get('compro/tim/{id}/edit', [ComproController::class, 'timEdit'])->name('compro.tim.edit');
+    Route::post('compro/tim/update', [ComproController::class, 'timUpdate'])->name('compro.tim.update');
+    Route::post('compro/tim/delete', [ComproController::class, 'timDelete'])->name('compro.tim.delete');
+    
+    // compro partner
+    Route::get('compro/partner', [ComproController::class, 'partner'])->name('compro.partner');
+    Route::post('compro/partner/store', [ComproController::class, 'partnerStore'])->name('compro.partner.store');
+    Route::get('compro/partner/{id}/edit', [ComproController::class, 'partnerEdit'])->name('compro.partner.edit');
+    Route::post('compro/partner/update', [ComproController::class, 'partnerUpdate'])->name('compro.partner.update');
+    Route::post('compro/partner/delete', [ComproController::class, 'partnerDelete'])->name('compro.partner.delete');
+
     
 
     // Route::resource('hc/cir', HcCirController::class);
