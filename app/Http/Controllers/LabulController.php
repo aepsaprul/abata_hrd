@@ -479,6 +479,7 @@ class LabulController extends Controller
         ]);
     }
 
+    // result activity plan
     public function resultActivityPlanDetail($id)
     {
       $activity_plan = LabulActivityPlan::with('cabang')->find($id);
@@ -648,6 +649,7 @@ class LabulController extends Controller
         return Excel::download(new LabulDataInstansiExport($startDate, $endDate, $cabang_id), 'data_instansi.xlsx');
     }
 
+    // result data member
     public function resultExportDataMember(Request $request)
     {
         $startDate = $request->data_member_start_date . " 00:00:00";
@@ -655,6 +657,52 @@ class LabulController extends Controller
         $cabang_id = $request->data_member_cabang_id;
 
         return Excel::download(new LabulDataMemberExport($startDate, $endDate, $cabang_id), 'data_member.xlsx');
+    }
+
+    public function resultDataMemberDetail($id)
+    {
+      $data_member = LabulDataMember::with('cabang')->find($id);
+
+      return response()->json([
+        'data_member' => $data_member
+      ]);
+    }
+
+    public function resultDataMemberEdit($id)
+    {
+      $data_member = LabulDataMember::find($id);
+      $cabang = MasterCabang::get();
+
+      return response()->json([
+        'data_member' => $data_member,
+        'cabangs' => $cabang
+      ]);
+    }
+
+    public function resultDataMemberUpdate(Request $request, $id)
+    {
+      $data_member = LabulDataMember::find($id);
+      $data_member->karyawan_id = Auth::user()->master_karyawan_id;
+      $data_member->cabang_id = $request->edit_data_member_cabang_id;
+      $data_member->tanggal = $request->edit_data_member_tanggal;
+      $data_member->nama_member = $request->edit_data_member_nama_member;
+      $data_member->nomor_hp = $request->edit_data_member_nomor_hp;
+      $data_member->alamat = $request->edit_data_member_alamat;
+      $data_member->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultDataMemberDelete(Request $request)
+    {
+      $data_member = LabulDataMember::find($request->id);
+      $data_member->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
     }
 
     public function resultExportDataReseller(Request $request)

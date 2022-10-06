@@ -431,7 +431,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/result/activity_plan/delete', [LabulController::class, 'resultActivityPlanDelete'])->name('labul.result.activity_plan.delete');
 
     Route::post('labul/result/export_data_instansi', [LabulController::class, 'resultExportDataInstansi'])->name('labul.result.export_data_instansi');
+
     Route::post('labul/result/export_data_member', [LabulController::class, 'resultExportDataMember'])->name('labul.result.export_data_member');
+    Route::get('labul/result/data_member/{id}/detail', [LabulController::class, 'resultDataMemberDetail'])->name('labul.result.data_member.detail');
+    Route::get('labul/result/data_member/{id}/edit', [LabulController::class, 'resultDataMemberEdit'])->name('labul.result.data_member.edit');
+    Route::put('labul/result/data_member/{id}/update', [LabulController::class, 'resultDataMemberUpdate'])->name('labul.result.data_member.update');
+    Route::post('labul/result/data_member/delete', [LabulController::class, 'resultDataMemberDelete'])->name('labul.result.data_member.delete');
+
     Route::post('labul/result/export_data_reseller', [LabulController::class, 'resultExportDataReseller'])->name('labul.result.export_data_reseller');
     Route::post('labul/result/export_instansi', [LabulController::class, 'resultExportInstansi'])->name('labul.result.export_instansi');
     Route::post('labul/result/export_komplain', [LabulController::class, 'resultExportKomplain'])->name('labul.result.export_komplain');

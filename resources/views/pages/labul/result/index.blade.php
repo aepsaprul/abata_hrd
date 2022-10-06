@@ -32,64 +32,295 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                @if (in_array("activity plan", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Activity Plan</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_activity_plan') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="activity_plan_cabang_id">Cabang</span>
-                                                    <select name="activity_plan_cabang_id" id="activity_plan_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="activity_plan_start_date">Start Date</span>
-                                                    <input type="date" name="activity_plan_start_date" id="activity_plan_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="activity_plan_end_date">End Date</span>
-                                                    <input type="date" name="activity_plan_end_date" id="activity_plan_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+      <div class="container-fluid">
+        <div class="row">
+          @if (in_array("activity plan", $current_data_navigasi))
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="card card-info card-outline">
+                <div class="card-header">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <span class="font-weight-bold">Activity Plan</span>
+                    </div>
+                    <div>
+                      <form action="{{ route('labul.result.export_activity_plan') }}" method="post">
+                        @csrf
+                        <div class="row">
+                          <div class="col-3">
+                            <span for="activity_plan_cabang_id">Cabang</span>
+                            <select name="activity_plan_cabang_id" id="activity_plan_cabang_id" class="form-control form-control-sm">
+                              <option value="">--Pilih Cabang--</option>
+                              @foreach ($cabangs as $item)
+                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                          <div class="col-3">
+                            <span for="activity_plan_start_date">Start Date</span>
+                            <input type="date" name="activity_plan_start_date" id="activity_plan_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                          </div>
+                          <div class="col-3">
+                            <span for="activity_plan_end_date">End Date</span>
+                            <input type="date" name="activity_plan_end_date" id="activity_plan_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                          </div>
+                          <div class="col-3">
+                            <span for="">Aksi</span>
+                            <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table id="activity_plan_tabel" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th class="text-center text-indigo">No</th>
+                        <th class="text-center text-indigo">Karyawan</th>
+                        <th class="text-center text-indigo">Cabang</th>
+                        <th class="text-center text-indigo">Tanggal</th>
+                        <th class="text-center text-indigo">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($activity_plans as $key => $item)
+                        <tr>
+                          <td class="text-center">{{ $key + 1 }}</td>
+                          <td>
+                            @if ($item->karyawan)
+                              {{ $item->karyawan->nama_panggilan }}
+                            @else
+                              @if ($item->karyawan_id == 0)
+                                Admin
+                              @endif
+                            @endif
+                          </td>
+                          <td>
+                            @if ($item->cabang)
+                              {{ $item->cabang->nama_cabang }}
+                            @endif
+                          </td>
+                          <td class="text-center">{{ $item->tanggal }}</td>
+                          <td class="text-center">
+                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                              <div class="btn-group">
+                                <a
+                                  href="#"
+                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false">
+                                    <i class="fas fa-cog"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                    <a
+                                      href="#"
+                                      class="dropdown-item border-bottom btn-detail-activity-plan text-indigo"
+                                      data-id="{{ $item->id }}">
+                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                    </a>
+                                  {{-- @endif
+                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                    <a
+                                    href="#"
+                                    class="dropdown-item border-bottom btn-edit-activity-plan text-indigo"
+                                    data-id="{{ $item->id }}">
+                                      <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                  </a>
+                                  {{-- @endif
+                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                    <a
+                                      href="#"
+                                      class="dropdown-item btn-delete-activity-plan text-indigo"
+                                      data-id="{{ $item->id }}">
+                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                    </a>
+                                  {{-- @endif --}}
                                 </div>
+                              </div>
+                            {{-- @endif --}}
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          @endif
+          @if (in_array("data member", $current_data_navigasi))
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="card card-info card-outline">
+                <div class="card-header">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <span class="font-weight-bold">Data Member</span>
+                    </div>
+                    <div>
+                      <form action="{{ route('labul.result.export_data_member') }}" method="post">
+                          @csrf
+                          <div class="row">
+                            <div class="col-3">
+                              <span for="data_member_cabang_id">Cabang</span>
+                              <select name="data_member_cabang_id" id="data_member_cabang_id" class="form-control form-control-sm">
+                                <option value="">--Pilih Cabang--</option>
+                                @foreach ($cabangs as $item)
+                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                @endforeach
+                              </select>
                             </div>
-                            <div class="card-body">
-                                <table id="activity_plan_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                            <th class="text-center text-indigo">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                      @foreach ($activity_plans as $key => $item)
-                                        <tr>
+                            <div class="col-3">
+                              <span for="data_member_start_date">Start Date</span>
+                              <input type="date" name="data_member_start_date" id="data_member_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                            </div>
+                            <div class="col-3">
+                              <span for="data_member_end_date">End Date</span>
+                              <input type="date" name="data_member_end_date" id="data_member_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                            </div>
+                            <div class="col-3">
+                              <span for="">Aksi</span>
+                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                            </div>
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table id="data_member_tabel" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th class="text-center text-indigo">No</th>
+                        <th class="text-center text-indigo">Karyawan</th>
+                        <th class="text-center text-indigo">Cabang</th>
+                        <th class="text-center text-indigo">Tanggal</th>
+                        <th class="text-center text-indigo">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($data_members as $key => $item)
+                        <tr>
+                          <td class="text-center">{{ $key + 1 }}</td>
+                          <td>
+                            @if ($item->karyawan)
+                              {{ $item->karyawan->nama_lengkap }}
+                            @else
+                              @if ($item->karyawan_id == 0)
+                                Admin
+                              @endif
+                            @endif
+                          </td>
+                          <td>
+                            @if ($item->cabang)
+                              {{ $item->cabang->nama_cabang }}
+                            @endif
+                          </td>
+                          <td class="text-center">{{ $item->tanggal }}</td>
+                          <td class="text-center">
+                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                              <div class="btn-group">
+                                <a
+                                  href="#"
+                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false">
+                                    <i class="fas fa-cog"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                    <a
+                                      href="#"
+                                      class="dropdown-item border-bottom btn-detail-data-member text-indigo"
+                                      data-id="{{ $item->id }}">
+                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                    </a>
+                                  {{-- @endif
+                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                    <a
+                                      href="#"
+                                      class="dropdown-item border-bottom btn-edit-data-member text-indigo"
+                                      data-id="{{ $item->id }}">
+                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                    </a>
+                                  {{-- @endif
+                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                    <a
+                                      href="#"
+                                      class="dropdown-item btn-delete-data-member text-indigo"
+                                      data-id="{{ $item->id }}">
+                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                    </a>
+                                  {{-- @endif --}}
+                                </div>
+                              </div>
+                            {{-- @endif --}}
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          @endif
+          @if (in_array("reseller", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Reseller</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_reseller') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="reseller_cabang_id">Cabang</span>
+                                              <select name="reseller_cabang_id" id="reseller_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="reseller_start_date">Start Date</span>
+                                              <input type="date" name="reseller_start_date" id="reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="reseller_end_date">End Date</span>
+                                              <input type="date" name="reseller_end_date" id="reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="reseller_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($resellers as $key => $item)
+                                      <tr>
                                           <td class="text-center">{{ $key + 1 }}</td>
                                           <td>
                                               @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_panggilan }}
+                                                  {{ $item->karyawan->nama_lengkap }}
                                               @else
                                                   @if ($item->karyawan_id == 0)
                                                       Admin
@@ -102,731 +333,541 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                    href="#"
-                                                    class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                    data-toggle="dropdown"
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                        <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-activity-plan text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                    href="#"
-                                                    class="dropdown-item border-bottom btn-edit-activity-plan text-indigo"
-                                                    data-id="{{ $item->id }}">
-                                                      <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                  </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-activity-plan text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
+          @if (in_array("data reseller", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Data Reseller</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_data_reseller') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="data_reseller_cabang_id">Cabang</span>
+                                              <select name="data_reseller_cabang_id" id="data_reseller_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="data_reseller_start_date">Start Date</span>
+                                              <input type="date" name="data_reseller_start_date" id="data_reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="data_reseller_end_date">End Date</span>
+                                              <input type="date" name="data_reseller_end_date" id="data_reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="data_reseller_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($data_resellers as $key => $item)
+                                      <tr>
+                                          <td class="text-center">{{ $key + 1 }}</td>
+                                          <td>
+                                              @if ($item->karyawan)
+                                                  {{ $item->karyawan->nama_lengkap }}
+                                              @else
+                                                  @if ($item->karyawan_id == 0)
+                                                      Admin
+                                                  @endif
+                                              @endif
                                           </td>
-                                        </tr>
-                                      @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("data member", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Data Member</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_data_member') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="data_member_cabang_id">Cabang</span>
-                                                    <select name="data_member_cabang_id" id="data_member_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="data_member_start_date">Start Date</span>
-                                                    <input type="date" name="data_member_start_date" id="data_member_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="data_member_end_date">End Date</span>
-                                                    <input type="date" name="data_member_end_date" id="data_member_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="data_member_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($data_members as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("reseller", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Reseller</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_reseller') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="reseller_cabang_id">Cabang</span>
-                                                    <select name="reseller_cabang_id" id="reseller_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="reseller_start_date">Start Date</span>
-                                                    <input type="date" name="reseller_start_date" id="reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="reseller_end_date">End Date</span>
-                                                    <input type="date" name="reseller_end_date" id="reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="reseller_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($resellers as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("data reseller", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Data Reseller</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_data_reseller') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="data_reseller_cabang_id">Cabang</span>
-                                                    <select name="data_reseller_cabang_id" id="data_reseller_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="data_reseller_start_date">Start Date</span>
-                                                    <input type="date" name="data_reseller_start_date" id="data_reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="data_reseller_end_date">End Date</span>
-                                                    <input type="date" name="data_reseller_end_date" id="data_reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="data_reseller_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($data_resellers as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("instansi", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Instansi</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_instansi') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="instansi_cabang_id">Cabang</span>
-                                                    <select name="instansi_cabang_id" id="instansi_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="instansi_start_date">Start Date</span>
-                                                    <input type="date" name="instansi_start_date" id="instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="instansi_end_date">End Date</span>
-                                                    <input type="date" name="instansi_end_date" id="instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="instansi_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($instansis as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("survey kompetitor", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Survey Kompetitor</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_survey_kompetitor') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="survey_kompetitor_cabang_id">Cabang</span>
-                                                    <select name="survey_kompetitor_cabang_id" id="survey_kompetitor_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="survey_kompetitor_start_date">Start Date</span>
-                                                    <input type="date" name="survey_kompetitor_start_date" id="survey_kompetitor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="survey_kompetitor_end_date">End Date</span>
-                                                    <input type="date" name="survey_kompetitor_end_date" id="survey_kompetitor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="survey_kompetitor_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($surveys as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("komplain", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Komplain (Kritik & Saran)</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_komplain') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="komplain_cabang_id">Cabang</span>
-                                                    <select name="komplain_cabang_id" id="komplain_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="komplain_start_date">Start Date</span>
-                                                    <input type="date" name="komplain_start_date" id="komplain_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="komplain_end_date">End Date</span>
-                                                    <input type="date" name="komplain_end_date" id="komplain_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="komplain_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($komplains as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("data instansi", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Data Instansi</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_data_instansi') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="data_instansi_cabang_id">Cabang</span>
-                                                    <select name="data_instansi_cabang_id" id="data_instansi_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="data_instansi_start_date">Start Date</span>
-                                                    <input type="date" name="data_instansi_start_date" id="data_instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="data_instansi_end_date">End Date</span>
-                                                    <input type="date" name="data_instansi_end_date" id="data_instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="data_instansi_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($data_instansis as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("reqor", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Request & Orderan Tertolak</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_reqor') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="reqor_cabang_id">Cabang</span>
-                                                    <select name="reqor_cabang_id" id="reqor_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="reqor_start_date">Start Date</span>
-                                                    <input type="date" name="reqor_start_date" id="reqor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="reqor_end_date">End Date</span>
-                                                    <input type="date" name="reqor_end_date" id="reqor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="reqor_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($reqors as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array("omzet", $current_data_navigasi))
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="font-weight-bold">Laporan Omzet Cabang</span>
-                                    </div>
-                                    <div>
-                                        <form action="{{ route('labul.result.export_omzet') }}" method="post">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <span for="omzet_cabang_id">Cabang</span>
-                                                    <select name="omzet_cabang_id" id="omzet_cabang_id" class="form-control form-control-sm">
-                                                        <option value="">--Pilih Cabang--</option>
-                                                        @foreach ($cabangs as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="omzet_start_date">Start Date</span>
-                                                    <input type="date" name="omzet_start_date" id="omzet_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="omzet_end_date">End Date</span>
-                                                    <input type="date" name="omzet_end_date" id="omzet_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                                </div>
-                                                <div class="col-3">
-                                                    <span for="">Aksi</span>
-                                                    <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="omzet_cabang_tabel" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-indigo">No</th>
-                                            <th class="text-center text-indigo">Karyawan</th>
-                                            <th class="text-center text-indigo">Cabang</th>
-                                            <th class="text-center text-indigo">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($omzets as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td>
-                                                    @if ($item->karyawan)
-                                                        {{ $item->karyawan->nama_lengkap }}
-                                                    @else
-                                                        @if ($item->karyawan_id == 0)
-                                                            Admin
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->cabang)
-                                                        {{ $item->cabang->nama_cabang }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">{{ $item->tanggal }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
+                                          <td>
+                                              @if ($item->cabang)
+                                                  {{ $item->cabang->nama_cabang }}
+                                              @endif
+                                          </td>
+                                          <td class="text-center">{{ $item->tanggal }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
+          @if (in_array("instansi", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Instansi</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_instansi') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="instansi_cabang_id">Cabang</span>
+                                              <select name="instansi_cabang_id" id="instansi_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="instansi_start_date">Start Date</span>
+                                              <input type="date" name="instansi_start_date" id="instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="instansi_end_date">End Date</span>
+                                              <input type="date" name="instansi_end_date" id="instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="instansi_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($instansis as $key => $item)
+                                      <tr>
+                                          <td class="text-center">{{ $key + 1 }}</td>
+                                          <td>
+                                              @if ($item->karyawan)
+                                                  {{ $item->karyawan->nama_lengkap }}
+                                              @else
+                                                  @if ($item->karyawan_id == 0)
+                                                      Admin
+                                                  @endif
+                                              @endif
+                                          </td>
+                                          <td>
+                                              @if ($item->cabang)
+                                                  {{ $item->cabang->nama_cabang }}
+                                              @endif
+                                          </td>
+                                          <td class="text-center">{{ $item->tanggal }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
+          @if (in_array("survey kompetitor", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Survey Kompetitor</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_survey_kompetitor') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="survey_kompetitor_cabang_id">Cabang</span>
+                                              <select name="survey_kompetitor_cabang_id" id="survey_kompetitor_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="survey_kompetitor_start_date">Start Date</span>
+                                              <input type="date" name="survey_kompetitor_start_date" id="survey_kompetitor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="survey_kompetitor_end_date">End Date</span>
+                                              <input type="date" name="survey_kompetitor_end_date" id="survey_kompetitor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="survey_kompetitor_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($surveys as $key => $item)
+                                      <tr>
+                                          <td class="text-center">{{ $key + 1 }}</td>
+                                          <td>
+                                              @if ($item->karyawan)
+                                                  {{ $item->karyawan->nama_lengkap }}
+                                              @else
+                                                  @if ($item->karyawan_id == 0)
+                                                      Admin
+                                                  @endif
+                                              @endif
+                                          </td>
+                                          <td>
+                                              @if ($item->cabang)
+                                                  {{ $item->cabang->nama_cabang }}
+                                              @endif
+                                          </td>
+                                          <td class="text-center">{{ $item->tanggal }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
+          @if (in_array("komplain", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Komplain (Kritik & Saran)</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_komplain') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="komplain_cabang_id">Cabang</span>
+                                              <select name="komplain_cabang_id" id="komplain_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="komplain_start_date">Start Date</span>
+                                              <input type="date" name="komplain_start_date" id="komplain_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="komplain_end_date">End Date</span>
+                                              <input type="date" name="komplain_end_date" id="komplain_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="komplain_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($komplains as $key => $item)
+                                      <tr>
+                                          <td class="text-center">{{ $key + 1 }}</td>
+                                          <td>
+                                              @if ($item->karyawan)
+                                                  {{ $item->karyawan->nama_lengkap }}
+                                              @else
+                                                  @if ($item->karyawan_id == 0)
+                                                      Admin
+                                                  @endif
+                                              @endif
+                                          </td>
+                                          <td>
+                                              @if ($item->cabang)
+                                                  {{ $item->cabang->nama_cabang }}
+                                              @endif
+                                          </td>
+                                          <td class="text-center">{{ $item->tanggal }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
+          @if (in_array("data instansi", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Data Instansi</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_data_instansi') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="data_instansi_cabang_id">Cabang</span>
+                                              <select name="data_instansi_cabang_id" id="data_instansi_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="data_instansi_start_date">Start Date</span>
+                                              <input type="date" name="data_instansi_start_date" id="data_instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="data_instansi_end_date">End Date</span>
+                                              <input type="date" name="data_instansi_end_date" id="data_instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="data_instansi_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($data_instansis as $key => $item)
+                                      <tr>
+                                          <td class="text-center">{{ $key + 1 }}</td>
+                                          <td>
+                                              @if ($item->karyawan)
+                                                  {{ $item->karyawan->nama_lengkap }}
+                                              @else
+                                                  @if ($item->karyawan_id == 0)
+                                                      Admin
+                                                  @endif
+                                              @endif
+                                          </td>
+                                          <td>
+                                              @if ($item->cabang)
+                                                  {{ $item->cabang->nama_cabang }}
+                                              @endif
+                                          </td>
+                                          <td class="text-center">{{ $item->tanggal }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
+          @if (in_array("reqor", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Request & Orderan Tertolak</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_reqor') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="reqor_cabang_id">Cabang</span>
+                                              <select name="reqor_cabang_id" id="reqor_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="reqor_start_date">Start Date</span>
+                                              <input type="date" name="reqor_start_date" id="reqor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="reqor_end_date">End Date</span>
+                                              <input type="date" name="reqor_end_date" id="reqor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="reqor_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($reqors as $key => $item)
+                                      <tr>
+                                          <td class="text-center">{{ $key + 1 }}</td>
+                                          <td>
+                                              @if ($item->karyawan)
+                                                  {{ $item->karyawan->nama_lengkap }}
+                                              @else
+                                                  @if ($item->karyawan_id == 0)
+                                                      Admin
+                                                  @endif
+                                              @endif
+                                          </td>
+                                          <td>
+                                              @if ($item->cabang)
+                                                  {{ $item->cabang->nama_cabang }}
+                                              @endif
+                                          </td>
+                                          <td class="text-center">{{ $item->tanggal }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
+          @if (in_array("omzet", $current_data_navigasi))
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="card card-info card-outline">
+                      <div class="card-header">
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <span class="font-weight-bold">Laporan Omzet Cabang</span>
+                              </div>
+                              <div>
+                                  <form action="{{ route('labul.result.export_omzet') }}" method="post">
+                                      @csrf
+                                      <div class="row">
+                                          <div class="col-3">
+                                              <span for="omzet_cabang_id">Cabang</span>
+                                              <select name="omzet_cabang_id" id="omzet_cabang_id" class="form-control form-control-sm">
+                                                  <option value="">--Pilih Cabang--</option>
+                                                  @foreach ($cabangs as $item)
+                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="omzet_start_date">Start Date</span>
+                                              <input type="date" name="omzet_start_date" id="omzet_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="omzet_end_date">End Date</span>
+                                              <input type="date" name="omzet_end_date" id="omzet_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                                          </div>
+                                          <div class="col-3">
+                                              <span for="">Aksi</span>
+                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <table id="omzet_cabang_tabel" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center text-indigo">No</th>
+                                      <th class="text-center text-indigo">Karyawan</th>
+                                      <th class="text-center text-indigo">Cabang</th>
+                                      <th class="text-center text-indigo">Tanggal</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($omzets as $key => $item)
+                                      <tr>
+                                          <td class="text-center">{{ $key + 1 }}</td>
+                                          <td>
+                                              @if ($item->karyawan)
+                                                  {{ $item->karyawan->nama_lengkap }}
+                                              @else
+                                                  @if ($item->karyawan_id == 0)
+                                                      Admin
+                                                  @endif
+                                              @endif
+                                          </td>
+                                          <td>
+                                              @if ($item->cabang)
+                                                  {{ $item->cabang->nama_cabang }}
+                                              @endif
+                                          </td>
+                                          <td class="text-center">{{ $item->tanggal }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          @endif
         </div>
+      </div>
     </section>
 </div>
 
@@ -855,7 +896,6 @@
     </div>
   </div>
 </div>
-
 {{-- modal activity plan edit --}}
 <div class="modal fade" id="modalActivityPlanEdit" tabindex="-1" role="dialog" aria-labelledby="modalActivityPlanEditLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -893,7 +933,6 @@
     </div>
   </div>
 </div>
-
 {{-- modal activity plan delete --}}
 <div class="modal fade" id="modalActivityPlanDelete" tabindex="-1" role="dialog" aria-labelledby="modalActivityPlanDeleteLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -914,6 +953,114 @@
           Loading...
         </button>
         <button type="button" class="btn btn-primary modal-tombol-delete-activity-plan text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- modal data member --}}
+{{-- modal data member detail --}}
+<div class="modal fade" id="modalDataMemberDetail" tabindex="-1" role="dialog" aria-labelledby="modalDataMemberDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDataMemberDetailLabel">Detail Data Member</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_data_member_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_data_member_cabang" id="detail_data_member_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_member_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_data_member_tanggal" id="detail_data_member_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_member_nama_member" class="form-label">Nama Member</label>
+          <input type="text" name="detail_data_member_nama_member" id="detail_data_member_nama_member" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_member_nomor_hp" class="form-label">Nomor HP</label>
+          <input type="number" name="detail_data_member_nomor_hp" id="detail_data_member_nomor_hp" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_member_alamat" class="form-label">Alamat</label>
+          <input type="text" name="detail_data_member_alamat" id="detail_data_member_alamat" class="form-control" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal data member edit --}}
+<div class="modal fade" id="modalDataMemberEdit" tabindex="-1" role="dialog" aria-labelledby="modalDataMemberEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-data-member">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDataMemberEditLabel">Edit Data Member</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_data_member_id" id="edit_data_member_id">
+          <div class="mb-3">
+            <label for="edit_data_member_cabang" class="form-label">Nama Cabang</label>
+            <select name="edit_data_member_cabang_id" id="edit_data_member_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_member_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_data_member_tanggal" id="edit_data_member_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_member_nama_member" class="form-label">Nama Member</label>
+            <input type="text" name="edit_data_member_nama_member" id="edit_data_member_nama_member" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_member_nomor_hp" class="form-label">Nomor HP</label>
+            <input type="number" name="edit_data_member_nomor_hp" id="edit_data_member_nomor_hp" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_member_alamat" class="form-label">Alamat</label>
+            <input type="text" name="edit_data_member_alamat" id="edit_data_member_alamat" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-data-member-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-data-member" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal data member delete --}}
+<div class="modal fade" id="modalDataMemberDelete" tabindex="-1" role="dialog" aria-labelledby="modalDataMemberDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDataMemberDeleteLabel">Delete Data Member</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_data_member_id" id="delete_data_member_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-data-member-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-data-member text-center" style="width: 130px;">Ya</button>
       </div>
     </div>
   </div>
@@ -969,7 +1116,6 @@
         url: url,
         type: "get",
         success: function (response) {
-          console.log(response);
           $('#detail_activity_plan_cabang_id').val(response.activity_plan.cabang.nama_cabang);
           $('#detail_activity_plan_tanggal').val(response.activity_plan.tanggal);
 
@@ -990,9 +1136,9 @@
             })
           })
           $('#detail_activity_plan_jumlah').append(data_jumlah);
+          $('#modalActivityPlanDetail').modal('show');
         }
       })
-      $('#modalActivityPlanDetail').modal('show');
     })
 
     // activity plan edit
@@ -1007,7 +1153,6 @@
         url: url,
         type: "get",
         success: function (response) {
-          console.log(response);
           $('#edit_activity_plan_id').val(response.activity_plan.id);
           $('#edit_activity_plan_cabang_id').val(response.activity_plan.cabang_id);
           $('#edit_activity_plan_cabang').val(response.activity_plan.cabang.nama_cabang);
@@ -1037,9 +1182,9 @@
             data_jumlah += '</div>';              
           })
           $('#edit_activity_plan_jumlah').append(data_jumlah);
+          $('#modalActivityPlanEdit').modal('show');
         }
       })
-      $('#modalActivityPlanEdit').modal('show');
     })
 
     let keyupTimer;
@@ -1217,6 +1362,126 @@
         beforeSend: function () {
           $('.modal-tombol-delete-spinner-activity-plan').removeClass('d-none');
           $('.modal-tombol-delete-activity-plan').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // data member detail
+    $(document).on('click', '.btn-detail-data-member', function () {
+      $('#detail_data_member_jumlah').empty();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.data_member.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          console.log(response);
+          $('#detail_data_member_cabang').val(response.data_member.cabang.nama_cabang);
+          $('#detail_data_member_tanggal').val(response.data_member.tanggal);
+          $('#detail_data_member_nama_member').val(response.data_member.nama_member);
+          $('#detail_data_member_nomor_hp').val(response.data_member.nomor_hp);
+          $('#detail_data_member_alamat').val(response.data_member.alamat);
+          
+          $('#modalDataMemberDetail').modal('show');
+        }
+      })
+    })
+
+    // data member edit
+    $(document).on('click', '.btn-edit-data-member', function () {
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.data_member.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          $('#edit_data_member_id').val(response.data_member.id);
+          $('#edit_data_member_nama_member').val(response.data_member.nama_member);
+          $('#edit_data_member_tanggal').val(response.data_member.tanggal);
+          $('#edit_data_member_nomor_hp').val(response.data_member.nomor_hp);
+          $('#edit_data_member_alamat').val(response.data_member.alamat);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.data_member.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>'
+          }) 
+          $('#edit_data_member_cabang_id').append(data_cabang);
+          
+          $('#modalDataMemberEdit').modal('show');
+        }
+      })
+    })
+
+    $(document).on('click', '.modal-tombol-edit-data-member', function () {
+      let formData = new FormData($('#form-edit-data-member')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.data_member.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_data_member_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-data-member-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-data-member').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // data member delete
+    $(document).on('click', '.btn-delete-data-member', function () {
+      var id = $(this).attr('data-id');
+      $('#delete_data_member_id').val(id);
+      $('#modalDataMemberDelete').modal('show');
+    });
+
+    $(document).on('click', '.modal-tombol-delete-data-member', function () {
+      let formData = {
+        id: $('#delete_data_member_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.data_member.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-data-member-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-data-member').addClass('d-none');
         },
         success: function (response) {
           Toast.fire({
