@@ -330,6 +330,17 @@
     <script src="{{ asset('public/themes/dist/js/adminlte.js') }}"></script>
 
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+      })
+    </script>
+    
     <script>
         // Enable pusher logging - don't include this in production
         // Pusher.logToConsole = true;

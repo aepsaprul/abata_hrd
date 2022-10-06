@@ -479,6 +479,157 @@ class LabulController extends Controller
         ]);
     }
 
+    public function resultActivityPlanDetail($id)
+    {
+      $activity_plan = LabulActivityPlan::with('cabang')->find($id);
+      $activity_plan_jumlah = LabulActivityPlanJumlah::where('activity_plan_id', $activity_plan->id)->get();
+      $activity_plan_rencana = LabulActivityPlanRencana::where('activity_plan_id', $activity_plan->id)->get();
+
+      return response()->json([
+        'activity_plan' => $activity_plan,
+        'activity_plan_jumlah' => $activity_plan_jumlah,
+        'activity_plan_rencana' => $activity_plan_rencana
+      ]);
+    }
+
+    public function resultActivityPlanEdit($id)
+    {
+      $activity_plan = LabulActivityPlan::with('cabang')->find($id);
+      $activity_plan_jumlah = LabulActivityPlanJumlah::where('activity_plan_id', $activity_plan->id)->get();
+      $activity_plan_rencana = LabulActivityPlanRencana::where('activity_plan_id', $activity_plan->id)->get();
+
+      return response()->json([
+        'activity_plan' => $activity_plan,
+        'activity_plan_jumlah' => $activity_plan_jumlah,
+        'activity_plan_rencana' => $activity_plan_rencana
+      ]);
+    }
+
+    public function resultActivityPlanUpdate(Request $request, $id)
+    {
+      $activity_plan = LabulActivityPlan::find($id);
+      $activity_plan->karyawan_id = Auth::user()->master_karyawan_id;
+      $activity_plan->cabang_id = $request->edit_activity_plan_cabang_id;
+      $activity_plan->tanggal = $request->edit_activity_plan_tanggal;
+      $activity_plan->save();
+
+      $activity_plan_jumlah = LabulActivityPlanJumlah::where('activity_plan_id', $activity_plan->id);
+      $activity_plan_jumlah->delete();
+
+      $activity_plan_rencana = LabulActivityPlanRencana::where('activity_plan_id', $activity_plan->id);
+      $activity_plan_rencana->delete();
+
+      // labul jumlah rencana
+      if ($request->edit_activity_plan_jumlah_rencana_kunjungan) {
+        $activity_plan_jumlah_rencana_kunjungan = new LabulActivityPlanJumlah;
+        $activity_plan_jumlah_rencana_kunjungan->activity_plan_id = $activity_plan->id;
+        $activity_plan_jumlah_rencana_kunjungan->nama = "Jumlah Rencana Kunjungan";
+        $activity_plan_jumlah_rencana_kunjungan->jumlah = $request->edit_activity_plan_jumlah_rencana_kunjungan;
+        $activity_plan_jumlah_rencana_kunjungan->save();
+      }
+
+      if ($request->edit_activity_plan_jumlah_rencana_salescall) {
+        $activity_plan_jumlah_rencana_salescall = new LabulActivityPlanJumlah;
+        $activity_plan_jumlah_rencana_salescall->activity_plan_id = $activity_plan->id;
+        $activity_plan_jumlah_rencana_salescall->nama = "Jumlah Rencana Salescall";
+        $activity_plan_jumlah_rencana_salescall->jumlah = $request->edit_activity_plan_jumlah_rencana_salescall;
+        $activity_plan_jumlah_rencana_salescall->save();
+      }
+
+      if ($request->edit_activity_plan_jumlah_rencana_sebar_brosur) {
+        $activity_plan_jumlah_rencana_sebar_brosur = new LabulActivityPlanJumlah;
+        $activity_plan_jumlah_rencana_sebar_brosur->activity_plan_id = $activity_plan->id;
+        $activity_plan_jumlah_rencana_sebar_brosur->nama = "Jumlah Rencana Sebar Brosur";
+        $activity_plan_jumlah_rencana_sebar_brosur->jumlah = $request->edit_activity_plan_jumlah_rencana_sebar_brosur;
+        $activity_plan_jumlah_rencana_sebar_brosur->save();
+      }
+
+      if ($request->edit_activity_plan_jumlah_rencana_penawaran) {
+        $activity_plan_jumlah_rencana_penawaran = new LabulActivityPlanJumlah;
+        $activity_plan_jumlah_rencana_penawaran->activity_plan_id = $activity_plan->id;
+        $activity_plan_jumlah_rencana_penawaran->nama = "Jumlah Rencana Penawaran";
+        $activity_plan_jumlah_rencana_penawaran->jumlah = $request->edit_activity_plan_jumlah_rencana_penawaran;
+        $activity_plan_jumlah_rencana_penawaran->save();
+      }
+
+      if ($request->edit_activity_plan_jumlah_penawaran_merchant) {
+        $activity_plan_jumlah_penawaran_merchant = new LabulActivityPlanJumlah;
+        $activity_plan_jumlah_penawaran_merchant->activity_plan_id = $activity_plan->id;
+        $activity_plan_jumlah_penawaran_merchant->nama = "Jumlah Penawaran Merchant";
+        $activity_plan_jumlah_penawaran_merchant->jumlah = $request->edit_activity_plan_jumlah_penawaran_merchant;
+        $activity_plan_jumlah_penawaran_merchant->save();
+      }
+
+      // labul rencana
+      if ($request->edit_activity_plan_rencana_kunjungan) {
+        foreach ($request->edit_activity_plan_rencana_kunjungan as $key => $value) {
+            $activity_plan_rencana_kunjungan = new LabulActivityPlanRencana;
+            $activity_plan_rencana_kunjungan->activity_plan_id = $activity_plan->id;
+            $activity_plan_rencana_kunjungan->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_kunjungan->id;
+            $activity_plan_rencana_kunjungan->nama = $value;
+            $activity_plan_rencana_kunjungan->save();
+        }
+      }
+
+      if ($request->edit_activity_plan_rencana_salescall) {
+        foreach ($request->edit_activity_plan_rencana_salescall as $key => $value) {
+            $activity_plan_rencana_salescall = new LabulActivityPlanRencana;
+            $activity_plan_rencana_salescall->activity_plan_id = $activity_plan->id;
+            $activity_plan_rencana_salescall->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_salescall->id;
+            $activity_plan_rencana_salescall->nama = $value;
+            $activity_plan_rencana_salescall->save();
+        }
+      }
+
+      if ($request->edit_activity_plan_rencana_sebar_brosur) {
+        foreach ($request->edit_activity_plan_rencana_sebar_brosur as $key => $value) {
+            $activity_plan_rencana_sebar_brosur = new LabulActivityPlanRencana;
+            $activity_plan_rencana_sebar_brosur->activity_plan_id = $activity_plan->id;
+            $activity_plan_rencana_sebar_brosur->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_sebar_brosur->id;
+            $activity_plan_rencana_sebar_brosur->nama = $value;
+            $activity_plan_rencana_sebar_brosur->save();
+        }
+      }
+
+      if ($request->edit_activity_plan_rencana_penawaran) {
+        foreach ($request->edit_activity_plan_rencana_penawaran as $key => $value) {
+            $activity_plan_rencana_penawaran = new LabulActivityPlanRencana;
+            $activity_plan_rencana_penawaran->activity_plan_id = $activity_plan->id;
+            $activity_plan_rencana_penawaran->activity_plan_jumlah_id = $activity_plan_jumlah_rencana_penawaran->id;
+            $activity_plan_rencana_penawaran->nama = $value;
+            $activity_plan_rencana_penawaran->save();
+        }
+      }
+
+      if ($request->edit_activity_plan_penawaran_merchant) {
+        foreach ($request->edit_activity_plan_penawaran_merchant as $key => $value) {
+            $activity_plan_penawaran_merchant = new LabulActivityPlanRencana;
+            $activity_plan_penawaran_merchant->activity_plan_id = $activity_plan->id;
+            $activity_plan_penawaran_merchant->activity_plan_jumlah_id = $activity_plan_jumlah_penawaran_merchant->id;
+            $activity_plan_penawaran_merchant->nama = $value;
+            $activity_plan_penawaran_merchant->save();
+        }
+      }
+
+      return response()->json([
+        'tes' => $request->all(),
+        'id' => $id
+      ]);
+    }
+
+    public function resultActivityPlanDelete(Request $request)
+    {
+      $activity_plan = LabulActivityPlan::find($request->id);
+
+      $activity_plan_jumlah = LabulActivityPlanJumlah::where('activity_plan_id', $activity_plan->id);
+      $activity_plan_jumlah->delete();
+
+      $activity_plan_rencana = LabulActivityPlanRencana::where('activity_plan_id', $activity_plan->id);
+      $activity_plan_rencana->delete();
+
+      $activity_plan->delete();
+    }
+
     public function resultExportActivityPlan(Request $request)
     {
         $startDate = $request->activity_plan_start_date . " 00:00:00";
