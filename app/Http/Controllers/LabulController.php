@@ -896,6 +896,88 @@ class LabulController extends Controller
         return Excel::download(new LabulResellerExport($startDate, $endDate, $cabang_id), 'reseller.xlsx');
     }
 
+    public function resultResellerDetail($id)
+    {
+      $reseller = LabulReseller::with(['cabang', 'dataReseller'])->find($id);
+
+      return response()->json([
+        'reseller' => $reseller
+      ]);
+    }
+    
+    public function resultResellerEdit($id)
+    {
+      $reseller = LabulReseller::find($id);
+      $cabang = MasterCabang::get();
+      $data_reseller = LabulDataReseller::get();
+
+      return response()->json([
+        'reseller' => $reseller,
+        'cabangs' => $cabang,
+        'data_resellers' => $data_reseller
+      ]);
+    }
+
+    public function resultResellerUpdate(Request $request, $id)
+    {
+      $reseller = LabulReseller::find($id);
+      $reseller->karyawan_id = Auth::user()->master_karyawan_id;
+      $reseller->cabang_id = $request->edit_reseller_cabang_id;
+      $reseller->tanggal = $request->edit_reseller_tanggal;
+      $reseller->hasil_kunjungan = $request->edit_reseller_hasil_kunjungan;
+
+      // dev
+      if($request->hasFile('edit_reseller_foto')) {
+        if (file_exists("public/file/labul/" . $reseller->foto)) {
+          File::delete("public/file/labul/" . $reseller->foto);
+        }
+        $file = $request->file('edit_reseller_foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/file/labul/', $filename);
+        $reseller->foto = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_reseller_foto')) {
+      //     if (file_exists("file/labul/" . $reseller->foto)) {
+      //         File::delete("file/labul/" . $reseller->foto);
+      //     }
+      //     $file = $request->file('edit_reseller_foto');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('file/labul/', $filename);
+      //     $reseller->foto = $filename;
+      // }
+
+      $reseller->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultResellerDelete(Request $request)
+    {
+      $reseller = LabulReseller::find($request->id);
+
+      // dev
+      if (file_exists("public/file/labul/" . $reseller->foto)) {
+        File::delete("public/file/labul/" . $reseller->foto);
+      }
+
+      // prod
+      // if (file_exists("file/labul/" . $reseller->foto)) {
+      //     File::delete("file/labul/" . $reseller->foto);
+      // }
+
+      $reseller->delete();
+
+      return response()->json([
+        'status' => 200
+      ]); 
+    }
+
     // result survey kompetitor
     public function resultExportSurveyKompetitor(Request $request)
     {

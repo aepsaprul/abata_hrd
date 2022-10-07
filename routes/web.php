@@ -457,7 +457,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/result/export_komplain', [LabulController::class, 'resultExportKomplain'])->name('labul.result.export_komplain');
     Route::post('labul/result/export_omzet', [LabulController::class, 'resultExportOmzet'])->name('labul.result.export_omzet');
     Route::post('labul/result/export_reqor', [LabulController::class, 'resultExportReqor'])->name('labul.result.export_reqor');
+
     Route::post('labul/result/export_reseller', [LabulController::class, 'resultExportReseller'])->name('labul.result.export_reseller');
+    Route::get('labul/result/reseller/{id}/detail', [LabulController::class, 'resultResellerDetail'])->name('labul.result.reseller.detail');
+    Route::get('labul/result/reseller/{id}/edit', [LabulController::class, 'resultResellerEdit'])->name('labul.result.reseller.edit');
+    Route::put('labul/result/reseller/{id}/update', [LabulController::class, 'resultResellerUpdate'])->name('labul.result.reseller.update');
+    Route::post('labul/result/reseller/delete', [LabulController::class, 'resultResellerDelete'])->name('labul.result.reseller.delete');
+
     Route::post('labul/result/export_survey_kompetitor', [LabulController::class, 'resultExportSurveyKompetitor'])->name('labul.result.export_survey_kompetitor');
 
     // compro tentang

@@ -312,6 +312,7 @@
                                       <th class="text-center text-indigo">Karyawan</th>
                                       <th class="text-center text-indigo">Cabang</th>
                                       <th class="text-center text-indigo">Tanggal</th>
+                                      <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -333,6 +334,46 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
+                                          <td class="text-center">
+                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                              <div class="btn-group">
+                                                <a
+                                                  href="#"
+                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-detail-reseller text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                    </a>
+                                                  {{-- @endif
+                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-edit-reseller text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                    </a>
+                                                  {{-- @endif
+                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item btn-delete-reseller text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                    </a>
+                                                  {{-- @endif --}}
+                                                </div>
+                                              </div>
+                                            {{-- @endif --}}
+                                          </td>
                                       </tr>
                                   @endforeach
                               </tbody>
@@ -1245,7 +1286,7 @@
       </div>
       <div class="modal-body">
         <p>Yakin anda akan menghapus?</p>
-        <input type="text" name="delete_instansi_id" id="delete_instansi_id">
+        <input type="hidden" name="delete_instansi_id" id="delete_instansi_id">
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary modal-tombol-delete-instansi-spinner d-none" disabled style="width: 130px;">
@@ -1369,6 +1410,124 @@
           Loading...
         </button>
         <button type="button" class="btn btn-primary modal-tombol-delete-data-reseller text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- modal reseller --}}
+{{-- modal reseller detail --}}
+<div class="modal fade" id="modalResellerDetail" tabindex="-1" role="dialog" aria-labelledby="modalResellerDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalResellerDetailLabel">Detail Reseller</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_reseller_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_reseller_cabang" id="detail_reseller_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reseller_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_reseller_tanggal" id="detail_reseller_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reseller_hasil_kunjungan" class="form-label">Hasil Kunjungan</label>
+          <input type="text" name="detail_reseller_hasil_kunjungan" id="detail_reseller_hasil_kunjungan" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reseller_reseller" class="form-label">Nama reseller</label>
+          <input type="text" name="detail_reseller_reseller" id="detail_reseller_reseller" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="">Foto</label>
+          {{-- dev --}}
+          <img id="detail_reseller_foto_preview" src="" alt="reseller_image" style="max-width: 100%;">
+          {{-- prod --}}
+          {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="reseller_image" style="max-width: 100%;"> --}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal reseller edit --}}
+<div class="modal fade" id="modalResellerEdit" tabindex="-1" role="dialog" aria-labelledby="modalResellerEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-reseller">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalResellerEditLabel">Edit Reseller</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_reseller_id" id="edit_reseller_id">
+          <div class="mb-3">
+            <label for="edit_reseller_cabang_id" class="form-label">Nama Cabang</label>
+            <select name="edit_reseller_cabang_id" id="edit_reseller_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_reseller_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_reseller_tanggal" id="edit_reseller_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_reseller_hasil_kunjungan" class="form-label">Hasil Kunjungan</label>
+            <input type="text" name="edit_reseller_hasil_kunjungan" id="edit_reseller_hasil_kunjungan" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_reseller_reseller_id" class="form-label">Nama Reseller</label>
+            <select name="edit_reseller_reseller_id" id="edit_reseller_reseller_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_reseller_foto_preview">Foto Preview</label>
+            {{-- dev --}}
+            <img id="edit_reseller_foto_preview" src="" alt="reseller_image" style="max-width: 100%;">
+            {{-- prod --}}
+            {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="reseller_image" style="max-width: 100%;"> --}}
+          </div>
+          <div class="mb-3">
+            <label for="edit_reseller_foto" class="form-label">Ganti Foto</label>
+            <input type="file" name="edit_reseller_foto" id="edit_reseller_foto" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-reseller-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-reseller" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal reseller delete --}}
+<div class="modal fade" id="modalResellerDelete" tabindex="-1" role="dialog" aria-labelledby="modalResellerDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalResellerDeleteLabel">Delete Reseller</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_reseller_id" id="delete_reseller_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-reseller-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-reseller text-center" style="width: 130px;">Ya</button>
       </div>
     </div>
   </div>
@@ -1794,7 +1953,6 @@
     // instansi detail
     $(document).on('click', '.btn-detail-instansi', function (e) {
       e.preventDefault();
-      $('#detail_instansi_jumlah').empty();
 
       let id = $(this).attr('data-id');
       let url = "{{ URL::route('labul.result.instansi.detail', [':id']) }}";
@@ -1925,7 +2083,6 @@
     // data reseller detail
     $(document).on('click', '.btn-detail-data-reseller', function (e) {
       e.preventDefault();
-      $('#detail_data_reseller_jumlah').empty();
 
       let id = $(this).attr('data-id');
       let url = "{{ URL::route('labul.result.data_reseller.detail', [':id']) }}";
@@ -2028,6 +2185,142 @@
         beforeSend: function () {
           $('.modal-tombol-delete-data-reseller-spinner').removeClass('d-none');
           $('.modal-tombol-delete-data-reseller').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // reseller detail
+    $(document).on('click', '.btn-detail-reseller', function (e) {
+      e.preventDefault();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.reseller.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          console.log(response);
+          let asset_url = "{{ asset('/') }}";
+          let asset_folder = "public/file/labul/";
+          let asset_img = response.reseller.foto;
+          $('#detail_reseller_foto_preview').attr("src", asset_url + asset_folder + asset_img);
+
+          $('#detail_reseller_cabang').val(response.reseller.cabang.nama_cabang);
+          $('#detail_reseller_tanggal').val(response.reseller.tanggal);
+          $('#detail_reseller_hasil_kunjungan').val(response.reseller.hasil_kunjungan);
+
+          if (response.reseller.data_reseller) {
+            $('#detail_reseller_reseller').val(response.reseller.data_reseller.nama_reseller);            
+          }
+          
+          $('#modalResellerDetail').modal('show');
+        }
+      })
+    })
+    // reseller edit
+    $(document).on('click', '.btn-edit-reseller', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.reseller.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          let asset_url = "{{ asset('/') }}";
+          let asset_folder = "public/file/labul/";
+          let asset_img = response.reseller.foto;
+          
+          $('#edit_reseller_id').val(response.reseller.id);
+          $('#edit_reseller_tanggal').val(response.reseller.tanggal);
+          $('#edit_reseller_hasil_kunjungan').val(response.reseller.hasil_kunjungan);
+          $('#edit_reseller_foto_preview').attr("src", asset_url + asset_folder + asset_img);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.reseller.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>';
+          })
+          $('#edit_reseller_cabang_id').append(data_cabang);
+
+          let data_reseller = '';
+          $.each(response.data_resellers, function (index, item) {
+            data_reseller += '<option value="' + item.id + '">' + item.nama_reseller + '</option>';
+          })
+          $('#edit_reseller_reseller_id').append(data_reseller);
+
+          $('#modalResellerEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-reseller', function (e) {
+      e.preventDefault();
+      let formData = new FormData($('#form-edit-reseller')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.reseller.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_reseller_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-reseller-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-reseller').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // reseller delete
+    $(document).on('click', '.btn-delete-reseller', function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-id');
+      $('#delete_reseller_id').val(id);
+      $('#modalResellerDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-reseller', function (e) {
+      e.preventDefault();
+      let formData = {
+        id: $('#delete_reseller_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.reseller.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-reseller-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-reseller').addClass('d-none');
         },
         success: function (response) {
           Toast.fire({
