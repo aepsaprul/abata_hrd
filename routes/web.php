@@ -465,6 +465,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/result/reseller/delete', [LabulController::class, 'resultResellerDelete'])->name('labul.result.reseller.delete');
 
     Route::post('labul/result/export_survey_kompetitor', [LabulController::class, 'resultExportSurveyKompetitor'])->name('labul.result.export_survey_kompetitor');
+    Route::get('labul/result/survey_kompetitor/{id}/detail', [LabulController::class, 'resultSurveyKompetitorDetail'])->name('labul.result.survey_kompetitor.detail');
+    Route::get('labul/result/survey_kompetitor/{id}/edit', [LabulController::class, 'resultSurveyKompetitorEdit'])->name('labul.result.survey_kompetitor.edit');
+    Route::put('labul/result/survey_kompetitor/{id}/update', [LabulController::class, 'resultSurveyKompetitorUpdate'])->name('labul.result.survey_kompetitor.update');
+    Route::post('labul/result/survey_kompetitor/delete', [LabulController::class, 'resultSurveyKompetitorDelete'])->name('labul.result.survey_kompetitor.delete');
 
     // compro tentang
     Route::get('compro/tentang', [ComproController::class, 'tentang'])->name('compro.tentang');

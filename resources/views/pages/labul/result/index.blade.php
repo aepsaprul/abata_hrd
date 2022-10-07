@@ -660,6 +660,7 @@
                                       <th class="text-center text-indigo">Karyawan</th>
                                       <th class="text-center text-indigo">Cabang</th>
                                       <th class="text-center text-indigo">Tanggal</th>
+                                      <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -681,6 +682,46 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
+                                          <td class="text-center">
+                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                              <div class="btn-group">
+                                                <a
+                                                  href="#"
+                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-detail-survey-kompetitor text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                    </a>
+                                                  {{-- @endif
+                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-edit-survey-kompetitor text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                    </a>
+                                                  {{-- @endif
+                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item btn-delete-survey-kompetitor text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                    </a>
+                                                  {{-- @endif --}}
+                                                </div>
+                                              </div>
+                                            {{-- @endif --}}
+                                          </td>
                                       </tr>
                                   @endforeach
                               </tbody>
@@ -1690,6 +1731,132 @@
   </div>
 </div>
 
+{{-- modal survey kompetitor --}}
+{{-- modal survey kompetitor detail --}}
+<div class="modal fade" id="modalSurveyKompetitorDetail" tabindex="-1" role="dialog" aria-labelledby="modalSurveyKompetitorDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSurveyKompetitorDetailLabel">Detail Survey Kompetitor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_survey_kompetitor_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_survey_kompetitor_cabang" id="detail_survey_kompetitor_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_survey_kompetitor_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_survey_kompetitor_tanggal" id="detail_survey_kompetitor_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_survey_kompetitor_nama_kompetitor" class="form-label">Nama Kompetitor</label>
+          <input type="text" name="detail_survey_kompetitor_nama_kompetitor" id="detail_survey_kompetitor_nama_kompetitor" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_survey_kompetitor_hasil_survey" class="form-label">Hasil Survey</label>
+          <input type="text" name="detail_survey_kompetitor_hasil_survey" id="detail_survey_kompetitor_hasil_survey" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_survey_kompetitor_promo_kompetitor" class="form-label">Promo Kompetitor</label>
+          <input type="text" name="detail_survey_kompetitor_promo_kompetitor" id="detail_survey_kompetitor_promo_kompetitor" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="">Foto</label>
+          {{-- dev --}}
+          <img id="detail_survey_kompetitor_foto_preview" src="" alt="survey_kompetitor_image" style="max-width: 100%;">
+          {{-- prod --}}
+          {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="survey_kompetitor_image" style="max-width: 100%;"> --}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal survey kompetitor edit --}}
+<div class="modal fade" id="modalSurveyKompetitorEdit" tabindex="-1" role="dialog" aria-labelledby="modalSurveyKompetitorEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-survey-kompetitor">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalSurveyKompetitorEditLabel">Edit Survey Kompetitor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_survey_kompetitor_id" id="edit_survey_kompetitor_id">
+          <div class="mb-3">
+            <label for="edit_survey_kompetitor_cabang_id" class="form-label">Nama Cabang</label>
+            <select name="edit_survey_kompetitor_cabang_id" id="edit_survey_kompetitor_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_survey_kompetitor_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_survey_kompetitor_tanggal" id="edit_survey_kompetitor_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_survey_kompetitor_nama_kompetitor" class="form-label">Nama Kompetitor</label>
+            <input type="text" name="edit_survey_kompetitor_nama_kompetitor" id="edit_survey_kompetitor_nama_kompetitor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_survey_kompetitor_hasil_survey" class="form-label">Hasil Survey</label>
+            <input type="text" name="edit_survey_kompetitor_hasil_survey" id="edit_survey_kompetitor_hasil_survey" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_survey_kompetitor_promo_kompetitor" class="form-label">Promo Kompetitor</label>
+            <input type="text" name="edit_survey_kompetitor_promo_kompetitor" id="edit_survey_kompetitor_promo_kompetitor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_survey_kompetitor_foto_preview">Foto Preview</label>
+            {{-- dev --}}
+            <img id="edit_survey_kompetitor_foto_preview" src="" alt="survey_kompetitor_image" style="max-width: 100%;">
+            {{-- prod --}}
+            {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="survey_kompetitor_image" style="max-width: 100%;"> --}}
+          </div>
+          <div class="mb-3">
+            <label for="edit_survey_kompetitor_foto" class="form-label">Ganti Foto</label>
+            <input type="file" name="edit_survey_kompetitor_foto" id="edit_survey_kompetitor_foto" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-survey-kompetitor-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-survey-kompetitor" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal survey kompetitor delete --}}
+<div class="modal fade" id="modalSurveyKompetitorDelete" tabindex="-1" role="dialog" aria-labelledby="modalSurveyKompetitorDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSurveyKompetitorDeleteLabel">Delete Survey Kompetitor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_survey_kompetitor_id" id="delete_survey_kompetitor_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-survey-kompetitor-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-survey-kompetitor text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -2487,7 +2654,6 @@
         url: url,
         type: "get",
         success: function (response) {
-          console.log(response);
           let asset_url = "{{ asset('/') }}";
           let asset_folder = "public/file/labul/";
           let asset_img = response.reseller.foto;
@@ -2597,6 +2763,136 @@
         beforeSend: function () {
           $('.modal-tombol-delete-reseller-spinner').removeClass('d-none');
           $('.modal-tombol-delete-reseller').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // survey_kompetitor detail
+    $(document).on('click', '.btn-detail-survey-kompetitor', function (e) {
+      e.preventDefault();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.survey_kompetitor.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          console.log(response);
+          let asset_url = "{{ asset('/') }}";
+          let asset_folder = "public/file/labul/";
+          let asset_img = response.survey_kompetitor.foto;
+          $('#detail_survey_kompetitor_foto_preview').attr("src", asset_url + asset_folder + asset_img);
+
+          $('#detail_survey_kompetitor_cabang').val(response.survey_kompetitor.cabang.nama_cabang);
+          $('#detail_survey_kompetitor_tanggal').val(response.survey_kompetitor.tanggal);
+          $('#detail_survey_kompetitor_nama_kompetitor').val(response.survey_kompetitor.nama_kompetitor);
+          $('#detail_survey_kompetitor_hasil_survey').val(response.survey_kompetitor.hasil_survey);
+          $('#detail_survey_kompetitor_promo_kompetitor').val(response.survey_kompetitor.promo_kompetitor);
+          
+          $('#modalSurveyKompetitorDetail').modal('show');
+        }
+      })
+    })
+    // survey kompetitor edit
+    $(document).on('click', '.btn-edit-survey-kompetitor', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.survey_kompetitor.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          let asset_url = "{{ asset('/') }}";
+          let asset_folder = "public/file/labul/";
+          let asset_img = response.survey_kompetitor.foto;
+          
+          $('#edit_survey_kompetitor_id').val(response.survey_kompetitor.id);
+          $('#edit_survey_kompetitor_tanggal').val(response.survey_kompetitor.tanggal);
+          $('#edit_survey_kompetitor_nama_kompetitor').val(response.survey_kompetitor.nama_kompetitor);
+          $('#edit_survey_kompetitor_hasil_survey').val(response.survey_kompetitor.hasil_survey);
+          $('#edit_survey_kompetitor_promo_kompetitor').val(response.survey_kompetitor.promo_kompetitor);
+          $('#edit_survey_kompetitor_foto_preview').attr("src", asset_url + asset_folder + asset_img);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.survey_kompetitor.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>';
+          })
+          $('#edit_survey_kompetitor_cabang_id').append(data_cabang);
+
+          $('#modalSurveyKompetitorEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-survey-kompetitor', function (e) {
+      e.preventDefault();
+      let formData = new FormData($('#form-edit-survey-kompetitor')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.survey_kompetitor.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_survey_kompetitor_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-survey-kompetitor-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-survey-kompetitor').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // survey kompetitor delete
+    $(document).on('click', '.btn-delete-survey-kompetitor', function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-id');
+      $('#delete_survey_kompetitor_id').val(id);
+      $('#modalSurveyKompetitorDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-survey-kompetitor', function (e) {
+      e.preventDefault();
+      let formData = {
+        id: $('#delete_survey_kompetitor_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.survey_kompetitor.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-survey-kompetitor-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-survey-kompetitor').addClass('d-none');
         },
         success: function (response) {
           Toast.fire({

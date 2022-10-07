@@ -1034,4 +1034,86 @@ class LabulController extends Controller
 
         return Excel::download(new LabulSurveyKompetitorExport($startDate, $endDate, $cabang_id), 'survey_kompetitor.xlsx');
     }
+
+    public function resultSurveyKompetitorDetail($id)
+    {
+      $survey_kompetitor = LabulSurveyKompetitor::with('cabang')->find($id);
+
+      return response()->json([
+        'survey_kompetitor' => $survey_kompetitor
+      ]);
+    }
+    
+    public function resultSurveyKompetitorEdit($id)
+    {
+      $survey_kompetitor = LabulSurveyKompetitor::find($id);
+      $cabang = MasterCabang::get();
+
+      return response()->json([
+        'survey_kompetitor' => $survey_kompetitor,
+        'cabangs' => $cabang
+      ]);
+    }
+
+    public function resultSurveyKompetitorUpdate(Request $request, $id)
+    {
+      $survey_kompetitor = LabulSurveyKompetitor::find($id);
+      $survey_kompetitor->karyawan_id = Auth::user()->master_karyawan_id;
+      $survey_kompetitor->cabang_id = $request->edit_survey_kompetitor_cabang_id;
+      $survey_kompetitor->tanggal = $request->edit_survey_kompetitor_tanggal;
+      $survey_kompetitor->nama_kompetitor = $request->edit_survey_kompetitor_nama_kompetitor;
+      $survey_kompetitor->hasil_survey = $request->edit_survey_kompetitor_hasil_survey;
+      $survey_kompetitor->promo_kompetitor = $request->edit_survey_kompetitor_promo_kompetitor;
+
+      // dev
+      if($request->hasFile('edit_survey_kompetitor_foto')) {
+        if (file_exists("public/file/labul/" . $survey_kompetitor->foto)) {
+          File::delete("public/file/labul/" . $survey_kompetitor->foto);
+        }
+        $file = $request->file('edit_survey_kompetitor_foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/file/labul/', $filename);
+        $survey_kompetitor->foto = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_survey_kompetitor_foto')) {
+      //     if (file_exists("file/labul/" . $survey_kompetitor->foto)) {
+      //         File::delete("file/labul/" . $survey_kompetitor->foto);
+      //     }
+      //     $file = $request->file('edit_survey_kompetitor_foto');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('file/labul/', $filename);
+      //     $survey_kompetitor->foto = $filename;
+      // }
+
+      $survey_kompetitor->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultSurveyKompetitorDelete(Request $request)
+    {
+      $survey_kompetitor = LabulSurveyKompetitor::find($request->id);
+
+      // dev
+      if (file_exists("public/file/labul/" . $survey_kompetitor->foto)) {
+        File::delete("public/file/labul/" . $survey_kompetitor->foto);
+      }
+
+      // prod
+      // if (file_exists("file/labul/" . $survey_kompetitor->foto)) {
+      //     File::delete("file/labul/" . $survey_kompetitor->foto);
+      // }
+
+      $survey_kompetitor->delete();
+
+      return response()->json([
+        'status' => 200
+      ]); 
+    }
 }
