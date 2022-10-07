@@ -29,6 +29,7 @@ use App\Models\MasterKaryawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
@@ -640,6 +641,7 @@ class LabulController extends Controller
         return Excel::download(new LabulActivityPlanExport($startDate, $endDate, $cabang_id), 'activity_plan.xlsx');
     }
 
+    // result data instansi
     public function resultExportDataInstansi(Request $request)
     {
         $startDate = $request->data_instansi_start_date . " 00:00:00";
@@ -705,6 +707,7 @@ class LabulController extends Controller
       ]);
     }
 
+    // result data reseller
     public function resultExportDataReseller(Request $request)
     {
         $startDate = $request->data_reseller_start_date . " 00:00:00";
@@ -714,6 +717,54 @@ class LabulController extends Controller
         return Excel::download(new LabulDataResellerExport($startDate, $endDate, $cabang_id), 'data_reseller.xlsx');
     }
 
+    public function resultDataResellerDetail($id)
+    {
+      $data_reseller = LabulDataReseller::with('cabang')->find($id);
+
+      return response()->json([
+        'data_reseller' => $data_reseller
+      ]);
+    }
+
+    public function resultDataResellerEdit($id)
+    {
+      $data_reseller = LabulDataReseller::find($id);
+      $cabang = MasterCabang::get();
+
+      return response()->json([
+        'data_reseller' => $data_reseller,
+        'cabangs' => $cabang
+      ]);
+    }
+
+    public function resultDataResellerUpdate(Request $request, $id)
+    {
+      $data_reseller = LabulDataReseller::find($id);
+      $data_reseller->karyawan_id = Auth::user()->master_karyawan_id;
+      $data_reseller->cabang_id = $request->edit_data_reseller_cabang_id;
+      $data_reseller->tanggal = $request->edit_data_reseller_tanggal;
+      $data_reseller->nama_reseller = $request->edit_data_reseller_nama_reseller;
+      $data_reseller->nama_usaha = $request->edit_data_reseller_nama_usaha;
+      $data_reseller->nomor_hp = $request->edit_data_reseller_nomor_hp;
+      $data_reseller->alamat = $request->edit_data_reseller_alamat;
+      $data_reseller->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultDataResellerDelete(Request $request)
+    {
+      $data_reseller = LabulDataReseller::find($request->id);
+      $data_reseller->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    // result instansi
     public function resultExportInstansi(Request $request)
     {
         $startDate = $request->instansi_start_date . " 00:00:00";
@@ -723,6 +774,89 @@ class LabulController extends Controller
         return Excel::download(new LabulInstansiExport($startDate, $endDate, $cabang_id), 'instansi.xlsx');
     }
 
+    public function resultInstansiDetail($id)
+    {
+      $instansi = LabulInstansi::with(['cabang', 'dataInstansi'])->find($id);
+
+      return response()->json([
+        'instansi' => $instansi
+      ]);
+    }
+
+    public function resultInstansiEdit($id)
+    {
+      $instansi = LabulInstansi::with('cabang')->find($id);
+      $cabang = MasterCabang::get();
+      $data_instansi = LabulDataInstansi::get();
+
+      return response()->json([
+        'instansi' => $instansi,
+        'cabangs' => $cabang,
+        'data_instansis' => $data_instansi
+      ]);
+    }
+
+    public function resultInstansiUpdate(Request $request, $id)
+    {
+      $instansi = LabulInstansi::find($id);
+      $instansi->karyawan_id = Auth::user()->master_karyawan_id;
+      $instansi->cabang_id = $request->edit_instansi_cabang_id;
+      $instansi->tanggal = $request->edit_instansi_tanggal;
+      $instansi->instansi_id = $request->edit_instansi_instansi_id;
+
+      // dev
+      if($request->hasFile('edit_instansi_foto')) {
+        if (file_exists("public/file/labul/" . $instansi->foto)) {
+          File::delete("public/file/labul/" . $instansi->foto);
+        }
+        $file = $request->file('edit_instansi_foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/file/labul/', $filename);
+        $instansi->foto = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_instansi_foto')) {
+      //     if (file_exists("file/labul/" . $instansi->foto)) {
+      //         File::delete("file/labul/" . $instansi->foto);
+      //     }
+      //     $file = $request->file('edit_instansi_foto');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('file/labul/', $filename);
+      //     $instansi->foto = $filename;
+      // }
+
+      $instansi->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultInstansiDelete(Request $request)
+    {
+      $instansi = LabulInstansi::find($request->id);
+
+      // dev
+      if (file_exists("public/file/labul/" . $instansi->foto)) {
+        File::delete("public/file/labul/" . $instansi->foto);
+      }
+
+      // prod
+      // if (file_exists("file/labul/" . $instansi->foto)) {
+      //     File::delete("file/labul/" . $instansi->foto);
+      // }
+      
+      $instansi->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    // result komplain
     public function resultExportKomplain(Request $request)
     {
         $startDate = $request->komplain_start_date . " 00:00:00";
@@ -732,6 +866,7 @@ class LabulController extends Controller
         return Excel::download(new LabulKomplainExport($startDate, $endDate, $cabang_id), 'komplain.xlsx');
     }
 
+    // result omzet
     public function resultExportOmzet(Request $request)
     {
         $startDate = $request->omzet_start_date . " 00:00:00";
@@ -741,6 +876,7 @@ class LabulController extends Controller
         return Excel::download(new LabulOmzetExport($startDate, $endDate, $cabang_id), 'omzet.xlsx');
     }
 
+    // result reqor
     public function resultExportReqor(Request $request)
     {
         $startDate = $request->reqor_start_date . " 00:00:00";
@@ -750,6 +886,7 @@ class LabulController extends Controller
         return Excel::download(new LabulReqorExport($startDate, $endDate, $cabang_id), 'reqor.xlsx');
     }
 
+    // result reseller
     public function resultExportReseller(Request $request)
     {
         $startDate = $request->reseller_start_date . " 00:00:00";
@@ -759,6 +896,7 @@ class LabulController extends Controller
         return Excel::download(new LabulResellerExport($startDate, $endDate, $cabang_id), 'reseller.xlsx');
     }
 
+    // result survey kompetitor
     public function resultExportSurveyKompetitor(Request $request)
     {
         $startDate = $request->survey_kompetitor_start_date . " 00:00:00";

@@ -387,6 +387,7 @@
                                       <th class="text-center text-indigo">Karyawan</th>
                                       <th class="text-center text-indigo">Cabang</th>
                                       <th class="text-center text-indigo">Tanggal</th>
+                                      <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -408,6 +409,46 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
+                                          <td class="text-center">
+                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                              <div class="btn-group">
+                                                <a
+                                                  href="#"
+                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-detail-data-reseller text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                    </a>
+                                                  {{-- @endif
+                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-edit-data-reseller text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                    </a>
+                                                  {{-- @endif
+                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item btn-delete-data-reseller text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                    </a>
+                                                  {{-- @endif --}}
+                                                </div>
+                                              </div>
+                                            {{-- @endif --}}
+                                          </td>
                                       </tr>
                                   @endforeach
                               </tbody>
@@ -417,79 +458,120 @@
               </div>
           @endif
           @if (in_array("instansi", $current_data_navigasi))
-              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                  <div class="card card-info card-outline">
-                      <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Instansi</span>
-                              </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_instansi') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="instansi_cabang_id">Cabang</span>
-                                              <select name="instansi_cabang_id" id="instansi_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="instansi_start_date">Start Date</span>
-                                              <input type="date" name="instansi_start_date" id="instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="instansi_end_date">End Date</span>
-                                              <input type="date" name="instansi_end_date" id="instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="card card-info card-outline">
+                <div class="card-header">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <span class="font-weight-bold">Instansi</span>
+                    </div>
+                    <div>
+                      <form action="{{ route('labul.result.export_instansi') }}" method="post">
+                        @csrf
+                        <div class="row">
+                          <div class="col-3">
+                            <span for="instansi_cabang_id">Cabang</span>
+                            <select name="instansi_cabang_id" id="instansi_cabang_id" class="form-control form-control-sm">
+                              <option value="">--Pilih Cabang--</option>
+                              @foreach ($cabangs as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                              @endforeach
+                            </select>
                           </div>
-                      </div>
-                      <div class="card-body">
-                          <table id="instansi_tabel" class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th class="text-center text-indigo">No</th>
-                                      <th class="text-center text-indigo">Karyawan</th>
-                                      <th class="text-center text-indigo">Cabang</th>
-                                      <th class="text-center text-indigo">Tanggal</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @foreach ($instansis as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                          </table>
-                      </div>
+                          <div class="col-3">
+                            <span for="instansi_start_date">Start Date</span>
+                            <input type="date" name="instansi_start_date" id="instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                          </div>
+                          <div class="col-3">
+                            <span for="instansi_end_date">End Date</span>
+                            <input type="date" name="instansi_end_date" id="instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                          </div>
+                          <div class="col-3">
+                            <span for="">Aksi</span>
+                            <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                   </div>
+                </div>
+                <div class="card-body">
+                  <table id="instansi_tabel" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th class="text-center text-indigo">No</th>
+                          <th class="text-center text-indigo">Karyawan</th>
+                          <th class="text-center text-indigo">Cabang</th>
+                          <th class="text-center text-indigo">Tanggal</th>
+                          <th class="text-center text-indigo">Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($instansis as $key => $item)
+                          <tr>
+                            <td class="text-center">{{ $key + 1 }}</td>
+                            <td>
+                              @if ($item->karyawan)
+                                {{ $item->karyawan->nama_lengkap }}
+                              @else
+                                @if ($item->karyawan_id == 0)
+                                  Admin
+                                @endif
+                              @endif
+                            </td>
+                            <td>
+                              @if ($item->cabang)
+                                {{ $item->cabang->nama_cabang }}
+                              @endif
+                            </td>
+                              <td class="text-center">{{ $item->tanggal }}</td>
+                              <td class="text-center">
+                                {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                  <div class="btn-group">
+                                    <a
+                                      href="#"
+                                      class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false">
+                                        <i class="fas fa-cog"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                      {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                        <a
+                                          href="#"
+                                          class="dropdown-item border-bottom btn-detail-instansi text-indigo"
+                                          data-id="{{ $item->id }}">
+                                            <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                        </a>
+                                      {{-- @endif
+                                      {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                        <a
+                                          href="#"
+                                          class="dropdown-item border-bottom btn-edit-instansi text-indigo"
+                                          data-id="{{ $item->id }}">
+                                            <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                        </a>
+                                      {{-- @endif
+                                      @if (in_array("hapus", $current_data_navigasi)) --}}
+                                        <a
+                                          href="#"
+                                          class="dropdown-item btn-delete-instansi text-indigo"
+                                          data-id="{{ $item->id }}">
+                                            <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                        </a>
+                                      {{-- @endif --}}
+                                    </div>
+                                  </div>
+                                {{-- @endif --}}
+                              </td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                  </table>
+                </div>
               </div>
+            </div>
           @endif
           @if (in_array("survey kompetitor", $current_data_navigasi))
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -1066,6 +1148,232 @@
   </div>
 </div>
 
+{{-- modal instansi --}}
+{{-- modal instansi detail --}}
+<div class="modal fade" id="modalInstansiDetail" tabindex="-1" role="dialog" aria-labelledby="modalInstansiDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalInstansiDetailLabel">Detail Instansi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_instansi_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_instansi_cabang" id="detail_instansi_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_instansi_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_instansi_tanggal" id="detail_instansi_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_instansi_instansi" class="form-label">Nama Instansi</label>
+          <input type="text" name="detail_instansi_instansi" id="detail_instansi_instansi" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="">Foto</label>
+          {{-- dev --}}
+          <img id="detail_instansi_foto_preview" src="" alt="instansi_image" style="max-width: 100%;">
+          {{-- prod --}}
+          {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="instansi_image" style="max-width: 100%;"> --}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal instansi edit --}}
+<div class="modal fade" id="modalInstansiEdit" tabindex="-1" role="dialog" aria-labelledby="modalInstansiEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-instansi">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalInstansiEditLabel">Edit Instansi</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_instansi_id" id="edit_instansi_id">
+          <div class="mb-3">
+            <label for="edit_instansi_cabang_id" class="form-label">Nama Cabang</label>
+            <select name="edit_instansi_cabang_id" id="edit_instansi_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_instansi_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_instansi_tanggal" id="edit_instansi_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_instansi_instansi_id" class="form-label">Nama Instansi</label>
+            <select name="edit_instansi_instansi_id" id="edit_instansi_instansi_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_instansi_foto_preview">Foto Preview</label>
+            {{-- dev --}}
+            <img id="edit_instansi_foto_preview" src="" alt="instansi_image" style="max-width: 100%;">
+            {{-- prod --}}
+            {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="instansi_image" style="max-width: 100%;"> --}}
+          </div>
+          <div class="mb-3">
+            <label for="edit_instansi_foto" class="form-label">Ganti Foto</label>
+            <input type="file" name="edit_instansi_foto" id="edit_instansi_foto" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-instansi-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-instansi" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal instansi delete --}}
+<div class="modal fade" id="modalInstansiDelete" tabindex="-1" role="dialog" aria-labelledby="modalInstansiDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalInstansiDeleteLabel">Delete Instansi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="text" name="delete_instansi_id" id="delete_instansi_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-instansi-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-instansi text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- modal data reseller --}}
+{{-- modal data reseller detail --}}
+<div class="modal fade" id="modalDataResellerDetail" tabindex="-1" role="dialog" aria-labelledby="modalDataResellerDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDataResellerDetailLabel">Detail Data Reseller</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_data_reseller_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_data_reseller_cabang" id="detail_data_reseller_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_reseller_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_data_reseller_tanggal" id="detail_data_reseller_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_reseller_nama_reseller" class="form-label">Nama Reseller</label>
+          <input type="text" name="detail_data_reseller_nama_reseller" id="detail_data_reseller_nama_reseller" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_reseller_nama_usaha" class="form-label">Nama Usaha</label>
+          <input type="text" name="detail_data_reseller_nama_usaha" id="detail_data_reseller_nama_usaha" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_reseller_nomor_hp" class="form-label">Nomor HP</label>
+          <input type="number" name="detail_data_reseller_nomor_hp" id="detail_data_reseller_nomor_hp" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_reseller_alamat" class="form-label">Alamat</label>
+          <input type="text" name="detail_data_reseller_alamat" id="detail_data_reseller_alamat" class="form-control" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal data reseller edit --}}
+<div class="modal fade" id="modalDataResellerEdit" tabindex="-1" role="dialog" aria-labelledby="modalDataResellerEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-data-reseller">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDataResellerEditLabel">Edit Data Reseller</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_data_reseller_id" id="edit_data_reseller_id">
+          <div class="mb-3">
+            <label for="edit_data_reseller_cabang" class="form-label">Nama Cabang</label>
+            <select name="edit_data_reseller_cabang_id" id="edit_data_reseller_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_reseller_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_data_reseller_tanggal" id="edit_data_reseller_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_reseller_nama_reseller" class="form-label">Nama Reseller</label>
+            <input type="text" name="edit_data_reseller_nama_reseller" id="edit_data_reseller_nama_reseller" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_reseller_nama_usaha" class="form-label">Nama Usaha</label>
+            <input type="text" name="edit_data_reseller_nama_usaha" id="edit_data_reseller_nama_usaha" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_reseller_nomor_hp" class="form-label">Nomor HP</label>
+            <input type="number" name="edit_data_reseller_nomor_hp" id="edit_data_reseller_nomor_hp" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_reseller_alamat" class="form-label">Alamat</label>
+            <input type="text" name="edit_data_reseller_alamat" id="edit_data_reseller_alamat" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-data-reseller-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-data-reseller" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal data reseller delete --}}
+<div class="modal fade" id="modalDataResellerDelete" tabindex="-1" role="dialog" aria-labelledby="modalDataResellerDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDataResellerDeleteLabel">Delete Data Reseller</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_data_reseller_id" id="delete_data_reseller_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-data-reseller-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-data-reseller text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -1140,7 +1448,6 @@
         }
       })
     })
-
     // activity plan edit
     $(document).on('click', '.btn-edit-activity-plan', function () {
       $('#edit_activity_plan_jumlah').empty();
@@ -1186,7 +1493,6 @@
         }
       })
     })
-
     let keyupTimer;
     $(document).on('keyup', '#edit_activity_plan_jumlah_rencana_kunjungan', function () {
       $(".edit_activity_plan_jumlah_rencana_kunjungan_spinner").removeClass('d-none');
@@ -1212,7 +1518,6 @@
         $(".edit_activity_plan_jumlah_rencana_kunjungan_spinner").addClass('d-none');
       }
     })
-
     $(document).on('keyup', '#edit_activity_plan_jumlah_rencana_salescall', function () {
       $(".edit_activity_plan_jumlah_rencana_salescall_spinner").removeClass('d-none');
       $('#list_activity_plan_jumlah_rencana_salescall').empty();
@@ -1237,7 +1542,6 @@
           $(".edit_activity_plan_jumlah_rencana_salescall_spinner").addClass('d-none');
       }
     })
-
     $(document).on('keyup', '#edit_activity_plan_jumlah_rencana_sebar_brosur', function () {
         $(".edit_activity_plan_jumlah_rencana_sebar_brosur_spinner").removeClass('d-none');
         $('#list_activity_plan_jumlah_rencana_sebar_brosur').empty();
@@ -1262,7 +1566,6 @@
             $(".edit_activity_plan_jumlah_rencana_sebar_brosur_spinner").addClass('d-none');
         }
     })
-
     $(document).on('keyup', '#edit_activity_plan_jumlah_rencana_penawaran', function () {
         $(".edit_activity_plan_jumlah_rencana_penawaran_spinner").removeClass('d-none');
         $('#list_activity_plan_jumlah_rencana_penawaran').empty();
@@ -1287,7 +1590,6 @@
             $(".edit_activity_plan_jumlah_rencana_penawaran_spinner").addClass('d-none');
         }
     })
-
     $(document).on('keyup', '#edit_activity_plan_jumlah_penawaran_merchant', function () {
         $(".edit_activity_plan_jumlah_penawaran_merchant_spinner").removeClass('d-none');
         $('#list_activity_plan_jumlah_penawaran_merchant').empty();
@@ -1312,7 +1614,6 @@
             $(".edit_activity_plan_jumlah_penawaran_merchant_spinner").addClass('d-none');
         }
     })
-
     $(document).on('click', '.modal-tombol-edit-activity-plan', function () {
       let formData = new FormData($('#form-edit-activity-plan')[0]);
       formData.append('_method', 'put');
@@ -1342,14 +1643,12 @@
         }
       })
     })
-
     // activity plan delete
     $(document).on('click', '.btn-delete-activity-plan', function () {
       var id = $(this).attr('data-id');
       $('#delete_id').val(id);
       $('#modalActivityPlanDelete').modal('show');
     });
-
     $(document).on('click', '.modal-tombol-delete-activity-plan', function () {
       let formData = {
         id: $('#delete_id').val()
@@ -1399,7 +1698,6 @@
         }
       })
     })
-
     // data member edit
     $(document).on('click', '.btn-edit-data-member', function () {
       let id = $(this).attr('data-id');
@@ -1432,7 +1730,6 @@
         }
       })
     })
-
     $(document).on('click', '.modal-tombol-edit-data-member', function () {
       let formData = new FormData($('#form-edit-data-member')[0]);
       formData.append('_method', 'put');
@@ -1462,14 +1759,12 @@
         }
       })
     })
-
     // data member delete
     $(document).on('click', '.btn-delete-data-member', function () {
       var id = $(this).attr('data-id');
       $('#delete_data_member_id').val(id);
       $('#modalDataMemberDelete').modal('show');
     });
-
     $(document).on('click', '.modal-tombol-delete-data-member', function () {
       let formData = {
         id: $('#delete_data_member_id').val()
@@ -1482,6 +1777,257 @@
         beforeSend: function () {
           $('.modal-tombol-delete-data-member-spinner').removeClass('d-none');
           $('.modal-tombol-delete-data-member').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // instansi detail
+    $(document).on('click', '.btn-detail-instansi', function (e) {
+      e.preventDefault();
+      $('#detail_instansi_jumlah').empty();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.instansi.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          let asset_url = "{{ asset('/') }}";
+          let asset_folder = "public/file/labul/";
+          let asset_img = response.instansi.foto;
+          $('#detail_instansi_foto_preview').attr("src", asset_url + asset_folder + asset_img);
+
+          $('#detail_instansi_cabang').val(response.instansi.cabang.nama_cabang);
+          $('#detail_instansi_tanggal').val(response.instansi.tanggal);
+          $('#detail_instansi_instansi').val(response.instansi.data_instansi.nama_instansi);
+          
+          $('#modalInstansiDetail').modal('show');
+        }
+      })
+    })
+    // instansi edit
+    $(document).on('click', '.btn-edit-instansi', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.instansi.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          let asset_url = "{{ asset('/') }}";
+          let asset_folder = "public/file/labul/";
+          let asset_img = response.instansi.foto;
+          
+          $('#edit_instansi_id').val(response.instansi.id);
+          $('#edit_instansi_tanggal').val(response.instansi.tanggal);
+          $('#edit_instansi_foto_preview').attr("src", asset_url + asset_folder + asset_img);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.instansi.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>';
+          })
+          $('#edit_instansi_cabang_id').append(data_cabang);
+
+          let data_instansi = '';
+          $.each(response.data_instansis, function (index, item) {
+            data_instansi += '<option value="' + item.id + '">' + item.nama_instansi + '</option>';
+          })
+          $('#edit_instansi_instansi_id').append(data_instansi);
+
+          $('#modalInstansiEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-instansi', function (e) {
+      e.preventDefault();
+      let formData = new FormData($('#form-edit-instansi')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.instansi.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_instansi_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-instansi-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-instansi').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // instansi delete
+    $(document).on('click', '.btn-delete-instansi', function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-id');
+      $('#delete_instansi_id').val(id);
+      $('#modalInstansiDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-instansi', function (e) {
+      e.preventDefault();
+      let formData = {
+        id: $('#delete_instansi_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.instansi.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-instansi-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-instansi').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // data reseller detail
+    $(document).on('click', '.btn-detail-data-reseller', function (e) {
+      e.preventDefault();
+      $('#detail_data_reseller_jumlah').empty();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.data_reseller.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          console.log(response);
+          $('#detail_data_reseller_cabang').val(response.data_reseller.cabang.nama_cabang);
+          $('#detail_data_reseller_tanggal').val(response.data_reseller.tanggal);
+          $('#detail_data_reseller_nama_reseller').val(response.data_reseller.nama_reseller);
+          $('#detail_data_reseller_nama_usaha').val(response.data_reseller.nama_usaha);
+          $('#detail_data_reseller_nomor_hp').val(response.data_reseller.nomor_hp);
+          $('#detail_data_reseller_alamat').val(response.data_reseller.alamat);
+          
+          $('#modalDataResellerDetail').modal('show');
+        }
+      })
+    })
+    // data reseller edit
+    $(document).on('click', '.btn-edit-data-reseller', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.data_reseller.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          $('#edit_data_reseller_id').val(response.data_reseller.id);
+          $('#edit_data_reseller_nama_reseller').val(response.data_reseller.nama_reseller);
+          $('#edit_data_reseller_tanggal').val(response.data_reseller.tanggal);
+          $('#edit_data_reseller_nama_usaha').val(response.data_reseller.nama_usaha);
+          $('#edit_data_reseller_nomor_hp').val(response.data_reseller.nomor_hp);
+          $('#edit_data_reseller_alamat').val(response.data_reseller.alamat);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.data_reseller.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>'
+          }) 
+          $('#edit_data_reseller_cabang_id').append(data_cabang);
+          
+          $('#modalDataResellerEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-data-reseller', function () {
+      let formData = new FormData($('#form-edit-data-reseller')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.data_reseller.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_data_reseller_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-data-reseller-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-data-reseller').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // data reseller delete
+    $(document).on('click', '.btn-delete-data-reseller', function () {
+      var id = $(this).attr('data-id');
+      $('#delete_data_reseller_id').val(id);
+      $('#modalDataResellerDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-data-reseller', function () {
+      let formData = {
+        id: $('#delete_data_reseller_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.data_reseller.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-data-reseller-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-data-reseller').addClass('d-none');
         },
         success: function (response) {
           Toast.fire({
