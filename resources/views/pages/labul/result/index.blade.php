@@ -810,6 +810,7 @@
                                       <th class="text-center text-indigo">Karyawan</th>
                                       <th class="text-center text-indigo">Cabang</th>
                                       <th class="text-center text-indigo">Tanggal</th>
+                                      <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -831,6 +832,46 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
+                                          <td class="text-center">
+                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                              <div class="btn-group">
+                                                <a
+                                                  href="#"
+                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-detail-data-instansi text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                    </a>
+                                                  {{-- @endif
+                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-edit-data-instansi text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                    </a>
+                                                  {{-- @endif
+                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item btn-delete-data-instansi text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                    </a>
+                                                  {{-- @endif --}}
+                                                </div>
+                                              </div>
+                                            {{-- @endif --}}
+                                          </td>
                                       </tr>
                                   @endforeach
                               </tbody>
@@ -1184,6 +1225,122 @@
           Loading...
         </button>
         <button type="button" class="btn btn-primary modal-tombol-delete-data-member text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- modal data instansi --}}
+{{-- modal data instansi detail --}}
+<div class="modal fade" id="modalDataInstansiDetail" tabindex="-1" role="dialog" aria-labelledby="modalDataInstansiDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDataInstansiDetailLabel">Detail Data Instansi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_data_instansi_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_data_instansi_cabang" id="detail_data_instansi_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_instansi_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_data_instansi_tanggal" id="detail_data_instansi_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_instansi_pic" class="form-label">PIC</label>
+          <input type="text" name="detail_data_instansi_pic" id="detail_data_instansi_pic" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_instansi_nama_instansi" class="form-label">Nama instansi</label>
+          <input type="text" name="detail_data_instansi_nama_instansi" id="detail_data_instansi_nama_instansi" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_instansi_nomor_hp" class="form-label">Nomor HP</label>
+          <input type="number" name="detail_data_instansi_nomor_hp" id="detail_data_instansi_nomor_hp" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_data_instansi_alamat" class="form-label">Alamat</label>
+          <input type="text" name="detail_data_instansi_alamat" id="detail_data_instansi_alamat" class="form-control" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal data instansi edit --}}
+<div class="modal fade" id="modalDataInstansiEdit" tabindex="-1" role="dialog" aria-labelledby="modalDataInstansiEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-data-instansi">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDataInstansiEditLabel">Edit Data Instansi</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_data_instansi_id" id="edit_data_instansi_id">
+          <div class="mb-3">
+            <label for="edit_data_instansi_cabang" class="form-label">Nama Cabang</label>
+            <select name="edit_data_instansi_cabang_id" id="edit_data_instansi_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_instansi_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_data_instansi_tanggal" id="edit_data_instansi_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_instansi_pic" class="form-label">PIC</label>
+            <input type="text" name="edit_data_instansi_pic" id="edit_data_instansi_pic" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_instansi_nama_instansi" class="form-label">Nama Instansi</label>
+            <input type="text" name="edit_data_instansi_nama_instansi" id="edit_data_instansi_nama_instansi" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_instansi_nomor_hp" class="form-label">Nomor HP</label>
+            <input type="number" name="edit_data_instansi_nomor_hp" id="edit_data_instansi_nomor_hp" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_data_instansi_alamat" class="form-label">Alamat</label>
+            <input type="text" name="edit_data_instansi_alamat" id="edit_data_instansi_alamat" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-data-instansi-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-data-instansi" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal data instansi delete --}}
+<div class="modal fade" id="modalDataInstansiDelete" tabindex="-1" role="dialog" aria-labelledby="modalDataInstansiDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDataInstansiDeleteLabel">Delete Data Instansi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_data_instansi_id" id="delete_data_instansi_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-data-instansi-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-data-instansi text-center" style="width: 130px;">Ya</button>
       </div>
     </div>
   </div>
@@ -1936,6 +2093,125 @@
         beforeSend: function () {
           $('.modal-tombol-delete-data-member-spinner').removeClass('d-none');
           $('.modal-tombol-delete-data-member').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // data instansi detail
+    $(document).on('click', '.btn-detail-data-instansi', function (e) {
+      e.preventDefault();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.data_instansi.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          console.log(response);
+          $('#detail_data_instansi_cabang').val(response.data_instansi.cabang.nama_cabang);
+          $('#detail_data_instansi_tanggal').val(response.data_instansi.tanggal);
+          $('#detail_data_instansi_nama_instansi').val(response.data_instansi.nama_instansi);
+          $('#detail_data_instansi_pic').val(response.data_instansi.pic);
+          $('#detail_data_instansi_nomor_hp').val(response.data_instansi.nomor_hp);
+          $('#detail_data_instansi_alamat').val(response.data_instansi.alamat);
+          
+          $('#modalDataInstansiDetail').modal('show');
+        }
+      })
+    })
+    // data instansi edit
+    $(document).on('click', '.btn-edit-data-instansi', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.data_instansi.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          $('#edit_data_instansi_id').val(response.data_instansi.id);
+          $('#edit_data_instansi_nama_instansi').val(response.data_instansi.nama_instansi);
+          $('#edit_data_instansi_tanggal').val(response.data_instansi.tanggal);
+          $('#edit_data_instansi_pic').val(response.data_instansi.pic);
+          $('#edit_data_instansi_nomor_hp').val(response.data_instansi.nomor_hp);
+          $('#edit_data_instansi_alamat').val(response.data_instansi.alamat);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.data_instansi.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>'
+          }) 
+          $('#edit_data_instansi_cabang_id').append(data_cabang);
+          
+          $('#modalDataInstansiEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-data-instansi', function () {
+      let formData = new FormData($('#form-edit-data-instansi')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.data_instansi.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_data_instansi_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-data-instansi-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-data-instansi').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // data instansi delete
+    $(document).on('click', '.btn-delete-data-instansi', function () {
+      var id = $(this).attr('data-id');
+      $('#delete_data_instansi_id').val(id);
+      $('#modalDataInstansiDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-data-instansi', function () {
+      let formData = {
+        id: $('#delete_data_instansi_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.data_instansi.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-data-instansi-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-data-instansi').addClass('d-none');
         },
         success: function (response) {
           Toast.fire({

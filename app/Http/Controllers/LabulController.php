@@ -651,6 +651,53 @@ class LabulController extends Controller
         return Excel::download(new LabulDataInstansiExport($startDate, $endDate, $cabang_id), 'data_instansi.xlsx');
     }
 
+    public function resultDataInstansiDetail($id)
+    {
+      $data_instansi = LabulDataInstansi::with('cabang')->find($id);
+
+      return response()->json([
+        'data_instansi' => $data_instansi
+      ]);
+    }
+
+    public function resultDataInstansiEdit($id)
+    {
+      $data_instansi = LabulDataInstansi::find($id);
+      $cabang = MasterCabang::get();
+
+      return response()->json([
+        'data_instansi' => $data_instansi,
+        'cabangs' => $cabang
+      ]);
+    }
+
+    public function resultDataInstansiUpdate(Request $request, $id)
+    {
+      $data_instansi = LabulDataInstansi::find($id);
+      $data_instansi->karyawan_id = Auth::user()->master_karyawan_id;
+      $data_instansi->cabang_id = $request->edit_data_instansi_cabang_id;
+      $data_instansi->tanggal = $request->edit_data_instansi_tanggal;
+      $data_instansi->nama_instansi = $request->edit_data_instansi_nama_instansi;
+      $data_instansi->pic = $request->edit_data_instansi_pic;
+      $data_instansi->nomor_hp = $request->edit_data_instansi_nomor_hp;
+      $data_instansi->alamat = $request->edit_data_instansi_alamat;
+      $data_instansi->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultDataInstansiDelete(Request $request)
+    {
+      $data_instansi = LabulDataInstansi::find($request->id);
+      $data_instansi->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
     // result data member
     public function resultExportDataMember(Request $request)
     {
