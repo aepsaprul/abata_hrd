@@ -7,13 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class LabulOmzet extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    public function karyawan() {
-        return $this->belongsTo(MasterKaryawan::class, 'karyawan_id', 'id');
-    }
+  public function karyawan() {
+    return $this->belongsTo(MasterKaryawan::class, 'karyawan_id', 'id');
+  }
 
-    public function cabang() {
-        return $this->belongsTo(MasterCabang::class, 'cabang_id', 'id');
-    }
+  public function cabang() {
+    return $this->belongsTo(MasterCabang::class, 'cabang_id', 'id');
+  }
+
+  public function sales() {
+    return $this->belongsTo(MasterKaryawan::class, 'karyawan_sales_id', 'id');
+  }
 }

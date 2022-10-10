@@ -970,6 +970,83 @@ class LabulController extends Controller
         return Excel::download(new LabulOmzetExport($startDate, $endDate, $cabang_id), 'omzet.xlsx');
     }
 
+    public function resultOmzetDetail($id)
+    {
+      $omzet = LabulOmzet::with(['cabang', 'sales'])->find($id);
+
+      return response()->json([
+        'omzet' => $omzet
+      ]);
+    }
+
+    public function resultOmzetEdit($id)
+    {
+      $omzet = LabulOmzet::with('sales')->find($id);
+      $cabang = MasterCabang::get();
+      $sales = MasterKaryawan::where('master_jabatan_id', '56')->get();
+
+      return response()->json([
+        'omzet' => $omzet,
+        'cabangs' => $cabang,
+        'sales' => $sales
+      ]);
+    }
+
+    public function resultOmzetUpdate(Request $request, $id)
+    {
+      $omzet = LabulOmzet::find($id);
+      $omzet->karyawan_id = Auth::user()->master_karyawan_id;
+        $omzet->cabang_id = $request->edit_omzet_cabang_id;
+        $omzet->tanggal = $request->edit_omzet_tanggal;
+        $omzet->transaksi = $request->edit_omzet_transaksi;
+        $omzet->traffic_online = $request->edit_omzet_traffic_online;
+        $omzet->traffic_offline = $request->edit_omzet_traffic_offline;
+        $omzet->retail = str_replace(",", "", $request->edit_omzet_retail);
+        $omzet->instansi = str_replace(",", "", $request->edit_omzet_instansi);
+        $omzet->reseller = str_replace(",", "", $request->edit_omzet_reseller);
+        $omzet->cabang_rp = str_replace(",", "", $request->edit_omzet_cabang_rp);
+        $omzet->omzet_harian = str_replace(",", "", $request->edit_omzet_omzet_harian);
+        $omzet->omzet_terbayar = str_replace(",", "", $request->edit_omzet_omzet_terbayar);
+        $omzet->leads = $request->edit_omzet_leads;
+        $omzet->konsumen_bertanya = $request->edit_omzet_konsumen_bertanya;
+        $omzet->cetak_banner_harian = str_replace(",", "", $request->edit_omzet_cetak_banner_harian);
+        $omzet->cetak_a3_harian = str_replace(",", "", $request->edit_omzet_cetak_a3_harian);
+        $omzet->print_outdoor = str_replace(",", "", $request->edit_omzet_print_outdoor);
+        $omzet->print_indoor = str_replace(",", "", $request->edit_omzet_print_indoor);
+        $omzet->offset = str_replace(",", "", $request->edit_omzet_offset);
+        $omzet->merchandise = str_replace(",", "", $request->edit_omzet_merchandise);
+        $omzet->akrilik = str_replace(",", "", $request->edit_omzet_akrilik);
+        $omzet->design = str_replace(",", "", $request->edit_omzet_design);
+        $omzet->laminasi_dingin = str_replace(",", "", $request->edit_omzet_laminasi_dingin);
+        $omzet->laminasi_a3 = str_replace(",", "", $request->edit_omzet_laminasi_a3);
+        $omzet->fotocopy = str_replace(",", "", $request->edit_omzet_fotocopy);
+        $omzet->dtf = str_replace(",", "", $request->edit_omzet_dtf);
+        $omzet->uv = str_replace(",", "", $request->edit_omzet_uv);
+        $omzet->advertising_produk = str_replace(",", "", $request->edit_omzet_advertising_produk);
+        $omzet->advertising_jasa = str_replace(",", "", $request->edit_omzet_advertising_jasa);
+        $omzet->cash_harian = str_replace(",", "", $request->edit_omzet_cash_harian);
+        $omzet->piutang_bulan_berjalan = str_replace(",", "", $request->edit_omzet_piutang_bulan_berjalan);
+        $omzet->piutang_terbayar = str_replace(",", "", $request->edit_omzet_piutang_terbayar);
+        $omzet->karyawan_sales_id = str_replace(",", "", $request->edit_omzet_karyawan_sales_id);
+        $omzet->pencapaian_omset_sales = str_replace(",", "", $request->edit_omzet_pencapaian_omzet_sales);
+        $omzet->pencapaian_cash_sales = str_replace(",", "", $request->edit_omzet_pencapaian_cash_sales);
+        $omzet->save();
+
+        return response()->json([
+          'status' => 200
+        ]);
+    }
+
+    public function resultOmzetDelete(Request $request)
+    {
+      $omzet = LabulOmzet::find($request->id);
+      $omzet->delete();
+
+      return response()->json([
+        'status' => 200
+      ]); 
+    }
+
     // result reqor
     public function resultExportReqor(Request $request)
     {

@@ -1124,6 +1124,7 @@
                                       <th class="text-center text-indigo">Karyawan</th>
                                       <th class="text-center text-indigo">Cabang</th>
                                       <th class="text-center text-indigo">Tanggal</th>
+                                      <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -1145,6 +1146,46 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
+                                          <td class="text-center">
+                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                              <div class="btn-group">
+                                                <a
+                                                  href="#"
+                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-detail-omzet text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                    </a>
+                                                  {{-- @endif
+                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-edit-omzet text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                    </a>
+                                                  {{-- @endif
+                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item btn-delete-omzet text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                    </a>
+                                                  {{-- @endif --}}
+                                                </div>
+                                              </div>
+                                            {{-- @endif --}}
+                                          </td>
                                       </tr>
                                   @endforeach
                               </tbody>
@@ -2174,6 +2215,346 @@
           Loading...
         </button>
         <button type="button" class="btn btn-primary modal-tombol-delete-reqor text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- modal omzet --}}
+{{-- modal omzet detail --}}
+<div class="modal fade" id="modalOmzetDetail" tabindex="-1" role="dialog" aria-labelledby="modalOmzetDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalOmzetDetailLabel">Detail Omzet</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_omzet_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_omzet_cabang" id="detail_omzet_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_omzet_tanggal" id="detail_omzet_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_transaksi" class="form-label">Transaksi</label>
+          <input type="text" name="detail_omzet_transaksi" id="detail_omzet_transaksi" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_traffic_online" class="form-label">Traffic Online</label>
+          <input type="text" name="detail_omzet_traffic_online" id="detail_omzet_traffic_online" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_traffic_offline" class="form-label">Traffic Offline</label>
+          <input type="text" name="detail_omzet_traffic_offline" id="detail_omzet_traffic_offline" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_retail" class="form-label">Retail</label>
+          <input type="text" name="detail_omzet_retail" id="detail_omzet_retail" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_instansi" class="form-label">Instansi</label>
+          <input type="text" name="detail_omzet_instansi" id="detail_omzet_instansi" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_reseller" class="form-label">Reseller</label>
+          <input type="text" name="detail_omzet_reseller" id="detail_omzet_reseller" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_cabang_rp" class="form-label">Cabang</label>
+          <input type="text" name="detail_omzet_cabang_rp" id="detail_omzet_cabang_rp" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_omzet_harian" class="form-label">Omzet Harian</label>
+          <input type="text" name="detail_omzet_omzet_harian" id="detail_omzet_omzet_harian" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_omzet_terbayar" class="form-label">Omzet Terbayar</label>
+          <input type="text" name="detail_omzet_omzet_terbayar" id="detail_omzet_omzet_terbayar" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_leads" class="form-label">Leads</label>
+          <input type="text" name="detail_omzet_leads" id="detail_omzet_leads" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_konsumen_bertanya" class="form-label">Konsumen Bertanya</label>
+          <input type="text" name="detail_omzet_konsumen_bertanya" id="detail_omzet_konsumen_bertanya" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_cetak_banner_harian" class="form-label">Cetak Banner Harian</label>
+          <input type="text" name="detail_omzet_cetak_banner_harian" id="detail_omzet_cetak_banner_harian" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_cetak_a3_harian" class="form-label">Cetak A3 Harian</label>
+          <input type="text" name="detail_omzet_cetak_a3_harian" id="detail_omzet_cetak_a3_harian" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_print_outdoor" class="form-label">Print Outdoor</label>
+          <input type="text" name="detail_omzet_print_outdoor" id="detail_omzet_print_outdoor" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_print_indoor" class="form-label">Print Indoor</label>
+          <input type="text" name="detail_omzet_print_indoor" id="detail_omzet_print_indoor" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_offset" class="form-label">Offset</label>
+          <input type="text" name="detail_omzet_offset" id="detail_omzet_offset" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_merchandise" class="form-label">Merchandise</label>
+          <input type="text" name="detail_omzet_merchandise" id="detail_omzet_merchandise" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_akrilik" class="form-label">Akrilik</label>
+          <input type="text" name="detail_omzet_akrilik" id="detail_omzet_akrilik" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_design" class="form-label">Design</label>
+          <input type="text" name="detail_omzet_design" id="detail_omzet_design" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_laminasi_dingin" class="form-label">Laminasi Dingin</label>
+          <input type="text" name="detail_omzet_laminasi_dingin" id="detail_omzet_laminasi_dingin" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_laminasi_a3" class="form-label">Laminasi A3</label>
+          <input type="text" name="detail_omzet_laminasi_a3" id="detail_omzet_laminasi_a3" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_fotocopy" class="form-label">Fotocopy</label>
+          <input type="text" name="detail_omzet_fotocopy" id="detail_omzet_fotocopy" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_dtf" class="form-label">DTF</label>
+          <input type="text" name="detail_omzet_dtf" id="detail_omzet_dtf" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_uv" class="form-label">UV</label>
+          <input type="text" name="detail_omzet_uv" id="detail_omzet_uv" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_advertising_produk" class="form-label">Advertising Produk</label>
+          <input type="text" name="detail_omzet_advertising_produk" id="detail_omzet_advertising_produk" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_advertising_jasa" class="form-label">Advertising Jasa</label>
+          <input type="text" name="detail_omzet_advertising_jasa" id="detail_omzet_advertising_jasa" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_cash_harian" class="form-label">Cash Harian</label>
+          <input type="text" name="detail_omzet_cash_harian" id="detail_omzet_cash_harian" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_piutang_bulan_berjalan" class="form-label">Piutang Bulan Berjalan</label>
+          <input type="text" name="detail_omzet_piutang_bulan_berjalan" id="detail_omzet_piutang_bulan_berjalan" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_piutang_terbayar" class="form-label">Piutang Terbayar</label>
+          <input type="text" name="detail_omzet_piutang_terbayar" id="detail_omzet_piutang_terbayar" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_karyawan_sales_id" class="form-label">Sales</label>
+          <input type="text" name="detail_omzet_karyawan_sales_id" id="detail_omzet_karyawan_sales_id" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_pencapaian_omzet_sales" class="form-label">Pencapaian Omzet Sales</label>
+          <input type="text" name="detail_omzet_pencapaian_omzet_sales" id="detail_omzet_pencapaian_omzet_sales" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_omzet_pencapaian_cash_sales" class="form-label">Pencapaian Cash Sales</label>
+          <input type="text" name="detail_omzet_pencapaian_cash_sales" id="detail_omzet_pencapaian_cash_sales" class="form-control" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal omzet edit --}}
+<div class="modal fade" id="modalOmzetEdit" tabindex="-1" role="dialog" aria-labelledby="modalOmzetEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-omzet">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalOmzetEditLabel">Edit Omzet</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_omzet_id" id="edit_omzet_id">
+          <div class="mb-3">
+            <label for="edit_omzet_cabang_id" class="form-label">Nama Cabang</label>
+            <select name="edit_omzet_cabang_id" id="edit_omzet_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_omzet_tanggal" id="edit_omzet_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_transaksi" class="form-label">Transaksi</label>
+            <input type="text" name="edit_omzet_transaksi" id="edit_omzet_transaksi" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_traffic_online" class="form-label">Traffic Online</label>
+            <input type="text" name="edit_omzet_traffic_online" id="edit_omzet_traffic_online" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_traffic_offline" class="form-label">Traffic Offline</label>
+            <input type="text" name="edit_omzet_traffic_offline" id="edit_omzet_traffic_offline" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_retail" class="form-label">Retail</label>
+            <input type="text" name="edit_omzet_retail" id="edit_omzet_retail" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_instansi" class="form-label">Instansi</label>
+            <input type="text" name="edit_omzet_instansi" id="edit_omzet_instansi" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_reseller" class="form-label">Reseller</label>
+            <input type="text" name="edit_omzet_reseller" id="edit_omzet_reseller" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_cabang_rp" class="form-label">Cabang</label>
+            <input type="text" name="edit_omzet_cabang_rp" id="edit_omzet_cabang_rp" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_omzet_harian" class="form-label">Omzet Harian</label>
+            <input type="text" name="edit_omzet_omzet_harian" id="edit_omzet_omzet_harian" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_omzet_terbayar" class="form-label">Omzet Terbayar</label>
+            <input type="text" name="edit_omzet_omzet_terbayar" id="edit_omzet_omzet_terbayar" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_leads" class="form-label">Leads</label>
+            <input type="text" name="edit_omzet_leads" id="edit_omzet_leads" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_konsumen_bertanya" class="form-label">Konsumen Bertanya</label>
+            <input type="text" name="edit_omzet_konsumen_bertanya" id="edit_omzet_konsumen_bertanya" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_cetak_banner_harian" class="form-label">Cetak Banner Harian</label>
+            <input type="text" name="edit_omzet_cetak_banner_harian" id="edit_omzet_cetak_banner_harian" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_cetak_a3_harian" class="form-label">Cetak A3 Harian</label>
+            <input type="text" name="edit_omzet_cetak_a3_harian" id="edit_omzet_cetak_a3_harian" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_print_outdoor" class="form-label">Print Outdoor</label>
+            <input type="text" name="edit_omzet_print_outdoor" id="edit_omzet_print_outdoor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_print_indoor" class="form-label">Print Indoor</label>
+            <input type="text" name="edit_omzet_print_indoor" id="edit_omzet_print_indoor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_offset" class="form-label">Offset</label>
+            <input type="text" name="edit_omzet_offset" id="edit_omzet_offset" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_merchandise" class="form-label">Merchandise</label>
+            <input type="text" name="edit_omzet_merchandise" id="edit_omzet_merchandise" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_akrilik" class="form-label">Akrilik</label>
+            <input type="text" name="edit_omzet_akrilik" id="edit_omzet_akrilik" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_design" class="form-label">Design</label>
+            <input type="text" name="edit_omzet_design" id="edit_omzet_design" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_laminasi_dingin" class="form-label">Laminasi Dingin</label>
+            <input type="text" name="edit_omzet_laminasi_dingin" id="edit_omzet_laminasi_dingin" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_laminasi_a3" class="form-label">Laminasi A3</label>
+            <input type="text" name="edit_omzet_laminasi_a3" id="edit_omzet_laminasi_a3" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_fotocopy" class="form-label">Fotocopy</label>
+            <input type="text" name="edit_omzet_fotocopy" id="edit_omzet_fotocopy" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_dtf" class="form-label">DTF</label>
+            <input type="text" name="edit_omzet_dtf" id="edit_omzet_dtf" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_uv" class="form-label">UV</label>
+            <input type="text" name="edit_omzet_uv" id="edit_omzet_uv" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_advertising_produk" class="form-label">Advertising Produk</label>
+            <input type="text" name="edit_omzet_advertising_produk" id="edit_omzet_advertising_produk" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_advertising_jasa" class="form-label">Advertising Jasa</label>
+            <input type="text" name="edit_omzet_advertising_jasa" id="edit_omzet_advertising_jasa" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_cash_harian" class="form-label">Cash Harian</label>
+            <input type="text" name="edit_omzet_cash_harian" id="edit_omzet_cash_harian" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_piutang_bulan_berjalan" class="form-label">Piutang Bulan Berjalan</label>
+            <input type="text" name="edit_omzet_piutang_bulan_berjalan" id="edit_omzet_piutang_bulan_berjalan" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_piutang_terbayar" class="form-label">Piutang Terbayar</label>
+            <input type="text" name="edit_omzet_piutang_terbayar" id="edit_omzet_piutang_terbayar" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_karyawan_sales_id" class="form-label">Sales</label>
+            <select name="edit_omzet_karyawan_sales_id" id="edit_omzet_karyawan_sales_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_pencapaian_omzet_sales" class="form-label">Pencapaian Omzet Sales</label>
+            <input type="text" name="edit_omzet_pencapaian_omzet_sales" id="edit_omzet_pencapaian_omzet_sales" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_omzet_pencapaian_cash_sales" class="form-label">Pencapaian Cash Sales</label>
+            <input type="text" name="edit_omzet_pencapaian_cash_sales" id="edit_omzet_pencapaian_cash_sales" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-omzet-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-omzet" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal omzet delete --}}
+<div class="modal fade" id="modalOmzetDelete" tabindex="-1" role="dialog" aria-labelledby="modalOmzetDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalOmzetDeleteLabel">Delete Request & Orderan Tertolak</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_omzet_id" id="delete_omzet_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-omzet-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-omzet text-center" style="width: 130px;">Ya</button>
       </div>
     </div>
   </div>
@@ -3472,6 +3853,326 @@
         }
       })
     })
+
+    // omzet detail
+    $(document).on('click', '.btn-detail-omzet', function (e) {
+      e.preventDefault();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.omzet.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          $('#detail_omzet_cabang').val(response.omzet.cabang.nama_cabang);
+          $('#detail_omzet_tanggal').val(response.omzet.tanggal);
+          $('#detail_omzet_transaksi').val(response.omzet.transaksi);
+          $('#detail_omzet_traffic_online').val(response.omzet.traffic_online);
+          $('#detail_omzet_traffic_offline').val(response.omzet.traffic_offline);
+          $('#detail_omzet_retail').val(format_rupiah(response.omzet.retail));
+          $('#detail_omzet_instansi').val(format_rupiah(response.omzet.instansi));
+          $('#detail_omzet_reseller').val(format_rupiah(response.omzet.reseller));
+          $('#detail_omzet_cabang_rp').val(format_rupiah(response.omzet.cabang_rp));
+          $('#detail_omzet_omzet_harian').val(format_rupiah(response.omzet.omzet_harian));
+          $('#detail_omzet_omzet_terbayar').val(format_rupiah(response.omzet.omzet_terbayar));
+          $('#detail_omzet_leads').val(response.omzet.leads);
+          $('#detail_omzet_konsumen_bertanya').val(response.omzet.konsumen_bertanya);
+          $('#detail_omzet_cetak_banner_harian').val(format_rupiah(response.omzet.cetak_banner_harian));
+          $('#detail_omzet_cetak_a3_harian').val(format_rupiah(response.omzet.cetak_a3_harian));
+          $('#detail_omzet_print_outdoor').val(format_rupiah(response.omzet.print_outdoor));
+          $('#detail_omzet_print_indoor').val(format_rupiah(response.omzet.print_indoor));
+          $('#detail_omzet_offset').val(format_rupiah(response.omzet.offset));
+          $('#detail_omzet_merchandise').val(format_rupiah(response.omzet.merchandise));
+          $('#detail_omzet_akrilik').val(format_rupiah(response.omzet.akrilik));
+          $('#detail_omzet_design').val(format_rupiah(response.omzet.design));
+          $('#detail_omzet_laminasi_dingin').val(format_rupiah(response.omzet.laminasi_dingin));
+          $('#detail_omzet_laminasi_a3').val(format_rupiah(response.omzet.laminasi_a3));
+          $('#detail_omzet_fotocopy').val(format_rupiah(response.omzet.fotocopy));
+          $('#detail_omzet_dtf').val(format_rupiah(response.omzet.dtf));
+          $('#detail_omzet_uv').val(format_rupiah(response.omzet.uv));
+          $('#detail_omzet_advertising_produk').val(format_rupiah(response.omzet.advertising_produk));
+          $('#detail_omzet_advertising_jasa').val(format_rupiah(response.omzet.advertising_jasa));
+          $('#detail_omzet_cash_harian').val(format_rupiah(response.omzet.cash_harian));
+          $('#detail_omzet_piutang_bulan_berjalan').val(format_rupiah(response.omzet.piutang_bulan_berjalan));
+          $('#detail_omzet_piutang_terbayar').val(format_rupiah(response.omzet.piutang_terbayar));
+          $('#detail_omzet_karyawan_sales_id').val(response.omzet.sales.nama_lengkap);
+          $('#detail_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
+          $('#detail_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
+          
+          $('#modalOmzetDetail').modal('show');
+        }
+      })
+    })
+    // omzet edit
+    $(document).on('click', '.btn-edit-omzet', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.omzet.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {          
+          $('#edit_omzet_id').val(response.omzet.id);
+          $('#edit_omzet_tanggal').val(response.omzet.tanggal);
+          $('#edit_omzet_transaksi').val(response.omzet.transaksi);
+          $('#edit_omzet_traffic_online').val(response.omzet.traffic_online);
+          $('#edit_omzet_traffic_offline').val(response.omzet.traffic_offline);
+          $('#edit_omzet_retail').val(format_rupiah(response.omzet.retail));
+          $('#edit_omzet_instansi').val(format_rupiah(response.omzet.instansi));
+          $('#edit_omzet_reseller').val(format_rupiah(response.omzet.reseller));
+          $('#edit_omzet_cabang_rp').val(format_rupiah(response.omzet.cabang_rp));
+          $('#edit_omzet_omzet_harian').val(format_rupiah(response.omzet.omzet_harian));
+          $('#edit_omzet_omzet_terbayar').val(format_rupiah(response.omzet.omzet_terbayar));
+          $('#edit_omzet_leads').val(response.omzet.leads);
+          $('#edit_omzet_konsumen_bertanya').val(response.omzet.konsumen_bertanya);
+          $('#edit_omzet_cetak_banner_harian').val(format_rupiah(response.omzet.cetak_banner_harian));
+          $('#edit_omzet_cetak_a3_harian').val(format_rupiah(response.omzet.cetak_a3_harian));
+          $('#edit_omzet_print_outdoor').val(format_rupiah(response.omzet.print_outdoor));
+          $('#edit_omzet_print_indoor').val(format_rupiah(response.omzet.print_indoor));
+          $('#edit_omzet_offset').val(format_rupiah(response.omzet.offset));
+          $('#edit_omzet_merchandise').val(format_rupiah(response.omzet.merchandise));
+          $('#edit_omzet_akrilik').val(format_rupiah(response.omzet.akrilik));
+          $('#edit_omzet_design').val(format_rupiah(response.omzet.design));
+          $('#edit_omzet_laminasi_dingin').val(format_rupiah(response.omzet.laminasi_dingin));
+          $('#edit_omzet_laminasi_a3').val(format_rupiah(response.omzet.laminasi_a3));
+          $('#edit_omzet_fotocopy').val(format_rupiah(response.omzet.fotocopy));
+          $('#edit_omzet_dtf').val(format_rupiah(response.omzet.dtf));
+          $('#edit_omzet_uv').val(format_rupiah(response.omzet.uv));
+          $('#edit_omzet_advertising_produk').val(format_rupiah(response.omzet.advertising_produk));
+          $('#edit_omzet_advertising_jasa').val(format_rupiah(response.omzet.advertising_jasa));
+          $('#edit_omzet_cash_harian').val(format_rupiah(response.omzet.cash_harian));
+          $('#edit_omzet_piutang_bulan_berjalan').val(format_rupiah(response.omzet.piutang_bulan_berjalan));
+          $('#edit_omzet_piutang_terbayar').val(format_rupiah(response.omzet.piutang_terbayar));
+          $('#edit_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
+          $('#edit_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.omzet.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>';
+          })
+          $('#edit_omzet_cabang_id').append(data_cabang);
+
+          let data_sales = '';
+          $.each(response.sales, function (index, item) {
+            data_sales += '<option value="' + item.id + '"';
+            
+            if (item.id == response.omzet.karyawan_sales_id) {
+              data_sales += ' selected';
+            }
+
+            data_sales += '>' + item.nama_lengkap + '</option>';
+          })
+          $('#edit_omzet_karyawan_sales_id').append(data_sales);
+
+          $('#modalOmzetEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-omzet', function (e) {
+      e.preventDefault();
+      let formData = new FormData($('#form-edit-omzet')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.omzet.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_omzet_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-omzet-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-omzet').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // omzet delete
+    $(document).on('click', '.btn-delete-omzet', function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-id');
+      $('#delete_omzet_id').val(id);
+      $('#modalOmzetDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-omzet', function (e) {
+      e.preventDefault();
+      let formData = {
+        id: $('#delete_omzet_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.omzet.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-omzet-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-omzet').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    $(document).on('shown.bs.modal', '#modalOmzetEdit', function() {
+      let retail = document.getElementById("edit_omzet_retail");
+      retail.addEventListener("keyup", function(e) {
+        retail.value = formatRupiah(this.value, "");
+      });
+
+      let instansi = document.getElementById("edit_omzet_instansi");
+      instansi.addEventListener("keyup", function(e) {
+        instansi.value = formatRupiah(this.value, "");
+      });
+
+      let reseller = document.getElementById("edit_omzet_reseller");
+      reseller.addEventListener("keyup", function(e) {
+        reseller.value = formatRupiah(this.value, "");
+      });
+
+      let cabang = document.getElementById("edit_omzet_cabang_rp");
+      cabang.addEventListener("keyup", function(e) {
+        cabang.value = formatRupiah(this.value, "");
+      });
+
+      let omzet_harian = document.getElementById("edit_omzet_omzet_harian");
+      omzet_harian.addEventListener("keyup", function(e) {
+        omzet_harian.value = formatRupiah(this.value, "");
+      });
+
+      let omzet_terbayar = document.getElementById("edit_omzet_omzet_terbayar");
+      omzet_terbayar.addEventListener("keyup", function(e) {
+        omzet_terbayar.value = formatRupiah(this.value, "");
+      });
+
+      let cetak_banner_harian = document.getElementById("edit_omzet_cetak_banner_harian");
+      cetak_banner_harian.addEventListener("keyup", function(e) {
+        cetak_banner_harian.value = formatRupiah(this.value, "");
+      });
+
+      let cetak_a3_harian = document.getElementById("edit_omzet_cetak_a3_harian");
+      cetak_a3_harian.addEventListener("keyup", function(e) {
+        cetak_a3_harian.value = formatRupiah(this.value, "");
+      });
+
+      let print_outdoor = document.getElementById("edit_omzet_print_outdoor");
+      print_outdoor.addEventListener("keyup", function(e) {
+        print_outdoor.value = formatRupiah(this.value, "");
+      });
+
+      let print_indoor = document.getElementById("edit_omzet_print_indoor");
+      print_indoor.addEventListener("keyup", function(e) {
+        print_indoor.value = formatRupiah(this.value, "");
+      });
+
+      let offset = document.getElementById("edit_omzet_offset");
+      offset.addEventListener("keyup", function(e) {
+        offset.value = formatRupiah(this.value, "");
+      });
+
+      let merchandise = document.getElementById("edit_omzet_merchandise");
+      merchandise.addEventListener("keyup", function(e) {
+        merchandise.value = formatRupiah(this.value, "");
+      });
+
+      let akrilik = document.getElementById("edit_omzet_akrilik");
+      akrilik.addEventListener("keyup", function(e) {
+        akrilik.value = formatRupiah(this.value, "");
+      });
+
+      let design = document.getElementById("edit_omzet_design");
+      design.addEventListener("keyup", function(e) {
+        design.value = formatRupiah(this.value, "");
+      });
+
+      let laminasi_dingin = document.getElementById("edit_omzet_laminasi_dingin");
+      laminasi_dingin.addEventListener("keyup", function(e) {
+        laminasi_dingin.value = formatRupiah(this.value, "");
+      });
+
+      let laminasi_a3 = document.getElementById("edit_omzet_laminasi_a3");
+      laminasi_a3.addEventListener("keyup", function(e) {
+        laminasi_a3.value = formatRupiah(this.value, "");
+      });
+
+      let fotocopy = document.getElementById("edit_omzet_fotocopy");
+      fotocopy.addEventListener("keyup", function(e) {
+        fotocopy.value = formatRupiah(this.value, "");
+      });
+
+      let dtf = document.getElementById("edit_omzet_dtf");
+      dtf.addEventListener("keyup", function(e) {
+        dtf.value = formatRupiah(this.value, "");
+      });
+
+      let uv = document.getElementById("edit_omzet_uv");
+      uv.addEventListener("keyup", function(e) {
+        uv.value = formatRupiah(this.value, "");
+      });
+
+      let advertising_produk = document.getElementById("edit_omzet_advertising_produk");
+      advertising_produk.addEventListener("keyup", function(e) {
+        advertising_produk.value = formatRupiah(this.value, "");
+      });
+
+      let advertising_jasa = document.getElementById("edit_omzet_advertising_jasa");
+      advertising_jasa.addEventListener("keyup", function(e) {
+        advertising_jasa.value = formatRupiah(this.value, "");
+      });
+
+      let cash_harian = document.getElementById("edit_omzet_cash_harian");
+      cash_harian.addEventListener("keyup", function(e) {
+        cash_harian.value = formatRupiah(this.value, "");
+      });
+
+      let piutang_bulan_berjalan = document.getElementById("edit_omzet_piutang_bulan_berjalan");
+      piutang_bulan_berjalan.addEventListener("keyup", function(e) {
+        piutang_bulan_berjalan.value = formatRupiah(this.value, "");
+      });
+
+      let piutang_terbayar = document.getElementById("edit_omzet_piutang_terbayar");
+      piutang_terbayar.addEventListener("keyup", function(e) {
+        piutang_terbayar.value = formatRupiah(this.value, "");
+      });
+
+      let pencapaian_omset_sales = document.getElementById("edit_omzet_pencapaian_omzet_sales");
+      pencapaian_omset_sales.addEventListener("keyup", function(e) {
+        pencapaian_omset_sales.value = formatRupiah(this.value, "");
+      });
+
+      let pencapaian_cash_sales = document.getElementById("edit_omzet_pencapaian_cash_sales");
+      pencapaian_cash_sales.addEventListener("keyup", function(e) {
+        pencapaian_cash_sales.value = formatRupiah(this.value, "");
+      });
+    });
   });
 </script>
 
