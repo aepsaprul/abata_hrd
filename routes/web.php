@@ -455,6 +455,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/result/instansi/delete', [LabulController::class, 'resultInstansiDelete'])->name('labul.result.instansi.delete');
 
     Route::post('labul/result/export_komplain', [LabulController::class, 'resultExportKomplain'])->name('labul.result.export_komplain');
+    Route::get('labul/result/komplain/{id}/detail', [LabulController::class, 'resultKomplainDetail'])->name('labul.result.komplain.detail');
+    Route::get('labul/result/komplain/{id}/edit', [LabulController::class, 'resultKomplainEdit'])->name('labul.result.komplain.edit');
+    Route::put('labul/result/komplain/{id}/update', [LabulController::class, 'resultKomplainUpdate'])->name('labul.result.komplain.update');
+    Route::post('labul/result/komplain/delete', [LabulController::class, 'resultKomplainDelete'])->name('labul.result.komplain.delete');
+
     Route::post('labul/result/export_omzet', [LabulController::class, 'resultExportOmzet'])->name('labul.result.export_omzet');
     Route::post('labul/result/export_reqor', [LabulController::class, 'resultExportReqor'])->name('labul.result.export_reqor');
 

@@ -913,6 +913,53 @@ class LabulController extends Controller
         return Excel::download(new LabulKomplainExport($startDate, $endDate, $cabang_id), 'komplain.xlsx');
     }
 
+    public function resultKomplainDetail($id)
+    {
+      $komplain = LabulKomplain::with('cabang')->find($id);
+
+      return response()->json([
+        'komplain' => $komplain
+      ]);
+    }
+
+    public function resultKomplainEdit($id)
+    {
+      $komplain = LabulKomplain::find($id);
+      $cabang = MasterCabang::get();
+
+      return response()->json([
+        'komplain' => $komplain,
+        'cabangs' => $cabang
+      ]);
+    }
+
+    public function resultKomplainUpdate(Request $request, $id)
+    {
+      $komplain = LabulKomplain::find($id);
+      $komplain->karyawan_id = Auth::user()->master_karyawan_id;
+      $komplain->cabang_id = $request->edit_komplain_cabang_id;
+      $komplain->tanggal = $request->edit_komplain_tanggal;
+      $komplain->nama_customer = $request->edit_komplain_nama_customer;
+      $komplain->nomor_hp = $request->edit_komplain_nomor_hp;
+      $komplain->kritik_saran = $request->edit_komplain_kritik_saran;
+      $komplain->penanganan_awal = $request->edit_komplain_penanganan_awal;
+      $komplain->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultKomplainDelete(Request $request)
+    {
+      $komplain = LabulKomplain::find($request->id);
+      $komplain->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
     // result omzet
     public function resultExportOmzet(Request $request)
     {

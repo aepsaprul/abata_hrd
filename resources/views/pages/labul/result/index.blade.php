@@ -776,6 +776,7 @@
                                       <th class="text-center text-indigo">Karyawan</th>
                                       <th class="text-center text-indigo">Cabang</th>
                                       <th class="text-center text-indigo">Tanggal</th>
+                                      <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -797,6 +798,46 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
+                                          <td class="text-center">
+                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                              <div class="btn-group">
+                                                <a
+                                                  href="#"
+                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-detail-komplain text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                    </a>
+                                                  {{-- @endif
+                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-edit-komplain text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                    </a>
+                                                  {{-- @endif
+                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item btn-delete-komplain text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                    </a>
+                                                  {{-- @endif --}}
+                                                </div>
+                                              </div>
+                                            {{-- @endif --}}
+                                          </td>
                                       </tr>
                                   @endforeach
                               </tbody>
@@ -1857,6 +1898,122 @@
   </div>
 </div>
 
+{{-- modal komplain --}}
+{{-- modal komplain detail --}}
+<div class="modal fade" id="modalKomplainDetail" tabindex="-1" role="dialog" aria-labelledby="modalKomplainDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalKomplainDetailLabel">Detail Komplain</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_komplain_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_komplain_cabang" id="detail_komplain_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_komplain_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_komplain_tanggal" id="detail_komplain_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_komplain_nama_customer" class="form-label">Nama Customer</label>
+          <input type="text" name="detail_komplain_nama_customer" id="detail_komplain_nama_customer" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_komplain_nomor_hp" class="form-label">Nomor HP</label>
+          <input type="text" name="detail_komplain_nomor_hp" id="detail_komplain_nomor_hp" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_komplain_kritik_saran" class="form-label">Kritik Saran</label>
+          <input type="text" name="detail_komplain_kritik_saran" id="detail_komplain_kritik_saran" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_komplain_penanganan_awal" class="form-label">Penanganan Awal</label>
+          <input type="text" name="detail_komplain_penanganan_awal" id="detail_komplain_penanganan_awal" class="form-control" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal komplain edit --}}
+<div class="modal fade" id="modalKomplainEdit" tabindex="-1" role="dialog" aria-labelledby="modalKomplainEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-komplain">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalKomplainEditLabel">Edit Komplain</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_komplain_id" id="edit_komplain_id">
+          <div class="mb-3">
+            <label for="edit_komplain_cabang_id" class="form-label">Nama Cabang</label>
+            <select name="edit_komplain_cabang_id" id="edit_komplain_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_komplain_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_komplain_tanggal" id="edit_komplain_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_komplain_nama_customer" class="form-label">Nama Customer</label>
+            <input type="text" name="edit_komplain_nama_customer" id="edit_komplain_nama_customer" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_komplain_nomor_hp" class="form-label">Nomor HP</label>
+            <input type="text" name="edit_komplain_nomor_hp" id="edit_komplain_nomor_hp" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_komplain_kritik_saran" class="form-label">Kritik Saran</label>
+            <input type="text" name="edit_komplain_kritik_saran" id="edit_komplain_kritik_saran" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_komplain_penanganan_awal" class="form-label">Penanganan Awal</label>
+            <input type="text" name="edit_komplain_penanganan_awal" id="edit_komplain_penanganan_awal" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-komplain-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-komplain" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal komplain delete --}}
+<div class="modal fade" id="modalKomplainDelete" tabindex="-1" role="dialog" aria-labelledby="modalKomplainDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalKomplainDeleteLabel">Delete Komplain</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_komplain_id" id="delete_komplain_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-komplain-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-komplain text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -2893,6 +3050,127 @@
         beforeSend: function () {
           $('.modal-tombol-delete-survey-kompetitor-spinner').removeClass('d-none');
           $('.modal-tombol-delete-survey-kompetitor').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // komplain detail
+    $(document).on('click', '.btn-detail-komplain', function (e) {
+      e.preventDefault();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.komplain.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          $('#detail_komplain_cabang').val(response.komplain.cabang.nama_cabang);
+          $('#detail_komplain_tanggal').val(response.komplain.tanggal);
+          $('#detail_komplain_nama_customer').val(response.komplain.nama_customer);
+          $('#detail_komplain_nomor_hp').val(response.komplain.nomor_hp);
+          $('#detail_komplain_kritik_saran').val(response.komplain.kritik_saran);
+          $('#detail_komplain_penanganan_awal').val(response.komplain.penanganan_awal);
+          
+          $('#modalKomplainDetail').modal('show');
+        }
+      })
+    })
+    // komplain edit
+    $(document).on('click', '.btn-edit-komplain', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.komplain.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {          
+          $('#edit_komplain_id').val(response.komplain.id);
+          $('#edit_komplain_tanggal').val(response.komplain.tanggal);
+          $('#edit_komplain_nama_customer').val(response.komplain.nama_customer);
+          $('#edit_komplain_nomor_hp').val(response.komplain.nomor_hp);
+          $('#edit_komplain_kritik_saran').val(response.komplain.kritik_saran);
+          $('#edit_komplain_penanganan_awal').val(response.komplain.penanganan_awal);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.komplain.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>';
+          })
+          $('#edit_komplain_cabang_id').append(data_cabang);
+
+          $('#modalKomplainEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-komplain', function (e) {
+      e.preventDefault();
+      let formData = new FormData($('#form-edit-komplain')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.komplain.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_komplain_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-komplain-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-komplain').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // komplain delete
+    $(document).on('click', '.btn-delete-komplain', function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-id');
+      $('#delete_komplain_id').val(id);
+      $('#modalKomplainDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-komplain', function (e) {
+      e.preventDefault();
+      let formData = {
+        id: $('#delete_komplain_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.komplain.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-komplain-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-komplain').addClass('d-none');
         },
         success: function (response) {
           Toast.fire({
