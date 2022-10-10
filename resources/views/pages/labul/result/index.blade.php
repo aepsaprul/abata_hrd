@@ -3091,10 +3091,7 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
-          // dev
           let asset_folder = "public/file/labul/";
-          // prod
-          // let asset_folder = "file/labul/";
           let asset_img = response.instansi.foto;
           $('#detail_instansi_foto_preview').attr("src", asset_url + asset_folder + asset_img);
 
@@ -3118,10 +3115,7 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
-          // dev
           let asset_folder = "public/file/labul/";
-          // prod
-          // let asset_folder = "file/labul/";
           let asset_img = response.instansi.foto;
           
           $('#edit_instansi_id').val(response.instansi.id);
@@ -3346,10 +3340,7 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
-          // dev
           let asset_folder = "public/file/labul/";
-          // prod
-          // let asset_folder = "file/labul/";
           let asset_img = response.reseller.foto;
           $('#detail_reseller_foto_preview').attr("src", asset_url + asset_folder + asset_img);
 
@@ -3377,10 +3368,7 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
-          // dev
           let asset_folder = "public/file/labul/";
-          // prod
-          // let asset_folder = "file/labul/";
           let asset_img = response.reseller.foto;
           
           $('#edit_reseller_id').val(response.reseller.id);
@@ -3488,10 +3476,7 @@
         success: function (response) {
           console.log(response);
           let asset_url = "{{ asset('/') }}";
-          // dev
           let asset_folder = "public/file/labul/";
-          // prod
-          // let asset_folder = "file/labul/";
           let asset_img = response.survey_kompetitor.foto;
           $('#detail_survey_kompetitor_foto_preview').attr("src", asset_url + asset_folder + asset_img);
 
@@ -3517,10 +3502,7 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
-          // dev
           let asset_folder = "public/file/labul/";
-          // prod
-          // let asset_folder = "file/labul/";
           let asset_img = response.survey_kompetitor.foto;
           
           $('#edit_survey_kompetitor_id').val(response.survey_kompetitor.id);
