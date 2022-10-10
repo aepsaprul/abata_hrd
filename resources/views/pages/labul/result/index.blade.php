@@ -1008,6 +1008,7 @@
                                       <th class="text-center text-indigo">Karyawan</th>
                                       <th class="text-center text-indigo">Cabang</th>
                                       <th class="text-center text-indigo">Tanggal</th>
+                                      <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -1029,6 +1030,46 @@
                                               @endif
                                           </td>
                                           <td class="text-center">{{ $item->tanggal }}</td>
+                                          <td class="text-center">
+                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
+                                              <div class="btn-group">
+                                                <a
+                                                  href="#"
+                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-detail-reqor text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                                                    </a>
+                                                  {{-- @endif
+                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item border-bottom btn-edit-reqor text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                    </a>
+                                                  {{-- @endif
+                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
+                                                    <a
+                                                      href="#"
+                                                      class="dropdown-item btn-delete-reqor text-indigo"
+                                                      data-id="{{ $item->id }}">
+                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                                                    </a>
+                                                  {{-- @endif --}}
+                                                </div>
+                                              </div>
+                                            {{-- @endif --}}
+                                          </td>
                                       </tr>
                                   @endforeach
                               </tbody>
@@ -2009,6 +2050,130 @@
           Loading...
         </button>
         <button type="button" class="btn btn-primary modal-tombol-delete-komplain text-center" style="width: 130px;">Ya</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- modal reqor --}}
+{{-- modal reqor detail --}}
+<div class="modal fade" id="modalReqorDetail" tabindex="-1" role="dialog" aria-labelledby="modalReqorDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalReqorDetailLabel">Detail Request & Orderan Tertolak</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="detail_reqor_cabang" class="form-label">Nama Cabang</label>
+          <input type="text" name="detail_reqor_cabang" id="detail_reqor_cabang" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reqor_tanggal" class="form-label">Tanggal</label>
+          <input type="datetime-local" name="detail_reqor_tanggal" id="detail_reqor_tanggal" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reqor_nama_customer" class="form-label">Nama Customer</label>
+          <input type="text" name="detail_reqor_nama_customer" id="detail_reqor_nama_customer" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reqor_nomor_hp" class="form-label">Nomor HP</label>
+          <input type="text" name="detail_reqor_nomor_hp" id="detail_reqor_nomor_hp" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reqor_request_produk" class="form-label">Request Produk</label>
+          <input type="text" name="detail_reqor_request_produk" id="detail_reqor_request_produk" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reqor_produk_tertolak" class="form-label">Produk Tertolak</label>
+          <input type="text" name="detail_reqor_produk_tertolak" id="detail_reqor_produk_tertolak" class="form-control" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="detail_reqor_alasan" class="form-label">Alasan</label>
+          <input type="text" name="detail_reqor_alasan" id="detail_reqor_alasan" class="form-control" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- modal reqor edit --}}
+<div class="modal fade" id="modalReqorEdit" tabindex="-1" role="dialog" aria-labelledby="modalReqorEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-edit-reqor">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalReqorEditLabel">Edit Request & Orderan Tertolak</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_reqor_id" id="edit_reqor_id">
+          <div class="mb-3">
+            <label for="edit_reqor_cabang_id" class="form-label">Nama Cabang</label>
+            <select name="edit_reqor_cabang_id" id="edit_reqor_cabang_id" class="form-control"></select>
+          </div>
+          <div class="mb-3">
+            <label for="edit_reqor_tanggal" class="form-label">Tanggal</label>
+            <input type="datetime-local" name="edit_reqor_tanggal" id="edit_reqor_tanggal" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_reqor_nama_customer" class="form-label">Nama Customer</label>
+            <input type="text" name="edit_reqor_nama_customer" id="edit_reqor_nama_customer" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_reqor_nomor_hp" class="form-label">Nomor HP</label>
+            <input type="text" name="edit_reqor_nomor_hp" id="edit_reqor_nomor_hp" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_reqor_request_produk" class="form-label">Request Produk</label>
+            <input type="text" name="edit_reqor_request_produk" id="edit_reqor_request_produk" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_reqor_produk_tertolak" class="form-label">Produk Tertolak</label>
+            <input type="text" name="edit_reqor_produk_tertolak" id="edit_reqor_produk_tertolak" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="edit_reqor_alasan" class="form-label">Alasan</label>
+            <input type="text" name="edit_reqor_alasan" id="edit_reqor_alasan" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary modal-tombol-edit-reqor-spinner d-none" disabled style="width: 130px;">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Loading...
+          </button>
+          <button type="button" class="btn btn-primary modal-tombol-edit-reqor" style="width: 130px;">
+            <i class="fas fa-save"></i> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- modal reqor delete --}}
+<div class="modal fade" id="modalReqorDelete" tabindex="-1" role="dialog" aria-labelledby="modalReqorDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalReqorDeleteLabel">Delete Request & Orderan Tertolak</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Yakin anda akan menghapus?</p>
+        <input type="hidden" name="delete_reqor_id" id="delete_reqor_id">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-tombol-delete-reqor-spinner d-none" disabled style="width: 130px;">
+          <span class="spinner-grow spinner-grow-sm"></span>
+          Loading...
+        </button>
+        <button type="button" class="btn btn-primary modal-tombol-delete-reqor text-center" style="width: 130px;">Ya</button>
       </div>
     </div>
   </div>
@@ -3171,6 +3336,129 @@
         beforeSend: function () {
           $('.modal-tombol-delete-komplain-spinner').removeClass('d-none');
           $('.modal-tombol-delete-komplain').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil dihapus'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+
+    // reqor detail
+    $(document).on('click', '.btn-detail-reqor', function (e) {
+      e.preventDefault();
+
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.reqor.detail', [':id']) }}";
+      url = url.replace(':id', id);
+      
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          $('#detail_reqor_cabang').val(response.reqor.cabang.nama_cabang);
+          $('#detail_reqor_tanggal').val(response.reqor.tanggal);
+          $('#detail_reqor_nama_customer').val(response.reqor.nama_customer);
+          $('#detail_reqor_nomor_hp').val(response.reqor.nomor_hp);
+          $('#detail_reqor_request_produk').val(response.reqor.request_produk);
+          $('#detail_reqor_produk_tertolak').val(response.reqor.produk_tertolak);
+          $('#detail_reqor_alasan').val(response.reqor.alasan);
+          
+          $('#modalReqorDetail').modal('show');
+        }
+      })
+    })
+    // reqor edit
+    $(document).on('click', '.btn-edit-reqor', function (e) {
+      e.preventDefault();
+      let id = $(this).attr('data-id');
+      let url = "{{ URL::route('labul.result.reqor.edit', [':id']) }}";
+      url = url.replace(':id', id);
+
+      $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {          
+          $('#edit_reqor_id').val(response.reqor.id);
+          $('#edit_reqor_tanggal').val(response.reqor.tanggal);
+          $('#edit_reqor_nama_customer').val(response.reqor.nama_customer);
+          $('#edit_reqor_nomor_hp').val(response.reqor.nomor_hp);
+          $('#edit_reqor_request_produk').val(response.reqor.request_produk);
+          $('#edit_reqor_produk_tertolak').val(response.reqor.produk_tertolak);
+          $('#edit_reqor_alasan').val(response.reqor.alasan);
+
+          let data_cabang = '';
+          $.each(response.cabangs, function (index, item) {
+            data_cabang += '<option value="' + item.id + '"';
+            
+            if (item.id == response.reqor.cabang_id) {
+              data_cabang += ' selected';
+            }
+
+            data_cabang += '>' + item.nama_cabang + '</option>';
+          })
+          $('#edit_reqor_cabang_id').append(data_cabang);
+
+          $('#modalReqorEdit').modal('show');
+        }
+      })
+    })
+    $(document).on('click', '.modal-tombol-edit-reqor', function (e) {
+      e.preventDefault();
+      let formData = new FormData($('#form-edit-reqor')[0]);
+      formData.append('_method', 'put');
+
+      let url = "{{ URL::route('labul.result.reqor.update', [':id']) }}";
+      url = url.replace(':id', $('#edit_reqor_id').val());
+
+      $.ajax({
+        url: url,
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('.modal-tombol-edit-reqor-spinner').removeClass('d-none');
+          $('.modal-tombol-edit-reqor').addClass('d-none');
+        },
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Sukses <br> data berhasil diperbaharui'
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+    })
+    // reqor delete
+    $(document).on('click', '.btn-delete-reqor', function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-id');
+      $('#delete_reqor_id').val(id);
+      $('#modalReqorDelete').modal('show');
+    });
+    $(document).on('click', '.modal-tombol-delete-reqor', function (e) {
+      e.preventDefault();
+      let formData = {
+        id: $('#delete_reqor_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.reqor.delete') }}",
+        type: "post",
+        data: formData,
+        beforeSend: function () {
+          $('.modal-tombol-delete-reqor-spinner').removeClass('d-none');
+          $('.modal-tombol-delete-reqor').addClass('d-none');
         },
         success: function (response) {
           Toast.fire({

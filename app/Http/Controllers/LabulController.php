@@ -980,6 +980,54 @@ class LabulController extends Controller
         return Excel::download(new LabulReqorExport($startDate, $endDate, $cabang_id), 'reqor.xlsx');
     }
 
+    public function resultReqorDetail($id)
+    {
+      $reqor = LabulReqor::with('cabang')->find($id);
+
+      return response()->json([
+        'reqor' => $reqor
+      ]);
+    }
+
+    public function resultReqorEdit($id)
+    {
+      $reqor = LabulReqor::find($id);
+      $cabang = MasterCabang::get();
+
+      return response()->json([
+        'reqor' => $reqor,
+        'cabangs' => $cabang
+      ]);
+    }
+
+    public function resultReqorUpdate(Request $request, $id)
+    {
+      $reqor = LabulReqor::find($id);
+      $reqor->karyawan_id = Auth::user()->master_karyawan_id;
+      $reqor->cabang_id = $request->edit_reqor_cabang_id;
+      $reqor->tanggal = $request->edit_reqor_tanggal;
+      $reqor->nama_customer = $request->edit_reqor_nama_customer;
+      $reqor->nomor_hp = $request->edit_reqor_nomor_hp;
+      $reqor->request_produk = $request->edit_reqor_request_produk;
+      $reqor->produk_tertolak = $request->edit_reqor_produk_tertolak;
+      $reqor->alasan = $request->edit_reqor_alasan;
+      $reqor->save();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    public function resultReqorDelete(Request $request)
+    {
+      $reqor = LabulReqor::find($request->id);
+      $reqor->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
     // result reseller
     public function resultExportReseller(Request $request)
     {

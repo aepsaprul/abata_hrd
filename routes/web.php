@@ -461,7 +461,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('labul/result/komplain/delete', [LabulController::class, 'resultKomplainDelete'])->name('labul.result.komplain.delete');
 
     Route::post('labul/result/export_omzet', [LabulController::class, 'resultExportOmzet'])->name('labul.result.export_omzet');
+
     Route::post('labul/result/export_reqor', [LabulController::class, 'resultExportReqor'])->name('labul.result.export_reqor');
+    Route::get('labul/result/reqor/{id}/detail', [LabulController::class, 'resultReqorDetail'])->name('labul.result.reqor.detail');
+    Route::get('labul/result/reqor/{id}/edit', [LabulController::class, 'resultReqorEdit'])->name('labul.result.reqor.edit');
+    Route::put('labul/result/reqor/{id}/update', [LabulController::class, 'resultReqorUpdate'])->name('labul.result.reqor.update');
+    Route::post('labul/result/reqor/delete', [LabulController::class, 'resultReqorDelete'])->name('labul.result.reqor.delete');
 
     Route::post('labul/result/export_reseller', [LabulController::class, 'resultExportReseller'])->name('labul.result.export_reseller');
     Route::get('labul/result/reseller/{id}/detail', [LabulController::class, 'resultResellerDetail'])->name('labul.result.reseller.detail');
