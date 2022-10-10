@@ -1536,10 +1536,7 @@
         </div>
         <div class="mb-3">
           <label for="">Foto</label>
-          {{-- dev --}}
           <img id="detail_instansi_foto_preview" src="" alt="instansi_image" style="max-width: 100%;">
-          {{-- prod --}}
-          {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="instansi_image" style="max-width: 100%;"> --}}
         </div>
       </div>
     </div>
@@ -1572,10 +1569,7 @@
           </div>
           <div class="mb-3">
             <label for="edit_instansi_foto_preview">Foto Preview</label>
-            {{-- dev --}}
             <img id="edit_instansi_foto_preview" src="" alt="instansi_image" style="max-width: 100%;">
-            {{-- prod --}}
-            {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="instansi_image" style="max-width: 100%;"> --}}
           </div>
           <div class="mb-3">
             <label for="edit_instansi_foto" class="form-label">Ganti Foto</label>
@@ -1766,10 +1760,7 @@
         </div>
         <div class="mb-3">
           <label for="">Foto</label>
-          {{-- dev --}}
           <img id="detail_reseller_foto_preview" src="" alt="reseller_image" style="max-width: 100%;">
-          {{-- prod --}}
-          {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="reseller_image" style="max-width: 100%;"> --}}
         </div>
       </div>
     </div>
@@ -1806,10 +1797,7 @@
           </div>
           <div class="mb-3">
             <label for="edit_reseller_foto_preview">Foto Preview</label>
-            {{-- dev --}}
             <img id="edit_reseller_foto_preview" src="" alt="reseller_image" style="max-width: 100%;">
-            {{-- prod --}}
-            {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="reseller_image" style="max-width: 100%;"> --}}
           </div>
           <div class="mb-3">
             <label for="edit_reseller_foto" class="form-label">Ganti Foto</label>
@@ -1888,10 +1876,7 @@
         </div>
         <div class="mb-3">
           <label for="">Foto</label>
-          {{-- dev --}}
           <img id="detail_survey_kompetitor_foto_preview" src="" alt="survey_kompetitor_image" style="max-width: 100%;">
-          {{-- prod --}}
-          {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="survey_kompetitor_image" style="max-width: 100%;"> --}}
         </div>
       </div>
     </div>
@@ -1932,10 +1917,7 @@
           </div>
           <div class="mb-3">
             <label for="edit_survey_kompetitor_foto_preview">Foto Preview</label>
-            {{-- dev --}}
             <img id="edit_survey_kompetitor_foto_preview" src="" alt="survey_kompetitor_image" style="max-width: 100%;">
-            {{-- prod --}}
-            {{-- <img src="{{ asset('file/labul/1658877667.jpg') }}" alt="survey_kompetitor_image" style="max-width: 100%;"> --}}
           </div>
           <div class="mb-3">
             <label for="edit_survey_kompetitor_foto" class="form-label">Ganti Foto</label>
@@ -3109,7 +3091,10 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
+          // dev
           let asset_folder = "public/file/labul/";
+          // prod
+          // let asset_folder = "file/labul/";
           let asset_img = response.instansi.foto;
           $('#detail_instansi_foto_preview').attr("src", asset_url + asset_folder + asset_img);
 
@@ -3133,7 +3118,10 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
+          // dev
           let asset_folder = "public/file/labul/";
+          // prod
+          // let asset_folder = "file/labul/";
           let asset_img = response.instansi.foto;
           
           $('#edit_instansi_id').val(response.instansi.id);
@@ -3358,7 +3346,10 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
+          // dev
           let asset_folder = "public/file/labul/";
+          // prod
+          // let asset_folder = "file/labul/";
           let asset_img = response.reseller.foto;
           $('#detail_reseller_foto_preview').attr("src", asset_url + asset_folder + asset_img);
 
@@ -3386,7 +3377,10 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
+          // dev
           let asset_folder = "public/file/labul/";
+          // prod
+          // let asset_folder = "file/labul/";
           let asset_img = response.reseller.foto;
           
           $('#edit_reseller_id').val(response.reseller.id);
@@ -3494,7 +3488,10 @@
         success: function (response) {
           console.log(response);
           let asset_url = "{{ asset('/') }}";
+          // dev
           let asset_folder = "public/file/labul/";
+          // prod
+          // let asset_folder = "file/labul/";
           let asset_img = response.survey_kompetitor.foto;
           $('#detail_survey_kompetitor_foto_preview').attr("src", asset_url + asset_folder + asset_img);
 
@@ -3520,7 +3517,10 @@
         type: "get",
         success: function (response) {
           let asset_url = "{{ asset('/') }}";
+          // dev
           let asset_folder = "public/file/labul/";
+          // prod
+          // let asset_folder = "file/labul/";
           let asset_img = response.survey_kompetitor.foto;
           
           $('#edit_survey_kompetitor_id').val(response.survey_kompetitor.id);
