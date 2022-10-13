@@ -14,6 +14,7 @@ use App\Models\HcPenghargaan;
 use App\Models\HcPendidikan;
 use App\Models\HcKeluargaSebelumMenikah;
 use App\Models\HcKeluargaSetelahMenikah;
+use App\Models\HcMedsos;
 use Illuminate\Support\Facades\Auth;
 
 class HcLamaranController extends Controller
@@ -63,7 +64,7 @@ class HcLamaranController extends Controller
         $keluarga_sebelum_menikahs = HcKeluargaSebelumMenikah::where('email', $lamaran->email)->get();
         $keluarga_setelah_menikahs = HcKeluargaSetelahMenikah::where('email', $lamaran->email)->get();
         $kerabat_darurats = HcKerabatDarurat::where('email', $lamaran->email)->get();
-        $media_sosials = HcMediaSosial::where('email', $lamaran->email)->get();
+        $media_sosials = HcMedsos::where('email', $lamaran->email)->get();
         $organisasis = HcOrganisasi::where('email', $lamaran->email)->get();
         $pelatihans = HcPelatihan::where('email', $lamaran->email)->get();
         $penghargaans = HcPenghargaan::where('email', $lamaran->email)->get();

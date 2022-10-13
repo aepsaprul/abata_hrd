@@ -36,6 +36,7 @@ class LokerController extends Controller
         $loker->jabatan_id = $request->create_jabatan_id;
         $loker->publish = 'y';
 
+        // dev
         if($request->hasFile('create_img')) {
             $file = $request->file('create_img');
             $extension = $file->getClientOriginalExtension();
@@ -43,6 +44,14 @@ class LokerController extends Controller
             $file->move('public/file/loker/', $filename);
             $loker->image = $filename;
         }
+        // prod
+        // if($request->hasFile('create_img')) {
+        //   $file = $request->file('create_img');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = time() . "." . $extension;
+        //   $file->move('file/loker/', $filename);
+        //   $loker->image = $filename;
+        // }
 
         $loker->save();
 
@@ -82,6 +91,7 @@ class LokerController extends Controller
         $loker->lokasi = $request->edit_lokasi;
         $loker->jabatan_id = $request->edit_jabatan_id;
 
+        // dev
         if($request->hasFile('edit_img')) {
             if (file_exists("public/file/loker/" . $loker->image)) {
                 File::delete("public/file/loker/" . $loker->image);
@@ -92,6 +102,17 @@ class LokerController extends Controller
             $file->move('public/file/loker/', $filename);
             $loker->image = $filename;
         }
+        // prod
+        // if($request->hasFile('edit_img')) {
+        //   if (file_exists("file/loker/" . $loker->image)) {
+        //       File::delete("file/loker/" . $loker->image);
+        //   }
+        //   $file = $request->file('edit_img');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = time() . "." . $extension;
+        //   $file->move('file/loker/', $filename);
+        //   $loker->image = $filename;
+        // }
 
         $loker->save();
 

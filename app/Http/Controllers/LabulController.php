@@ -202,6 +202,8 @@ class LabulController extends Controller
         $reseller->tanggal = $request->reseller_tanggal;
         $reseller->reseller_id = $request->reseller_reseller_id;
         $reseller->hasil_kunjungan = $request->reseller_hasil_kunjungan;
+
+        // dev
         if($request->hasFile('reseller_foto')) {
             $file = $request->file('reseller_foto');
             $extension = $file->getClientOriginalExtension();
@@ -209,6 +211,15 @@ class LabulController extends Controller
             $file->move('public/file/labul/', $filename);
             $reseller->foto = $filename;
         }
+        // prod
+        // if($request->hasFile('reseller_foto')) {
+        //   $file = $request->file('reseller_foto');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = time() . "." . $extension;
+        //   $file->move('file/labul/', $filename);
+        //   $reseller->foto = $filename;
+        // }
+
         $reseller->save();
 
         return response()->json([
@@ -262,6 +273,8 @@ class LabulController extends Controller
         $instansi->cabang_id = $request->instansi_cabang_id;
         $instansi->tanggal = $request->instansi_tanggal;
         $instansi->instansi_id = $request->instansi_instansi_id;
+
+        // dev
         if($request->hasFile('instansi_foto')) {
             $file = $request->file('instansi_foto');
             $extension = $file->getClientOriginalExtension();
@@ -269,6 +282,15 @@ class LabulController extends Controller
             $file->move('public/file/labul/', $filename);
             $instansi->foto = $filename;
         }
+        // prod
+        // if($request->hasFile('instansi_foto')) {
+        //   $file = $request->file('instansi_foto');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = time() . "." . $extension;
+        //   $file->move('file/labul/', $filename);
+        //   $instansi->foto = $filename;
+        // }
+
         $instansi->save();
 
         return response()->json([
@@ -295,6 +317,8 @@ class LabulController extends Controller
         $survey->nama_kompetitor = $request->survey_kompetitor_nama_kompetitor;
         $survey->hasil_survey = $request->survey_kompetitor_hasil_survey;
         $survey->promo_kompetitor = $request->survey_kompetitor_promo_kompetitor;
+
+        // dev
         if($request->hasFile('survey_kompetitor_foto')) {
             $file = $request->file('survey_kompetitor_foto');
             $extension = $file->getClientOriginalExtension();
@@ -302,6 +326,15 @@ class LabulController extends Controller
             $file->move('public/file/labul/', $filename);
             $survey->foto = $filename;
         }
+        // dev
+        // if($request->hasFile('survey_kompetitor_foto')) {
+        //   $file = $request->file('survey_kompetitor_foto');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = time() . "." . $extension;
+        //   $file->move('file/labul/', $filename);
+        //   $survey->foto = $filename;
+        // }
+
         $survey->save();
 
         return response()->json([

@@ -41,6 +41,7 @@ class TrainingController extends Controller
         $trainings->hasil = $request->hasil;
         $trainings->status = $request->status;
 
+        // dev
         if($request->hasFile('modul')) {
             $file = $request->file('modul');
             $extension = $file->getClientOriginalExtension();
@@ -48,6 +49,14 @@ class TrainingController extends Controller
             $file->move('public/file/modul/', $filename);
             $trainings->modul = $filename;
         }
+        // prod
+        // if($request->hasFile('modul')) {
+        //   $file = $request->file('modul');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = time() . "." . $extension;
+        //   $file->move('file/modul/', $filename);
+        //   $trainings->modul = $filename;
+        // }
 
         $trainings->save();
 
@@ -96,6 +105,7 @@ class TrainingController extends Controller
         $training->hasil = $request->hasil;
         $training->status = $request->status;
 
+        // dev
         if($request->hasFile('modul')) {
             if (file_exists(public_path("file/modul/" . $training->modul))) {
                 File::delete(public_path("file/modul/" . $training->modul));
@@ -106,6 +116,17 @@ class TrainingController extends Controller
             $file->move('public/file/modul/', $filename);
             $training->modul = $filename;
         }
+        // prod
+        // if($request->hasFile('modul')) {
+        //   if (file_exists(public_path("file/modul/" . $training->modul))) {
+        //       File::delete(public_path("file/modul/" . $training->modul));
+        //   }
+        //   $file = $request->file('modul');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = time() . "." . $extension;
+        //   $file->move('file/modul/', $filename);
+        //   $training->modul = $filename;
+        // }
 
         $training->save();
 
@@ -128,9 +149,16 @@ class TrainingController extends Controller
     public function delete(Request $request)
     {
         $training = HcTraining::find($request->id);
-        if (file_exists("public/file/modul/" . $training->modul)) {
-            File::delete("public/file/modul/" . $training->modul);
+
+        // dev
+        // if (file_exists("public/file/modul/" . $training->modul)) {
+        //     File::delete("public/file/modul/" . $training->modul);
+        // }
+        // prod
+        if (file_exists("file/modul/" . $training->modul)) {
+          File::delete("file/modul/" . $training->modul);
         }
+
         $training->delete();
 
         activity_log($training, "training", "deleted");

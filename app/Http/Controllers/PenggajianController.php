@@ -44,6 +44,7 @@ class PenggajianController extends Controller
         $penggajian->status = 1;
         $penggajian->status_bar = "50%";
 
+        // dev
         if($request->hasFile('create_file')) {
             $file = $request->file('create_file');
             $extension = $file->getClientOriginalExtension();
@@ -51,6 +52,14 @@ class PenggajianController extends Controller
             $file->move('public/file/pengajuan/', $filename);
             $penggajian->file = $filename;
         }
+        // prod
+        // if($request->hasFile('create_file')) {
+        //   $file = $request->file('create_file');
+        //   $extension = $file->getClientOriginalExtension();
+        //   $filename = $file->getClientOriginalName();
+        //   $file->move('file/pengajuan/', $filename);
+        //   $penggajian->file = $filename;
+        // }
 
         $penggajian->approved_text = "Permohonan Penggajian";
         $penggajian->approved_percentage = "0";
@@ -116,9 +125,14 @@ class PenggajianController extends Controller
         $penggajian_detail = PenggajianDetail::where('penggajian_id', $request->id);
         $penggajian_detail->delete();
 
+        // dev
         if (file_exists("public/file/penggajuan/" . $penggajian->file)) {
             File::delete("public/file/penggajuan/" . $penggajian->file);
         }
+        // prod
+        // if (file_exists("file/penggajuan/" . $penggajian->file)) {
+        //   File::delete("file/penggajuan/" . $penggajian->file);
+        // }
 
         // activity_log($penggajian, "penggajian", "deleted");
 
