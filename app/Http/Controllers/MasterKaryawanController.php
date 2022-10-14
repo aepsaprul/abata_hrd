@@ -320,7 +320,12 @@ class MasterKaryawanController extends Controller
 
     public function biodata($id)
     {
-        $karyawan = MasterKaryawan::find($id);
+        $karyawan = MasterKaryawan::with([
+            'masterJabatan',
+            'masterCabang',
+            'masterDivisi'
+          ])
+          ->find($id);
         $cabangs = MasterCabang::get();
         $jabatans = MasterJabatan::get();
         $divisis = MasterDivisi::get();

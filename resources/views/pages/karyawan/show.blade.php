@@ -3,7 +3,7 @@
 @section('style')
 
 <!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
 
 @endsection
@@ -31,255 +31,255 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <strong>{{ $karyawan->nama_lengkap }}</strong>
-                            </h3>
-                            <div class="card-tools mr-0">
-                                <a href="{{ route('karyawan.index') }}" class="btn bg-gradient-danger btn-sm"><i class="fa fa-arrow-left"></i> Kembali</a>
-                            </div>
-                        </div>
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#biodata" data-toggle="tab">Biodata</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#kontrak" data-toggle="tab">Kontrak</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#medsos" data-toggle="tab">Medsos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#sebelum_menikah" data-toggle="tab">Sebelum Menikah</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#setelah_menikah" data-toggle="tab">Setelah Menikah</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#kerabat_darurat" data-toggle="tab">Kerabat Darurat</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <div class="tab-content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <h3 class="card-title">
+                              <strong>{{ $karyawan->nama_lengkap }}</strong>
+                          </h3>
+                          <div class="card-tools mr-0">
+                              <a href="{{ route('karyawan.index') }}" class="btn bg-gradient-danger btn-sm"><i class="fa fa-arrow-left"></i> Kembali</a>
+                          </div>
+                      </div>
+                      <div class="card-header p-2">
+                          <ul class="nav nav-pills">
+                          <li class="nav-item"><a class="nav-link active" href="#biodata" data-toggle="tab">Biodata</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#kontrak" data-toggle="tab">Kontrak</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#medsos" data-toggle="tab">Medsos</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#sebelum_menikah" data-toggle="tab">Sebelum Menikah</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#setelah_menikah" data-toggle="tab">Setelah Menikah</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#kerabat_darurat" data-toggle="tab">Kerabat Darurat</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
+                          </ul>
+                      </div>
+                      <div class="card-body">
+                          <div class="tab-content">
 
-                                {{-- biodata --}}
-                                <div class="active tab-pane" id="biodata">
-                                    <form id="biodata_form" method="POST" enctype="multipart/form-data">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                {{-- id --}}
-                                                <input type="hidden" id="id" value="{{ $karyawan->id }}" name="id">
+                              {{-- biodata --}}
+                              <div class="active tab-pane" id="biodata">
+                                <form id="biodata_form" method="POST" enctype="multipart/form-data">
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      {{-- id --}}
+                                      <input type="hidden" id="id" value="{{ $karyawan->id }}" name="id">
 
-                                                <!-- Profile Image -->
-                                                <div class="card card-primary">
-                                                    <div class="card-body box-profile">
-                                                        <div class="text-center profile_img">
-                                                            @if ($karyawan->foto)
-                                                                {{-- dev --}}
-                                                                @if(file_exists('public/image/' . $karyawan->foto))
-                                                                {{-- prod --}}
-                                                                {{-- @if(file_exists('public/image/' . $karyawan->foto)) --}}
-                                                                    <img
-                                                                        class="profile-user-img img-fluid"
-                                                                        src="{{ asset('public/image/' . $karyawan->foto) }}"
-                                                                        alt="User profile picture"
-                                                                        style="width: 100%;">
-                                                                @else
-                                                                    <img
-                                                                        class="profile-user-img img-fluid"
-                                                                        src="{{ asset('public/assets/no-image.jpg') }}"
-                                                                        alt="User profile picture"
-                                                                        style="width: 100%;">
-                                                                @endif
-                                                            @else
-                                                                <img
-                                                                    class="profile-user-img img-fluid"
-                                                                    src="{{ asset('public/assets/no-image.jpg') }}"
-                                                                    alt="User profile picture"
-                                                                    style="width: 100%;">
-                                                            @endif
-                                                        </div>
-                                                        <div class="row nik">
-                                                            {{-- data nik di jquery --}}
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                                                <div class="form-group">
-                                                                    <label for="status_level" class="col-form-label col-form-label-sm">Status Level</label>
-                                                                    <p>
-                                                                        @if ($kontrak_pertama)
-                                                                            @php
-                                                                                $tgl1 = new DateTime($kontrak_pertama->mulai_kontrak);
-                                                                                $tgl2 = new DateTime();
-                                                                                $selisih = $tgl2->diff($tgl1);
+                                      <!-- Profile Image -->
+                                      <div class="card card-primary">
+                                        <div class="card-body box-profile">
+                                          <div class="text-center profile_img">
+                                            @if ($karyawan->foto)
+                                              {{-- dev --}}
+                                              @if(file_exists('public/image/' . $karyawan->foto))
+                                              {{-- prod --}}
+                                              {{-- @if(file_exists('public/image/' . $karyawan->foto)) --}}
+                                                <img
+                                                  class="profile-user-img img-fluid"
+                                                  src="{{ asset('public/image/' . $karyawan->foto) }}"
+                                                  alt="User profile picture"
+                                                  style="width: 100%;">
+                                              @else
+                                                <img
+                                                  class="profile-user-img img-fluid"
+                                                  src="{{ asset('public/assets/no-image.jpg') }}"
+                                                  alt="User profile picture"
+                                                  style="width: 100%;">
+                                              @endif
+                                            @else
+                                              <img
+                                                class="profile-user-img img-fluid"
+                                                src="{{ asset('public/assets/no-image.jpg') }}"
+                                                alt="User profile picture"
+                                                style="width: 100%;">
+                                            @endif
+                                          </div>
+                                          <div class="row nik">
+                                            {{-- data nik di jquery --}}
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                              <div class="form-group">
+                                                <label for="status_level" class="col-form-label col-form-label-sm">Status Level</label>
+                                                <p>
+                                                  @if ($kontrak_pertama)
+                                                    @php
+                                                      $tgl1 = new DateTime($kontrak_pertama->mulai_kontrak);
+                                                      $tgl2 = new DateTime();
+                                                      $selisih = $tgl2->diff($tgl1);
 
-                                                                                if ($selisih->y < 0) {
-                                                                                    if ($selisih->m <= 3) {
-                                                                                        echo "Training";
-                                                                                    } else {
-                                                                                        echo "Amatir";
-                                                                                    }
-                                                                                } else {
-                                                                                    if ($selisih->y < 2) {
-                                                                                        echo "Amatir";
-                                                                                    } else if ($selisih->y >= 2 && $selisih->y < 3) {
-                                                                                        echo "Basic";
-                                                                                    } else if ($selisih->y >=3 && $selisih->y < 4) {
-                                                                                        echo "Yunior";
-                                                                                    } else if ($selisih->y >= 4 && $selisih->y < 5) {
-                                                                                        echo "Senior";
-                                                                                    } else {
-                                                                                        echo "Profesional";
-                                                                                    }
-                                                                                }
-                                                                            @endphp
-                                                                        @else
-                                                                            Kontrak belum ada
-                                                                        @endif
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                      if ($selisih->y < 0) {
+                                                        if ($selisih->m <= 3) {
+                                                          echo "Training";
+                                                        } else {
+                                                          echo "Amatir";
+                                                        }
+                                                      } else {
+                                                        if ($selisih->y < 2) {
+                                                          echo "Amatir";
+                                                        } else if ($selisih->y >= 2 && $selisih->y < 3) {
+                                                          echo "Basic";
+                                                        } else if ($selisih->y >=3 && $selisih->y < 4) {
+                                                          echo "Yunior";
+                                                        } else if ($selisih->y >= 4 && $selisih->y < 5) {
+                                                          echo "Senior";
+                                                        } else {
+                                                          echo "Profesional";
+                                                        }
+                                                      }
+                                                    @endphp
+                                                  @else
+                                                    Kontrak belum ada
+                                                  @endif
+                                                </p>
+                                              </div>
                                             </div>
-                                            <div class="col-md-9">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="biodata_notif font-italic text-success"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="row" id="biodata_data">
-                                                    {{-- data di jquery --}}
-                                                </div>
-                                            </div>
+                                          </div>
                                         </div>
-                                    </form>
-                                </div>
-
-                                {{-- kontrak --}}
-                                <div class="tab-pane" id="kontrak">
-                                    <div style="overflow-x: auto;">
-                                        <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                            <thead>
-                                                <tr class="bg-primary">
-                                                    <th class="text-center">Mulai Kontrak</th>
-                                                    <th class="text-center">Akhir Kontrak</th>
-                                                    <th class="text-center">Lama Kontrak</th>
-                                                    <th class="text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="data_kontrak">
-                                                {{-- kontrak data di jquery --}}
-                                            </tbody>
-                                        </table>
+                                      </div>
                                     </div>
-                                </div>
-
-                                {{-- medsos --}}
-                                <div class="tab-pane" id="medsos">
-                                    <div style="overflow-x: auto;">
-                                        <table id="tabel_medsos" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                            <thead>
-                                                <tr class="bg-primary">
-                                                    <th class="text-center">Nama Media Sosial</th>
-                                                    <th class="text-center">Nama Akun</th>
-                                                    <th class="text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="data_medsos">
-                                                {{-- medsos data di jquery --}}
-                                            </tbody>
-                                        </table>
+                                    <div class="col-md-9">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="biodata_notif font-italic text-success"></div>
+                                        </div>
+                                      </div>
+                                      <div class="row" id="biodata_data">
+                                        {{-- data di jquery --}}
+                                      </div>
                                     </div>
-                                </div>
+                                  </div>
+                                </form>
+                              </div>
 
-                                {{-- sebelum menikah --}}
-                                <div class="tab-pane" id="sebelum_menikah">
-                                    <div style="overflow-x: auto;">
-                                        <table id="tabel_sebelum_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                            <thead>
-                                                <tr class="bg-primary">
-                                                    <th class="text-center">Hubungan</th>
-                                                    <th class="text-center">Nama</th>
-                                                    <th class="text-center">Usia</th>
-                                                    <th class="text-center">Jenis Kelamin</th>
-                                                    <th class="text-center">Pendidikan Terakhir</th>
-                                                    <th class="text-center">Pekerjaan Terakhir</th>
-                                                    <th class="text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="data_sebelum_menikah">
-                                                {{-- sebelum menikah data di jquery --}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                              {{-- kontrak --}}
+                              <div class="tab-pane" id="kontrak">
+                                  <div style="overflow-x: auto;">
+                                      <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                          <thead>
+                                              <tr class="bg-primary">
+                                                  <th class="text-center">Mulai Kontrak</th>
+                                                  <th class="text-center">Akhir Kontrak</th>
+                                                  <th class="text-center">Lama Kontrak</th>
+                                                  <th class="text-center">Aksi</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody id="data_kontrak">
+                                              {{-- kontrak data di jquery --}}
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
 
-                                {{-- setelah menikah --}}
-                                <div class="tab-pane" id="setelah_menikah">
-                                    <div style="overflow-x: auto;">
-                                        <table id="tabel_setelah_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                            <thead>
-                                                <tr class="bg-primary">
-                                                    <th class="text-center">Hubungan</th>
-                                                    <th class="text-center">Nama</th>
-                                                    <th class="text-center">Tempat Lahir</th>
-                                                    <th class="text-center">Tanggal Lahir</th>
-                                                    <th class="text-center">Pekerjaan Terakhir</th>
-                                                    <th class="text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="data_setelah_menikah">
-                                                {{-- setelah menikah data di jquery --}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                              {{-- medsos --}}
+                              <div class="tab-pane" id="medsos">
+                                  <div style="overflow-x: auto;">
+                                      <table id="tabel_medsos" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                          <thead>
+                                              <tr class="bg-primary">
+                                                  <th class="text-center">Nama Media Sosial</th>
+                                                  <th class="text-center">Nama Akun</th>
+                                                  <th class="text-center">Aksi</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody id="data_medsos">
+                                              {{-- medsos data di jquery --}}
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
 
-                                {{-- kerabat darurat --}}
-                                <div class="tab-pane" id="kerabat_darurat">
-                                    <div style="overflow-x: auto;">
-                                        <table id="tabel_kerabat_darurat" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                            <thead>
-                                                <tr class="bg-primary">
-                                                    <th class="text-center">Hubungan</th>
-                                                    <th class="text-center">Nama</th>
-                                                    <th class="text-center">Jenis Kelamin</th>
-                                                    <th class="text-center">Telepon</th>
-                                                    <th class="text-center">Alamat</th>
-                                                    <th class="text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="data_kerabat_darurat">
-                                                {{-- kerabat darurat data di jquery --}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                              {{-- sebelum menikah --}}
+                              <div class="tab-pane" id="sebelum_menikah">
+                                  <div style="overflow-x: auto;">
+                                      <table id="tabel_sebelum_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                          <thead>
+                                              <tr class="bg-primary">
+                                                  <th class="text-center">Hubungan</th>
+                                                  <th class="text-center">Nama</th>
+                                                  <th class="text-center">Usia</th>
+                                                  <th class="text-center">Jenis Kelamin</th>
+                                                  <th class="text-center">Pendidikan Terakhir</th>
+                                                  <th class="text-center">Pekerjaan Terakhir</th>
+                                                  <th class="text-center">Aksi</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody id="data_sebelum_menikah">
+                                              {{-- sebelum menikah data di jquery --}}
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
 
-                                {{-- pendidikan --}}
-                                <div class="tab-pane" id="pendidikan">
-                                    <div style="overflow-x: auto;">
-                                        <table id="tabel_pendidikan" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
-                                            <thead>
-                                                <tr class="bg-primary">
-                                                    <th class="text-center">Tingkat</th>
-                                                    <th class="text-center">Nama</th>
-                                                    <th class="text-center">Kota</th>
-                                                    <th class="text-center">Jurusan</th>
-                                                    <th class="text-center">Tahun Masuk</th>
-                                                    <th class="text-center">Tahun Lulus</th>
-                                                    <th class="text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="data_pendidikan">
-                                                {{-- pendidikan data di jquery --}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                              {{-- setelah menikah --}}
+                              <div class="tab-pane" id="setelah_menikah">
+                                  <div style="overflow-x: auto;">
+                                      <table id="tabel_setelah_menikah" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                          <thead>
+                                              <tr class="bg-primary">
+                                                  <th class="text-center">Hubungan</th>
+                                                  <th class="text-center">Nama</th>
+                                                  <th class="text-center">Tempat Lahir</th>
+                                                  <th class="text-center">Tanggal Lahir</th>
+                                                  <th class="text-center">Pekerjaan Terakhir</th>
+                                                  <th class="text-center">Aksi</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody id="data_setelah_menikah">
+                                              {{-- setelah menikah data di jquery --}}
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+
+                              {{-- kerabat darurat --}}
+                              <div class="tab-pane" id="kerabat_darurat">
+                                  <div style="overflow-x: auto;">
+                                      <table id="tabel_kerabat_darurat" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                          <thead>
+                                              <tr class="bg-primary">
+                                                  <th class="text-center">Hubungan</th>
+                                                  <th class="text-center">Nama</th>
+                                                  <th class="text-center">Jenis Kelamin</th>
+                                                  <th class="text-center">Telepon</th>
+                                                  <th class="text-center">Alamat</th>
+                                                  <th class="text-center">Aksi</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody id="data_kerabat_darurat">
+                                              {{-- kerabat darurat data di jquery --}}
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+
+                              {{-- pendidikan --}}
+                              <div class="tab-pane" id="pendidikan">
+                                  <div style="overflow-x: auto;">
+                                      <table id="tabel_pendidikan" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                          <thead>
+                                              <tr class="bg-primary">
+                                                  <th class="text-center">Tingkat</th>
+                                                  <th class="text-center">Nama</th>
+                                                  <th class="text-center">Kota</th>
+                                                  <th class="text-center">Jurusan</th>
+                                                  <th class="text-center">Tahun Masuk</th>
+                                                  <th class="text-center">Tahun Lulus</th>
+                                                  <th class="text-center">Aksi</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody id="data_pendidikan">
+                                              {{-- pendidikan data di jquery --}}
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -435,49 +435,21 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_cabang_id\" class=\"col-form-label col-form-label-sm\">Cabang</label>" +
-                                "<select name=\"master_cabang_id\" id=\"master_cabang_id\" class=\"form-control form-control-sm\" disabled>";
-                                    biodata_data += "<option value=\"\">--Pilih Cabang--</option>";
-                                    $.each(response.cabangs, function(index, value) {
-                                        biodata_data += "<option value=\"" + value.id + "\"";
-                                        if (value.id == response.karyawan.master_cabang_id) {
-                                            biodata_data += "selected";
-                                        }
-                                        biodata_data += ">" + value.nama_cabang + "</option>";
-                                    });
-
-                                biodata_data += "</select>" +
+                                '<input type="text" id="master_cabang_id" class="form-control" value="' + response.karyawan.master_cabang.nama_cabang + '" disabled>' +
                                 "<small id=\"error_cabang\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_jabatan_id\" class=\"col-form-label col-form-label-sm\">Jabatan</label>" +
-                                "<select name=\"master_jabatan_id\" id=\"master_jabatan_id\" class=\"form-control form-control-sm select2\" disabled>";
-                                    biodata_data += "<option value=\"\">--Pilih Jabatan--</option>";
-                                    $.each(response.jabatans, function(index, value) {
-                                        biodata_data += "<option value=\"" + value.id + "\"";
-                                        if (value.id == response.karyawan.master_jabatan_id) {
-                                            biodata_data += "selected";
-                                        }
-                                        biodata_data += ">" + value.nama_jabatan + "</option>";
-                                    });
-                                biodata_data += "</select>" +
+                                '<input type="text" id="master_jabatan_id" class="form-control" value="' + response.karyawan.master_jabatan.nama_jabatan + '" disabled>' +
                                 "<small id=\"error_jabatan\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"master_divisi_id\" class=\"col-form-label col-form-label-sm\">Divisi</label>" +
-                                "<select name=\"master_divisi_id\" id=\"master_divisi_id\" class=\"form-control form-control-sm select2\" disabled>";
-                                    biodata_data += "<option value=\"\">--Pilih Divisi--</option>";
-                                    $.each(response.divisis, function(index, value) {
-                                        biodata_data += "<option value=\"" + value.id + "\"";
-                                        if (value.id == response.karyawan.master_divisi_id) {
-                                            biodata_data += "selected";
-                                        }
-                                        biodata_data += ">" + value.nama + "</option>";
-                                    });
-                                biodata_data += "</select>" +
+                                '<input type="text" id="master_divisi_id" class="form-control" value="' + response.karyawan.master_divisi.nama + '" disabled>' +
                                 "<small id=\"error_divisi\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
@@ -504,16 +476,7 @@
                         "<div class=\"col-lg-3 col-md-3 col-sm-12 col-12\">" +
                             "<div class=\"form-group\">" +
                                 "<label for=\"role\" class=\"col-form-label col-form-label-sm\">Role</label>" +
-                                "<select name=\"role\" id=\"role\" class=\"form-control form-control-sm select2\" disabled>";
-                                    biodata_data += "<option value=\"\">--Pilih Role--</option>";
-                                    $.each(response.roles, function(index, value) {
-                                        biodata_data += "<option value=\"" + value.id + "\"";
-                                        if (value.nama == response.karyawan.role) {
-                                            biodata_data += "selected";
-                                        }
-                                        biodata_data += ">" + value.nama + "</option>";
-                                    });
-                                biodata_data += "</select>" +
+                                '<input type="text" id="master_divisi_id" class="form-control" value="' + response.karyawan.role + '" disabled>' +
                                 "<small id=\"error_role\" class=\"form-text text-danger font-italic\"></small>" +
                             "</div>" +
                         "</div>" +
