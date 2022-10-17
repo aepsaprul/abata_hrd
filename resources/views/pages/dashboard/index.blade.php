@@ -98,6 +98,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  @php
+                                      $nomor = 1;
+                                  @endphp
                                     @foreach ($karyawan_kontrak as $key => $item)
                                         @php
                                             $waktu_sekarang  = Date('Y-m-d');
@@ -112,7 +115,7 @@
 
                                             @if ($diff->days < 90 && $diff->days > 1)
                                                 <tr>
-                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td class="text-center">{{ $nomor++ }}</td>
                                                     <td>
                                                         @if ($item->karyawan)
                                                             <a href="#" class="btn-detail" data-id="{{ $item->karyawan->id }}">{{ $item->karyawan->nama_lengkap }}</a>

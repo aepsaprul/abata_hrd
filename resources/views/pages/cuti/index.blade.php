@@ -69,11 +69,18 @@
                                                 @if ($item->masterKaryawan)
                                                     {{ $item->masterKaryawan->nama_lengkap }}
                                                     <br>
+                                                    {{-- dev --}}
                                                     @if (file_exists('public/image/' . $item->masterKaryawan->foto))
                                                         @if ($item->masterKaryawan->foto)
                                                             <img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;">
                                                         @endif
                                                     @endif
+                                                    {{-- prod --}}
+                                                    {{-- @if (file_exists('image/' . $item->masterKaryawan->foto))
+                                                        @if ($item->masterKaryawan->foto)
+                                                            <img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;">
+                                                        @endif
+                                                    @endif --}}
                                                 @endif
                                             </td>
                                             <td>
