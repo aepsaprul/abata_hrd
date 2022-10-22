@@ -1000,7 +1000,14 @@ class LabulController extends Controller
         $endDate = $request->omzet_end_date . " 23:59:00";
         $cabang_id = $request->omzet_cabang_id;
 
-        return Excel::download(new LabulOmzetExport($startDate, $endDate, $cabang_id), 'omzet.xlsx');
+        if ($cabang_id) {
+          $data_cabang = MasterCabang::find($cabang_id);
+          $cabang = $data_cabang->nama_cabang . "_";
+        } else {
+          $cabang = "";
+        }
+
+        return Excel::download(new LabulOmzetExport($startDate, $endDate, $cabang_id), $cabang . 'omzet.xlsx');
     }
 
     public function resultOmzetDetail($id)

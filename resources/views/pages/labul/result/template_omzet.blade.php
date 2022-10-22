@@ -4,7 +4,8 @@
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">No</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Karyawan</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Cabang</th>
-        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tanggal</th>
+        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tanggal Input</th>
+        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tanggal Omset</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Transaksi</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Traffic Online</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Traffic Offline</th>
@@ -57,7 +58,12 @@
               {{ $item->cabang->nama_cabang }}
             @endif
           </td>
-          <td>{{ $item->created_at->format('Y-m-d') }}</td>
+          @php
+            $tanggal_omset = date('Y-m-d', strtotime($item->tanggal));
+            $tanggal_input = date('Y-m-d', strtotime($item->created_at));
+          @endphp
+          <td>{{ $tanggal_input }}</td>
+          <td>{{ $tanggal_omset }}</td>
           <td>{{ $item->transaksi }}</td>
           <td>{{ $item->traffic_online }}</td>
           <td>{{ $item->traffic_offline }}</td>
