@@ -4,8 +4,7 @@
       <th style="background-color: lightblue; font-weight: bold; text-align: center;">No</th>
       <th style="background-color: lightblue; font-weight: bold; text-align: center;">Karyawan</th>
       <th style="background-color: lightblue; font-weight: bold; text-align: center;">Cabang</th>
-      <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tanggal Input</th>
-      <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tanggal Omset</th>
+      <th style="background-color: lightblue; font-weight: bold; text-align: center;">Tanggal</th>
       <th style="background-color: lightblue; font-weight: bold; text-align: center;">Jumlah Rencana</th>
       <th style="background-color: lightblue; font-weight: bold; text-align: center;">Rencana</th>
     </tr>
@@ -25,7 +24,6 @@
         </td>
         <td rowspan="{{ count($item->activityPlanRencana) }}" style="text-align: center; vertical-align: center;">{{ $item->cabang->nama_cabang }}</td>
         <td rowspan="{{ count($item->activityPlanRencana) }}" style="text-align: center; vertical-align: center;">{{ date('Y-m-d', strtotime($item->tanggal)) }}</td>
-        <td rowspan="{{ count($item->activityPlanRencana) }}" style="text-align: center; vertical-align: center;">{{ date('Y-m-d', strtotime($item->created_at)) }}</td>
         @foreach ($item->activityPlanJumlah as $key_detail => $item_detail)
           @if ($key_detail == 0)
             <td rowspan="{{ count($item_detail->activityPlanRencana) }}" style="text-align: center; vertical-align: center;">{{ $item_detail->nama }} ({{ $item_detail->jumlah }})</td>
