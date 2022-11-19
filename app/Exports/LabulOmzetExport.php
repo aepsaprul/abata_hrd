@@ -20,12 +20,12 @@ class LabulOmzetExport implements FromView
   {
     if ($this->cabang_id == "") {
       return view('pages.labul.result.template_omzet', [
-        'omzet' => LabulOmzet::whereBetween('created_at', [$this->startDate, $this->endDate])
+        'omzet' => LabulOmzet::whereBetween('tanggal', [$this->startDate, $this->endDate])
           ->get()
       ]);
     } else {
       return view('pages.labul.result.template_omzet', [
-        'omzet' => LabulOmzet::whereBetween('created_at', [$this->startDate, $this->endDate])
+        'omzet' => LabulOmzet::whereBetween('tanggal', [$this->startDate, $this->endDate])
           ->where('cabang_id', $this->cabang_id)
           ->get()
       ]);
