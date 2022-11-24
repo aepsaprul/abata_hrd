@@ -13,12 +13,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tentang</h1>
+                    <h1>Legal</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tentang</li>
+                        <li class="breadcrumb-item active">Legal</li>
                     </ol>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     <div class="card">
                         {{-- @if (in_array("tambah", $current_data_navigasi)) --}}
                             <div class="card-header">
-                              <form action="{{ route('compro.tentang.store') }}" method="POST">
+                              <form action="{{ route('compro.legal.store') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                   <div class="col-lg-6 col-md-4 col-sm-6 col-12">
@@ -51,9 +51,8 @@
                                     <label for="create_nama">Nama</label>
                                     <select name="create_nama" id="create_nama" class="form-control" required>
                                       <option value="">--Pilih Nama--</option>
-                                      <option value="sejarah">Sejarah</option>
-                                      <option value="visi">Visi</option>
-                                      <option value="misi">Misi</option>
+                                      <option value="privacy">Privacy (Kebijakan Pribadi)</option>
+                                      <option value="term">Term (Syarat & Ketentuan)</option>
                                     </select>
                                   </div>
                                   <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
@@ -81,7 +80,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($tentangs as $key => $item)
+                                    @foreach ($legals as $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>{{ $item->grup }}</td>
@@ -101,7 +100,7 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
                                                                 <a
-                                                                    href="{{ route('compro.tentang.edit', [$item->id]) }}"
+                                                                    href="{{ route('compro.legal.edit', [$item->id]) }}"
                                                                     class="dropdown-item border-bottom btn-edit">
                                                                         <i class="fas fa-pencil-alt pr-1"></i> Ubah
                                                                 </a>
@@ -191,7 +190,7 @@
             }
 
             $.ajax({
-                url: "{{ URL::route('compro.tentang.delete') }}",
+                url: "{{ URL::route('compro.legal.delete') }}",
                 type: 'POST',
                 data: formData,
                 beforeSend: function () {

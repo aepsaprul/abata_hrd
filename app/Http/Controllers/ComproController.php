@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\ComproCabang;
 use App\Models\ComproGabung;
 use App\Models\ComproKontak;
+use App\Models\ComproLegal;
 use App\Models\ComproPartner;
 use App\Models\ComproProduk;
 use App\Models\ComproTentang;
 use App\Models\ComproTestimoni;
 use App\Models\ComproTim;
+use Complex\Complex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
@@ -649,5 +651,52 @@ class ComproController extends Controller
       $partner->delete();
 
       return response()->route('compro.partner');
+    }
+
+    // legal
+    public function legal()
+    {
+      $legal = ComproLegal::get();
+
+      return view('pages.compro.legal.index', ['legals' => $legal]);
+    }
+
+    public function legalStore(Request $request)
+    {
+      $legal = new ComproLegal;
+      $legal->grup = $request->create_grup;
+      $legal->nama = $request->create_nama;
+      $legal->deskripsi = $request->create_deskripsi;
+      $legal->save();
+
+      return redirect()->route('compro.legal');
+    }
+
+    public function legalEdit($id)
+    {
+      $legal = ComproLegal::find($id);
+
+      return view('pages.compro.legal.edit', ['legal' => $legal]);
+    }
+
+    public function legalUpdate(Request $request)
+    {
+      $legal = ComproLegal::find($request->edit_id);
+      $legal->grup = $request->edit_grup;
+      $legal->nama = $request->edit_nama;
+      $legal->deskripsi = $request->edit_deskripsi;
+      $legal->save();
+
+      return redirect()->route('compro.legal');
+    }
+
+    public function legalDelete(Request $request)
+    {
+      $legal = ComproLegal::find($request->id);
+      $legal->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
     }
 }
