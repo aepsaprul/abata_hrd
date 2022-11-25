@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ComproCabang;
 use App\Models\ComproGabung;
 use App\Models\ComproKontak;
+use App\Models\ComproKontakForm;
 use App\Models\ComproLegal;
 use App\Models\ComproPartner;
 use App\Models\ComproProduk;
@@ -71,16 +72,17 @@ class ComproController extends Controller
     public function kontak()
     {
         $kontak = ComproKontak::get();
+        $kontak_form = ComproKontakForm::get();
 
-        return view('pages.compro.kontak.index', ['kontaks' => $kontak]);
+        return view('pages.compro.kontak.index', ['kontaks' => $kontak, 'kontak_forms' => $kontak_form]);
     }
 
     public function kontakStore(Request $request)
     {
         $kontak = new ComproKontak;
-        $kontak->img = $request->create_img;
-        $kontak->nomor = $request->create_nomor;
-        $kontak->link = $request->create_link;
+        $kontak->icon = $request->create_icon;
+        $kontak->title = $request->create_title;
+        $kontak->deskripsi = $request->create_deskripsi;
         $kontak->grup = $request->create_grup;
         $kontak->save();
 
@@ -97,9 +99,9 @@ class ComproController extends Controller
     public function kontakUpdate(Request $request)
     {
         $kontak = ComproKontak::find($request->edit_id);
-        $kontak->img = $request->edit_img;
-        $kontak->nomor = $request->edit_nomor;
-        $kontak->link = $request->edit_link;
+        $kontak->icon = $request->edit_icon;
+        $kontak->title = $request->edit_title;
+        $kontak->deskripsi = $request->edit_deskripsi;
         $kontak->grup = $request->edit_grup;
         $kontak->save();
 
@@ -111,7 +113,19 @@ class ComproController extends Controller
         $kontak = ComproKontak::find($request->id);
         $kontak->delete();
 
-        return redirect()->route('compro.kontak');
+        return response()->json([
+          'status' => 200
+        ]);
+    }
+    
+    public function kontakFormDelete(Request $request)
+    {
+        $kontak = ComproKontakForm::find($request->id);
+        $kontak->delete();
+
+        return response()->json([
+          'status' => 200
+        ]);
     }
 
     // cabang

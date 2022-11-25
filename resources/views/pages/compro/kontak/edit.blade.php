@@ -50,21 +50,21 @@
                             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                               <div class="form-group">
                                 <div class="form-group">
-                                  <label for="edit_img">Img</label>
-                                  <input type="text" name="edit_img" id="edit_img" class="form-control" value="{{ $kontak->img }}">
+                                  <label for="edit_icon">Icon</label>
+                                  <input type="text" name="edit_icon" id="edit_icon" class="form-control" value="{{ $kontak->icon }}">
                                 </div>
                               </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                               <div class="form-group">
-                                <label for="edit_nomor">Nomor</label>
-                                <input type="text" name="edit_nomor" id="edit_nomor" class="form-control" value="{{ $kontak->nomor }}">
+                                <label for="edit_title">Title</label>
+                                <input type="text" name="edit_title" id="edit_title" class="form-control" value="{{ $kontak->title }}">
                               </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                               <div class="form-group">
-                                <label for="edit_link">Link</label>
-                                <input type="text" name="edit_link" id="edit_link" class="form-control" value="{{ $kontak->link }}">
+                                <label for="edit_deskripsi">Deskripsi</label>
+                                <input type="text" name="edit_deskripsi" id="edit_deskripsi" class="form-control" value="{{ $kontak->deskripsi }}">
                               </div>
                             </div>
                           </div>

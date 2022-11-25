@@ -497,6 +497,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('compro/kontak/{id}/edit', [ComproController::class, 'kontakEdit'])->name('compro.kontak.edit');
     Route::post('compro/kontak/update', [ComproController::class, 'kontakUpdate'])->name('compro.kontak.update');
     Route::post('compro/kontak/delete', [ComproController::class, 'kontakDelete'])->name('compro.kontak.delete');
+    Route::post('compro/kontak/form/delete', [ComproController::class, 'kontakFormDelete'])->name('compro.kontak.form.delete');
 
     // compro cabang
     Route::get('compro/cabang', [ComproController::class, 'cabang'])->name('compro.cabang');
