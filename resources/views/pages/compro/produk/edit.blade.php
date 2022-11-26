@@ -35,7 +35,7 @@
                           @csrf
                           <input type="hidden" name="edit_id" id="edit_id" value="{{ $produk->id }}">
                           <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                               <div class="form-group">
                                 <label for="edit_grup">Grup</label>
                                 <select name="edit_grup" id="edit_grup" class="form-control">
@@ -47,7 +47,7 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                               <div class="form-group">
                                 <div class="form-group">
                                   <label for="edit_nama_produk">Nama Produk</label>
@@ -55,15 +55,34 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                              <div class="form-group">
+                                <div class="form-group">
+                                  <label for="edit_kategori">Kategori</label>
+                                  <select name="edit_kategori" id="edit_kategori" class="form-control">
+                                    <option value="">--Pilih Kategori--</option>
+                                    <option value="indoor" {{ $produk->kategori == "indoor" ? "selected" : "" }}>Indoor</option>
+                                    <option value="outdoor" {{ $produk->kategori == "outdoor" ? "selected" : "" }}>Outdoor</option>
+                                    <option value="kreatif" {{ $produk->kategori == "kreatif" ? "selected" : "" }}>Kreatif</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                              <div class="form-group">
+                                <div class="form-group">
+                                  <label for="edit_harga">Harga</label>
+                                  <input type="text" name="edit_harga" id="edit_harga" class="form-control" value="{{ $produk->harga }}">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                               <div class="form-group">
                                 <label for="edit_gambar">Gambar</label>
                                 <input type="file" name="edit_gambar" id="edit_gambar" class="form-control">
                               </div>
                             </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-4">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-12" style="display: flex;align-items: center; justify-content: end; margin-top: 10px;">
                               <button class="btn btn-primary"><i class="fas fa-save"></i> Perbaharui</button>
                             </div>
                           </div>
@@ -79,5 +98,10 @@
 @endsection
 
 @section('script')
-
+<script>
+  let harga = document.getElementById("edit_harga");
+  harga.addEventListener("keyup", function(e) {
+      harga.value = formatRupiah(this.value, "");
+  });
+</script>
 @endsection

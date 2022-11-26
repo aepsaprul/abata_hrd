@@ -36,7 +36,7 @@
                               <form action="{{ route('compro.produk.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                  <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                                     <div class="form-group">
                                       <label for="create_grup">Grup</label>
                                       <select name="create_grup" id="create_grup" class="form-control" required>
@@ -48,21 +48,36 @@
                                       </select>
                                     </div>
                                   </div>
-                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                  <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                                     <div class="form-group">
                                       <label for="create_nama_produk">Nama Produk</label>
                                       <input type="text" name="create_nama_produk" id="create_nama_produk" class="form-control" required>
                                     </div>
                                   </div>
-                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                  <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                      <label for="create_kategori">Kategori</label>
+                                      <select name="create_kategori" id="create_kategori" class="form-control" required>
+                                        <option value="">--Pilih Kategori--</option>
+                                        <option value="indoor">Indoor</option>
+                                        <option value="outdoor">Outdoor</option>
+                                        <option value="kreatif">Kreatif</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                      <label for="create_harga">Harga</label>
+                                      <input type="text" name="create_harga" id="create_harga" class="form-control" required>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                                     <div class="form-group">
                                       <label for="create_gambar">Gambar</label>
                                       <input type="file" name="create_gambar" id="create_gambar" class="form-control">
                                     </div>
                                   </div>
-                                </div>
-                                <div class="row">
-                                  <div class="col-4 mt-3">
+                                  <div class="col-lg-2 col-md-2 col-sm-6 col-12" style="display: flex;align-items: center; justify-content: end; margin-top: 10px;">
                                     <button type="submit" id="btn-simpan" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
                                   </div>
                                 </div>
@@ -76,6 +91,8 @@
                                         <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Grup</th>
                                         <th class="text-center text-indigo">Nama Produk</th>
+                                        <th class="text-center text-indigo">Kategori</th>
+                                        <th class="text-center text-indigo">Harga</th>
                                         <th class="text-center text-indigo">Gambar</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
@@ -86,7 +103,9 @@
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>{{ $item->grup }}</td>
                                             <td>{{ $item->nama_produk }}</td>
-                                            <td><img src="{{ asset('public/compro/produk/' . $item->gambar) }}" alt="produk_gambar" style="max-width: 100px;"></td>
+                                            <td>{{ $item->kategori }}</td>
+                                            <td class="text-right">{{ rupiah($item->harga) }}</td>
+                                            <td class="text-center"><img src="{{ asset('public/compro/produk/' . $item->gambar) }}" alt="produk_gambar" style="max-width: 100px;"></td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
                                                     <div class="btn-group">
@@ -171,6 +190,11 @@
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
+        });
+
+        let harga = document.getElementById("create_harga");
+        harga.addEventListener("keyup", function(e) {
+            harga.value = formatRupiah(this.value, "");
         });
 
         // delete

@@ -277,6 +277,7 @@ class ComproController extends Controller
         return redirect()->route('compro.testimoni');
     }
 
+    // produk
     public function produk()
     {
       $produk = ComproProduk::get();
@@ -289,6 +290,8 @@ class ComproController extends Controller
       $produk = new ComproProduk;
       $produk->grup = $request->create_grup;
       $produk->nama_produk = $request->create_nama_produk;
+      $produk->kategori = $request->create_kategori;
+      $produk->harga = str_replace(",", "", $request->create_harga);
       
       // dev
       if($request->hasFile('create_gambar')) {
@@ -325,6 +328,8 @@ class ComproController extends Controller
       $produk = ComproProduk::find($request->edit_id);
       $produk->grup = $request->edit_grup;
       $produk->nama_produk = $request->edit_nama_produk;
+      $produk->kategori = $request->edit_kategori;
+      $produk->harga = str_replace(",", "", $request->edit_harga);
       
       // dev
       if($request->hasFile('edit_gambar')) {
