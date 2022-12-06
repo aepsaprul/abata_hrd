@@ -8,6 +8,7 @@ use App\Models\ComproKontak;
 use App\Models\ComproKontakForm;
 use App\Models\ComproLegal;
 use App\Models\ComproPartner;
+use App\Models\ComproPelanggan;
 use App\Models\ComproProduk;
 use App\Models\ComproTentang;
 use App\Models\ComproTestimoni;
@@ -193,22 +194,22 @@ class ComproController extends Controller
         $testimoni->komentar = $request->create_komentar;
 
         // dev
-        // if($request->hasFile('create_foto')) {
-        //     $file = $request->file('create_foto');
-        //     $extension = $file->getClientOriginalExtension();
-        //     $filename = time() . "." . $extension;
-        //     $file->move('public/compro/testimoni/', $filename);
-        //     $testimoni->foto = $filename;
-        // }
-
-        // prod
         if($request->hasFile('create_foto')) {
             $file = $request->file('create_foto');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
-            $file->move('compro/testimoni/', $filename);
+            $file->move('public/compro/testimoni/', $filename);
             $testimoni->foto = $filename;
         }
+
+        // prod
+        // if($request->hasFile('create_foto')) {
+        //     $file = $request->file('create_foto');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = time() . "." . $extension;
+        //     $file->move('compro/testimoni/', $filename);
+        //     $testimoni->foto = $filename;
+        // }
         
         $testimoni->save();
 
@@ -230,28 +231,28 @@ class ComproController extends Controller
         $testimoni->komentar = $request->edit_komentar;
 
         // dev
-        // if($request->hasFile('edit_foto')) {
-        //     if (file_exists("public/compro/testimoni/" . $testimoni->foto)) {
-        //         File::delete("public/compro/testimoni/" . $testimoni->foto);
-        //     }
-        //     $file = $request->file('edit_foto');
-        //     $extension = $file->getClientOriginalExtension();
-        //     $filename = time() . "." . $extension;
-        //     $file->move('public/compro/testimoni/', $filename);
-        //     $testimoni->foto = $filename;
-        // }
-
-        // prod
         if($request->hasFile('edit_foto')) {
-            if (file_exists("compro/testimoni/" . $testimoni->foto)) {
-                File::delete("compro/testimoni/" . $testimoni->foto);
+            if (file_exists("public/compro/testimoni/" . $testimoni->foto)) {
+                File::delete("public/compro/testimoni/" . $testimoni->foto);
             }
             $file = $request->file('edit_foto');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
-            $file->move('compro/testimoni/', $filename);
+            $file->move('public/compro/testimoni/', $filename);
             $testimoni->foto = $filename;
         }
+
+        // prod
+        // if($request->hasFile('edit_foto')) {
+        //     if (file_exists("compro/testimoni/" . $testimoni->foto)) {
+        //         File::delete("compro/testimoni/" . $testimoni->foto);
+        //     }
+        //     $file = $request->file('edit_foto');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = time() . "." . $extension;
+        //     $file->move('compro/testimoni/', $filename);
+        //     $testimoni->foto = $filename;
+        // }
 
         $testimoni->save();
 
@@ -263,14 +264,14 @@ class ComproController extends Controller
         $testimoni = ComproTestimoni::find($request->id);
 
         // dev
-        // if (file_exists("public/compro/testimoni/" . $testimoni->foto)) {
-        //     File::delete("public/compro/testimoni/" . $testimoni->foto);
-        // }
+        if (file_exists("public/compro/testimoni/" . $testimoni->foto)) {
+            File::delete("public/compro/testimoni/" . $testimoni->foto);
+        }
 
         // prod
-        if (file_exists("compro/testimoni" . $testimoni->foto)) {
-            File::delete("compro/testimoni" . $testimoni->foto);
-        }
+        // if (file_exists("compro/testimoni" . $testimoni->foto)) {
+        //     File::delete("compro/testimoni" . $testimoni->foto);
+        // }
 
         $testimoni->delete();
 
@@ -294,22 +295,22 @@ class ComproController extends Controller
       $produk->harga = str_replace(",", "", $request->create_harga);
       
       // dev
-      // if($request->hasFile('create_gambar')) {
-      //   $file = $request->file('create_gambar');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/produk/', $filename);
-      //   $produk->gambar = $filename;
-      // }
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/produk/', $filename);
+        $produk->gambar = $filename;
+      }
 
       // prod
-      if($request->hasFile('create_gambar')) {
-          $file = $request->file('create_gambar');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/produk/', $filename);
-          $produk->gambar = $filename;
-      }
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/produk/', $filename);
+      //     $produk->gambar = $filename;
+      // }
 
       $produk->save();
 
@@ -332,28 +333,28 @@ class ComproController extends Controller
       $produk->harga = str_replace(",", "", $request->edit_harga);
       
       // dev
-      // if($request->hasFile('edit_gambar')) {
-      //   if (file_exists("public/compro/produk/" . $produk->gambar)) {
-      //       File::delete("public/compro/produk/" . $produk->gambar);
-      //   }
-      //   $file = $request->file('edit_gambar');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/produk/', $filename);
-      //   $produk->gambar = $filename;
-      // }
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/produk/" . $produk->gambar)) {
+            File::delete("public/compro/produk/" . $produk->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/produk/', $filename);
+        $produk->gambar = $filename;
+      }
 
       // prod
-      if($request->hasFile('edit_gambar')) {
-          if (file_exists("compro/produk/" . $produk->gambar)) {
-              File::delete("compro/produk/" . $produk->gambar);
-          }
-          $file = $request->file('edit_gambar');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/produk/', $filename);
-          $produk->gambar = $filename;
-      }
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/produk/" . $produk->gambar)) {
+      //         File::delete("compro/produk/" . $produk->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/produk/', $filename);
+      //     $produk->gambar = $filename;
+      // }
       
       $produk->save();
 
@@ -365,14 +366,14 @@ class ComproController extends Controller
       $produk = ComproProduk::find($request->id);
 
       // dev
-      // if (file_exists("public/compro/produk/" . $produk->gambar)) {
-      //   File::delete("public/compro/produk/" . $produk->gambar);
-      // }
+      if (file_exists("public/compro/produk/" . $produk->gambar)) {
+        File::delete("public/compro/produk/" . $produk->gambar);
+      }
 
       // prod
-      if (file_exists("compro/produk" . $produk->gambar)) {
-          File::delete("compro/produk" . $produk->gambar);
-      }
+      // if (file_exists("compro/produk" . $produk->gambar)) {
+      //     File::delete("compro/produk" . $produk->gambar);
+      // }
       
       $produk->delete();
 
@@ -397,22 +398,22 @@ class ComproController extends Controller
       $gabung->deskripsi = $request->create_deskripsi;
 
       // dev
-      // if($request->hasFile('create_gambar')) {
-      //   $file = $request->file('create_gambar');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/gabung/', $filename);
-      //   $gabung->gambar = $filename;
-      // }
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/gabung/', $filename);
+        $gabung->gambar = $filename;
+      }
 
       // prod
-      if($request->hasFile('create_gambar')) {
-          $file = $request->file('create_gambar');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/gabung/', $filename);
-          $gabung->gambar = $filename;
-      }
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/gabung/', $filename);
+      //     $gabung->gambar = $filename;
+      // }
 
       $gabung->save();
 
@@ -434,28 +435,28 @@ class ComproController extends Controller
       $gabung->deskripsi = $request->edit_deskripsi;
 
       // dev
-      // if($request->hasFile('edit_gambar')) {
-      //   if (file_exists("public/compro/gabung/" . $gabung->gambar)) {
-      //       File::delete("public/compro/gabung/" . $gabung->gambar);
-      //   }
-      //   $file = $request->file('edit_gambar');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/gabung/', $filename);
-      //   $gabung->gambar = $filename;
-      // }
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/gabung/" . $gabung->gambar)) {
+            File::delete("public/compro/gabung/" . $gabung->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/gabung/', $filename);
+        $gabung->gambar = $filename;
+      }
 
       // prod
-      if($request->hasFile('edit_gambar')) {
-          if (file_exists("compro/gabung/" . $gabung->gambar)) {
-              File::delete("compro/gabung/" . $gabung->gambar);
-          }
-          $file = $request->file('edit_gambar');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/gabung/', $filename);
-          $gabung->gambar = $filename;
-      }
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/gabung/" . $gabung->gambar)) {
+      //         File::delete("compro/gabung/" . $gabung->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/gabung/', $filename);
+      //     $gabung->gambar = $filename;
+      // }
 
       $gabung->save();
 
@@ -467,14 +468,14 @@ class ComproController extends Controller
       $gabung = ComproGabung::find($request->id);
 
       // dev
-      // if (file_exists("public/compro/gabung/" . $gabung->gambar)) {
-      //   File::delete("public/compro/gabung/" . $gabung->gambar);
-      // }
+      if (file_exists("public/compro/gabung/" . $gabung->gambar)) {
+        File::delete("public/compro/gabung/" . $gabung->gambar);
+      }
 
       // prod
-      if (file_exists("compro/gabung" . $gabung->gambar)) {
-          File::delete("compro/gabung" . $gabung->gambar);
-      }
+      // if (file_exists("compro/gabung" . $gabung->gambar)) {
+      //     File::delete("compro/gabung" . $gabung->gambar);
+      // }
 
       $gabung->delete();
 
@@ -500,22 +501,22 @@ class ComproController extends Controller
       $tim->deskripsi = $request->create_deskripsi;
 
       // dev
-      // if($request->hasFile('create_foto')) {
-      //   $file = $request->file('create_foto');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/tim/', $filename);
-      //   $tim->foto = $filename;
-      // }
+      if($request->hasFile('create_foto')) {
+        $file = $request->file('create_foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/tim/', $filename);
+        $tim->foto = $filename;
+      }
 
       // prod
-      if($request->hasFile('create_foto')) {
-          $file = $request->file('create_foto');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/tim/', $filename);
-          $tim->foto = $filename;
-      }
+      // if($request->hasFile('create_foto')) {
+      //     $file = $request->file('create_foto');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/tim/', $filename);
+      //     $tim->foto = $filename;
+      // }
 
       $tim->save();
 
@@ -538,28 +539,28 @@ class ComproController extends Controller
       $tim->deskripsi = $request->edit_deskripsi;
       
       // dev
-      // if($request->hasFile('edit_foto')) {
-      //   if (file_exists("public/compro/tim/" . $tim->foto)) {
-      //       File::delete("public/compro/tim/" . $tim->foto);
-      //   }
-      //   $file = $request->file('edit_foto');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/tim/', $filename);
-      //   $tim->foto = $filename;
-      // }
+      if($request->hasFile('edit_foto')) {
+        if (file_exists("public/compro/tim/" . $tim->foto)) {
+            File::delete("public/compro/tim/" . $tim->foto);
+        }
+        $file = $request->file('edit_foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/tim/', $filename);
+        $tim->foto = $filename;
+      }
 
       // prod
-      if($request->hasFile('edit_foto')) {
-          if (file_exists("compro/tim/" . $tim->foto)) {
-              File::delete("compro/tim/" . $tim->foto);
-          }
-          $file = $request->file('edit_foto');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/tim/', $filename);
-          $tim->foto = $filename;
-      }
+      // if($request->hasFile('edit_foto')) {
+      //     if (file_exists("compro/tim/" . $tim->foto)) {
+      //         File::delete("compro/tim/" . $tim->foto);
+      //     }
+      //     $file = $request->file('edit_foto');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/tim/', $filename);
+      //     $tim->foto = $filename;
+      // }
 
       $tim->save();
 
@@ -571,14 +572,14 @@ class ComproController extends Controller
       $tim = ComproTim::find($request->id);
 
       // dev
-      // if (file_exists("public/compro/tim/" . $tim->foto)) {
-      //   File::delete("public/compro/tim/" . $tim->foto);
-      // }
+      if (file_exists("public/compro/tim/" . $tim->foto)) {
+        File::delete("public/compro/tim/" . $tim->foto);
+      }
 
       // prod
-      if (file_exists("compro/tim" . $tim->foto)) {
-          File::delete("compro/tim" . $tim->foto);
-      }
+      // if (file_exists("compro/tim" . $tim->foto)) {
+      //     File::delete("compro/tim" . $tim->foto);
+      // }
 
       $tim->delete();
 
@@ -600,22 +601,22 @@ class ComproController extends Controller
       $partner->nama = $request->create_nama;
 
       // dev
-      // if($request->hasFile('create_gambar')) {
-      //   $file = $request->file('create_gambar');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/partner/', $filename);
-      //   $partner->gambar = $filename;
-      // }
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/partner/', $filename);
+        $partner->gambar = $filename;
+      }
 
       // prod
-      if($request->hasFile('create_gambar')) {
-          $file = $request->file('create_gambar');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/partner/', $filename);
-          $partner->gambar = $filename;
-      }
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/partner/', $filename);
+      //     $partner->gambar = $filename;
+      // }
 
       $partner->save();
 
@@ -636,28 +637,28 @@ class ComproController extends Controller
       $partner->nama = $request->edit_nama;
 
       // dev
-      // if($request->hasFile('edit_gambar')) {
-      //   if (file_exists("public/compro/partner/" . $partner->gambar)) {
-      //       File::delete("public/compro/partner/" . $partner->gambar);
-      //   }
-      //   $file = $request->file('edit_gambar');
-      //   $extension = $file->getClientOriginalExtension();
-      //   $filename = time() . "." . $extension;
-      //   $file->move('public/compro/partner/', $filename);
-      //   $partner->gambar = $filename;
-      // }
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/partner/" . $partner->gambar)) {
+            File::delete("public/compro/partner/" . $partner->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/partner/', $filename);
+        $partner->gambar = $filename;
+      }
 
       // prod
-      if($request->hasFile('edit_gambar')) {
-          if (file_exists("compro/partner/" . $partner->gambar)) {
-              File::delete("compro/partner/" . $partner->gambar);
-          }
-          $file = $request->file('edit_gambar');
-          $extension = $file->getClientOriginalExtension();
-          $filename = time() . "." . $extension;
-          $file->move('compro/partner/', $filename);
-          $partner->gambar = $filename;
-      }
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/partner/" . $partner->gambar)) {
+      //         File::delete("compro/partner/" . $partner->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/partner/', $filename);
+      //     $partner->gambar = $filename;
+      // }
 
       $partner->save();
 
@@ -667,6 +668,17 @@ class ComproController extends Controller
     public function partnerDelete(Request $request)
     {
       $partner = ComproPartner::find($request->id);
+
+      // dev
+      if (file_exists("public/compro/partner/" . $partner->foto)) {
+        File::delete("public/compro/partner/" . $partner->foto);
+      }
+
+      // prod
+      // if (file_exists("compro/partner" . $partner->foto)) {
+      //     File::delete("compro/partner" . $partner->foto);
+      // }
+
       $partner->delete();
 
       return response()->route('compro.partner');
@@ -717,5 +729,103 @@ class ComproController extends Controller
       return response()->json([
         'status' => 200
       ]);
+    }
+
+    // pelanggan
+    public function pelanggan()
+    {
+      $pelanggan = ComproPelanggan::get();
+
+      return view('pages.compro.pelanggan.index', ['pelanggans' => $pelanggan]);
+    }
+
+    public function pelangganStore(Request $request)
+    {
+      $pelanggan = new ComproPelanggan;
+      $pelanggan->grup = $request->create_grup;
+      $pelanggan->nama = $request->create_nama;
+
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/pelanggan/', $filename);
+        $pelanggan->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/pelanggan/', $filename);
+      //     $pelanggan->gambar = $filename;
+      // }
+
+      $pelanggan->save();
+
+      return redirect()->route('compro.pelanggan');
+    }
+
+    public function pelangganEdit($id)
+    {
+      $pelanggan = ComproPelanggan::find($id);
+
+      return view('pages.compro.pelanggan.edit', ['pelanggan' => $pelanggan]);
+    }
+
+    public function pelangganUpdate(Request $request)
+    {
+      $pelanggan = ComproPelanggan::find($request->edit_id);
+      $pelanggan->grup = $request->edit_grup;
+      $pelanggan->nama = $request->edit_nama;
+
+      // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/pelanggan/" . $pelanggan->gambar)) {
+            File::delete("public/compro/pelanggan/" . $pelanggan->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/pelanggan/', $filename);
+        $pelanggan->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/pelanggan/" . $pelanggan->gambar)) {
+      //         File::delete("compro/pelanggan/" . $pelanggan->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/pelanggan/', $filename);
+      //     $pelanggan->gambar = $filename;
+      // }
+
+      $pelanggan->save();
+
+      return redirect()->route('compro.pelanggan');
+    }
+
+    public function pelangganDelete(Request $request)
+    {
+      $pelanggan = ComproPelanggan::find($request->id);
+
+      // dev
+      if (file_exists("public/compro/pelanggan/" . $pelanggan->foto)) {
+        File::delete("public/compro/pelanggan/" . $pelanggan->foto);
+      }
+
+      // prod
+      // if (file_exists("compro/pelanggan" . $pelanggan->foto)) {
+      //     File::delete("compro/pelanggan" . $pelanggan->foto);
+      // }
+
+      $pelanggan->delete();
+
+      return response()->route('compro.pelanggan');
     }
 }
