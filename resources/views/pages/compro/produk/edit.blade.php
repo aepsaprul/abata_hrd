@@ -61,9 +61,14 @@
                                   <label for="edit_kategori">Kategori</label>
                                   <select name="edit_kategori" id="edit_kategori" class="form-control">
                                     <option value="">--Pilih Kategori--</option>
+                                    <option value="a3" {{ $produk->kategori == "a3" ? "selected" : "" }}>A3</option>
                                     <option value="indoor" {{ $produk->kategori == "indoor" ? "selected" : "" }}>Indoor</option>
                                     <option value="outdoor" {{ $produk->kategori == "outdoor" ? "selected" : "" }}>Outdoor</option>
-                                    <option value="kreatif" {{ $produk->kategori == "kreatif" ? "selected" : "" }}>Kreatif</option>
+                                    <option value="merchandise" {{ $produk->kategori == "merchandise" ? "selected" : "" }}>Merchandise</option>
+                                    <option value="advertising" {{ $produk->kategori == "advertising" ? "selected" : "" }}>Advertising</option>
+                                    <option value="uv" {{ $produk->kategori == "uv" ? "selected" : "" }}>UV</option>
+                                    <option value="dtf" {{ $produk->kategori == "dtf" ? "selected" : "" }}>DTF</option>
+                                    <option value="akrilik" {{ $produk->kategori == "akrilik" ? "selected" : "" }}>Akrilik</option>
                                   </select>
                                 </div>
                               </div>
@@ -97,11 +102,3 @@
 
 @endsection
 
-@section('script')
-<script>
-  let harga = document.getElementById("edit_harga");
-  harga.addEventListener("keyup", function(e) {
-      harga.value = formatRupiah(this.value, "");
-  });
-</script>
-@endsection

@@ -59,9 +59,14 @@
                                       <label for="create_kategori">Kategori</label>
                                       <select name="create_kategori" id="create_kategori" class="form-control" required>
                                         <option value="">--Pilih Kategori--</option>
+                                        <option value="a3">A3</option>
                                         <option value="indoor">Indoor</option>
                                         <option value="outdoor">Outdoor</option>
-                                        <option value="kreatif">Kreatif</option>
+                                        <option value="merchandise">Merchandise</option>
+                                        <option value="advertising">Advertising</option>
+                                        <option value="uv">UV</option>
+                                        <option value="dtf">DTF</option>
+                                        <option value="akrilik">Akrilik</option>
                                       </select>
                                     </div>
                                   </div>
@@ -104,7 +109,7 @@
                                             <td>{{ $item->grup }}</td>
                                             <td>{{ $item->nama_produk }}</td>
                                             <td>{{ $item->kategori }}</td>
-                                            <td class="text-right">{{ rupiah($item->harga) }}</td>
+                                            <td class="text-right">{{ $item->harga }}</td>
                                             <td class="text-center"><img src="{{ asset('public/compro/produk/' . $item->gambar) }}" alt="produk_gambar" style="max-width: 100px;"></td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
@@ -190,11 +195,6 @@
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
-        });
-
-        let harga = document.getElementById("create_harga");
-        harga.addEventListener("keyup", function(e) {
-            harga.value = formatRupiah(this.value, "");
         });
 
         // delete
