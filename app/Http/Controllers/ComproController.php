@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ComproBlog;
 use App\Models\ComproCabang;
 use App\Models\ComproGabung;
 use App\Models\ComproKontak;
@@ -815,17 +816,122 @@ class ComproController extends Controller
       $pelanggan = ComproPelanggan::find($request->id);
 
       // dev
-      if (file_exists("public/compro/pelanggan/" . $pelanggan->foto)) {
-        File::delete("public/compro/pelanggan/" . $pelanggan->foto);
+      if (file_exists("public/compro/pelanggan/" . $pelanggan->gambar)) {
+        File::delete("public/compro/pelanggan/" . $pelanggan->gambar);
       }
 
       // prod
-      // if (file_exists("compro/pelanggan" . $pelanggan->foto)) {
-      //     File::delete("compro/pelanggan" . $pelanggan->foto);
+      // if (file_exists("compro/pelanggan" . $pelanggan->gambar)) {
+      //     File::delete("compro/pelanggan" . $pelanggan->gambar);
       // }
 
       $pelanggan->delete();
 
-      return response()->route('compro.pelanggan');
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    // blog
+    public function blog()
+    {
+      $blog = ComproBlog::get();
+
+      return view('pages.compro.blog.index', ['blogs' => $blog]);
+    }
+
+    public function blogStore(Request $request)
+    {
+      $blog = new ComproBlog;
+      $blog->grup = $request->create_grup;
+      $blog->judul = $request->create_judul;
+      $blog->deskripsi = $request->create_deskripsi;
+      $blog->tanggal = date('Y-m-d');
+
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/blog/', $filename);
+        $blog->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/blog/', $filename);
+      //     $blog->gambar = $filename;
+      // }
+
+      $blog->save();
+
+      return redirect()->route('compro.blog');
+    }
+
+    public function blogEdit($id)
+    {
+      $blog = ComproBlog::find($id);
+
+      return view('pages.compro.blog.edit', ['blog' => $blog]);
+    }
+
+    public function blogUpdate(Request $request)
+    {
+      $blog = ComproBlog::find($request->edit_id);
+      $blog->grup = $request->edit_grup;
+      $blog->judul = $request->edit_judul;
+      $blog->deskripsi = $request->edit_deskripsi;
+
+      // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/blog/" . $blog->gambar)) {
+            File::delete("public/compro/blog/" . $blog->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/blog/', $filename);
+        $blog->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/blog/" . $blog->gambar)) {
+      //         File::delete("compro/blog/" . $blog->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/blog/', $filename);
+      //     $blog->gambar = $filename;
+      // }
+
+      $blog->save();
+
+      return redirect()->route('compro.blog');
+    }
+
+    public function blogDelete(Request $request)
+    {
+      $blog = ComproBlog::find($request->id);
+
+      // dev
+      if (file_exists("public/compro/blog/" . $blog->gambar)) {
+        File::delete("public/compro/blog/" . $blog->gambar);
+      }
+
+      // prod
+      // if (file_exists("compro/blog" . $blog->gambar)) {
+      //     File::delete("compro/blog" . $blog->gambar);
+      // }
+
+      $blog->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
     }
 }

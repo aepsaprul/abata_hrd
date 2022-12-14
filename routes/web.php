@@ -554,4 +554,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('compro/pelanggan/{id}/edit', [ComproController::class, 'pelangganEdit'])->name('compro.pelanggan.edit');
     Route::post('compro/pelanggan/update', [ComproController::class, 'pelangganUpdate'])->name('compro.pelanggan.update');
     Route::post('compro/pelanggan/delete', [ComproController::class, 'pelangganDelete'])->name('compro.pelanggan.delete');
+
+    // compro blog
+    Route::get('compro/blog', [ComproController::class, 'blog'])->name('compro.blog');
+    Route::post('compro/blog/store', [ComproController::class, 'blogStore'])->name('compro.blog.store');
+    Route::get('compro/blog/{id}/edit', [ComproController::class, 'blogEdit'])->name('compro.blog.edit');
+    Route::post('compro/blog/update', [ComproController::class, 'blogUpdate'])->name('compro.blog.update');
+    Route::post('compro/blog/delete', [ComproController::class, 'blogDelete'])->name('compro.blog.delete');
 });
