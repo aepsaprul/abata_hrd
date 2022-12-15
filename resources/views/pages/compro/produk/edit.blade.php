@@ -69,6 +69,7 @@
                                     <option value="uv" {{ $produk->kategori == "uv" ? "selected" : "" }}>UV</option>
                                     <option value="dtf" {{ $produk->kategori == "dtf" ? "selected" : "" }}>DTF</option>
                                     <option value="akrilik" {{ $produk->kategori == "akrilik" ? "selected" : "" }}>Akrilik</option>
+                                    <option value="offset" {{ $produk->kategori == "offset" ? "selected" : "" }}>Offset</option>
                                   </select>
                                 </div>
                               </div>

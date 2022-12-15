@@ -67,6 +67,7 @@
                                         <option value="uv">UV</option>
                                         <option value="dtf">DTF</option>
                                         <option value="akrilik">Akrilik</option>
+                                        <option value="offset">Offset</option>
                                       </select>
                                     </div>
                                   </div>
