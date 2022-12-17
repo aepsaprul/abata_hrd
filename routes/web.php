@@ -429,61 +429,70 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('labul/result/activity_plan/{id}/edit', [LabulController::class, 'resultActivityPlanEdit'])->name('labul.result.activity_plan.edit');
     Route::put('labul/result/activity_plan/{id}/update', [LabulController::class, 'resultActivityPlanUpdate'])->name('labul.result.activity_plan.update');
     Route::post('labul/result/activity_plan/delete', [LabulController::class, 'resultActivityPlanDelete'])->name('labul.result.activity_plan.delete');
+    Route::post('labul/result/activity_plan/cari', [LabulController::class, 'resultActivityPlanCari'])->name('labul.result.activity_plan.cari');
 
     Route::post('labul/result/export_data_instansi', [LabulController::class, 'resultExportDataInstansi'])->name('labul.result.export_data_instansi');
     Route::get('labul/result/data_instansi/{id}/detail', [LabulController::class, 'resultDataInstansiDetail'])->name('labul.result.data_instansi.detail');
     Route::get('labul/result/data_instansi/{id}/edit', [LabulController::class, 'resultDataInstansiEdit'])->name('labul.result.data_instansi.edit');
     Route::put('labul/result/data_instansi/{id}/update', [LabulController::class, 'resultDataInstansiUpdate'])->name('labul.result.data_instansi.update');
     Route::post('labul/result/data_instansi/delete', [LabulController::class, 'resultDataInstansiDelete'])->name('labul.result.data_instansi.delete');
+    Route::post('labul/result/data_instansi/cari', [LabulController::class, 'resultDataInstansiCari'])->name('labul.result.data_instansi.cari');
 
     Route::post('labul/result/export_data_member', [LabulController::class, 'resultExportDataMember'])->name('labul.result.export_data_member');
     Route::get('labul/result/data_member/{id}/detail', [LabulController::class, 'resultDataMemberDetail'])->name('labul.result.data_member.detail');
     Route::get('labul/result/data_member/{id}/edit', [LabulController::class, 'resultDataMemberEdit'])->name('labul.result.data_member.edit');
     Route::put('labul/result/data_member/{id}/update', [LabulController::class, 'resultDataMemberUpdate'])->name('labul.result.data_member.update');
     Route::post('labul/result/data_member/delete', [LabulController::class, 'resultDataMemberDelete'])->name('labul.result.data_member.delete');
+    Route::post('labul/result/data_member/cari', [LabulController::class, 'resultDataMemberCari'])->name('labul.result.data_member.cari');
 
     Route::post('labul/result/export_data_reseller', [LabulController::class, 'resultExportDataReseller'])->name('labul.result.export_data_reseller');
     Route::get('labul/result/data_reseller/{id}/detail', [LabulController::class, 'resultDataResellerDetail'])->name('labul.result.data_reseller.detail');
     Route::get('labul/result/data_reseller/{id}/edit', [LabulController::class, 'resultDataResellerEdit'])->name('labul.result.data_reseller.edit');
     Route::put('labul/result/data_reseller/{id}/update', [LabulController::class, 'resultDataResellerUpdate'])->name('labul.result.data_reseller.update');
     Route::post('labul/result/data_reseller/delete', [LabulController::class, 'resultDataResellerDelete'])->name('labul.result.data_reseller.delete');
+    Route::post('labul/result/data_reseller/cari', [LabulController::class, 'resultDataResellerCari'])->name('labul.result.data_reseller.cari');
 
     Route::post('labul/result/export_instansi', [LabulController::class, 'resultExportInstansi'])->name('labul.result.export_instansi');
     Route::get('labul/result/instansi/{id}/detail', [LabulController::class, 'resultInstansiDetail'])->name('labul.result.instansi.detail');
     Route::get('labul/result/instansi/{id}/edit', [LabulController::class, 'resultInstansiEdit'])->name('labul.result.instansi.edit');
     Route::put('labul/result/instansi/{id}/update', [LabulController::class, 'resultInstansiUpdate'])->name('labul.result.instansi.update');
     Route::post('labul/result/instansi/delete', [LabulController::class, 'resultInstansiDelete'])->name('labul.result.instansi.delete');
+    Route::post('labul/result/instansi/cari', [LabulController::class, 'resultInstansiCari'])->name('labul.result.instansi.cari');
 
     Route::post('labul/result/export_komplain', [LabulController::class, 'resultExportKomplain'])->name('labul.result.export_komplain');
     Route::get('labul/result/komplain/{id}/detail', [LabulController::class, 'resultKomplainDetail'])->name('labul.result.komplain.detail');
     Route::get('labul/result/komplain/{id}/edit', [LabulController::class, 'resultKomplainEdit'])->name('labul.result.komplain.edit');
     Route::put('labul/result/komplain/{id}/update', [LabulController::class, 'resultKomplainUpdate'])->name('labul.result.komplain.update');
     Route::post('labul/result/komplain/delete', [LabulController::class, 'resultKomplainDelete'])->name('labul.result.komplain.delete');
+    Route::post('labul/result/komplain/cari', [LabulController::class, 'resultKomplainCari'])->name('labul.result.komplain.cari');
 
     Route::post('labul/result/export_omzet', [LabulController::class, 'resultExportOmzet'])->name('labul.result.export_omzet');
     Route::get('labul/result/omzet/{id}/detail', [LabulController::class, 'resultOmzetDetail'])->name('labul.result.omzet.detail');
     Route::get('labul/result/omzet/{id}/edit', [LabulController::class, 'resultOmzetEdit'])->name('labul.result.omzet.edit');
     Route::put('labul/result/omzet/{id}/update', [LabulController::class, 'resultOmzetUpdate'])->name('labul.result.omzet.update');
     Route::post('labul/result/omzet/delete', [LabulController::class, 'resultOmzetDelete'])->name('labul.result.omzet.delete');
-    Route::post('labul/result/omzet/cari', [LabulController::class, 'resultOmzetCAri'])->name('labul.result.omzet.cari');
+    Route::post('labul/result/omzet/cari', [LabulController::class, 'resultOmzetCari'])->name('labul.result.omzet.cari');
 
     Route::post('labul/result/export_reqor', [LabulController::class, 'resultExportReqor'])->name('labul.result.export_reqor');
     Route::get('labul/result/reqor/{id}/detail', [LabulController::class, 'resultReqorDetail'])->name('labul.result.reqor.detail');
     Route::get('labul/result/reqor/{id}/edit', [LabulController::class, 'resultReqorEdit'])->name('labul.result.reqor.edit');
     Route::put('labul/result/reqor/{id}/update', [LabulController::class, 'resultReqorUpdate'])->name('labul.result.reqor.update');
     Route::post('labul/result/reqor/delete', [LabulController::class, 'resultReqorDelete'])->name('labul.result.reqor.delete');
+    Route::post('labul/result/reqor/cari', [LabulController::class, 'resultReqorCari'])->name('labul.result.reqor.cari');
 
     Route::post('labul/result/export_reseller', [LabulController::class, 'resultExportReseller'])->name('labul.result.export_reseller');
     Route::get('labul/result/reseller/{id}/detail', [LabulController::class, 'resultResellerDetail'])->name('labul.result.reseller.detail');
     Route::get('labul/result/reseller/{id}/edit', [LabulController::class, 'resultResellerEdit'])->name('labul.result.reseller.edit');
     Route::put('labul/result/reseller/{id}/update', [LabulController::class, 'resultResellerUpdate'])->name('labul.result.reseller.update');
     Route::post('labul/result/reseller/delete', [LabulController::class, 'resultResellerDelete'])->name('labul.result.reseller.delete');
+    Route::post('labul/result/reseller/cari', [LabulController::class, 'resultResellerCari'])->name('labul.result.reseller.cari');
 
     Route::post('labul/result/export_survey_kompetitor', [LabulController::class, 'resultExportSurveyKompetitor'])->name('labul.result.export_survey_kompetitor');
     Route::get('labul/result/survey_kompetitor/{id}/detail', [LabulController::class, 'resultSurveyKompetitorDetail'])->name('labul.result.survey_kompetitor.detail');
     Route::get('labul/result/survey_kompetitor/{id}/edit', [LabulController::class, 'resultSurveyKompetitorEdit'])->name('labul.result.survey_kompetitor.edit');
     Route::put('labul/result/survey_kompetitor/{id}/update', [LabulController::class, 'resultSurveyKompetitorUpdate'])->name('labul.result.survey_kompetitor.update');
     Route::post('labul/result/survey_kompetitor/delete', [LabulController::class, 'resultSurveyKompetitorDelete'])->name('labul.result.survey_kompetitor.delete');
+    Route::post('labul/result/survey_kompetitor/cari', [LabulController::class, 'resultSurveyKompetitorCari'])->name('labul.result.survey_kompetitor.cari');
 
     // compro tentang
     Route::get('compro/tentang', [ComproController::class, 'tentang'])->name('compro.tentang');

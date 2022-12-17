@@ -487,33 +487,55 @@ class LabulController extends Controller
         // dd($a);
         $cabangs = MasterCabang::get();
 
-        $activity_plan = LabulActivityPlan::limit('1')->get();
-        $data_member = LabulDataMember::limit('1')->get();
-        $reseller = LabulReseller::limit('1')->get();
-        $data_reseller = LabulDataReseller::limit('1')->get();
-        $instansi = LabulInstansi::limit('1')->get();
-        $survey = LabulSurveyKompetitor::limit('1')->get();
-        $komplain = LabulKomplain::limit('1')->get();
-        $data_instansi = LabulDataInstansi::limit('1')->get();
-        $reqor = LabulReqor::limit('1')->get();
-        $omzet = LabulOmzet::orderBy('id', 'desc')->limit('1')->get();
+        // $activity_plan = LabulActivityPlan::limit('1')->get();
+        // $data_member = LabulDataMember::limit('1')->get();
+        // $reseller = LabulReseller::limit('1')->get();
+        // $data_reseller = LabulDataReseller::limit('1')->get();
+        // $instansi = LabulInstansi::limit('1')->get();
+        // $survey = LabulSurveyKompetitor::limit('1')->get();
+        // $komplain = LabulKomplain::limit('1')->get();
+        // $data_instansi = LabulDataInstansi::limit('1')->get();
+        // $reqor = LabulReqor::limit('1')->get();
+        // $omzet = LabulOmzet::orderBy('id', 'desc')->limit('1')->get();
 
         return view('pages.labul.result.index', [
             'cabangs' => $cabangs,
-            'activity_plans' => $activity_plan,
-            'data_members' => $data_member,
-            'resellers' => $reseller,
-            'data_resellers' => $data_reseller,
-            'instansis' => $instansi,
-            'surveys' => $survey,
-            'komplains' => $komplain,
-            'data_instansis' => $data_instansi,
-            'reqors' => $reqor,
-            'omzets' => $omzet
+            // 'activity_plans' => $activity_plan,
+            // 'data_members' => $data_member,
+            // 'resellers' => $reseller,
+            // 'data_resellers' => $data_reseller,
+            // 'instansis' => $instansi,
+            // 'surveys' => $survey,
+            // 'komplains' => $komplain,
+            // 'data_instansis' => $data_instansi,
+            // 'reqors' => $reqor,
+            // 'omzets' => $omzet
         ]);
     }
 
     // result activity plan
+    public function resultActivityPlanCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $activity_plan = LabulActivityPlan::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $activity_plan = LabulActivityPlan::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'activity_plans' => $activity_plan
+      ]);
+    }
+
     public function resultActivityPlanDetail($id)
     {
       $activity_plan = LabulActivityPlan::with('cabang')->find($id);
@@ -684,6 +706,28 @@ class LabulController extends Controller
         return Excel::download(new LabulDataInstansiExport($startDate, $endDate, $cabang_id), 'data_instansi.xlsx');
     }
 
+    public function resultDataInstansiCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $data_instansi = LabulDataInstansi::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $data_instansi = LabulDataInstansi::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'data_instansis' => $data_instansi
+      ]);
+    }
+
     public function resultDataInstansiDetail($id)
     {
       $data_instansi = LabulDataInstansi::with('cabang')->find($id);
@@ -739,6 +783,28 @@ class LabulController extends Controller
         $cabang_id = $request->data_member_cabang_id;
 
         return Excel::download(new LabulDataMemberExport($startDate, $endDate, $cabang_id), 'data_member.xlsx');
+    }
+
+    public function resultDataMemberCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $data_member = LabulDataMember::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $data_member = LabulDataMember::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'data_members' => $data_member
+      ]);
     }
 
     public function resultDataMemberDetail($id)
@@ -797,6 +863,28 @@ class LabulController extends Controller
         return Excel::download(new LabulDataResellerExport($startDate, $endDate, $cabang_id), 'data_reseller.xlsx');
     }
 
+    public function resultDataResellerCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $data_reseller = LabulDataReseller::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $data_reseller = LabulDataReseller::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'data_resellers' => $data_reseller
+      ]);
+    }
+
     public function resultDataResellerDetail($id)
     {
       $data_reseller = LabulDataReseller::with('cabang')->find($id);
@@ -852,6 +940,28 @@ class LabulController extends Controller
         $cabang_id = $request->instansi_cabang_id;
 
         return Excel::download(new LabulInstansiExport($startDate, $endDate, $cabang_id), 'instansi.xlsx');
+    }
+
+    public function resultInstansiCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $instansi = LabulInstansi::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $instansi = LabulInstansi::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'instansis' => $instansi
+      ]);
     }
 
     public function resultInstansiDetail($id)
@@ -946,6 +1056,28 @@ class LabulController extends Controller
         return Excel::download(new LabulKomplainExport($startDate, $endDate, $cabang_id), 'komplain.xlsx');
     }
 
+    public function resultKomplainCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $komplain = LabulKomplain::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $komplain = LabulKomplain::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'komplains' => $komplain
+      ]);
+    }
+
     public function resultKomplainDetail($id)
     {
       $komplain = LabulKomplain::with('cabang')->find($id);
@@ -1015,8 +1147,6 @@ class LabulController extends Controller
       $startDate = $request->start_date . " 00:00:00";
       $endDate = $request->end_date . " 23:59:00";
       $cabang_id = $request->cabang_id;
-
-      
 
       if ($cabang_id) {
         $omzet = LabulOmzet::with(['karyawan', 'cabang'])
@@ -1121,6 +1251,28 @@ class LabulController extends Controller
         return Excel::download(new LabulReqorExport($startDate, $endDate, $cabang_id), 'reqor.xlsx');
     }
 
+    public function resultReqorCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $reqor = LabulReqor::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $reqor = LabulReqor::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'reqors' => $reqor
+      ]);
+    }
+
     public function resultReqorDetail($id)
     {
       $reqor = LabulReqor::with('cabang')->find($id);
@@ -1177,6 +1329,28 @@ class LabulController extends Controller
         $cabang_id = $request->reseller_cabang_id;
 
         return Excel::download(new LabulResellerExport($startDate, $endDate, $cabang_id), 'reseller.xlsx');
+    }
+
+    public function resultResellerCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $reseller = LabulReseller::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $reseller = LabulReseller::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'resellers' => $reseller
+      ]);
     }
 
     public function resultResellerDetail($id)
@@ -1269,6 +1443,28 @@ class LabulController extends Controller
         $cabang_id = $request->survey_kompetitor_cabang_id;
 
         return Excel::download(new LabulSurveyKompetitorExport($startDate, $endDate, $cabang_id), 'survey_kompetitor.xlsx');
+    }
+
+    public function resultSurveyKompetitorCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      if ($cabang_id) {
+        $survey_kompetitor = LabulSurveyKompetitor::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $survey_kompetitor = LabulSurveyKompetitor::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'survey_kompetitors' => $survey_kompetitor
+      ]);
     }
 
     public function resultSurveyKompetitorDetail($id)

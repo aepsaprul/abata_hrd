@@ -38,39 +38,38 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="card card-info card-outline">
                 <div class="card-header">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <span class="font-weight-bold">Activity Plan</span>
-                    </div>
-                    <div>
-                      <form action="{{ route('labul.result.export_activity_plan') }}" method="post">
-                        @csrf
-                        <div class="row">
-                          <div class="col-3">
-                            <span for="activity_plan_cabang_id">Cabang</span>
-                            <select name="activity_plan_cabang_id" id="activity_plan_cabang_id" class="form-control form-control-sm">
-                              <option value="">--Pilih Cabang--</option>
-                              @foreach ($cabangs as $item)
-                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                          <div class="col-3">
-                            <span for="activity_plan_start_date">Start Date</span>
-                            <input type="date" name="activity_plan_start_date" id="activity_plan_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                          </div>
-                          <div class="col-3">
-                            <span for="activity_plan_end_date">End Date</span>
-                            <input type="date" name="activity_plan_end_date" id="activity_plan_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                          </div>
-                          <div class="col-3">
-                            <span for="">Aksi</span>
-                            <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                          </div>
+                  <h4 class="text-center">Activity Plan</h4>
+                  <hr>
+                  <form action="{{ route('labul.result.export_activity_plan') }}" method="post">
+                      @csrf
+                      <div class="row">
+                        <div class="col-4">
+                          <span for="activity_plan_cabang_id">Cabang</span>
+                          <select name="activity_plan_cabang_id" id="activity_plan_cabang_id" class="form-control form-control-sm">
+                            <option value="">--Pilih Cabang--</option>
+                            @foreach ($cabangs as $item)
+                              <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                            @endforeach
+                          </select>
                         </div>
-                      </form>
-                    </div>
-                  </div>
+                        <div class="col-4">
+                          <span for="activity_plan_start_date">Start Date</span>
+                          <input type="date" name="activity_plan_start_date" id="activity_plan_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                        </div>
+                        <div class="col-4">
+                          <span for="activity_plan_end_date">End Date</span>
+                          <input type="date" name="activity_plan_end_date" id="activity_plan_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-6">
+                          <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                        </div>
+                        <div class="col-6">
+                          <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-activiy-plan">Cari</button>
+                        </div>
+                      </div>
+                  </form>
                 </div>
                 <div class="card-body">
                   <table id="activity_plan_tabel" class="table table-bordered table-striped">
@@ -83,68 +82,7 @@
                         <th class="text-center text-indigo">Aksi</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      @foreach ($activity_plans as $key => $item)
-                        <tr>
-                          <td class="text-center">{{ $key + 1 }}</td>
-                          <td>
-                            @if ($item->karyawan)
-                              {{ $item->karyawan->nama_panggilan }}
-                            @else
-                              @if ($item->karyawan_id == 0)
-                                Admin
-                              @endif
-                            @endif
-                          </td>
-                          <td>
-                            @if ($item->cabang)
-                              {{ $item->cabang->nama_cabang }}
-                            @endif
-                          </td>
-                          <td class="text-center">{{ $item->tanggal }}</td>
-                          <td class="text-center">
-                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                              <div class="btn-group">
-                                <a
-                                  href="#"
-                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false">
-                                    <i class="fas fa-cog"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                    <a
-                                      href="#"
-                                      class="dropdown-item border-bottom btn-detail-activity-plan text-indigo"
-                                      data-id="{{ $item->id }}">
-                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                    </a>
-                                  {{-- @endif
-                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                    <a
-                                    href="#"
-                                    class="dropdown-item border-bottom btn-edit-activity-plan text-indigo"
-                                    data-id="{{ $item->id }}">
-                                      <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                  </a>
-                                  {{-- @endif
-                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                    <a
-                                      href="#"
-                                      class="dropdown-item btn-delete-activity-plan text-indigo"
-                                      data-id="{{ $item->id }}">
-                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                    </a>
-                                  {{-- @endif --}}
-                                </div>
-                              </div>
-                            {{-- @endif --}}
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
+                    <tbody class="table-body-activity-plan"></tbody>
                   </table>
                 </div>
               </div>
@@ -154,39 +92,38 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="card card-info card-outline">
                 <div class="card-header">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <span class="font-weight-bold">Data Member</span>
-                    </div>
-                    <div>
-                      <form action="{{ route('labul.result.export_data_member') }}" method="post">
-                          @csrf
-                          <div class="row">
-                            <div class="col-3">
-                              <span for="data_member_cabang_id">Cabang</span>
-                              <select name="data_member_cabang_id" id="data_member_cabang_id" class="form-control form-control-sm">
-                                <option value="">--Pilih Cabang--</option>
-                                @foreach ($cabangs as $item)
-                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                @endforeach
-                              </select>
-                            </div>
-                            <div class="col-3">
-                              <span for="data_member_start_date">Start Date</span>
-                              <input type="date" name="data_member_start_date" id="data_member_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                            </div>
-                            <div class="col-3">
-                              <span for="data_member_end_date">End Date</span>
-                              <input type="date" name="data_member_end_date" id="data_member_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                            </div>
-                            <div class="col-3">
-                              <span for="">Aksi</span>
-                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                            </div>
-                          </div>
-                      </form>
-                    </div>
-                  </div>
+                  <h4 class="text-center">Data Member</h4>
+                  <hr>
+                  <form action="{{ route('labul.result.export_data_member') }}" method="post">
+                      @csrf
+                      <div class="row">
+                        <div class="col-4">
+                          <span for="data_member_cabang_id">Cabang</span>
+                          <select name="data_member_cabang_id" id="data_member_cabang_id" class="form-control form-control-sm">
+                            <option value="">--Pilih Cabang--</option>
+                            @foreach ($cabangs as $item)
+                              <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="col-4">
+                          <span for="data_member_start_date">Start Date</span>
+                          <input type="date" name="data_member_start_date" id="data_member_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                        </div>
+                        <div class="col-4">
+                          <span for="data_member_end_date">End Date</span>
+                          <input type="date" name="data_member_end_date" id="data_member_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-6">
+                          <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                        </div>
+                        <div class="col-6">
+                          <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-data-member">Cari</button>
+                        </div>
+                      </div>
+                  </form>
                 </div>
                 <div class="card-body">
                   <table id="data_member_tabel" class="table table-bordered table-striped">
@@ -199,68 +136,7 @@
                         <th class="text-center text-indigo">Aksi</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      @foreach ($data_members as $key => $item)
-                        <tr>
-                          <td class="text-center">{{ $key + 1 }}</td>
-                          <td>
-                            @if ($item->karyawan)
-                              {{ $item->karyawan->nama_lengkap }}
-                            @else
-                              @if ($item->karyawan_id == 0)
-                                Admin
-                              @endif
-                            @endif
-                          </td>
-                          <td>
-                            @if ($item->cabang)
-                              {{ $item->cabang->nama_cabang }}
-                            @endif
-                          </td>
-                          <td class="text-center">{{ $item->tanggal }}</td>
-                          <td class="text-center">
-                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                              <div class="btn-group">
-                                <a
-                                  href="#"
-                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false">
-                                    <i class="fas fa-cog"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                    <a
-                                      href="#"
-                                      class="dropdown-item border-bottom btn-detail-data-member text-indigo"
-                                      data-id="{{ $item->id }}">
-                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                    </a>
-                                  {{-- @endif
-                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                    <a
-                                      href="#"
-                                      class="dropdown-item border-bottom btn-edit-data-member text-indigo"
-                                      data-id="{{ $item->id }}">
-                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                    </a>
-                                  {{-- @endif
-                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                    <a
-                                      href="#"
-                                      class="dropdown-item btn-delete-data-member text-indigo"
-                                      data-id="{{ $item->id }}">
-                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                    </a>
-                                  {{-- @endif --}}
-                                </div>
-                              </div>
-                            {{-- @endif --}}
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
+                    <tbody class="table-body-data-member"></tbody>
                   </table>
                 </div>
               </div>
@@ -269,232 +145,108 @@
           @if (in_array("reseller", $current_data_navigasi))
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-info card-outline">
-                      <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Reseller</span>
-                              </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_reseller') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="reseller_cabang_id">Cabang</span>
-                                              <select name="reseller_cabang_id" id="reseller_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="reseller_start_date">Start Date</span>
-                                              <input type="date" name="reseller_start_date" id="reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="reseller_end_date">End Date</span>
-                                              <input type="date" name="reseller_end_date" id="reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+                    <div class="card-header">
+                      <h4 class="text-center">Reseller</h4>
+                      <hr>
+                      <form action="{{ route('labul.result.export_reseller') }}" method="post">
+                          @csrf
+                          <div class="row">
+                            <div class="col-4">
+                              <span for="reseller_cabang_id">Cabang</span>
+                              <select name="reseller_cabang_id" id="reseller_cabang_id" class="form-control form-control-sm">
+                                <option value="">--Pilih Cabang--</option>
+                                @foreach ($cabangs as $item)
+                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <div class="col-4">
+                              <span for="reseller_start_date">Start Date</span>
+                              <input type="date" name="reseller_start_date" id="reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                            </div>
+                            <div class="col-4">
+                              <span for="reseller_end_date">End Date</span>
+                              <input type="date" name="reseller_end_date" id="reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                            </div>
                           </div>
-                      </div>
-                      <div class="card-body">
-                          <table id="reseller_tabel" class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th class="text-center text-indigo">No</th>
-                                      <th class="text-center text-indigo">Karyawan</th>
-                                      <th class="text-center text-indigo">Cabang</th>
-                                      <th class="text-center text-indigo">Tanggal</th>
-                                      <th class="text-center text-indigo">Aksi</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @foreach ($resellers as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                  href="#"
-                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                  data-toggle="dropdown"
-                                                  aria-haspopup="true"
-                                                  aria-expanded="false">
-                                                    <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-reseller text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-edit-reseller text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                    </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-reseller text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
-                                          </td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                          </table>
-                      </div>
+                          <div class="row mt-3">
+                            <div class="col-6">
+                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-reseller">Cari</button>
+                            </div>
+                          </div>
+                      </form>
+                    </div>
+                    <div class="card-body">
+                        <table id="reseller_tabel" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-indigo">No</th>
+                                    <th class="text-center text-indigo">Karyawan</th>
+                                    <th class="text-center text-indigo">Cabang</th>
+                                    <th class="text-center text-indigo">Tanggal</th>
+                                    <th class="text-center text-indigo">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body-reseller"></tbody>
+                        </table>
+                    </div>
                   </div>
               </div>
           @endif
           @if (in_array("data reseller", $current_data_navigasi))
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-info card-outline">
-                      <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Data Reseller</span>
-                              </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_data_reseller') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="data_reseller_cabang_id">Cabang</span>
-                                              <select name="data_reseller_cabang_id" id="data_reseller_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="data_reseller_start_date">Start Date</span>
-                                              <input type="date" name="data_reseller_start_date" id="data_reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="data_reseller_end_date">End Date</span>
-                                              <input type="date" name="data_reseller_end_date" id="data_reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+                    <div class="card-header">
+                      <h4 class="text-center">Data Reseller</h4>
+                      <hr>
+                      <form action="{{ route('labul.result.export_data_reseller') }}" method="post">
+                          @csrf
+                          <div class="row">
+                            <div class="col-4">
+                              <span for="data_reseller_cabang_id">Cabang</span>
+                              <select name="data_reseller_cabang_id" id="data_reseller_cabang_id" class="form-control form-control-sm">
+                                <option value="">--Pilih Cabang--</option>
+                                @foreach ($cabangs as $item)
+                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <div class="col-4">
+                              <span for="data_reseller_start_date">Start Date</span>
+                              <input type="date" name="data_reseller_start_date" id="data_reseller_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                            </div>
+                            <div class="col-4">
+                              <span for="data_reseller_end_date">End Date</span>
+                              <input type="date" name="data_reseller_end_date" id="data_reseller_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                            </div>
                           </div>
-                      </div>
-                      <div class="card-body">
-                          <table id="data_reseller_tabel" class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th class="text-center text-indigo">No</th>
-                                      <th class="text-center text-indigo">Karyawan</th>
-                                      <th class="text-center text-indigo">Cabang</th>
-                                      <th class="text-center text-indigo">Tanggal</th>
-                                      <th class="text-center text-indigo">Aksi</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @foreach ($data_resellers as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                  href="#"
-                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                  data-toggle="dropdown"
-                                                  aria-haspopup="true"
-                                                  aria-expanded="false">
-                                                    <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-data-reseller text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-edit-data-reseller text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                    </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-data-reseller text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
-                                          </td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                          </table>
-                      </div>
+                          <div class="row mt-3">
+                            <div class="col-6">
+                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-data-reseller">Cari</button>
+                            </div>
+                          </div>
+                      </form>
+                    </div>
+                    <div class="card-body">
+                      <table id="data_reseller_tabel" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th class="text-center text-indigo">No</th>
+                            <th class="text-center text-indigo">Karyawan</th>
+                            <th class="text-center text-indigo">Cabang</th>
+                            <th class="text-center text-indigo">Tanggal</th>
+                            <th class="text-center text-indigo">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody class="table-body-data-reseller"></tbody>
+                      </table>
+                    </div>
                   </div>
               </div>
           @endif
@@ -502,39 +254,38 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="card card-info card-outline">
                 <div class="card-header">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <span class="font-weight-bold">Instansi</span>
-                    </div>
-                    <div>
-                      <form action="{{ route('labul.result.export_instansi') }}" method="post">
-                        @csrf
-                        <div class="row">
-                          <div class="col-3">
-                            <span for="instansi_cabang_id">Cabang</span>
-                            <select name="instansi_cabang_id" id="instansi_cabang_id" class="form-control form-control-sm">
-                              <option value="">--Pilih Cabang--</option>
-                              @foreach ($cabangs as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                          <div class="col-3">
-                            <span for="instansi_start_date">Start Date</span>
-                            <input type="date" name="instansi_start_date" id="instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                          </div>
-                          <div class="col-3">
-                            <span for="instansi_end_date">End Date</span>
-                            <input type="date" name="instansi_end_date" id="instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                          </div>
-                          <div class="col-3">
-                            <span for="">Aksi</span>
-                            <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                          </div>
+                  <h4 class="text-center">Instansi</h4>
+                  <hr>
+                  <form action="{{ route('labul.result.export_instansi') }}" method="post">
+                      @csrf
+                      <div class="row">
+                        <div class="col-4">
+                          <span for="instansi_cabang_id">Cabang</span>
+                          <select name="instansi_cabang_id" id="instansi_cabang_id" class="form-control form-control-sm">
+                            <option value="">--Pilih Cabang--</option>
+                            @foreach ($cabangs as $item)
+                              <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                            @endforeach
+                          </select>
                         </div>
-                      </form>
-                    </div>
-                  </div>
+                        <div class="col-4">
+                          <span for="instansi_start_date">Start Date</span>
+                          <input type="date" name="instansi_start_date" id="instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                        </div>
+                        <div class="col-4">
+                          <span for="instansi_end_date">End Date</span>
+                          <input type="date" name="instansi_end_date" id="instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-6">
+                          <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                        </div>
+                        <div class="col-6">
+                          <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-instansi">Cari</button>
+                        </div>
+                      </div>
+                  </form>
                 </div>
                 <div class="card-body">
                   <table id="instansi_tabel" class="table table-bordered table-striped">
@@ -547,68 +298,7 @@
                           <th class="text-center text-indigo">Aksi</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        @foreach ($instansis as $key => $item)
-                          <tr>
-                            <td class="text-center">{{ $key + 1 }}</td>
-                            <td>
-                              @if ($item->karyawan)
-                                {{ $item->karyawan->nama_lengkap }}
-                              @else
-                                @if ($item->karyawan_id == 0)
-                                  Admin
-                                @endif
-                              @endif
-                            </td>
-                            <td>
-                              @if ($item->cabang)
-                                {{ $item->cabang->nama_cabang }}
-                              @endif
-                            </td>
-                              <td class="text-center">{{ $item->tanggal }}</td>
-                              <td class="text-center">
-                                {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                  <div class="btn-group">
-                                    <a
-                                      href="#"
-                                      class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false">
-                                        <i class="fas fa-cog"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                      {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                        <a
-                                          href="#"
-                                          class="dropdown-item border-bottom btn-detail-instansi text-indigo"
-                                          data-id="{{ $item->id }}">
-                                            <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                        </a>
-                                      {{-- @endif
-                                      {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                        <a
-                                          href="#"
-                                          class="dropdown-item border-bottom btn-edit-instansi text-indigo"
-                                          data-id="{{ $item->id }}">
-                                            <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                        </a>
-                                      {{-- @endif
-                                      @if (in_array("hapus", $current_data_navigasi)) --}}
-                                        <a
-                                          href="#"
-                                          class="dropdown-item btn-delete-instansi text-indigo"
-                                          data-id="{{ $item->id }}">
-                                            <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                        </a>
-                                      {{-- @endif --}}
-                                    </div>
-                                  </div>
-                                {{-- @endif --}}
-                              </td>
-                          </tr>
-                        @endforeach
-                      </tbody>
+                      <tbody class="table-body-instansi"></tbody>
                   </table>
                 </div>
               </div>
@@ -617,41 +307,40 @@
           @if (in_array("survey kompetitor", $current_data_navigasi))
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-info card-outline">
-                      <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Survey Kompetitor</span>
-                              </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_survey_kompetitor') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="survey_kompetitor_cabang_id">Cabang</span>
-                                              <select name="survey_kompetitor_cabang_id" id="survey_kompetitor_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="survey_kompetitor_start_date">Start Date</span>
-                                              <input type="date" name="survey_kompetitor_start_date" id="survey_kompetitor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="survey_kompetitor_end_date">End Date</span>
-                                              <input type="date" name="survey_kompetitor_end_date" id="survey_kompetitor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+                    <div class="card-header">
+                      <h4 class="text-center">Survey Kompetitor</h4>
+                      <hr>
+                      <form action="{{ route('labul.result.export_survey_kompetitor') }}" method="post">
+                          @csrf
+                          <div class="row">
+                            <div class="col-4">
+                              <span for="survey_kompetitor_cabang_id">Cabang</span>
+                              <select name="survey_kompetitor_cabang_id" id="survey_kompetitor_cabang_id" class="form-control form-control-sm">
+                                <option value="">--Pilih Cabang--</option>
+                                @foreach ($cabangs as $item)
+                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <div class="col-4">
+                              <span for="survey_kompetitor_start_date">Start Date</span>
+                              <input type="date" name="survey_kompetitor_start_date" id="survey_kompetitor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                            </div>
+                            <div class="col-4">
+                              <span for="survey_kompetitor_end_date">End Date</span>
+                              <input type="date" name="survey_kompetitor_end_date" id="survey_kompetitor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                            </div>
                           </div>
-                      </div>
+                          <div class="row mt-3">
+                            <div class="col-6">
+                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-survey-kompetitor">Cari</button>
+                            </div>
+                          </div>
+                      </form>
+                    </div>
                       <div class="card-body">
                           <table id="survey_kompetitor_tabel" class="table table-bordered table-striped">
                               <thead>
@@ -663,68 +352,7 @@
                                       <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
-                              <tbody>
-                                  @foreach ($surveys as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                  href="#"
-                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                  data-toggle="dropdown"
-                                                  aria-haspopup="true"
-                                                  aria-expanded="false">
-                                                    <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-survey-kompetitor text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-edit-survey-kompetitor text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                    </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-survey-kompetitor text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
-                                          </td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
+                              <tbody class="table-body-survey-kompetitor"></tbody>
                           </table>
                       </div>
                   </div>
@@ -733,41 +361,40 @@
           @if (in_array("komplain", $current_data_navigasi))
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-info card-outline">
-                      <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Komplain (Kritik & Saran)</span>
-                              </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_komplain') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="komplain_cabang_id">Cabang</span>
-                                              <select name="komplain_cabang_id" id="komplain_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="komplain_start_date">Start Date</span>
-                                              <input type="date" name="komplain_start_date" id="komplain_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="komplain_end_date">End Date</span>
-                                              <input type="date" name="komplain_end_date" id="komplain_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+                    <div class="card-header">
+                      <h4 class="text-center">Komplain (Kritik & Saran)</h4>
+                      <hr>
+                      <form action="{{ route('labul.result.export_komplain') }}" method="post">
+                        @csrf
+                        <div class="row">
+                          <div class="col-4">
+                            <span for="komplain_cabang_id">Cabang</span>
+                            <select name="komplain_cabang_id" id="komplain_cabang_id" class="form-control form-control-sm">
+                              <option value="">--Pilih Cabang--</option>
+                              @foreach ($cabangs as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                              @endforeach
+                            </select>
                           </div>
-                      </div>
+                          <div class="col-4">
+                            <span for="komplain_start_date">Start Date</span>
+                            <input type="date" name="komplain_start_date" id="komplain_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                          </div>
+                          <div class="col-4">
+                            <span for="komplain_end_date">End Date</span>
+                            <input type="date" name="komplain_end_date" id="komplain_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                          </div>
+                        </div>
+                        <div class="row mt-3">
+                          <div class="col-6">
+                            <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                          </div>
+                          <div class="col-6">
+                            <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-komplain">Cari</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                       <div class="card-body">
                           <table id="komplain_tabel" class="table table-bordered table-striped">
                               <thead>
@@ -779,68 +406,7 @@
                                       <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
-                              <tbody>
-                                  @foreach ($komplains as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                  href="#"
-                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                  data-toggle="dropdown"
-                                                  aria-haspopup="true"
-                                                  aria-expanded="false">
-                                                    <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-komplain text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-edit-komplain text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                    </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-komplain text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
-                                          </td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
+                              <tbody class="table-body-komplain"></tbody>
                           </table>
                       </div>
                   </div>
@@ -849,41 +415,40 @@
           @if (in_array("data instansi", $current_data_navigasi))
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-info card-outline">
-                      <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Data Instansi</span>
-                              </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_data_instansi') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="data_instansi_cabang_id">Cabang</span>
-                                              <select name="data_instansi_cabang_id" id="data_instansi_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="data_instansi_start_date">Start Date</span>
-                                              <input type="date" name="data_instansi_start_date" id="data_instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="data_instansi_end_date">End Date</span>
-                                              <input type="date" name="data_instansi_end_date" id="data_instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+                    <div class="card-header">
+                      <h4 class="text-center">Data Instansi</h4>
+                      <hr>
+                      <form action="{{ route('labul.result.export_data_instansi') }}" method="post">
+                          @csrf
+                          <div class="row">
+                            <div class="col-4">
+                              <span for="data_instansi_cabang_id">Cabang</span>
+                              <select name="data_instansi_cabang_id" id="data_instansi_cabang_id" class="form-control form-control-sm">
+                                <option value="">--Pilih Cabang--</option>
+                                @foreach ($cabangs as $item)
+                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <div class="col-4">
+                              <span for="data_instansi_start_date">Start Date</span>
+                              <input type="date" name="data_instansi_start_date" id="data_instansi_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                            </div>
+                            <div class="col-4">
+                              <span for="data_instansi_end_date">End Date</span>
+                              <input type="date" name="data_instansi_end_date" id="data_instansi_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                            </div>
                           </div>
-                      </div>
+                          <div class="row mt-3">
+                            <div class="col-6">
+                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-data-instansi">Cari</button>
+                            </div>
+                          </div>
+                      </form>
+                    </div>
                       <div class="card-body">
                           <table id="data_instansi_tabel" class="table table-bordered table-striped">
                               <thead>
@@ -895,68 +460,7 @@
                                       <th class="text-center text-indigo">Aksi</th>
                                   </tr>
                               </thead>
-                              <tbody>
-                                  @foreach ($data_instansis as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                  href="#"
-                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                  data-toggle="dropdown"
-                                                  aria-haspopup="true"
-                                                  aria-expanded="false">
-                                                    <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-data-instansi text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-edit-data-instansi text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                    </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-data-instansi text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
-                                          </td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
+                              <tbody class="table-body-data-instansi"></tbody>
                           </table>
                       </div>
                   </div>
@@ -965,116 +469,54 @@
           @if (in_array("reqor", $current_data_navigasi))
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-info card-outline">
-                      <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Request & Orderan Tertolak</span>
-                              </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_reqor') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="reqor_cabang_id">Cabang</span>
-                                              <select name="reqor_cabang_id" id="reqor_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="reqor_start_date">Start Date</span>
-                                              <input type="date" name="reqor_start_date" id="reqor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="reqor_end_date">End Date</span>
-                                              <input type="date" name="reqor_end_date" id="reqor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+                    <div class="card-header">
+                      <h4 class="text-center">Request & Orderan Tertolak</h4>
+                      <hr>
+                      <form action="{{ route('labul.result.export_reqor') }}" method="post">
+                          @csrf
+                          <div class="row">
+                            <div class="col-4">
+                              <span for="reqor_cabang_id">Cabang</span>
+                              <select name="reqor_cabang_id" id="reqor_cabang_id" class="form-control form-control-sm">
+                                <option value="">--Pilih Cabang--</option>
+                                @foreach ($cabangs as $item)
+                                  <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <div class="col-4">
+                              <span for="reqor_start_date">Start Date</span>
+                              <input type="date" name="reqor_start_date" id="reqor_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
+                            </div>
+                            <div class="col-4">
+                              <span for="reqor_end_date">End Date</span>
+                              <input type="date" name="reqor_end_date" id="reqor_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                            </div>
                           </div>
-                      </div>
-                      <div class="card-body">
-                          <table id="reqor_tabel" class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th class="text-center text-indigo">No</th>
-                                      <th class="text-center text-indigo">Karyawan</th>
-                                      <th class="text-center text-indigo">Cabang</th>
-                                      <th class="text-center text-indigo">Tanggal</th>
-                                      <th class="text-center text-indigo">Aksi</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @foreach ($reqors as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                  href="#"
-                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                  data-toggle="dropdown"
-                                                  aria-haspopup="true"
-                                                  aria-expanded="false">
-                                                    <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-reqor text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-edit-reqor text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                    </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-reqor text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
-                                          </td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                          </table>
-                      </div>
+                          <div class="row mt-3">
+                            <div class="col-6">
+                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-reqor">Cari</button>
+                            </div>
+                          </div>
+                      </form>
+                    </div>
+                    <div class="card-body">
+                      <table id="reqor_tabel" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th class="text-center text-indigo">No</th>
+                            <th class="text-center text-indigo">Karyawan</th>
+                            <th class="text-center text-indigo">Cabang</th>
+                            <th class="text-center text-indigo">Tanggal</th>
+                            <th class="text-center text-indigo">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody class="table-body-reqor"></tbody>
+                      </table>
+                    </div>
                   </div>
               </div>
           @endif
@@ -2507,17 +1949,66 @@
       timer: 3000
     })
 
-    $("#activity_plan_tabel").DataTable();
-    $("#data_member_tabel").DataTable();
-    $("#reseller_tabel").DataTable();
-    $("#data_reseller_tabel").DataTable();
-    $("#instansi_tabel").DataTable();
-    $("#survey_kompetitor_tabel").DataTable();
-    $("#komplain_tabel").DataTable();
-    $("#data_instansi_tabel").DataTable();
-    $("#reqor_tabel").DataTable();
+    // $("#activity_plan_tabel").DataTable();
+    // $("#data_member_tabel").DataTable();
+    // $("#reseller_tabel").DataTable();
+    // $("#data_reseller_tabel").DataTable();
+    // $("#instansi_tabel").DataTable();
+    // $("#survey_kompetitor_tabel").DataTable();
+    // $("#komplain_tabel").DataTable();
+    // $("#data_instansi_tabel").DataTable();
+    // $("#reqor_tabel").DataTable();
     // $("#omzet_cabang_tabel").DataTable();
 
+    // activity plan cari
+    $(document).on('click', '.btn-cari-activity-plan', function (e) {
+      e.preventDefault();
+      $('.table-body-activity-plan').empty();
+
+      let formData = {
+        start_date: $('#activity_plan_start_date').val(),
+        end_date: $('#activity_plan_end_date').val(),
+        cabang_id: $('#activity_plan_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.activity_plan.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_activity_plan = '';
+          $.each(response.activity_plans, function (index, item) {
+            data_activity_plan += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-activity-plan text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-activity-plan text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-activity-plan text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-activity-plan').append(data_activity_plan);
+        }
+      })
+    })
     // activity plan detail
     $(document).on('click', '.btn-detail-activity-plan', function () {
       $('#detail_activity_plan_jumlah').empty();
@@ -2781,6 +2272,55 @@
       })
     })
 
+    // data member cari
+    $(document).on('click', '.btn-cari-data-member', function (e) {
+      e.preventDefault();
+      $('.table-body-data-member').empty();
+
+      let formData = {
+        start_date: $('#data_member_start_date').val(),
+        end_date: $('#data_member_end_date').val(),
+        cabang_id: $('#data_member_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.data_member.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_data_member = '';
+          $.each(response.data_members, function (index, item) {
+            data_data_member += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-data-member text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-data-member text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-data-member text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-data-member').append(data_data_member);
+        }
+      })
+    })
     // data member detail
     $(document).on('click', '.btn-detail-data-member', function () {
       $('#detail_data_member_jumlah').empty();
@@ -2897,6 +2437,55 @@
       })
     })
 
+    // data instansi cari
+    $(document).on('click', '.btn-cari-data-instansi', function (e) {
+      e.preventDefault();
+      $('.table-body-data-instansi').empty();
+
+      let formData = {
+        start_date: $('#data_instansi_start_date').val(),
+        end_date: $('#data_instansi_end_date').val(),
+        cabang_id: $('#data_instansi_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.data_instansi.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_data_instansi = '';
+          $.each(response.data_instansis, function (index, item) {
+            data_data_instansi += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-data-instansi text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-data-instansi text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-data-instansi text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-data-instansi').append(data_data_instansi);
+        }
+      })
+    })
     // data instansi detail
     $(document).on('click', '.btn-detail-data-instansi', function (e) {
       e.preventDefault();
@@ -3016,6 +2605,55 @@
       })
     })
 
+    // instansi cari
+    $(document).on('click', '.btn-cari-instansi', function (e) {
+      e.preventDefault();
+      $('.table-body-instansi').empty();
+
+      let formData = {
+        start_date: $('#instansi_start_date').val(),
+        end_date: $('#instansi_end_date').val(),
+        cabang_id: $('#instansi_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.instansi.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_instansi = '';
+          $.each(response.instansis, function (index, item) {
+            data_instansi += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-instansi text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-instansi text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-instansi text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-instansi').append(data_instansi);
+        }
+      })
+    })
     // instansi detail
     $(document).on('click', '.btn-detail-instansi', function (e) {
       e.preventDefault();
@@ -3146,6 +2784,55 @@
       })
     })
 
+    // data reseller cari
+    $(document).on('click', '.btn-cari-data-reseller', function (e) {
+      e.preventDefault();
+      $('.table-body-data-reseller').empty();
+
+      let formData = {
+        start_date: $('#data_reseller_start_date').val(),
+        end_date: $('#data_reseller_end_date').val(),
+        cabang_id: $('#data_reseller_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.data_reseller.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_data_reseller = '';
+          $.each(response.data_resellers, function (index, item) {
+            data_data_reseller += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-data-reseller text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-data-reseller text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-data-reseller text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-data-reseller').append(data_data_reseller);
+        }
+      })
+    })
     // data reseller detail
     $(document).on('click', '.btn-detail-data-reseller', function (e) {
       e.preventDefault();
@@ -3265,6 +2952,55 @@
       })
     })
 
+    // reseller cari
+    $(document).on('click', '.btn-cari-reseller', function (e) {
+      e.preventDefault();
+      $('.table-body-reseller').empty();
+
+      let formData = {
+        start_date: $('#reseller_start_date').val(),
+        end_date: $('#reseller_end_date').val(),
+        cabang_id: $('#reseller_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.reseller.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_reseller = '';
+          $.each(response.resellers, function (index, item) {
+            data_reseller += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-reseller text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-reseller text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-reseller text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-reseller').append(data_reseller);
+        }
+      })
+    })
     // reseller detail
     $(document).on('click', '.btn-detail-reseller', function (e) {
       e.preventDefault();
@@ -3400,6 +3136,55 @@
       })
     })
 
+    // survey kompetitor cari
+    $(document).on('click', '.btn-cari-survey-kompetitor', function (e) {
+      e.preventDefault();
+      $('.table-body-survey-kompetitor').empty();
+
+      let formData = {
+        start_date: $('#survey_kompetitor_start_date').val(),
+        end_date: $('#survey_kompetitor_end_date').val(),
+        cabang_id: $('#survey_kompetitor_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.survey_kompetitor.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_survey_kompetitor = '';
+          $.each(response.survey_kompetitors, function (index, item) {
+            data_survey_kompetitor += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-survey-kompetitor text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-survey-kompetitor text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-survey-kompetitor text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-survey-kompetitor').append(data_survey_kompetitor);
+        }
+      })
+    })
     // survey_kompetitor detail
     $(document).on('click', '.btn-detail-survey-kompetitor', function (e) {
       e.preventDefault();
@@ -3530,6 +3315,55 @@
       })
     })
 
+    // komplain cari
+    $(document).on('click', '.btn-cari-komplain', function (e) {
+      e.preventDefault();
+      $('.table-body-komplain').empty();
+
+      let formData = {
+        start_date: $('#komplain_start_date').val(),
+        end_date: $('#komplain_end_date').val(),
+        cabang_id: $('#komplain_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.komplain.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_komplain = '';
+          $.each(response.komplains, function (index, item) {
+            data_komplain += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-komplain text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-komplain text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-komplain text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-komplain').append(data_komplain);
+        }
+      })
+    })
     // komplain detail
     $(document).on('click', '.btn-detail-komplain', function (e) {
       e.preventDefault();
@@ -3651,6 +3485,55 @@
       })
     })
 
+    // reqor cari
+    $(document).on('click', '.btn-cari-reqor', function (e) {
+      e.preventDefault();
+      $('.table-body-reqor').empty();
+
+      let formData = {
+        start_date: $('#reqor_start_date').val(),
+        end_date: $('#reqor_end_date').val(),
+        cabang_id: $('#reqor_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.reqor.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_reqor = '';
+          $.each(response.reqors, function (index, item) {
+            data_reqor += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-reqor text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-reqor text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-reqor text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-reqor').append(data_reqor);
+        }
+      })
+    })
     // reqor detail
     $(document).on('click', '.btn-detail-reqor', function (e) {
       e.preventDefault();
@@ -3823,7 +3706,6 @@
         }
       })
     })
-
     // omzet detail
     $(document).on('click', '.btn-detail-omzet', function (e) {
       e.preventDefault();
