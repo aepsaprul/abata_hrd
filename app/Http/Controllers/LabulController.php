@@ -487,16 +487,16 @@ class LabulController extends Controller
         // dd($a);
         $cabangs = MasterCabang::get();
 
-        $activity_plan = LabulActivityPlan::get();
-        $data_member = LabulDataMember::get();
-        $reseller = LabulReseller::get();
-        $data_reseller = LabulDataReseller::get();
-        $instansi = LabulInstansi::get();
-        $survey = LabulSurveyKompetitor::get();
-        $komplain = LabulKomplain::get();
-        $data_instansi = LabulDataInstansi::get();
-        $reqor = LabulReqor::get();
-        $omzet = LabulOmzet::get();
+        $activity_plan = LabulActivityPlan::limit('1')->get();
+        $data_member = LabulDataMember::limit('1')->get();
+        $reseller = LabulReseller::limit('1')->get();
+        $data_reseller = LabulDataReseller::limit('1')->get();
+        $instansi = LabulInstansi::limit('1')->get();
+        $survey = LabulSurveyKompetitor::limit('1')->get();
+        $komplain = LabulKomplain::limit('1')->get();
+        $data_instansi = LabulDataInstansi::limit('1')->get();
+        $reqor = LabulReqor::limit('1')->get();
+        $omzet = LabulOmzet::orderBy('id', 'desc')->limit('1')->get();
 
         return view('pages.labul.result.index', [
             'cabangs' => $cabangs,
@@ -1008,6 +1008,30 @@ class LabulController extends Controller
         }
 
         return Excel::download(new LabulOmzetExport($startDate, $endDate, $cabang_id), $cabang . 'omzet.xlsx');
+    }
+
+    public function resultOmzetCari(Request $request)
+    {
+      $startDate = $request->start_date . " 00:00:00";
+      $endDate = $request->end_date . " 23:59:00";
+      $cabang_id = $request->cabang_id;
+
+      
+
+      if ($cabang_id) {
+        $omzet = LabulOmzet::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->where('cabang_id', $cabang_id)
+          ->get();
+      } else {
+        $omzet = LabulOmzet::with(['karyawan', 'cabang'])
+          ->whereBetween('tanggal', [$startDate, $endDate])
+          ->get();
+      }
+      
+      return response()->json([
+        'omzets' => $omzet
+      ]);
     }
 
     public function resultOmzetDetail($id)

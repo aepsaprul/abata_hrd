@@ -1082,114 +1082,52 @@
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-info card-outline">
                       <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <span class="font-weight-bold">Laporan Omzet Cabang</span>
+                        <h4 class="text-center">Laporan Omzet Cabang</h4>
+                        <hr>
+                        <form action="{{ route('labul.result.export_omzet') }}" method="post">
+                            @csrf
+                            <div class="row">
+                              <div class="col-4">
+                                <span for="omzet_cabang_id">Cabang</span>
+                                <select name="omzet_cabang_id" id="omzet_cabang_id" class="form-control form-control-sm">
+                                  <option value="">--Pilih Cabang--</option>
+                                  @foreach ($cabangs as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
+                                  @endforeach
+                                </select>
                               </div>
-                              <div>
-                                  <form action="{{ route('labul.result.export_omzet') }}" method="post">
-                                      @csrf
-                                      <div class="row">
-                                          <div class="col-3">
-                                              <span for="omzet_cabang_id">Cabang</span>
-                                              <select name="omzet_cabang_id" id="omzet_cabang_id" class="form-control form-control-sm">
-                                                  <option value="">--Pilih Cabang--</option>
-                                                  @foreach ($cabangs as $item)
-                                                      <option value="{{ $item->id }}">{{ $item->nama_cabang }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="omzet_start_date">Start Date</span>
-                                              <input type="date" name="omzet_start_date" id="omzet_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="omzet_end_date">End Date</span>
-                                              <input type="date" name="omzet_end_date" id="omzet_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
-                                          </div>
-                                          <div class="col-3">
-                                              <span for="">Aksi</span>
-                                              <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
-                                          </div>
-                                      </div>
-                                  </form>
+                              <div class="col-4">
+                                <span for="omzet_start_date">Start Date</span>
+                                <input type="date" name="omzet_start_date" id="omzet_start_date" class="form-control form-control-sm" value="{{ date('Y-m-') }}01" required>
                               </div>
-                          </div>
+                              <div class="col-4">
+                                <span for="omzet_end_date">End Date</span>
+                                <input type="date" name="omzet_end_date" id="omzet_end_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" required>
+                              </div>
+                            </div>
+                            <div class="row mt-3">
+                              <div class="col-6">
+                                <button type="submit" class="btn btn-success btn-sm btn-block">Excel</button>
+                              </div>
+                              <div class="col-6">
+                                <button type="button" class="btn btn-primary btn-sm btn-block btn-cari-omzet">Cari</button>
+                              </div>
+                            </div>
+                        </form>
                       </div>
                       <div class="card-body">
-                          <table id="omzet_cabang_tabel" class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th class="text-center text-indigo">No</th>
-                                      <th class="text-center text-indigo">Karyawan</th>
-                                      <th class="text-center text-indigo">Cabang</th>
-                                      <th class="text-center text-indigo">Tanggal</th>
-                                      <th class="text-center text-indigo">Aksi</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @foreach ($omzets as $key => $item)
-                                      <tr>
-                                          <td class="text-center">{{ $key + 1 }}</td>
-                                          <td>
-                                              @if ($item->karyawan)
-                                                  {{ $item->karyawan->nama_lengkap }}
-                                              @else
-                                                  @if ($item->karyawan_id == 0)
-                                                      Admin
-                                                  @endif
-                                              @endif
-                                          </td>
-                                          <td>
-                                              @if ($item->cabang)
-                                                  {{ $item->cabang->nama_cabang }}
-                                              @endif
-                                          </td>
-                                          <td class="text-center">{{ $item->tanggal }}</td>
-                                          <td class="text-center">
-                                            {{-- @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
-                                              <div class="btn-group">
-                                                <a
-                                                  href="#"
-                                                  class="dropdown-toggle btn bg-gradient-primary btn-sm"
-                                                  data-toggle="dropdown"
-                                                  aria-haspopup="true"
-                                                  aria-expanded="false">
-                                                    <i class="fas fa-cog"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                  {{-- @if (in_array("detail", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-detail-omzet text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                                                    </a>
-                                                  {{-- @endif
-                                                  {{-- @if (in_array("ubah", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item border-bottom btn-edit-omzet text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                                                    </a>
-                                                  {{-- @endif
-                                                  @if (in_array("hapus", $current_data_navigasi)) --}}
-                                                    <a
-                                                      href="#"
-                                                      class="dropdown-item btn-delete-omzet text-indigo"
-                                                      data-id="{{ $item->id }}">
-                                                        <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
-                                                    </a>
-                                                  {{-- @endif --}}
-                                                </div>
-                                              </div>
-                                            {{-- @endif --}}
-                                          </td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                          </table>
+                        <table id="omzet_cabang_tabel" class="table table-bordered table-striped">
+                          <thead>
+                            <tr>
+                              <th class="text-center text-indigo">No</th>
+                              <th class="text-center text-indigo">Karyawan</th>
+                              <th class="text-center text-indigo">Cabang</th>
+                              <th class="text-center text-indigo">Tanggal</th>
+                              <th class="text-center text-indigo">Aksi</th>
+                            </tr>
+                          </thead>
+                          <tbody class="table-body-omzet"></tbody>
+                        </table>
                       </div>
                   </div>
               </div>
@@ -2522,7 +2460,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalOmzetDeleteLabel">Delete Request & Orderan Tertolak</h5>
+        <h5 class="modal-title" id="modalOmzetDeleteLabel">Delete Omset</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -2578,7 +2516,7 @@
     $("#komplain_tabel").DataTable();
     $("#data_instansi_tabel").DataTable();
     $("#reqor_tabel").DataTable();
-    $("#omzet_cabang_tabel").DataTable();
+    // $("#omzet_cabang_tabel").DataTable();
 
     // activity plan detail
     $(document).on('click', '.btn-detail-activity-plan', function () {
@@ -3832,6 +3770,56 @@
           setTimeout(() => {
             window.location.reload();
           }, 1000);
+        }
+      })
+    })
+
+    // omzet cari
+    $(document).on('click', '.btn-cari-omzet', function (e) {
+      e.preventDefault();
+      $('.table-body-omzet').empty();
+
+      let formData = {
+        start_date: $('#omzet_start_date').val(),
+        end_date: $('#omzet_end_date').val(),
+        cabang_id: $('#omzet_cabang_id').val()
+      }
+
+      $.ajax({
+        url: "{{ URL::route('labul.result.omzet.cari') }}",
+        type: "post",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          let data_omzet = '';
+          $.each(response.omzets, function (index, item) {
+            data_omzet += '' +
+            '<tr>' +
+              '<td class="text-center">' + (index+1) + '</td>' +
+              '<td>' + item.karyawan.nama_panggilan + '</td>' +
+              '<td>' + item.cabang.nama_cabang + '</td>' +
+              '<td class="text-center">' + item.tanggal + '</td>' +
+              '<td class="text-center">' +
+                '<div class="btn-group">' +
+                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                    '<i class="fas fa-cog"></i>' +
+                  '</a>' +
+                  '<div class="dropdown-menu dropdown-menu-right">' +
+                    '<a href="#" class="dropdown-item border-bottom btn-detail-omzet text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item border-bottom btn-edit-omzet text-indigo" data-id="' + item.id + '">' +
+                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
+                    '</a>' +
+                    '<a href="#" class="dropdown-item btn-delete-omzet text-indigo" data-id="' + item.id + '">' +
+                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
+                    '</a>' +
+                  '</div>' +
+               '</div> ' +
+              '</td>' +
+            '</tr>';
+          })
+          $('.table-body-omzet').append(data_omzet);
         }
       })
     })

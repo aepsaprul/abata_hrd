@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class LabulOmzet extends Model
 {
@@ -19,5 +20,9 @@ class LabulOmzet extends Model
 
   public function sales() {
     return $this->belongsTo(MasterKaryawan::class, 'karyawan_sales_id', 'id');
+  }
+
+  public function getTanggalAttribute() {
+    return Carbon::parse($this->attributes['tanggal'])->translatedFormat('d/m/Y H:i');
   }
 }

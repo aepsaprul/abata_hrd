@@ -465,6 +465,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('labul/result/omzet/{id}/edit', [LabulController::class, 'resultOmzetEdit'])->name('labul.result.omzet.edit');
     Route::put('labul/result/omzet/{id}/update', [LabulController::class, 'resultOmzetUpdate'])->name('labul.result.omzet.update');
     Route::post('labul/result/omzet/delete', [LabulController::class, 'resultOmzetDelete'])->name('labul.result.omzet.delete');
+    Route::post('labul/result/omzet/cari', [LabulController::class, 'resultOmzetCAri'])->name('labul.result.omzet.cari');
 
     Route::post('labul/result/export_reqor', [LabulController::class, 'resultExportReqor'])->name('labul.result.export_reqor');
     Route::get('labul/result/reqor/{id}/detail', [LabulController::class, 'resultReqorDetail'])->name('labul.result.reqor.detail');
