@@ -58,10 +58,10 @@
                         @enderror
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
+                        <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                              <i class="fas fa-eye fa-eye-slash" id="togglePassword"></i>
                             </div>
                         </div>
                         @error('password')
@@ -112,5 +112,18 @@
     <script src="{{ asset('public/themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('public/themes/dist/js/adminlte.min.js') }}"></script>
+
+    <script>
+      const togglePassword = document.querySelector("#togglePassword");
+      const password = document.querySelector("#password");
+
+      togglePassword.addEventListener("click", function () {
+        // toggle the type attribute
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        // toggle the icon
+        this.classList.toggle("fa-eye-slash");
+      });
+    </script>
 </body>
 </html>
