@@ -68,6 +68,7 @@
                                         <option value="dtf">DTF</option>
                                         <option value="akrilik">Akrilik</option>
                                         <option value="offset">Offset</option>
+                                        <option value="finishing">Finishing</option>
                                       </select>
                                     </div>
                                   </div>
