@@ -114,13 +114,10 @@
                                             @endphp
 
                                             @if ($diff->days < 90 && $diff->days > 1)
+                                              @if ($item->karyawan)
                                                 <tr>
                                                     <td class="text-center">{{ $nomor++ }}</td>
-                                                    <td>
-                                                        @if ($item->karyawan)
-                                                            <a href="#" class="btn-detail" data-id="{{ $item->karyawan->id }}">{{ $item->karyawan->nama_lengkap }}</a>
-                                                        @endif
-                                                    </td>
+                                                    <td><a href="#" class="btn-detail" data-id="{{ $item->karyawan->id }}">{{ $item->karyawan->nama_lengkap }}</a></td>
                                                     <td class="text-center">{{ $item->mulai_kontrak }}</td>
                                                     <td class="text-center">{{ $item->akhir_kontrak }}</td>
                                                     <td>
@@ -131,6 +128,7 @@
                                                         @endif
                                                     </td>
                                                 </tr>
+                                              @endif
                                             @endif
                                         @endif
                                     @endforeach

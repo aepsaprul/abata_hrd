@@ -15,7 +15,9 @@ class DashboardController extends Controller
     {
         $karyawan_aktif = MasterKaryawan::where('status', 'aktif')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
 
-        $karyawan_kontrak = HcKontrak::with('karyawan')
+        $karyawan_kontrak = HcKontrak::with(['karyawan' => function ($query) {
+              $query->where('status', 'Aktif');
+            }])
             ->where('karyawan_id', '!=', null)
             ->select(DB::raw('max(id) as id'),'karyawan_id', DB::raw('max(mulai_kontrak) as mulai_kontrak'), DB::raw('max(akhir_kontrak) as akhir_kontrak'))
             ->groupBy('karyawan_id')
