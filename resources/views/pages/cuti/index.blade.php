@@ -601,17 +601,36 @@
 			var jml_hari = $(this).val();
 			$('#form_tanggal').empty();
 
+      let date = new Date();
+      let tahun = date.getFullYear();
+      let bulan = date.getMonth() + 1;
+      let tanggal = date.getDate() + 7;
+
+      let bulan_fix, tanggal_fix;
+      if (bulan < 10) {
+        bulan_fix = '0' + bulan;
+      } else {
+        bulan_fix = bulan;
+      }
+      if (tanggal < 10) {
+        tanggal_fix = '0' + tanggal;
+      } else {
+        tanggal_fix = tanggal;
+      }
+
+      console.log(bulan_fix+'-'+tanggal_fix);
+
 			for (let index = 1; index <= jml_hari; index++) {
 
-				var form_tanggal = "<br>" +
-					"<div class=\"row\">" +
-						"<div class=\"col-md-3\">" +
-							"<label for=\"\">Tanggal " + index + "</label>" +
-						"</div>" +
-						"<div class=\"col-md-9\">" +
-							"<input type=\"date\" name=\"cuti_tanggal[]\" id=\"cuti_tanggal_" + index + "\" class=\"form-control\" autocomplete=\"off\" required>" +
-						"</div>" +
-					"</div>";
+				var form_tanggal = '<br>' +
+					'<div class="row">' +
+						'<div class="col-md-3">' +
+							'<label for="">Tanggal ' + index + '</label>' +
+						'</div>' +
+						'<div class="col-md-9">' +
+							'<input type="date" name="cuti_tanggal[]" id="cuti_tanggal_' + index + '" class="form-control"  onkeydown="return false" min="' + tahun + '-' + bulan_fix + '-' + tanggal_fix + '" autocomplete="off" required>' +
+						'</div>' +
+					'</div>';
 
 				$('#form_tanggal').append(form_tanggal);
 			}
@@ -642,7 +661,6 @@
                     $('.btn-approved-save').addClass('d-none');
                 },
                 success: function (response) {
-                    console.log(response);
                     Toast.fire({
                         icon: 'success',
                         title: 'Cuti telah disetujui'
@@ -680,7 +698,6 @@
                     $('.btn-disapproved-save').addClass('d-none');
                 },
                 success: function (response) {
-                    console.log(response);
                     Toast.fire({
                         icon: 'success',
                         title: 'Cuti tidak disetujui'
@@ -712,7 +729,6 @@
                 type: 'GET',
                 data: formData,
                 success: function (response) {
-                    console.log(response);
                     $('#detail_nama').val(response.cuti.master_karyawan.nama_lengkap);
                     $('#detail_telepon').val(response.cuti.telepon);
                     $('#detail_pengganti').val(response.cuti.karyawan_pengganti.nama_lengkap);
@@ -728,7 +744,6 @@
                         "<input type=\"text\" class=\"form-control\" value=\"" + tanggalIndo(item.tanggal) + "\" readonly>";
                     });
                     $('#detail_form_tanggal').append(value_tanggal);
-                    console.log(value_tanggal);
 
                     $('.modal-detail').modal('show');
                 }
