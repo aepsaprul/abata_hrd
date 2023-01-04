@@ -22,7 +22,11 @@
             @endif
           @endif
         </td>
-        <td rowspan="{{ count($item->activityPlanRencana) }}" style="text-align: center; vertical-align: center;">{{ $item->cabang->nama_cabang }}</td>
+        <td rowspan="{{ count($item->activityPlanRencana) }}" style="text-align: center; vertical-align: center;">
+          @if ($item->cabang)
+            {{ $item->cabang->nama_cabang }}              
+          @endif
+        </td>
         <td rowspan="{{ count($item->activityPlanRencana) }}" style="text-align: center; vertical-align: center;">{{ date('Y-m-d', strtotime($item->tanggal)) }}</td>
         @foreach ($item->activityPlanJumlah as $key_detail => $item_detail)
           @if ($key_detail == 0)
