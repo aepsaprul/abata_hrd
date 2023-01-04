@@ -73,7 +73,7 @@
                                               {{-- dev --}}
                                               @if(file_exists('public/image/' . $karyawan->foto))
                                               {{-- prod --}}
-                                              {{-- @if(file_exists('public/image/' . $karyawan->foto)) --}}
+                                              {{-- @if(file_exists('image/' . $karyawan->foto)) --}}
                                                 <img
                                                   class="profile-user-img img-fluid"
                                                   src="{{ asset('public/image/' . $karyawan->foto) }}"
