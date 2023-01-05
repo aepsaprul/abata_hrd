@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbdulController;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\ApprovalPenggajianController;
 use App\Http\Controllers\ApproveController;
@@ -571,4 +572,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('compro/blog/{id}/edit', [ComproController::class, 'blogEdit'])->name('compro.blog.edit');
     Route::post('compro/blog/update', [ComproController::class, 'blogUpdate'])->name('compro.blog.update');
     Route::post('compro/blog/delete', [ComproController::class, 'blogDelete'])->name('compro.blog.delete');
+
+
+    // abdul
+    Route::get('abdul', [AbdulController::class, 'index'])->name('abdul.index');
+    Route::get('abdul/form_pengajuan', [AbdulController::class, 'formPengajuan'])->name('abdul.form_pengajuan');
+    Route::get('abdul/tampil', [AbdulController::class, 'tampil'])->name('abdul.tampil');
+    Route::post('abdul/store', [AbdulController::class, 'store'])->name('abdul.store');
 });
