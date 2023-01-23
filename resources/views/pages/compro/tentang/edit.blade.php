@@ -31,7 +31,7 @@
                 <div class="col-12">
                     <div class="card">
                       <div class="card-body">
-                        <form action="{{ route('compro.tentang.update') }}" method="POST">
+                        <form action="{{ route('compro.tentang.update') }}" method="POST" enctype="multipart/form-data">
                           @csrf
                           <input type="hidden" name="edit_id" id="edit_id" value="{{ $tentang->id }}">
                           <div class="mb-3">
@@ -52,11 +52,18 @@
                               <option value="sejarah" {{ $tentang->nama == "sejarah" ? "selected" : "" }}>Sejarah</option>
                               <option value="visi" {{ $tentang->nama == "visi" ? "selected" : "" }}>Visi</option>
                               <option value="misi" {{ $tentang->nama == "misi" ? "selected" : "" }}>Misi</option>
+                              <option value="gambar" {{ $tentang->nama == "gambar" ? "selected" : "" }}>Gambar</option>
                             </select>
                           </div>
                           <div class="mb-3">
                             <label for="edit_deskripsi">Deskripsi</label>
                             <textarea name="edit_deskripsi" id="edit_deskripsi" cols="30" rows="10" class="form-control">{{ $tentang->deskripsi }}</textarea>
+                          </div>
+                          <div class="mb-3">
+                            <div class="form-group">
+                              <label for="edit_gambar">Gambar</label>
+                              <input type="file" name="edit_gambar" id="edit_gambar" class="form-control">
+                            </div>
                           </div>
                           <div class="mb-3">
                             <button class="btn btn-primary"><i class="fas fa-save"></i> Perbaharui</button>

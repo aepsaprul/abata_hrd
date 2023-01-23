@@ -34,13 +34,32 @@ class ComproController extends Controller
     
     public function tentangStore(Request $request)
     {
-        $tentang = new ComproTentang;
-        $tentang->nama = $request->create_nama;
-        $tentang->deskripsi = $request->create_deskripsi;
-        $tentang->grup = $request->create_grup;
-        $tentang->save();
+      $tentang = new ComproTentang;
+      $tentang->nama = $request->create_nama;
+      $tentang->deskripsi = $request->create_deskripsi;
+      $tentang->grup = $request->create_grup;
 
-        return redirect()->route('compro.tentang');
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/tentang/', $filename);
+        $tentang->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/tentang/', $filename);
+      //     $tentang->gambar = $filename;
+      // }
+
+      $tentang->save();
+
+      return redirect()->route('compro.tentang');
     }
 
     public function tentangEdit($id)
@@ -52,23 +71,59 @@ class ComproController extends Controller
 
     public function tentangUpdate(Request $request)
     {
-        $tentang = ComproTentang::find($request->edit_id);
-        $tentang->nama = $request->edit_nama;
-        $tentang->deskripsi = $request->edit_deskripsi;
-        $tentang->grup = $request->edit_grup;
-        $tentang->save();
+      $tentang = ComproTentang::find($request->edit_id);
+      $tentang->nama = $request->edit_nama;
+      $tentang->deskripsi = $request->edit_deskripsi;
+      $tentang->grup = $request->edit_grup;
 
-        return redirect()->route('compro.tentang');
+      // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/tentang/" . $tentang->gambar)) {
+            File::delete("public/compro/tentang/" . $tentang->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/tentang/', $filename);
+        $tentang->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/tentang/" . $tentang->gambar)) {
+      //         File::delete("compro/tentang/" . $tentang->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/tentang/', $filename);
+      //     $tentang->gambar = $filename;
+      // }
+
+      $tentang->save();
+
+      return redirect()->route('compro.tentang');
     }
 
     public function tentangDelete(Request $request)
     {
-        $tentang = ComproTentang::find($request->id);
-        $tentang->delete();
+      $tentang = ComproTentang::find($request->id);
 
-        return response()->json([
-            'status' => 200
-        ]);
+      // dev
+      if (file_exists("public/compro/tentang/" . $tentang->gambar)) {
+        File::delete("public/compro/tentang/" . $tentang->gambar);
+      }
+
+      // prod
+      // if (file_exists("compro/tentang" . $tentang->gambar)) {
+      //     File::delete("compro/tentang" . $tentang->gambar);
+      // }
+
+      $tentang->delete();
+
+      return response()->json([
+          'status' => 200
+      ]);
     }
 
     // kontak

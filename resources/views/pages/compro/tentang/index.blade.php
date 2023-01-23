@@ -33,10 +33,10 @@
                     <div class="card">
                         {{-- @if (in_array("tambah", $current_data_navigasi)) --}}
                             <div class="card-header">
-                              <form action="{{ route('compro.tentang.store') }}" method="POST">
+                              <form action="{{ route('compro.tentang.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                  <div class="col-lg-6 col-md-4 col-sm-6 col-12">
+                                  <div class="col-lg-4 col-md-4 col-sm-4 col-12">
                                     <label for="create_grup">Grup</label>
                                     <select name="create_grup" id="create_grup" class="form-control" required>
                                       <option value="">--Pilih Grup--</option>
@@ -47,18 +47,25 @@
                                       <option value="makzon">Makzon</option>
                                     </select>
                                   </div>
-                                  <div class="col-lg-6 col-md-4 col-sm-6 col-12">
+                                  <div class="col-lg-4 col-md-4 col-sm-4 col-12">
                                     <label for="create_nama">Nama</label>
                                     <select name="create_nama" id="create_nama" class="form-control" required>
                                       <option value="">--Pilih Nama--</option>
                                       <option value="sejarah">Sejarah</option>
                                       <option value="visi">Visi</option>
                                       <option value="misi">Misi</option>
+                                      <option value="gambar">Gambar</option>
                                     </select>
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                      <label for="create_gambar">Gambar</label>
+                                      <input type="file" name="create_gambar" id="create_gambar" class="form-control">
+                                    </div>
                                   </div>
                                   <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
                                     <label for="create_deskripsi">Deskripsi</label>
-                                    <textarea name="create_deskripsi" id="create_deskripsi" cols="30" rows="3" class="form-control" required></textarea>
+                                    <textarea name="create_deskripsi" id="create_deskripsi" cols="30" rows="3" class="form-control"></textarea>
                                   </div>
                                 </div>
                                 <div class="row">
@@ -77,6 +84,7 @@
                                         <th class="text-center text-indigo">Grup</th>
                                         <th class="text-center text-indigo">Nama</th>
                                         <th class="text-center text-indigo">Deskripsi</th>
+                                        <th class="text-center text-indigo">Gambar</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
@@ -87,6 +95,11 @@
                                             <td>{{ $item->grup }}</td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->deskripsi }}</td>
+                                            <td>
+                                              @if ($item->gambar)
+                                                <img src="{{ asset('public/compro/tentang/' . $item->gambar) }}" alt="tentang_gambar" style="max-width: 100px;">                                                  
+                                              @endif
+                                            </td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
                                                     <div class="btn-group">
