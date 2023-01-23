@@ -573,6 +573,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('compro/blog/update', [ComproController::class, 'blogUpdate'])->name('compro.blog.update');
     Route::post('compro/blog/delete', [ComproController::class, 'blogDelete'])->name('compro.blog.delete');
 
+    // compro slide
+    Route::get('compro/slide', [ComproController::class, 'slide'])->name('compro.slide');
+    Route::post('compro/slide/store', [ComproController::class, 'slideStore'])->name('compro.slide.store');
+    Route::get('compro/slide/{id}/edit', [ComproController::class, 'slideEdit'])->name('compro.slide.edit');
+    Route::post('compro/slide/update', [ComproController::class, 'slideUpdate'])->name('compro.slide.update');
+    Route::post('compro/slide/delete', [ComproController::class, 'slideDelete'])->name('compro.slide.delete');
+
 
     // abdul
     Route::get('abdul', [AbdulController::class, 'index'])->name('abdul.index');

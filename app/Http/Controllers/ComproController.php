@@ -11,6 +11,7 @@ use App\Models\ComproLegal;
 use App\Models\ComproPartner;
 use App\Models\ComproPelanggan;
 use App\Models\ComproProduk;
+use App\Models\ComproSlide;
 use App\Models\ComproTentang;
 use App\Models\ComproTestimoni;
 use App\Models\ComproTim;
@@ -984,6 +985,104 @@ class ComproController extends Controller
       // }
 
       $blog->delete();
+
+      return response()->json([
+        'status' => 200
+      ]);
+    }
+
+    // slide
+    public function slide()
+    {
+      $slide = ComproSlide::get();
+
+      return view('pages.compro.slide.index', ['slides' => $slide]);
+    }
+
+    public function slideStore(Request $request)
+    {
+      $slide = new ComproSlide;
+      $slide->grup = $request->create_grup;
+
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/slide/', $filename);
+        $slide->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/slide/', $filename);
+      //     $slide->gambar = $filename;
+      // }
+
+      $slide->save();
+
+      return redirect()->route('compro.slide');
+    }
+
+    public function slideEdit($id)
+    {
+      $slide = ComproSlide::find($id);
+
+      return view('pages.compro.slide.edit', ['slide' => $slide]);
+    }
+
+    public function slideUpdate(Request $request)
+    {
+      $slide = ComproSlide::find($request->edit_id);
+      $slide->grup = $request->edit_grup;
+
+      // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/slide/" . $slide->gambar)) {
+            File::delete("public/compro/slide/" . $slide->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/slide/', $filename);
+        $slide->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/slide/" . $slide->gambar)) {
+      //         File::delete("compro/slide/" . $slide->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/slide/', $filename);
+      //     $slide->gambar = $filename;
+      // }
+
+      $slide->save();
+
+      return redirect()->route('compro.slide');
+    }
+
+    public function slideDelete(Request $request)
+    {
+      $slide = ComproSlide::find($request->id);
+
+      // dev
+      if (file_exists("public/compro/slide/" . $slide->gambar)) {
+        File::delete("public/compro/slide/" . $slide->gambar);
+      }
+
+      // prod
+      // if (file_exists("compro/slide" . $slide->gambar)) {
+      //     File::delete("compro/slide" . $slide->gambar);
+      // }
+
+      $slide->delete();
 
       return response()->json([
         'status' => 200
