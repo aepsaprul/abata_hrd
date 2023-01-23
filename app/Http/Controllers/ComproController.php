@@ -140,15 +140,34 @@ class ComproController extends Controller
 
     public function cabangStore(Request $request)
     {
-        $cabang = new ComproCabang;
-        $cabang->grup = $request->create_grup;
-        $cabang->nama = $request->create_nama;
-        $cabang->alamat = $request->create_alamat;
-        $cabang->kontak = $request->create_kontak;
-        $cabang->maps = $request->create_maps;
-        $cabang->save();
+      $cabang = new ComproCabang;
+      $cabang->grup = $request->create_grup;
+      $cabang->nama = $request->create_nama;
+      $cabang->alamat = $request->create_alamat;
+      $cabang->kontak = $request->create_kontak;
+      $cabang->maps = $request->create_maps;
 
-        return redirect()->route('compro.cabang');
+      // dev
+      if($request->hasFile('create_gambar')) {
+        $file = $request->file('create_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/cabang/', $filename);
+        $cabang->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('create_gambar')) {
+      //     $file = $request->file('create_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/cabang/', $filename);
+      //     $cabang->gambar = $filename;
+      // }
+
+      $cabang->save();
+
+      return redirect()->route('compro.cabang');
     }
 
     public function cabangEdit($id)
@@ -160,23 +179,59 @@ class ComproController extends Controller
 
     public function cabangUpdate(Request $request)
     {
-        $cabang = ComproCabang::find($request->edit_id);
-        $cabang->grup = $request->edit_grup;
-        $cabang->nama = $request->edit_nama;
-        $cabang->alamat = $request->edit_alamat;
-        $cabang->kontak = $request->edit_kontak;
-        $cabang->maps = $request->edit_maps;
-        $cabang->save();
+      $cabang = ComproCabang::find($request->edit_id);
+      $cabang->grup = $request->edit_grup;
+      $cabang->nama = $request->edit_nama;
+      $cabang->alamat = $request->edit_alamat;
+      $cabang->kontak = $request->edit_kontak;
+      $cabang->maps = $request->edit_maps;
 
-        return redirect()->route('compro.cabang');
+        // dev
+      if($request->hasFile('edit_gambar')) {
+        if (file_exists("public/compro/cabang/" . $cabang->gambar)) {
+            File::delete("public/compro/cabang/" . $cabang->gambar);
+        }
+        $file = $request->file('edit_gambar');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move('public/compro/cabang/', $filename);
+        $cabang->gambar = $filename;
+      }
+
+      // prod
+      // if($request->hasFile('edit_gambar')) {
+      //     if (file_exists("compro/cabang/" . $cabang->gambar)) {
+      //         File::delete("compro/cabang/" . $cabang->gambar);
+      //     }
+      //     $file = $request->file('edit_gambar');
+      //     $extension = $file->getClientOriginalExtension();
+      //     $filename = time() . "." . $extension;
+      //     $file->move('compro/cabang/', $filename);
+      //     $cabang->gambar = $filename;
+      // }
+
+      $cabang->save();
+
+      return redirect()->route('compro.cabang');
     }
 
     public function cabangDelete(Request $request)
     {
-        $cabang = ComproCabang::find($request->id);
-        $cabang->delete();
+      $cabang = ComproCabang::find($request->id);
 
-        return redirect()->route('compro.cabang');
+        // dev
+      if (file_exists("public/compro/cabang/" . $cabang->gambar)) {
+        File::delete("public/compro/cabang/" . $cabang->gambar);
+      }
+
+      // prod
+      // if (file_exists("compro/cabang" . $cabang->gambar)) {
+      //     File::delete("compro/cabang" . $cabang->gambar);
+      // }
+
+      $cabang->delete();
+
+      return redirect()->route('compro.cabang');
     }
 
     // testimoni

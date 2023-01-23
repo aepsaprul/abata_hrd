@@ -31,7 +31,7 @@
                 <div class="col-12">
                     <div class="card">
                       <div class="card-body">
-                        <form action="{{ route('compro.cabang.update') }}" method="POST">
+                        <form action="{{ route('compro.cabang.update') }}" method="POST" enctype="multipart/form-data">
                           @csrf
                           <input type="hidden" name="edit_id" id="edit_id" value="{{ $cabang->id }}">
                           <div class="row">
@@ -67,10 +67,16 @@
                                 <input type="text" name="edit_maps" id="edit_maps" class="form-control" value="{{ $cabang->maps }}">
                               </div>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                               <div class="form-group">
                                 <label for="edit_alamat">Alamat</label>
                                 <input type="text" name="edit_alamat" id="edit_alamat" class="form-control" value="{{ $cabang->alamat }}">
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                              <div class="form-group">
+                                <label for="edit_gambar">Gambar</label>
+                                <input type="file" name="edit_gambar" id="edit_gambar" class="form-control">
                               </div>
                             </div>
                           </div>

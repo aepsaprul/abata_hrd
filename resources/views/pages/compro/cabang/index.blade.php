@@ -33,7 +33,7 @@
                     <div class="card">
                         {{-- @if (in_array("tambah", $current_data_navigasi)) --}}
                             <div class="card-header">
-                              <form action="{{ route('compro.cabang.store') }}" method="POST">
+                              <form action="{{ route('compro.cabang.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -66,10 +66,16 @@
                                       <input type="text" name="create_maps" id="create_maps" class="form-control">
                                     </div>
                                   </div>
-                                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                  <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                                     <div class="form-group">
                                       <label for="create_alamat">Alamat</label>
                                       <input type="text" name="create_alamat" id="create_alamat" class="form-control" required>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                    <div class="form-group">
+                                      <label for="create_gambar">Gambar</label>
+                                      <input type="file" name="create_gambar" id="create_gambar" class="form-control">
                                     </div>
                                   </div>
                                 </div>
@@ -91,6 +97,7 @@
                                         <th class="text-center text-indigo">Alamat</th>
                                         <th class="text-center text-indigo">Kontak</th>
                                         <th class="text-center text-indigo">Maps</th>
+                                        <th class="text-center text-indigo">Gambar</th>
                                         <th class="text-center text-indigo">Aksi</th>
                                     </tr>
                                 </thead>
@@ -103,6 +110,7 @@
                                             <td>{{ $item->alamat }}</td>
                                             <td>{{ $item->kontak }}</td>
                                             <td><a href="{{ $item->maps }}" target="_blank">{{ $item->maps }}</a></td>
+                                            <td><img src="{{ asset('public/compro/cabang/' . $item->gambar) }}" alt="cabang_gambar" style="max-width: 100px;"></td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
                                                     <div class="btn-group">
