@@ -23,7 +23,12 @@ class ResignController extends Controller
     {
         // $resign = HcResign::orderBy('id', 'desc')->get();
         if (Auth::user()->master_karyawan_id == 0 || Auth::user()->masterKaryawan->master_cabang_id == 1) {
-            $resign = HcResign::orderBy('id', 'desc')->get();
+            $resign = HcResign::with('masterKaryawan')
+            ->whereHas('masterKaryawan', function ($query) {
+                $query->where('status', 'Aktif');
+            })
+            ->orderBy('id', 'desc')
+            ->get();
         } else {
             $resign_approvers = ResignApprover::where('atasan_id', 'like', '%'.Auth::user()->master_karyawan_id.'%')->get();
             if (count($resign_approvers) > 0) {
