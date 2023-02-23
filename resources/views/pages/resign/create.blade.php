@@ -569,6 +569,7 @@
                                         <li><input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="melanjutkan sekolah"> Melanjutkan sekolah</li>
                                         <li><input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="wiraswasta"> Wiraswasta</li>
                                         <li><input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="tidak bekerja"> Tidak bekerja</li>
+                                        <li><input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="tidak perpanjang kontrak"> Tidak Perpanjang Kontrak</li>
                                         <li>
                                             <input type="radio" name="resign_survei_essay_1" id="resign_survei_essay_1" value="lainnya"> Lainnya
                                             <input type="text" name="teks_lainnya">
