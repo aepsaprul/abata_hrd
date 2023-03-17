@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('style')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
@@ -233,7 +236,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="reseller_reseller_id" class="form-label">Nama Reseller</label>
-                        <select name="reseller_reseller_id" id="reseller_reseller_id" class="form-control"></select>
+                        <select name="reseller_reseller_id" id="reseller_reseller_id" class="select2-reseller form-control"></select>
                     </div>
                     <div class="mb-3">
                         <label for="reseller_hasil_kunjungan" class="form-label">Hasil Kunjungan</label>
@@ -331,7 +334,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="instansi_instansi_id" class="form-label">Nama Instansi</label>
-                        <select name="instansi_instansi_id" id="instansi_instansi_id" class="form-control"></select>
+                        <select name="instansi_instansi_id" id="instansi_instansi_id" class="select2-instansi form-control"></select>
                     </div>
                     <div class="mb-3">
                         <label for="instansi_foto" class="form-label">Foto</label>
@@ -726,6 +729,9 @@
 @endsection
 
 @section('script')
+<!-- Select2 -->
+<script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
+
 <script>
     $(document).ready(function () {
         $.ajaxSetup({
@@ -974,6 +980,13 @@
         })
 
         // reseller
+        $(document).on('shown.bs.modal', '.modal-reseller', function() {
+          $('.select2-reseller').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $(".modal-reseller")
+          });
+        });
+
         $(document).on('click', '#reseller', function (e) {
             e.preventDefault();
             $.ajax({
@@ -1086,6 +1099,13 @@
         })
 
         // instansi
+        $(document).on('shown.bs.modal', '.modal-instansi', function() {
+          $('.select2-instansi').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $(".modal-instansi")
+          });
+        });
+
         $(document).on('click', '#instansi', function (e) {
             e.preventDefault();
             $.ajax({
