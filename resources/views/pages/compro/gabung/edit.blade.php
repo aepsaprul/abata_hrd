@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('style')
-
+<!-- summernote -->
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/summernote/summernote-bs4.css') }}">
 @endsection
 
 @section('content')
@@ -64,7 +65,7 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
                               <div class="form-group">
                                 <label for="edit_deskripsi">Deskripsi</label>
-                                <textarea name="edit_deskripsi" id="edit_deskripsi" cols="30" rows="3" class="form-control" required>{{ $gabung->deskripsi }}</textarea>
+                                <textarea id="summernote" name="edit_deskripsi" id="edit_deskripsi" cols="30" rows="3" class="form-control" required>{{ $gabung->deskripsi }}</textarea>
                               </div>
                             </div>
                           </div>
@@ -85,5 +86,11 @@
 @endsection
 
 @section('script')
+<!-- Summernote -->
+<script src="{{ asset('public/themes/plugins/summernote/summernote-bs4.js') }}"></script>
 
+<script>
+  // Summernote
+  $('#summernote').summernote()
+</script>
 @endsection

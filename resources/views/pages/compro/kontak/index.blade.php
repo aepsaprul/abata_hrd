@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('style')
-
+<!-- summernote -->
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/summernote/summernote-bs4.css') }}">
 @endsection
 
 @section('content')
@@ -36,7 +37,7 @@
                 <form action="{{ route('compro.kontak.store') }}" method="POST">
                   @csrf
                   <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group">
                         <label for="create_grup">Grup</label>
                         <select name="create_grup" id="create_grup" class="form-control" required>
@@ -49,22 +50,22 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group">
                         <label for="create_icon">Icon</label>
                         <input type="text" name="create_icon" id="create_icon" class="form-control" required>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group">
                         <label for="create_title">Title</label>
                         <input type="text" name="create_title" id="create_title" class="form-control" required>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="col-12">
                       <div class="form-group">
                         <label for="create_deskripsi">Deskripsi</label>
-                        <input type="text" name="create_deskripsi" id="create_deskripsi" class="form-control">
+                        <textarea id="summernote" name="create_deskripsi" id="create_deskripsi" cols="30" rows="3" class="form-control" required></textarea>
                       </div>
                     </div>
                   </div>
@@ -243,7 +244,8 @@
 @endsection
 
 @section('script')
-
+<!-- Summernote -->
+<script src="{{ asset('public/themes/plugins/summernote/summernote-bs4.js') }}"></script>
 <script>
   $(document).ready(function () {
     $.ajaxSetup({
@@ -258,6 +260,9 @@
       showConfirmButton: false,
       timer: 3000
     });
+
+    // Summernote
+    $('#summernote').summernote()
 
     // delete
     $('body').on('click', '.btn-delete', function (e) {

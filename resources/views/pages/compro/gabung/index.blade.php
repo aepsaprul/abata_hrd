@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('style')
-
+<!-- summernote -->
+<link rel="stylesheet" href="{{ asset('public/themes/plugins/summernote/summernote-bs4.css') }}">
 @endsection
 
 @section('content')
@@ -63,7 +64,7 @@
                                   <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
                                     <div class="form-group">
                                       <label for="create_deskripsi">Deskripsi</label>
-                                      <textarea name="create_deskripsi" id="create_deskripsi" cols="30" rows="3" class="form-control" required></textarea>
+                                      <textarea id="summernote" name="create_deskripsi" id="create_deskripsi" cols="30" rows="3" class="form-control" required></textarea>
                                     </div>
                                   </div>
                                 </div>
@@ -165,7 +166,8 @@
 @endsection
 
 @section('script')
-
+<!-- Summernote -->
+<script src="{{ asset('public/themes/plugins/summernote/summernote-bs4.js') }}"></script>
 <script>
     $(document).ready(function () {
         $.ajaxSetup({
@@ -180,6 +182,9 @@
             showConfirmButton: false,
             timer: 3000
         });
+
+        // Summernote
+        $('#summernote').summernote()
 
         // delete
         $('body').on('click', '.btn-delete', function (e) {
