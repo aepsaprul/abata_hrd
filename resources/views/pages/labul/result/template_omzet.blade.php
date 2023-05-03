@@ -36,8 +36,8 @@
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Piutang Bulan Berjalan</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Piutang Terbayar</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Sales</th>
-        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Omzet Sales</th>
-        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Cash Sales</th>
+        {{-- <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Omzet Sales</th>
+        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Cash Sales</th> --}}
       </tr>
     </thead>
     <tbody>
@@ -94,12 +94,14 @@
           <td>{{ $item->piutang_bulan_berjalan }}</td>
           <td>{{ $item->piutang_terbayar }}</td>
           <td>
-            @if ($item->sales)
-              {{ $item->sales->nama_lengkap }}
+            @if ($item->detailSales)
+              @foreach ($item->detailSales as $item_detail_sales)
+                {{ $item_detail_sales->karyawan->nama_panggilan }} (omzet: {{ $item_detail_sales->pencapaian_omzet }}, cash: {{ $item_detail_sales->pencapaian_cash }})
+              @endforeach
             @endif
           </td>
-          <td>{{ $item->pencapaian_omset_sales }}</td>
-          <td>{{ $item->pencapaian_cash_sales }}</td>
+          {{-- <td>{{ $item->pencapaian_omset_sales }}</td>
+          <td>{{ $item->pencapaian_cash_sales }}</td> --}}
         </tr>
       @endforeach
     </tbody>

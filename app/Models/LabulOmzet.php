@@ -25,4 +25,8 @@ class LabulOmzet extends Model
   public function getTanggalAttribute() {
     return Carbon::parse($this->attributes['tanggal'])->translatedFormat('d/m/Y H:i');
   }
+
+  public function detailSales() {
+    return $this->hasMany(LabulOmzetSales::class, 'omzet_id', 'id');
+  }
 }

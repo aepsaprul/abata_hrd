@@ -80,7 +80,8 @@
                                 @endif
                                 @if (in_array("omzet", $current_data_navigasi))
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                        <button id="omzet_cabang" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">omzet cabang</button>
+                                        <!-- <button id="omzet_cabang" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">omzet cabang</button> -->
+                                        <a href="{{ route('labul.input.omzet_cabang.form') }}" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">omzet cabang</a>
                                     </div>
                                 @endif
                             </div>
@@ -754,11 +755,11 @@
                 url: '{{ URL::route("labul.input.activity_plan") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
-                    $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
-                    })
-                    $('#activity_plan_cabang_id').append(val_cabang);
+                  let val_cabang = `<option value="">--Pilih Cabang--</option>`;
+                  $.each(response.cabangs, function (index, item) {
+                      val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
+                  })
+                  $('#activity_plan_cabang_id').append(val_cabang);
                 }
             })
             $('.modal-activity-plan').modal('show');
@@ -933,9 +934,9 @@
                 url: '{{ URL::route("labul.input.data_member") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#data_member_cabang_id').append(val_cabang);
                 }
@@ -993,9 +994,9 @@
                 url: '{{ URL::route("labul.input.reseller") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#reseller_cabang_id').append(val_cabang);
 
@@ -1052,9 +1053,9 @@
                 url: '{{ URL::route("labul.input.data_reseller") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#data_reseller_cabang_id').append(val_cabang);
                 }
@@ -1112,9 +1113,9 @@
                 url: '{{ URL::route("labul.input.instansi") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#instansi_cabang_id').append(val_cabang);
 
@@ -1171,9 +1172,9 @@
                 url: '{{ URL::route("labul.input.survey_kompetitor") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#survey_kompetitor_cabang_id').append(val_cabang);
                 }
@@ -1224,9 +1225,9 @@
                 url: '{{ URL::route("labul.input.komplain") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#komplain_cabang_id').append(val_cabang);
                 }
@@ -1277,9 +1278,9 @@
                 url: '{{ URL::route("labul.input.data_instansi") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#data_instansi_cabang_id').append(val_cabang);
                 }
@@ -1330,9 +1331,9 @@
                 url: '{{ URL::route("labul.input.reqor") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#reqor_cabang_id').append(val_cabang);
                 }
@@ -1383,9 +1384,9 @@
                 url: '{{ URL::route("labul.input.omzet_cabang") }}',
                 type: 'get',
                 success: function (response) {
-                    let val_cabang = '<option value="">--Pilih Cabang--</option>';
+                    let val_cabang = `<option value="">--Pilih Cabang--</option>`;
                     $.each(response.cabangs, function (index, item) {
-                        val_cabang += '<option value="' + item.id + '">' + item.nama_cabang + '</option>';
+                        val_cabang += `<option value="${item.id}" ${item.id == response.cabang_id ? "selected" : ""}>${item.nama_cabang}</option>`;
                     })
                     $('#omzet_cabang_cabang_id').append(val_cabang);
 

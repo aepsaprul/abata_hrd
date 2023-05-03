@@ -21,6 +21,7 @@ use App\Models\LabulDataReseller;
 use App\Models\LabulInstansi;
 use App\Models\LabulKomplain;
 use App\Models\LabulOmzet;
+use App\Models\LabulOmzetSales;
 use App\Models\LabulReqor;
 use App\Models\LabulReseller;
 use App\Models\LabulSurveyKompetitor;
@@ -45,8 +46,15 @@ class LabulController extends Controller
     {
         $cabang = MasterCabang::get();
 
+        if (Auth::user()->masterKaryawan) {
+          $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+        } else {
+          $cabang_id = 0;
+        }
+
         return response()->json([
-            'cabangs' => $cabang
+            'cabangs' => $cabang,
+            'cabang_id' => $cabang_id
         ]);
     }
 
@@ -159,11 +167,18 @@ class LabulController extends Controller
     // data member
     public function inputDataMember()
     {
-        $cabang = MasterCabang::get();
+      $cabang = MasterCabang::get();
 
-        return response()->json([
-            'cabangs' => $cabang
-        ]);
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      return response()->json([
+        'cabangs' => $cabang,
+        'cabang_id' => $cabang_id
+      ]);
     }
 
     public function inputDataMemberStore(Request $request)
@@ -185,13 +200,19 @@ class LabulController extends Controller
     // reseller
     public function inputReseller()
     {
-        $cabang = MasterCabang::get();
-        $reseller = LabulDataReseller::get();
-
-        return response()->json([
-            'cabangs' => $cabang,
-            'resellers' => $reseller
-        ]);
+      $cabang = MasterCabang::get();
+      $reseller = LabulDataReseller::get();
+      
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+      return response()->json([
+        'cabangs' => $cabang,
+        'resellers' => $reseller,
+        'cabang_id' => $cabang_id
+      ]);
     }
 
     public function inputResellerStore(Request $request)
@@ -230,11 +251,18 @@ class LabulController extends Controller
     // data reseller
     public function inputDataReseller()
     {
-        $cabang = MasterCabang::get();
+      $cabang = MasterCabang::get();
 
-        return response()->json([
-            'cabangs' => $cabang
-        ]);
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      return response()->json([
+        'cabangs' => $cabang,
+        'cabang_id' => $cabang_id
+      ]);
     }
 
     public function inputDataResellerStore(Request $request)
@@ -257,13 +285,20 @@ class LabulController extends Controller
     // instansi
     public function inputInstansi()
     {
-        $cabang = MasterCabang::get();
-        $instansi = LabulDataInstansi::get();
+      $cabang = MasterCabang::get();
+      $instansi = LabulDataInstansi::get();
 
-        return response()->json([
-            'cabangs' => $cabang,
-            'instansis' => $instansi
-        ]);
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      return response()->json([
+        'cabangs' => $cabang,
+        'cabang_id' => $cabang_id,
+        'instansis' => $instansi
+      ]);
     }
 
     public function inputInstansiStore(Request $request)
@@ -301,11 +336,18 @@ class LabulController extends Controller
     // survey kompetitor
     public function inputSurveyKompetitor()
     {
-        $cabang = MasterCabang::get();
+      $cabang = MasterCabang::get();
 
-        return response()->json([
-            'cabangs' => $cabang
-        ]);
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      return response()->json([
+        'cabangs' => $cabang,
+        'cabang_id' => $cabang_id,
+      ]);
     }
 
     public function inputSurveyKompetitorStore(Request $request)
@@ -345,11 +387,18 @@ class LabulController extends Controller
     // komplain
     public function inputKomplain()
     {
-        $cabang = MasterCabang::get();
+      $cabang = MasterCabang::get();
 
-        return response()->json([
-            'cabangs' => $cabang
-        ]);
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      return response()->json([
+        'cabangs' => $cabang,
+        'cabang_id' => $cabang_id
+      ]);
     }
 
     public function inputKomplainStore(Request $request)
@@ -368,11 +417,18 @@ class LabulController extends Controller
     // data instansi
     public function inputDataInstansi()
     {
-        $cabang = MasterCabang::get();
+      $cabang = MasterCabang::get();
 
-        return response()->json([
-            'cabangs' => $cabang
-        ]);
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      return response()->json([
+        'cabangs' => $cabang,
+        'cabang_id' => $cabang_id
+      ]);
     }
 
     public function inputDataInstansiStore(Request $request)
@@ -395,11 +451,18 @@ class LabulController extends Controller
     // reqor
     public function inputReqor()
     {
-        $cabang = MasterCabang::get();
+      $cabang = MasterCabang::get();
 
-        return response()->json([
-            'cabangs' => $cabang
-        ]);
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      return response()->json([
+        'cabangs' => $cabang,
+        'cabang_id' => $cabang_id
+      ]);
     }
 
     public function inputReqorStore(Request $request)
@@ -424,57 +487,80 @@ class LabulController extends Controller
     public function inputOmzetCabang()
     {
         $cabang = MasterCabang::get();
-        $sales = MasterKaryawan::where('master_jabatan_id', '56')->get();
-
+        $sales = MasterKaryawan::where('master_jabatan_id', '56')->where('status', 'Aktif')->get();
+        
         return response()->json([
             'cabangs' => $cabang,
             'sales' => $sales
         ]);
     }
+    public function inputOmzetCabangForm()
+    {
+      $cabang = MasterCabang::get();
 
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+      
+      $sales = MasterKaryawan::where('master_jabatan_id', '56')->where('status', 'Aktif')->where('master_cabang_id', $cabang_id)->get();
+
+      return view('pages.labul.input.omzet', ['cabang' => $cabang, 'sales' => $sales]);
+    }
     public function inputOmzetCabangStore(Request $request)
     {
-        $omzet = new LabulOmzet;
-        $omzet->karyawan_id = Auth::user()->master_karyawan_id;
-        $omzet->cabang_id = $request->omzet_cabang_cabang_id;
-        $omzet->tanggal = $request->omzet_cabang_tanggal;
-        $omzet->transaksi = $request->omzet_cabang_transaksi;
-        $omzet->traffic_online = $request->omzet_cabang_traffic_online;
-        $omzet->traffic_offline = $request->omzet_cabang_traffic_offline;
-        $omzet->retail = str_replace(",", "", $request->omzet_cabang_retail);
-        $omzet->instansi = str_replace(",", "", $request->omzet_cabang_instansi);
-        $omzet->reseller = str_replace(",", "", $request->omzet_cabang_reseller);
-        $omzet->cabang_rp = str_replace(",", "", $request->omzet_cabang_cabang);
-        $omzet->omzet_harian = str_replace(",", "", $request->omzet_cabang_omzet_harian);
-        $omzet->omzet_terbayar = str_replace(",", "", $request->omzet_cabang_omzet_terbayar);
-        $omzet->leads = $request->omzet_cabang_leads;
-        $omzet->konsumen_bertanya = $request->omzet_cabang_konsumen_bertanya;
-        $omzet->cetak_banner_harian = str_replace(",", "", $request->omzet_cabang_cetak_banner_harian);
-        $omzet->cetak_a3_harian = str_replace(",", "", $request->omzet_cabang_cetak_a3_harian);
-        $omzet->print_outdoor = str_replace(",", "", $request->omzet_cabang_print_outdoor);
-        $omzet->print_indoor = str_replace(",", "", $request->omzet_cabang_print_indoor);
-        $omzet->offset = str_replace(",", "", $request->omzet_cabang_offset);
-        $omzet->merchandise = str_replace(",", "", $request->omzet_cabang_merchandise);
-        $omzet->akrilik = str_replace(",", "", $request->omzet_cabang_akrilik);
-        $omzet->design = str_replace(",", "", $request->omzet_cabang_design);
-        $omzet->laminasi_dingin = str_replace(",", "", $request->omzet_cabang_laminasi_dingin);
-        $omzet->laminasi_a3 = str_replace(",", "", $request->omzet_cabang_laminasi_a3);
-        $omzet->fotocopy = str_replace(",", "", $request->omzet_cabang_fotocopy);
-        $omzet->dtf = str_replace(",", "", $request->omzet_cabang_dtf);
-        $omzet->uv = str_replace(",", "", $request->omzet_cabang_uv);
-        $omzet->advertising_produk = str_replace(",", "", $request->omzet_cabang_advertising_produk);
-        $omzet->advertising_jasa = str_replace(",", "", $request->omzet_cabang_advertising_jasa);
-        $omzet->cash_harian = str_replace(",", "", $request->omzet_cabang_cash_harian);
-        $omzet->piutang_bulan_berjalan = str_replace(",", "", $request->omzet_cabang_piutang_bulan_berjalan);
-        $omzet->piutang_terbayar = str_replace(",", "", $request->omzet_cabang_piutang_terbayar);
-        $omzet->karyawan_sales_id = str_replace(",", "", $request->omzet_cabang_karyawan_sales_id);
-        $omzet->pencapaian_omset_sales = str_replace(",", "", $request->omzet_cabang_pencapaian_omset_sales);
-        $omzet->pencapaian_cash_sales = str_replace(",", "", $request->omzet_cabang_pencapaian_cash_sales);
-        $omzet->save();
+      $omzet = new LabulOmzet;
+      $omzet->karyawan_id = Auth::user()->master_karyawan_id;
+      $omzet->cabang_id = $request->omzet_cabang_cabang_id;
+      $omzet->tanggal = $request->omzet_cabang_tanggal;
+      $omzet->transaksi = $request->omzet_cabang_transaksi;
+      $omzet->traffic_online = $request->omzet_cabang_traffic_online;
+      $omzet->traffic_offline = $request->omzet_cabang_traffic_offline;
+      $omzet->retail = str_replace(",", "", $request->omzet_cabang_retail);
+      $omzet->instansi = str_replace(",", "", $request->omzet_cabang_instansi);
+      $omzet->reseller = str_replace(",", "", $request->omzet_cabang_reseller);
+      $omzet->cabang_rp = str_replace(",", "", $request->omzet_cabang_cabang);
+      $omzet->omzet_harian = str_replace(",", "", $request->omzet_cabang_omzet_harian);
+      $omzet->omzet_terbayar = str_replace(",", "", $request->omzet_cabang_omzet_terbayar);
+      $omzet->leads = $request->omzet_cabang_leads;
+      $omzet->konsumen_bertanya = $request->omzet_cabang_konsumen_bertanya;
+      $omzet->cetak_banner_harian = str_replace(",", "", $request->omzet_cabang_cetak_banner_harian);
+      $omzet->cetak_a3_harian = str_replace(",", "", $request->omzet_cabang_cetak_a3_harian);
+      $omzet->print_outdoor = str_replace(",", "", $request->omzet_cabang_print_outdoor);
+      $omzet->print_indoor = str_replace(",", "", $request->omzet_cabang_print_indoor);
+      $omzet->offset = str_replace(",", "", $request->omzet_cabang_offset);
+      $omzet->merchandise = str_replace(",", "", $request->omzet_cabang_merchandise);
+      $omzet->akrilik = str_replace(",", "", $request->omzet_cabang_akrilik);
+      $omzet->design = str_replace(",", "", $request->omzet_cabang_design);
+      $omzet->laminasi_dingin = str_replace(",", "", $request->omzet_cabang_laminasi_dingin);
+      $omzet->laminasi_a3 = str_replace(",", "", $request->omzet_cabang_laminasi_a3);
+      $omzet->fotocopy = str_replace(",", "", $request->omzet_cabang_fotocopy);
+      $omzet->dtf = str_replace(",", "", $request->omzet_cabang_dtf);
+      $omzet->uv = str_replace(",", "", $request->omzet_cabang_uv);
+      $omzet->advertising_produk = str_replace(",", "", $request->omzet_cabang_advertising_produk);
+      $omzet->advertising_jasa = str_replace(",", "", $request->omzet_cabang_advertising_jasa);
+      $omzet->cash_harian = str_replace(",", "", $request->omzet_cabang_cash_harian);
+      $omzet->piutang_bulan_berjalan = str_replace(",", "", $request->omzet_cabang_piutang_bulan_berjalan);
+      $omzet->piutang_terbayar = str_replace(",", "", $request->omzet_cabang_piutang_terbayar);
+      // $omzet->karyawan_sales_id = str_replace(",", "", $request->omzet_cabang_karyawan_sales_id);
+      // $omzet->pencapaian_omset_sales = str_replace(",", "", $request->omzet_cabang_pencapaian_omset_sales);
+      // $omzet->pencapaian_cash_sales = str_replace(",", "", $request->omzet_cabang_pencapaian_cash_sales);
+      $omzet->save();
 
-        return response()->json([
-            'status' => 'true'
-        ]);
+      foreach ($request->omzet_cabang_karyawan_sales_id as $key => $item_sales) {
+        $omzet_sales = new LabulOmzetSales;
+        $omzet_sales->omzet_id = $omzet->id;
+        $omzet_sales->karyawan_id = $item_sales;
+        $omzet_sales->pencapaian_omzet = $request->omzet_cabang_pencapaian_omset_sales[$key];
+        $omzet_sales->pencapaian_cash = $request->omzet_cabang_pencapaian_cash_sales[$key];
+        $omzet_sales->save();
+      }
+
+      // return response()->json([
+      //     'status' => 'true'
+      // ]);
+      return redirect()->route('labul.input');
     }
 
     // result
