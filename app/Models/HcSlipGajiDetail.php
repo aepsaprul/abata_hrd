@@ -41,6 +41,7 @@ class HcSlipGajiDetail extends Model
         'lembur_hari_biasa',
         'lembur_hari_libur',
         'absensi_telat',
+        'telat_kehadiran',
         'absensi_sakit',
         'absensi_tanpa_skd',
         'absensi_ijin',
