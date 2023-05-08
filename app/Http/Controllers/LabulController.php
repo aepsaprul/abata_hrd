@@ -548,13 +548,15 @@ class LabulController extends Controller
       // $omzet->pencapaian_cash_sales = str_replace(",", "", $request->omzet_cabang_pencapaian_cash_sales);
       $omzet->save();
 
-      foreach ($request->omzet_cabang_karyawan_sales_id as $key => $item_sales) {
-        $omzet_sales = new LabulOmzetSales;
-        $omzet_sales->omzet_id = $omzet->id;
-        $omzet_sales->karyawan_id = $item_sales;
-        $omzet_sales->pencapaian_omzet = $request->omzet_cabang_pencapaian_omset_sales[$key];
-        $omzet_sales->pencapaian_cash = $request->omzet_cabang_pencapaian_cash_sales[$key];
-        $omzet_sales->save();
+      if ($request->omzet_cabang_karyawan_sales_id) {
+        foreach ($request->omzet_cabang_karyawan_sales_id as $key => $item_sales) {
+          $omzet_sales = new LabulOmzetSales;
+          $omzet_sales->omzet_id = $omzet->id;
+          $omzet_sales->karyawan_id = $item_sales;
+          $omzet_sales->pencapaian_omzet = $request->omzet_cabang_pencapaian_omset_sales[$key];
+          $omzet_sales->pencapaian_cash = $request->omzet_cabang_pencapaian_cash_sales[$key];
+          $omzet_sales->save();
+        }
       }
 
       // return response()->json([
