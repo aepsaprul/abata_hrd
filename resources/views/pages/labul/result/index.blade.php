@@ -1718,7 +1718,7 @@
           <label for="detail_omzet_piutang_terbayar" class="form-label">Piutang Terbayar</label>
           <input type="text" name="detail_omzet_piutang_terbayar" id="detail_omzet_piutang_terbayar" class="form-control" disabled>
         </div>
-        <div class="mb-3">
+        {{-- <div class="mb-3">
           <label for="detail_omzet_karyawan_sales_id" class="form-label">Sales</label>
           <input type="text" name="detail_omzet_karyawan_sales_id" id="detail_omzet_karyawan_sales_id" class="form-control" disabled>
         </div>
@@ -1729,7 +1729,7 @@
         <div class="mb-3">
           <label for="detail_omzet_pencapaian_cash_sales" class="form-label">Pencapaian Cash Sales</label>
           <input type="text" name="detail_omzet_pencapaian_cash_sales" id="detail_omzet_pencapaian_cash_sales" class="form-control" disabled>
-        </div>
+        </div> --}}
       </div>
     </div>
   </div>
@@ -1871,7 +1871,7 @@
             <label for="edit_omzet_piutang_terbayar" class="form-label">Piutang Terbayar</label>
             <input type="text" name="edit_omzet_piutang_terbayar" id="edit_omzet_piutang_terbayar" class="form-control">
           </div>
-          <div class="mb-3">
+          {{-- <div class="mb-3">
             <label for="edit_omzet_karyawan_sales_id" class="form-label">Sales</label>
             <select name="edit_omzet_karyawan_sales_id" id="edit_omzet_karyawan_sales_id" class="form-control"></select>
           </div>
@@ -1882,7 +1882,7 @@
           <div class="mb-3">
             <label for="edit_omzet_pencapaian_cash_sales" class="form-label">Pencapaian Cash Sales</label>
             <input type="text" name="edit_omzet_pencapaian_cash_sales" id="edit_omzet_pencapaian_cash_sales" class="form-control">
-          </div>
+          </div> --}}
         </div>
         <div class="modal-footer">
           <button class="btn btn-primary modal-tombol-edit-omzet-spinner d-none" disabled style="width: 130px;">
@@ -1976,7 +1976,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_activity_plan = '';
           $.each(response.activity_plans, function (index, item) {
             data_activity_plan += '' +
@@ -2288,7 +2287,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_data_member = '';
           $.each(response.data_members, function (index, item) {
             data_data_member += '' +
@@ -2333,7 +2331,6 @@
         url: url,
         type: "get",
         success: function (response) {
-          console.log(response);
           $('#detail_data_member_cabang').val(response.data_member.cabang.nama_cabang);
           $('#detail_data_member_tanggal').val(response.data_member.tanggal);
           $('#detail_data_member_nama_member').val(response.data_member.nama_member);
@@ -2453,7 +2450,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_data_instansi = '';
           $.each(response.data_instansis, function (index, item) {
             data_data_instansi += '' +
@@ -2498,7 +2494,6 @@
         url: url,
         type: "get",
         success: function (response) {
-          console.log(response);
           $('#detail_data_instansi_cabang').val(response.data_instansi.cabang.nama_cabang);
           $('#detail_data_instansi_tanggal').val(response.data_instansi.tanggal);
           $('#detail_data_instansi_nama_instansi').val(response.data_instansi.nama_instansi);
@@ -2621,7 +2616,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_instansi = '';
           $.each(response.instansis, function (index, item) {
             data_instansi += '' +
@@ -2800,7 +2794,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_data_reseller = '';
           $.each(response.data_resellers, function (index, item) {
             data_data_reseller += '' +
@@ -2845,7 +2838,6 @@
         url: url,
         type: "get",
         success: function (response) {
-          console.log(response);
           $('#detail_data_reseller_cabang').val(response.data_reseller.cabang.nama_cabang);
           $('#detail_data_reseller_tanggal').val(response.data_reseller.tanggal);
           $('#detail_data_reseller_nama_reseller').val(response.data_reseller.nama_reseller);
@@ -2968,7 +2960,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_reseller = '';
           $.each(response.resellers, function (index, item) {
             data_reseller += '' +
@@ -3152,7 +3143,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_survey_kompetitor = '';
           $.each(response.survey_kompetitors, function (index, item) {
             data_survey_kompetitor += '' +
@@ -3197,7 +3187,6 @@
         url: url,
         type: "get",
         success: function (response) {
-          console.log(response);
           let asset_url = "{{ asset('/') }}";
           let asset_folder = "public/file/labul/";
           let asset_img = response.survey_kompetitor.foto;
@@ -3331,7 +3320,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_komplain = '';
           $.each(response.komplains, function (index, item) {
             data_komplain += '' +
@@ -3501,7 +3489,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_reqor = '';
           $.each(response.reqors, function (index, item) {
             data_reqor += '' +
@@ -3673,7 +3660,6 @@
         type: "post",
         data: formData,
         success: function (response) {
-          console.log(response);
           let data_omzet = '';
           $.each(response.omzets, function (index, item) {
             data_omzet += '' +
@@ -3749,9 +3735,9 @@
           $('#detail_omzet_cash_harian').val(format_rupiah(response.omzet.cash_harian));
           $('#detail_omzet_piutang_bulan_berjalan').val(format_rupiah(response.omzet.piutang_bulan_berjalan));
           $('#detail_omzet_piutang_terbayar').val(format_rupiah(response.omzet.piutang_terbayar));
-          $('#detail_omzet_karyawan_sales_id').val(response.omzet.sales.nama_lengkap);
-          $('#detail_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
-          $('#detail_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
+          // $('#detail_omzet_karyawan_sales_id').val(response.omzet.sales.nama_lengkap);
+          // $('#detail_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
+          // $('#detail_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
           
           $('#modalOmzetDetail').modal('show');
         }
@@ -3767,7 +3753,7 @@
       $.ajax({
         url: url,
         type: "get",
-        success: function (response) {          
+        success: function (response) { 
           $('#edit_omzet_id').val(response.omzet.id);
           $('#edit_omzet_tanggal').val(response.omzet.tanggal);
           $('#edit_omzet_transaksi').val(response.omzet.transaksi);
@@ -3799,8 +3785,8 @@
           $('#edit_omzet_cash_harian').val(format_rupiah(response.omzet.cash_harian));
           $('#edit_omzet_piutang_bulan_berjalan').val(format_rupiah(response.omzet.piutang_bulan_berjalan));
           $('#edit_omzet_piutang_terbayar').val(format_rupiah(response.omzet.piutang_terbayar));
-          $('#edit_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
-          $('#edit_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
+          // $('#edit_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
+          // $('#edit_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
 
           let data_cabang = '';
           $.each(response.cabangs, function (index, item) {
@@ -4015,15 +4001,15 @@
         piutang_terbayar.value = formatRupiah(this.value, "");
       });
 
-      let pencapaian_omset_sales = document.getElementById("edit_omzet_pencapaian_omzet_sales");
-      pencapaian_omset_sales.addEventListener("keyup", function(e) {
-        pencapaian_omset_sales.value = formatRupiah(this.value, "");
-      });
+      // let pencapaian_omset_sales = document.getElementById("edit_omzet_pencapaian_omzet_sales");
+      // pencapaian_omset_sales.addEventListener("keyup", function(e) {
+      //   pencapaian_omset_sales.value = formatRupiah(this.value, "");
+      // });
 
-      let pencapaian_cash_sales = document.getElementById("edit_omzet_pencapaian_cash_sales");
-      pencapaian_cash_sales.addEventListener("keyup", function(e) {
-        pencapaian_cash_sales.value = formatRupiah(this.value, "");
-      });
+      // let pencapaian_cash_sales = document.getElementById("edit_omzet_pencapaian_cash_sales");
+      // pencapaian_cash_sales.addEventListener("keyup", function(e) {
+      //   pencapaian_cash_sales.value = formatRupiah(this.value, "");
+      // });
     });
   });
 </script>
