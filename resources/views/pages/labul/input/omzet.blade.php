@@ -172,11 +172,11 @@
                           </div>
                           <div class="mb-3">
                             <label for="omzet_cabang_pencapaian_omset_sales" class="form-label">Pencapaian Omset Sales</label>
-                            <input type="text" name="omzet_cabang_pencapaian_omset_sales[]" id="omzet_cabang_pencapaian_omset_sales" class="form-control">
+                            <input type="text" name="omzet_cabang_pencapaian_omset_sales[]" id="omzet_cabang_pencapaian_omset_sales" class="pencapaian_omset_sales form-control">
                           </div>
                           <div class="mb-3">
                             <label for="omzet_cabang_pencapaian_cash_sales" class="form-label">Pencapaian Cash Sales</label>
-                            <input type="text" name="omzet_cabang_pencapaian_cash_sales[]" id="omzet_cabang_pencapaian_cash_sales" class="form-control">
+                            <input type="text" name="omzet_cabang_pencapaian_cash_sales[]" id="omzet_cabang_pencapaian_cash_sales" class="pencapaian_cash_sales form-control">
                           </div>                            
                         @endforeach
                         <button class="btn btn-primary btn-omzet-cabang-spinner d-none" disabled style="width: 130px;">
@@ -194,4 +194,144 @@
       </div>
   </section>
 </div>
+@endsection
+
+@section('script')
+<script>
+  $(document).ready(function () {
+    let retail = document.getElementById("omzet_cabang_retail");
+    retail.addEventListener("keyup", function(e) {
+        retail.value = formatRupiah(this.value, "");
+    });
+
+    let instansi = document.getElementById("omzet_cabang_instansi");
+    instansi.addEventListener("keyup", function(e) {
+        instansi.value = formatRupiah(this.value, "");
+    });
+
+    let reseller = document.getElementById("omzet_cabang_reseller");
+    reseller.addEventListener("keyup", function(e) {
+        reseller.value = formatRupiah(this.value, "");
+    });
+
+    let cabang = document.getElementById("omzet_cabang_cabang");
+    cabang.addEventListener("keyup", function(e) {
+        cabang.value = formatRupiah(this.value, "");
+    });
+
+    let omzet_harian = document.getElementById("omzet_cabang_omzet_harian");
+    omzet_harian.addEventListener("keyup", function(e) {
+        omzet_harian.value = formatRupiah(this.value, "");
+    });
+
+    let omzet_terbayar = document.getElementById("omzet_cabang_omzet_terbayar");
+    omzet_terbayar.addEventListener("keyup", function(e) {
+        omzet_terbayar.value = formatRupiah(this.value, "");
+    });
+
+    let cetak_banner_harian = document.getElementById("omzet_cabang_cetak_banner_harian");
+    cetak_banner_harian.addEventListener("keyup", function(e) {
+        cetak_banner_harian.value = formatRupiah(this.value, "");
+    });
+
+    let cetak_a3_harian = document.getElementById("omzet_cabang_cetak_a3_harian");
+    cetak_a3_harian.addEventListener("keyup", function(e) {
+        cetak_a3_harian.value = formatRupiah(this.value, "");
+    });
+
+    let print_outdoor = document.getElementById("omzet_cabang_print_outdoor");
+    print_outdoor.addEventListener("keyup", function(e) {
+        print_outdoor.value = formatRupiah(this.value, "");
+    });
+
+    let print_indoor = document.getElementById("omzet_cabang_print_indoor");
+    print_indoor.addEventListener("keyup", function(e) {
+        print_indoor.value = formatRupiah(this.value, "");
+    });
+
+    let offset = document.getElementById("omzet_cabang_offset");
+    offset.addEventListener("keyup", function(e) {
+        offset.value = formatRupiah(this.value, "");
+    });
+
+    let merchandise = document.getElementById("omzet_cabang_merchandise");
+    merchandise.addEventListener("keyup", function(e) {
+        merchandise.value = formatRupiah(this.value, "");
+    });
+
+    let akrilik = document.getElementById("omzet_cabang_akrilik");
+    akrilik.addEventListener("keyup", function(e) {
+        akrilik.value = formatRupiah(this.value, "");
+    });
+
+    let design = document.getElementById("omzet_cabang_design");
+    design.addEventListener("keyup", function(e) {
+        design.value = formatRupiah(this.value, "");
+    });
+
+    let laminasi_dingin = document.getElementById("omzet_cabang_laminasi_dingin");
+    laminasi_dingin.addEventListener("keyup", function(e) {
+        laminasi_dingin.value = formatRupiah(this.value, "");
+    });
+
+    let laminasi_a3 = document.getElementById("omzet_cabang_laminasi_a3");
+    laminasi_a3.addEventListener("keyup", function(e) {
+        laminasi_a3.value = formatRupiah(this.value, "");
+    });
+
+    let fotocopy = document.getElementById("omzet_cabang_fotocopy");
+    fotocopy.addEventListener("keyup", function(e) {
+        fotocopy.value = formatRupiah(this.value, "");
+    });
+
+    let dtf = document.getElementById("omzet_cabang_dtf");
+    dtf.addEventListener("keyup", function(e) {
+        dtf.value = formatRupiah(this.value, "");
+    });
+
+    let uv = document.getElementById("omzet_cabang_uv");
+    uv.addEventListener("keyup", function(e) {
+        uv.value = formatRupiah(this.value, "");
+    });
+
+    let advertising_produk = document.getElementById("omzet_cabang_advertising_produk");
+    advertising_produk.addEventListener("keyup", function(e) {
+        advertising_produk.value = formatRupiah(this.value, "");
+    });
+
+    let advertising_jasa = document.getElementById("omzet_cabang_advertising_jasa");
+    advertising_jasa.addEventListener("keyup", function(e) {
+        advertising_jasa.value = formatRupiah(this.value, "");
+    });
+
+    let cash_harian = document.getElementById("omzet_cabang_cash_harian");
+    cash_harian.addEventListener("keyup", function(e) {
+        cash_harian.value = formatRupiah(this.value, "");
+    });
+
+    let piutang_bulan_berjalan = document.getElementById("omzet_cabang_piutang_bulan_berjalan");
+    piutang_bulan_berjalan.addEventListener("keyup", function(e) {
+        piutang_bulan_berjalan.value = formatRupiah(this.value, "");
+    });
+
+    let piutang_terbayar = document.getElementById("omzet_cabang_piutang_terbayar");
+    piutang_terbayar.addEventListener("keyup", function(e) {
+        piutang_terbayar.value = formatRupiah(this.value, "");
+    });
+
+    let pencapaian_omset_sales = document.querySelectorAll(".pencapaian_omset_sales");
+    for (let index = 0; index < pencapaian_omset_sales.length; index++) {
+      pencapaian_omset_sales[index].addEventListener("keyup", function(e) {
+        this.value = formatRupiah(this.value, "");
+      });      
+    }
+    
+    let pencapaian_cash_sales = document.querySelectorAll(".pencapaian_cash_sales");
+    for (let index = 0; index < pencapaian_cash_sales.length; index++) {
+      pencapaian_cash_sales[index].addEventListener("keyup", function(e) {
+        this.value = formatRupiah(this.value, "");
+      });      
+    }
+  });
+</script>
 @endsection

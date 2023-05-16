@@ -3660,33 +3660,33 @@
         type: "post",
         data: formData,
         success: function (response) {
-          let data_omzet = '';
+          let data_omzet = ``;
           $.each(response.omzets, function (index, item) {
-            data_omzet += '' +
-            '<tr>' +
-              '<td class="text-center">' + (index+1) + '</td>' +
-              '<td>' + item.karyawan.nama_panggilan + '</td>' +
-              '<td>' + item.cabang.nama_cabang + '</td>' +
-              '<td class="text-center">' + item.tanggal + '</td>' +
-              '<td class="text-center">' +
-                '<div class="btn-group">' +
-                  '<a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                    '<i class="fas fa-cog"></i>' +
-                  '</a>' +
-                  '<div class="dropdown-menu dropdown-menu-right">' +
-                    '<a href="#" class="dropdown-item border-bottom btn-detail-omzet text-indigo" data-id="' + item.id + '">' +
-                      '<i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail' +
-                    '</a>' +
-                    '<a href="#" class="dropdown-item border-bottom btn-edit-omzet text-indigo" data-id="' + item.id + '">' +
-                     '<i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah' +
-                    '</a>' +
-                    '<a href="#" class="dropdown-item btn-delete-omzet text-indigo" data-id="' + item.id + '">' +
-                      '<i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus' +
-                    '</a>' +
-                  '</div>' +
-               '</div> ' +
-              '</td>' +
-            '</tr>';
+            data_omzet += `
+            <tr>
+              <td class="text-center">${index+1}</td>
+              <td>${item.karyawan.nama_panggilan} </td>
+              <td>${item.cabang.nama_cabang} </td>
+              <td class="text-center">${item.tanggal} </td>
+              <td class="text-center">
+                <div class="btn-group">
+                  <a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cog"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a href="#" class="dropdown-item border-bottom btn-detail-omzet text-indigo" data-id="${item.id}">
+                      <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                    </a>
+                    <a href="{{ url('labul/result/omzet/${item.id}/edit') }}" class="dropdown-item border-bottom btn-edit-omzet text-indigo" data-id="${item.id}">
+                      <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                    </a>
+                    <a href="#" class="dropdown-item btn-delete-omzet text-indigo" data-id="${item.id}">
+                      <i class="fas fa-minus-circle text-center mr-2" style="width: 20px;"></i> Hapus
+                    </a>
+                  </div>
+                </div> 
+              </td>
+            </tr>`;
           })
           $('.table-body-omzet').append(data_omzet);
         }
@@ -3744,78 +3744,78 @@
       })
     })
     // omzet edit
-    $(document).on('click', '.btn-edit-omzet', function (e) {
-      e.preventDefault();
-      let id = $(this).attr('data-id');
-      let url = "{{ URL::route('labul.result.omzet.edit', [':id']) }}";
-      url = url.replace(':id', id);
+    // $(document).on('click', '.btn-edit-omzet', function (e) {
+    //   e.preventDefault();
+    //   let id = $(this).attr('data-id');
+    //   let url = "{{ URL::route('labul.result.omzet.edit', [':id']) }}";
+    //   url = url.replace(':id', id);
 
-      $.ajax({
-        url: url,
-        type: "get",
-        success: function (response) { 
-          $('#edit_omzet_id').val(response.omzet.id);
-          $('#edit_omzet_tanggal').val(response.omzet.tanggal);
-          $('#edit_omzet_transaksi').val(response.omzet.transaksi);
-          $('#edit_omzet_traffic_online').val(response.omzet.traffic_online);
-          $('#edit_omzet_traffic_offline').val(response.omzet.traffic_offline);
-          $('#edit_omzet_retail').val(format_rupiah(response.omzet.retail));
-          $('#edit_omzet_instansi').val(format_rupiah(response.omzet.instansi));
-          $('#edit_omzet_reseller').val(format_rupiah(response.omzet.reseller));
-          $('#edit_omzet_cabang_rp').val(format_rupiah(response.omzet.cabang_rp));
-          $('#edit_omzet_omzet_harian').val(format_rupiah(response.omzet.omzet_harian));
-          $('#edit_omzet_omzet_terbayar').val(format_rupiah(response.omzet.omzet_terbayar));
-          $('#edit_omzet_leads').val(response.omzet.leads);
-          $('#edit_omzet_konsumen_bertanya').val(response.omzet.konsumen_bertanya);
-          $('#edit_omzet_cetak_banner_harian').val(format_rupiah(response.omzet.cetak_banner_harian));
-          $('#edit_omzet_cetak_a3_harian').val(format_rupiah(response.omzet.cetak_a3_harian));
-          $('#edit_omzet_print_outdoor').val(format_rupiah(response.omzet.print_outdoor));
-          $('#edit_omzet_print_indoor').val(format_rupiah(response.omzet.print_indoor));
-          $('#edit_omzet_offset').val(format_rupiah(response.omzet.offset));
-          $('#edit_omzet_merchandise').val(format_rupiah(response.omzet.merchandise));
-          $('#edit_omzet_akrilik').val(format_rupiah(response.omzet.akrilik));
-          $('#edit_omzet_design').val(format_rupiah(response.omzet.design));
-          $('#edit_omzet_laminasi_dingin').val(format_rupiah(response.omzet.laminasi_dingin));
-          $('#edit_omzet_laminasi_a3').val(format_rupiah(response.omzet.laminasi_a3));
-          $('#edit_omzet_fotocopy').val(format_rupiah(response.omzet.fotocopy));
-          $('#edit_omzet_dtf').val(format_rupiah(response.omzet.dtf));
-          $('#edit_omzet_uv').val(format_rupiah(response.omzet.uv));
-          $('#edit_omzet_advertising_produk').val(format_rupiah(response.omzet.advertising_produk));
-          $('#edit_omzet_advertising_jasa').val(format_rupiah(response.omzet.advertising_jasa));
-          $('#edit_omzet_cash_harian').val(format_rupiah(response.omzet.cash_harian));
-          $('#edit_omzet_piutang_bulan_berjalan').val(format_rupiah(response.omzet.piutang_bulan_berjalan));
-          $('#edit_omzet_piutang_terbayar').val(format_rupiah(response.omzet.piutang_terbayar));
-          // $('#edit_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
-          // $('#edit_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
+    //   $.ajax({
+    //     url: url,
+    //     type: "get",
+    //     success: function (response) { 
+    //       $('#edit_omzet_id').val(response.omzet.id);
+    //       $('#edit_omzet_tanggal').val(response.omzet.tanggal);
+    //       $('#edit_omzet_transaksi').val(response.omzet.transaksi);
+    //       $('#edit_omzet_traffic_online').val(response.omzet.traffic_online);
+    //       $('#edit_omzet_traffic_offline').val(response.omzet.traffic_offline);
+    //       $('#edit_omzet_retail').val(format_rupiah(response.omzet.retail));
+    //       $('#edit_omzet_instansi').val(format_rupiah(response.omzet.instansi));
+    //       $('#edit_omzet_reseller').val(format_rupiah(response.omzet.reseller));
+    //       $('#edit_omzet_cabang_rp').val(format_rupiah(response.omzet.cabang_rp));
+    //       $('#edit_omzet_omzet_harian').val(format_rupiah(response.omzet.omzet_harian));
+    //       $('#edit_omzet_omzet_terbayar').val(format_rupiah(response.omzet.omzet_terbayar));
+    //       $('#edit_omzet_leads').val(response.omzet.leads);
+    //       $('#edit_omzet_konsumen_bertanya').val(response.omzet.konsumen_bertanya);
+    //       $('#edit_omzet_cetak_banner_harian').val(format_rupiah(response.omzet.cetak_banner_harian));
+    //       $('#edit_omzet_cetak_a3_harian').val(format_rupiah(response.omzet.cetak_a3_harian));
+    //       $('#edit_omzet_print_outdoor').val(format_rupiah(response.omzet.print_outdoor));
+    //       $('#edit_omzet_print_indoor').val(format_rupiah(response.omzet.print_indoor));
+    //       $('#edit_omzet_offset').val(format_rupiah(response.omzet.offset));
+    //       $('#edit_omzet_merchandise').val(format_rupiah(response.omzet.merchandise));
+    //       $('#edit_omzet_akrilik').val(format_rupiah(response.omzet.akrilik));
+    //       $('#edit_omzet_design').val(format_rupiah(response.omzet.design));
+    //       $('#edit_omzet_laminasi_dingin').val(format_rupiah(response.omzet.laminasi_dingin));
+    //       $('#edit_omzet_laminasi_a3').val(format_rupiah(response.omzet.laminasi_a3));
+    //       $('#edit_omzet_fotocopy').val(format_rupiah(response.omzet.fotocopy));
+    //       $('#edit_omzet_dtf').val(format_rupiah(response.omzet.dtf));
+    //       $('#edit_omzet_uv').val(format_rupiah(response.omzet.uv));
+    //       $('#edit_omzet_advertising_produk').val(format_rupiah(response.omzet.advertising_produk));
+    //       $('#edit_omzet_advertising_jasa').val(format_rupiah(response.omzet.advertising_jasa));
+    //       $('#edit_omzet_cash_harian').val(format_rupiah(response.omzet.cash_harian));
+    //       $('#edit_omzet_piutang_bulan_berjalan').val(format_rupiah(response.omzet.piutang_bulan_berjalan));
+    //       $('#edit_omzet_piutang_terbayar').val(format_rupiah(response.omzet.piutang_terbayar));
+    //       // $('#edit_omzet_pencapaian_omzet_sales').val(format_rupiah(response.omzet.pencapaian_omset_sales));
+    //       // $('#edit_omzet_pencapaian_cash_sales').val(format_rupiah(response.omzet.pencapaian_cash_sales));
 
-          let data_cabang = '';
-          $.each(response.cabangs, function (index, item) {
-            data_cabang += '<option value="' + item.id + '"';
+    //       let data_cabang = '';
+    //       $.each(response.cabangs, function (index, item) {
+    //         data_cabang += '<option value="' + item.id + '"';
             
-            if (item.id == response.omzet.cabang_id) {
-              data_cabang += ' selected';
-            }
+    //         if (item.id == response.omzet.cabang_id) {
+    //           data_cabang += ' selected';
+    //         }
 
-            data_cabang += '>' + item.nama_cabang + '</option>';
-          })
-          $('#edit_omzet_cabang_id').append(data_cabang);
+    //         data_cabang += '>' + item.nama_cabang + '</option>';
+    //       })
+    //       $('#edit_omzet_cabang_id').append(data_cabang);
 
-          let data_sales = '';
-          $.each(response.sales, function (index, item) {
-            data_sales += '<option value="' + item.id + '"';
+    //       let data_sales = '';
+    //       $.each(response.sales, function (index, item) {
+    //         data_sales += '<option value="' + item.id + '"';
             
-            if (item.id == response.omzet.karyawan_sales_id) {
-              data_sales += ' selected';
-            }
+    //         if (item.id == response.omzet.karyawan_sales_id) {
+    //           data_sales += ' selected';
+    //         }
 
-            data_sales += '>' + item.nama_lengkap + '</option>';
-          })
-          $('#edit_omzet_karyawan_sales_id').append(data_sales);
+    //         data_sales += '>' + item.nama_lengkap + '</option>';
+    //       })
+    //       $('#edit_omzet_karyawan_sales_id').append(data_sales);
 
-          $('#modalOmzetEdit').modal('show');
-        }
-      })
-    })
+    //       $('#modalOmzetEdit').modal('show');
+    //     }
+    //   })
+    // })
     $(document).on('click', '.modal-tombol-edit-omzet', function (e) {
       e.preventDefault();
       let formData = new FormData($('#form-edit-omzet')[0]);

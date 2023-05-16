@@ -225,21 +225,21 @@ class LabulController extends Controller
         $reseller->hasil_kunjungan = $request->reseller_hasil_kunjungan;
 
         // dev
-        if($request->hasFile('reseller_foto')) {
-            $file = $request->file('reseller_foto');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . "." . $extension;
-            $file->move('public/file/labul/', $filename);
-            $reseller->foto = $filename;
-        }
-        // prod
         // if($request->hasFile('reseller_foto')) {
-        //   $file = $request->file('reseller_foto');
-        //   $extension = $file->getClientOriginalExtension();
-        //   $filename = time() . "." . $extension;
-        //   $file->move('file/labul/', $filename);
-        //   $reseller->foto = $filename;
+        //     $file = $request->file('reseller_foto');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = time() . "." . $extension;
+        //     $file->move('public/file/labul/', $filename);
+        //     $reseller->foto = $filename;
         // }
+        // prod
+        if($request->hasFile('reseller_foto')) {
+          $file = $request->file('reseller_foto');
+          $extension = $file->getClientOriginalExtension();
+          $filename = time() . "." . $extension;
+          $file->move('file/labul/', $filename);
+          $reseller->foto = $filename;
+        }
 
         $reseller->save();
 
@@ -310,21 +310,21 @@ class LabulController extends Controller
         $instansi->instansi_id = $request->instansi_instansi_id;
 
         // dev
-        if($request->hasFile('instansi_foto')) {
-            $file = $request->file('instansi_foto');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . "." . $extension;
-            $file->move('public/file/labul/', $filename);
-            $instansi->foto = $filename;
-        }
-        // prod
         // if($request->hasFile('instansi_foto')) {
-        //   $file = $request->file('instansi_foto');
-        //   $extension = $file->getClientOriginalExtension();
-        //   $filename = time() . "." . $extension;
-        //   $file->move('file/labul/', $filename);
-        //   $instansi->foto = $filename;
+        //     $file = $request->file('instansi_foto');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = time() . "." . $extension;
+        //     $file->move('public/file/labul/', $filename);
+        //     $instansi->foto = $filename;
         // }
+        // prod
+        if($request->hasFile('instansi_foto')) {
+          $file = $request->file('instansi_foto');
+          $extension = $file->getClientOriginalExtension();
+          $filename = time() . "." . $extension;
+          $file->move('file/labul/', $filename);
+          $instansi->foto = $filename;
+        }
 
         $instansi->save();
 
@@ -361,21 +361,21 @@ class LabulController extends Controller
         $survey->promo_kompetitor = $request->survey_kompetitor_promo_kompetitor;
 
         // dev
-        if($request->hasFile('survey_kompetitor_foto')) {
-            $file = $request->file('survey_kompetitor_foto');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . "." . $extension;
-            $file->move('public/file/labul/', $filename);
-            $survey->foto = $filename;
-        }
-        // dev
         // if($request->hasFile('survey_kompetitor_foto')) {
-        //   $file = $request->file('survey_kompetitor_foto');
-        //   $extension = $file->getClientOriginalExtension();
-        //   $filename = time() . "." . $extension;
-        //   $file->move('file/labul/', $filename);
-        //   $survey->foto = $filename;
+        //     $file = $request->file('survey_kompetitor_foto');
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = time() . "." . $extension;
+        //     $file->move('public/file/labul/', $filename);
+        //     $survey->foto = $filename;
         // }
+        // prod
+        if($request->hasFile('survey_kompetitor_foto')) {
+          $file = $request->file('survey_kompetitor_foto');
+          $extension = $file->getClientOriginalExtension();
+          $filename = time() . "." . $extension;
+          $file->move('file/labul/', $filename);
+          $survey->foto = $filename;
+        }
 
         $survey->save();
 
@@ -553,8 +553,8 @@ class LabulController extends Controller
           $omzet_sales = new LabulOmzetSales;
           $omzet_sales->omzet_id = $omzet->id;
           $omzet_sales->karyawan_id = $item_sales;
-          $omzet_sales->pencapaian_omzet = $request->omzet_cabang_pencapaian_omset_sales[$key];
-          $omzet_sales->pencapaian_cash = $request->omzet_cabang_pencapaian_cash_sales[$key];
+          $omzet_sales->pencapaian_omzet = str_replace(",", "", $request->omzet_cabang_pencapaian_omset_sales[$key]);
+          $omzet_sales->pencapaian_cash = str_replace(",", "", $request->omzet_cabang_pencapaian_cash_sales[$key]);
           $omzet_sales->save();
         }
       }
@@ -1083,28 +1083,28 @@ class LabulController extends Controller
       $instansi->instansi_id = $request->edit_instansi_instansi_id;
 
       // dev
-      if($request->hasFile('edit_instansi_foto')) {
-        if (file_exists("public/file/labul/" . $instansi->foto)) {
-          File::delete("public/file/labul/" . $instansi->foto);
-        }
-        $file = $request->file('edit_instansi_foto');
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . "." . $extension;
-        $file->move('public/file/labul/', $filename);
-        $instansi->foto = $filename;
-      }
+      // if($request->hasFile('edit_instansi_foto')) {
+      //   if (file_exists("public/file/labul/" . $instansi->foto)) {
+      //     File::delete("public/file/labul/" . $instansi->foto);
+      //   }
+      //   $file = $request->file('edit_instansi_foto');
+      //   $extension = $file->getClientOriginalExtension();
+      //   $filename = time() . "." . $extension;
+      //   $file->move('public/file/labul/', $filename);
+      //   $instansi->foto = $filename;
+      // }
 
       // prod
-      // if($request->hasFile('edit_instansi_foto')) {
-      //     if (file_exists("file/labul/" . $instansi->foto)) {
-      //         File::delete("file/labul/" . $instansi->foto);
-      //     }
-      //     $file = $request->file('edit_instansi_foto');
-      //     $extension = $file->getClientOriginalExtension();
-      //     $filename = time() . "." . $extension;
-      //     $file->move('file/labul/', $filename);
-      //     $instansi->foto = $filename;
-      // }
+      if($request->hasFile('edit_instansi_foto')) {
+          if (file_exists("file/labul/" . $instansi->foto)) {
+              File::delete("file/labul/" . $instansi->foto);
+          }
+          $file = $request->file('edit_instansi_foto');
+          $extension = $file->getClientOriginalExtension();
+          $filename = time() . "." . $extension;
+          $file->move('file/labul/', $filename);
+          $instansi->foto = $filename;
+      }
 
       $instansi->save();
 
@@ -1118,14 +1118,14 @@ class LabulController extends Controller
       $instansi = LabulInstansi::find($request->id);
 
       // dev
-      if (file_exists("public/file/labul/" . $instansi->foto)) {
-        File::delete("public/file/labul/" . $instansi->foto);
-      }
+      // if (file_exists("public/file/labul/" . $instansi->foto)) {
+      //   File::delete("public/file/labul/" . $instansi->foto);
+      // }
 
       // prod
-      // if (file_exists("file/labul/" . $instansi->foto)) {
-      //     File::delete("file/labul/" . $instansi->foto);
-      // }
+      if (file_exists("file/labul/" . $instansi->foto)) {
+          File::delete("file/labul/" . $instansi->foto);
+      }
       
       $instansi->delete();
 
@@ -1265,12 +1265,27 @@ class LabulController extends Controller
     {
       $omzet = LabulOmzet::with('sales')->find($id);
       $cabang = MasterCabang::get();
-      $sales = MasterKaryawan::where('master_jabatan_id', '56')->get();
 
-      return response()->json([
+      if (Auth::user()->masterKaryawan) {
+        $cabang_id = Auth::user()->masterKaryawan->master_cabang_id;
+      } else {
+        $cabang_id = 0;
+      }
+
+      $sales = MasterKaryawan::where('master_jabatan_id', '56')->where('status', 'Aktif')->where('master_cabang_id', $cabang_id)->get();
+      $omzet_sales = LabulOmzetSales::where('omzet_id', $omzet->id)->get();
+      
+
+      // return response()->json([
+      //   'omzet' => $omzet,
+      //   'cabangs' => $cabang,
+      //   'sales' => $sales
+      // ]);
+      return view('pages.labul.result.omzetEdit', [
         'omzet' => $omzet,
-        'cabangs' => $cabang,
-        'sales' => $sales
+        'cabang' => $cabang,
+        'sales' => $sales,
+        'omzet_sales' => $omzet_sales
       ]);
     }
 
@@ -1278,50 +1293,77 @@ class LabulController extends Controller
     {
       $omzet = LabulOmzet::find($id);
       $omzet->karyawan_id = Auth::user()->master_karyawan_id;
-        $omzet->cabang_id = $request->edit_omzet_cabang_id;
-        $omzet->tanggal = $request->edit_omzet_tanggal;
-        $omzet->transaksi = $request->edit_omzet_transaksi;
-        $omzet->traffic_online = $request->edit_omzet_traffic_online;
-        $omzet->traffic_offline = $request->edit_omzet_traffic_offline;
-        $omzet->retail = str_replace(",", "", $request->edit_omzet_retail);
-        $omzet->instansi = str_replace(",", "", $request->edit_omzet_instansi);
-        $omzet->reseller = str_replace(",", "", $request->edit_omzet_reseller);
-        $omzet->cabang_rp = str_replace(",", "", $request->edit_omzet_cabang_rp);
-        $omzet->omzet_harian = str_replace(",", "", $request->edit_omzet_omzet_harian);
-        $omzet->omzet_terbayar = str_replace(",", "", $request->edit_omzet_omzet_terbayar);
-        $omzet->leads = $request->edit_omzet_leads;
-        $omzet->konsumen_bertanya = $request->edit_omzet_konsumen_bertanya;
-        $omzet->cetak_banner_harian = str_replace(",", "", $request->edit_omzet_cetak_banner_harian);
-        $omzet->cetak_a3_harian = str_replace(",", "", $request->edit_omzet_cetak_a3_harian);
-        $omzet->print_outdoor = str_replace(",", "", $request->edit_omzet_print_outdoor);
-        $omzet->print_indoor = str_replace(",", "", $request->edit_omzet_print_indoor);
-        $omzet->offset = str_replace(",", "", $request->edit_omzet_offset);
-        $omzet->merchandise = str_replace(",", "", $request->edit_omzet_merchandise);
-        $omzet->akrilik = str_replace(",", "", $request->edit_omzet_akrilik);
-        $omzet->design = str_replace(",", "", $request->edit_omzet_design);
-        $omzet->laminasi_dingin = str_replace(",", "", $request->edit_omzet_laminasi_dingin);
-        $omzet->laminasi_a3 = str_replace(",", "", $request->edit_omzet_laminasi_a3);
-        $omzet->fotocopy = str_replace(",", "", $request->edit_omzet_fotocopy);
-        $omzet->dtf = str_replace(",", "", $request->edit_omzet_dtf);
-        $omzet->uv = str_replace(",", "", $request->edit_omzet_uv);
-        $omzet->advertising_produk = str_replace(",", "", $request->edit_omzet_advertising_produk);
-        $omzet->advertising_jasa = str_replace(",", "", $request->edit_omzet_advertising_jasa);
-        $omzet->cash_harian = str_replace(",", "", $request->edit_omzet_cash_harian);
-        $omzet->piutang_bulan_berjalan = str_replace(",", "", $request->edit_omzet_piutang_bulan_berjalan);
-        $omzet->piutang_terbayar = str_replace(",", "", $request->edit_omzet_piutang_terbayar);
-        $omzet->karyawan_sales_id = str_replace(",", "", $request->edit_omzet_karyawan_sales_id);
-        $omzet->pencapaian_omset_sales = str_replace(",", "", $request->edit_omzet_pencapaian_omzet_sales);
-        $omzet->pencapaian_cash_sales = str_replace(",", "", $request->edit_omzet_pencapaian_cash_sales);
-        $omzet->save();
+      $omzet->cabang_id = $request->edit_omzet_cabang_id;
+      $omzet->tanggal = $request->edit_omzet_tanggal;
+      $omzet->transaksi = $request->edit_omzet_transaksi;
+      $omzet->traffic_online = $request->edit_omzet_traffic_online;
+      $omzet->traffic_offline = $request->edit_omzet_traffic_offline;
+      $omzet->retail = str_replace(",", "", $request->edit_omzet_retail);
+      $omzet->instansi = str_replace(",", "", $request->edit_omzet_instansi);
+      $omzet->reseller = str_replace(",", "", $request->edit_omzet_reseller);
+      $omzet->cabang_rp = str_replace(",", "", $request->edit_omzet_cabang_rp);
+      $omzet->omzet_harian = str_replace(",", "", $request->edit_omzet_omzet_harian);
+      $omzet->omzet_terbayar = str_replace(",", "", $request->edit_omzet_omzet_terbayar);
+      $omzet->leads = $request->edit_omzet_leads;
+      $omzet->konsumen_bertanya = $request->edit_omzet_konsumen_bertanya;
+      $omzet->cetak_banner_harian = str_replace(",", "", $request->edit_omzet_cetak_banner_harian);
+      $omzet->cetak_a3_harian = str_replace(",", "", $request->edit_omzet_cetak_a3_harian);
+      $omzet->print_outdoor = str_replace(",", "", $request->edit_omzet_print_outdoor);
+      $omzet->print_indoor = str_replace(",", "", $request->edit_omzet_print_indoor);
+      $omzet->offset = str_replace(",", "", $request->edit_omzet_offset);
+      $omzet->merchandise = str_replace(",", "", $request->edit_omzet_merchandise);
+      $omzet->akrilik = str_replace(",", "", $request->edit_omzet_akrilik);
+      $omzet->design = str_replace(",", "", $request->edit_omzet_design);
+      $omzet->laminasi_dingin = str_replace(",", "", $request->edit_omzet_laminasi_dingin);
+      $omzet->laminasi_a3 = str_replace(",", "", $request->edit_omzet_laminasi_a3);
+      $omzet->fotocopy = str_replace(",", "", $request->edit_omzet_fotocopy);
+      $omzet->dtf = str_replace(",", "", $request->edit_omzet_dtf);
+      $omzet->uv = str_replace(",", "", $request->edit_omzet_uv);
+      $omzet->advertising_produk = str_replace(",", "", $request->edit_omzet_advertising_produk);
+      $omzet->advertising_jasa = str_replace(",", "", $request->edit_omzet_advertising_jasa);
+      $omzet->cash_harian = str_replace(",", "", $request->edit_omzet_cash_harian);
+      $omzet->piutang_bulan_berjalan = str_replace(",", "", $request->edit_omzet_piutang_bulan_berjalan);
+      $omzet->piutang_terbayar = str_replace(",", "", $request->edit_omzet_piutang_terbayar);
+      // $omzet->karyawan_sales_id = str_replace(",", "", $request->edit_omzet_karyawan_sales_id);
+      // $omzet->pencapaian_omset_sales = str_replace(",", "", $request->edit_omzet_pencapaian_omzet_sales);
+      // $omzet->pencapaian_cash_sales = str_replace(",", "", $request->edit_omzet_pencapaian_cash_sales);
+      $omzet->save();
 
-        return response()->json([
-          'status' => 200
-        ]);
+      $omzet_cabang_karyawan_sales_id = $request->omzet_cabang_karyawan_sales_id;
+      if ($omzet_cabang_karyawan_sales_id) {
+        $omzet_sales_cek = LabulOmzetSales::where('omzet_id', $omzet->id)->first();
+        if ($omzet_sales_cek) {
+          $omzet_sales_ = LabulOmzetSales::where('omzet_id', $omzet->id);
+          $omzet_sales_->delete();
+        }
+        
+        foreach ($omzet_cabang_karyawan_sales_id as $key => $item_sales) {
+          $omzet_sales = new LabulOmzetSales;
+          $omzet_sales->omzet_id = $omzet->id;
+          $omzet_sales->karyawan_id = $item_sales;
+          $omzet_sales->pencapaian_omzet = str_replace(",", "", $request->omzet_cabang_pencapaian_omset_sales[$key]);
+          $omzet_sales->pencapaian_cash = str_replace(",", "", $request->omzet_cabang_pencapaian_cash_sales[$key]);
+          $omzet_sales->save();
+        }
+      }
+
+      // return response()->json([
+      //   'status' => 200
+      // ]);
+
+      return redirect()->route('labul.result');
     }
 
     public function resultOmzetDelete(Request $request)
     {
       $omzet = LabulOmzet::find($request->id);
+
+      $omzet_sales = LabulOmzetSales::where('omzet_id', $omzet->id)->get();
+      if (count($omzet_sales) > 0) {
+        $omzet_sales_ = LabulOmzetSales::where('omzet_id', $omzet->id);
+        $omzet_sales_->delete();
+      }
+
       $omzet->delete();
 
       return response()->json([
@@ -1472,28 +1514,28 @@ class LabulController extends Controller
       $reseller->hasil_kunjungan = $request->edit_reseller_hasil_kunjungan;
 
       // dev
-      if($request->hasFile('edit_reseller_foto')) {
-        if (file_exists("public/file/labul/" . $reseller->foto)) {
-          File::delete("public/file/labul/" . $reseller->foto);
-        }
-        $file = $request->file('edit_reseller_foto');
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . "." . $extension;
-        $file->move('public/file/labul/', $filename);
-        $reseller->foto = $filename;
-      }
+      // if($request->hasFile('edit_reseller_foto')) {
+      //   if (file_exists("public/file/labul/" . $reseller->foto)) {
+      //     File::delete("public/file/labul/" . $reseller->foto);
+      //   }
+      //   $file = $request->file('edit_reseller_foto');
+      //   $extension = $file->getClientOriginalExtension();
+      //   $filename = time() . "." . $extension;
+      //   $file->move('public/file/labul/', $filename);
+      //   $reseller->foto = $filename;
+      // }
 
       // prod
-      // if($request->hasFile('edit_reseller_foto')) {
-      //     if (file_exists("file/labul/" . $reseller->foto)) {
-      //         File::delete("file/labul/" . $reseller->foto);
-      //     }
-      //     $file = $request->file('edit_reseller_foto');
-      //     $extension = $file->getClientOriginalExtension();
-      //     $filename = time() . "." . $extension;
-      //     $file->move('file/labul/', $filename);
-      //     $reseller->foto = $filename;
-      // }
+      if($request->hasFile('edit_reseller_foto')) {
+          if (file_exists("file/labul/" . $reseller->foto)) {
+              File::delete("file/labul/" . $reseller->foto);
+          }
+          $file = $request->file('edit_reseller_foto');
+          $extension = $file->getClientOriginalExtension();
+          $filename = time() . "." . $extension;
+          $file->move('file/labul/', $filename);
+          $reseller->foto = $filename;
+      }
 
       $reseller->save();
 
@@ -1507,14 +1549,14 @@ class LabulController extends Controller
       $reseller = LabulReseller::find($request->id);
 
       // dev
-      if (file_exists("public/file/labul/" . $reseller->foto)) {
-        File::delete("public/file/labul/" . $reseller->foto);
-      }
+      // if (file_exists("public/file/labul/" . $reseller->foto)) {
+      //   File::delete("public/file/labul/" . $reseller->foto);
+      // }
 
       // prod
-      // if (file_exists("file/labul/" . $reseller->foto)) {
-      //     File::delete("file/labul/" . $reseller->foto);
-      // }
+      if (file_exists("file/labul/" . $reseller->foto)) {
+          File::delete("file/labul/" . $reseller->foto);
+      }
 
       $reseller->delete();
 
@@ -1586,28 +1628,28 @@ class LabulController extends Controller
       $survey_kompetitor->promo_kompetitor = $request->edit_survey_kompetitor_promo_kompetitor;
 
       // dev
-      if($request->hasFile('edit_survey_kompetitor_foto')) {
-        if (file_exists("public/file/labul/" . $survey_kompetitor->foto)) {
-          File::delete("public/file/labul/" . $survey_kompetitor->foto);
-        }
-        $file = $request->file('edit_survey_kompetitor_foto');
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . "." . $extension;
-        $file->move('public/file/labul/', $filename);
-        $survey_kompetitor->foto = $filename;
-      }
+      // if($request->hasFile('edit_survey_kompetitor_foto')) {
+      //   if (file_exists("public/file/labul/" . $survey_kompetitor->foto)) {
+      //     File::delete("public/file/labul/" . $survey_kompetitor->foto);
+      //   }
+      //   $file = $request->file('edit_survey_kompetitor_foto');
+      //   $extension = $file->getClientOriginalExtension();
+      //   $filename = time() . "." . $extension;
+      //   $file->move('public/file/labul/', $filename);
+      //   $survey_kompetitor->foto = $filename;
+      // }
 
       // prod
-      // if($request->hasFile('edit_survey_kompetitor_foto')) {
-      //     if (file_exists("file/labul/" . $survey_kompetitor->foto)) {
-      //         File::delete("file/labul/" . $survey_kompetitor->foto);
-      //     }
-      //     $file = $request->file('edit_survey_kompetitor_foto');
-      //     $extension = $file->getClientOriginalExtension();
-      //     $filename = time() . "." . $extension;
-      //     $file->move('file/labul/', $filename);
-      //     $survey_kompetitor->foto = $filename;
-      // }
+      if($request->hasFile('edit_survey_kompetitor_foto')) {
+          if (file_exists("file/labul/" . $survey_kompetitor->foto)) {
+              File::delete("file/labul/" . $survey_kompetitor->foto);
+          }
+          $file = $request->file('edit_survey_kompetitor_foto');
+          $extension = $file->getClientOriginalExtension();
+          $filename = time() . "." . $extension;
+          $file->move('file/labul/', $filename);
+          $survey_kompetitor->foto = $filename;
+      }
 
       $survey_kompetitor->save();
 
@@ -1621,14 +1663,14 @@ class LabulController extends Controller
       $survey_kompetitor = LabulSurveyKompetitor::find($request->id);
 
       // dev
-      if (file_exists("public/file/labul/" . $survey_kompetitor->foto)) {
-        File::delete("public/file/labul/" . $survey_kompetitor->foto);
-      }
+      // if (file_exists("public/file/labul/" . $survey_kompetitor->foto)) {
+      //   File::delete("public/file/labul/" . $survey_kompetitor->foto);
+      // }
 
       // prod
-      // if (file_exists("file/labul/" . $survey_kompetitor->foto)) {
-      //     File::delete("file/labul/" . $survey_kompetitor->foto);
-      // }
+      if (file_exists("file/labul/" . $survey_kompetitor->foto)) {
+          File::delete("file/labul/" . $survey_kompetitor->foto);
+      }
 
       $survey_kompetitor->delete();
 
