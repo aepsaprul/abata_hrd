@@ -110,7 +110,7 @@
                                             <td>{{ $item->alamat }}</td>
                                             <td>{{ $item->kontak }}</td>
                                             <td><a href="{{ $item->maps }}" target="_blank">{{ $item->maps }}</a></td>
-                                            <td><img src="{{ asset('public/compro/cabang/' . $item->gambar) }}" alt="cabang_gambar" style="max-width: 100px;"></td>
+                                            <td><img src="{{ url(env('APP_URL_IMG') . 'img_compro/cabang/' . $item->gambar) }}" alt="cabang_gambar" style="max-width: 100px;"></td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
                                                     <div class="btn-group">

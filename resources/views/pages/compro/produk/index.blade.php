@@ -112,7 +112,7 @@
                                             <td>{{ $item->nama_produk }}</td>
                                             <td>{{ $item->kategori }}</td>
                                             <td class="text-right">{{ $item->harga }}</td>
-                                            <td class="text-center"><img src="{{ asset('public/compro/produk/' . $item->gambar) }}" alt="produk_gambar" style="max-width: 100px;"></td>
+                                            <td class="text-center"><img src="{{ url(env('APP_URL_IMG') . 'img_compro/produk/' . $item->gambar) }}" alt="produk_gambar" style="max-width: 100px;"></td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
                                                     <div class="btn-group">

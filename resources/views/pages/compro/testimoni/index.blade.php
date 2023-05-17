@@ -93,7 +93,7 @@
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td>{{ $item->grup }}</td>
                                             <td>{{ $item->nama }}</td>
-                                            <td><img src="{{ asset('public/compro/testimoni/' . $item->foto) }}" alt="testimoni_foto" style="max-width: 100px;"></td>
+                                            <td><img src="{{ url(env('APP_URL_IMG') . 'img_compro/testimoni/' . $item->foto) }}" alt="testimoni_foto" style="max-width: 100px;"></td>
                                             <td>{{ $item->komentar }}</td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}

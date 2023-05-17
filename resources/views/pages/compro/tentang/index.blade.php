@@ -97,7 +97,7 @@
                                             <td>{{ $item->deskripsi }}</td>
                                             <td>
                                               @if ($item->gambar)
-                                                <img src="{{ asset('public/compro/tentang/' . $item->gambar) }}" alt="tentang_gambar" style="max-width: 100px;">                                                  
+                                                <img src="{{ url(env('APP_URL_IMG').'img_compro/tentang/' . $item->gambar) }}" alt="tentang_gambar" style="max-width: 100px;">                                                  
                                               @endif
                                             </td>
                                             <td class="text-center">

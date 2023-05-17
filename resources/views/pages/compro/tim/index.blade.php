@@ -101,7 +101,7 @@
                                             <td>{{ $item->grup }}</td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->jabatan }}</td>
-                                            <td><img src="{{ asset('public/compro/tim/' . $item->foto) }}" alt="tim_foto" style="max-width: 100px;"></td>
+                                            <td><img src="{{ url(env('APP_URL_IMG') . 'img_compro/tim/' . $item->foto) }}" alt="tim_foto" style="max-width: 100px;"></td>
                                             <td>{{ $item->deskripsi }}</td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}

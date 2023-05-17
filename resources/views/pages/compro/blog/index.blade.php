@@ -95,7 +95,7 @@
                                             <td>{{ $item->grup }}</td>
                                             <td>{{ $item->judul }}</td>
                                             <td>{{ $item->tanggal }}</td>
-                                            <td><img src="{{ asset('public/compro/blog/' . $item->gambar) }}" alt="blog_gambar" style="max-width: 100px;"></td>
+                                            <td><img src="{{ url(env('APP_URL_IMG') . 'img_compro/blog/' . $item->gambar) }}" alt="blog_gambar" style="max-width: 100px;"></td>
                                             <td class="text-center">
                                                 {{-- @if (in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi)) --}}
                                                     <div class="btn-group">
