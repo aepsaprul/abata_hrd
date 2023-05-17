@@ -43,10 +43,10 @@
                                 <i class="fas fa-plus"></i> Tambah
                               </button>
                             @endif
-                            <a href="https://hcm.abata-printing.com/public/video_training/standard_penampilan_abata.mp4" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
+                            <a href="{{ url(env('BASE_URL')) }}video_training/standard_penampilan_abata.mp4" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
                               Video Standard Penampilan
                             </a>
-                            <a href="https://hcm.abata-printing.com/public/video_training/customer_service_excellence.m4v" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
+                            <a href="{{ url(env('BASE_URL')) }}video_training/customer_service_excellence.m4v" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
                               Video CS Exellence
                             </a>
                           </h3>
