@@ -49,6 +49,9 @@
                             <a href="{{ url(env('BASE_URL')) }}video_training/customer_service_excellence.m4v" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
                               Video CS Exellence
                             </a>
+                            <a href="{{ url(env('BASE_URL')) }}video_training/company_profile_dan_motivasi_kerja.mp4" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
+                              Video Company Profile
+                            </a>
                           </h3>
                       </div>
                         <div class="card-body">

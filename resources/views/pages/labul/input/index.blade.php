@@ -40,22 +40,22 @@
                                 @endif
                                 @if (in_array("data member", $current_data_navigasi))
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                        <button id="data_member" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data member</button>
+                                        <button id="data_member" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">database member</button>
                                     </div>
                                 @endif
                                 @if (in_array("reseller", $current_data_navigasi))
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                        <button id="reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">reseller</button>
+                                        <button id="reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">kunjungan reseller</button>
                                     </div>
                                 @endif
                                 @if (in_array("data reseller", $current_data_navigasi))
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                        <button id="data_reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data reseller</button>
+                                        <button id="data_reseller" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">database reseller</button>
                                     </div>
                                 @endif
                                 @if (in_array("instansi", $current_data_navigasi))
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                        <button id="instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">instansi</button>
+                                        <button id="instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">kunjungan instansi</button>
                                     </div>
                                 @endif
                                 @if (in_array("survey kompetitor", $current_data_navigasi))
@@ -70,7 +70,7 @@
                                 @endif
                                 @if (in_array("data instansi", $current_data_navigasi))
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-2">
-                                        <button id="data_instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">data instansi</button>
+                                        <button id="data_instansi" class="btn btn-lg btn-flat btn-outline-primary btn-block text-capitalize">database instansi</button>
                                     </div>
                                 @endif
                                 @if (in_array("reqor", $current_data_navigasi))
