@@ -71,25 +71,25 @@
                                                         <div class="text-center profile_img">
                                                             @if ($karyawan->foto)
                                                                 {{-- dev --}}
-                                                                @if(file_exists('public/image/' . $karyawan->foto))
+                                                                @if(file_exists(env('APP_URL_IMG') . 'image/' . $karyawan->foto))
                                                                 {{-- prod --}}
                                                                 {{-- @if(file_exists('image/' . $karyawan->foto)) --}}
                                                                     <img
                                                                         class="profile-user-img img-fluid"
-                                                                        src="{{ asset('public/image/' . $karyawan->foto) }}"
+                                                                        src="{{ asset(env('APP_URL_IMG') . 'image/' . $karyawan->foto) }}"
                                                                         alt="User profile picture"
                                                                         style="width: 100%;">
                                                                 @else
                                                                     <img
                                                                         class="profile-user-img img-fluid"
-                                                                        src="{{ asset('public/assets/no-image.jpg') }}"
+                                                                        src="{{ asset(env('APP_URL_IMG') . 'assets/no-image.jpg') }}"
                                                                         alt="User profile picture"
                                                                         style="width: 100%;">
                                                                 @endif
                                                             @else
                                                                 <img
                                                                     class="profile-user-img img-fluid"
-                                                                    src="{{ asset('public/assets/no-image.jpg') }}"
+                                                                    src="{{ asset(env('APP_URL_IMG') . 'assets/no-image.jpg') }}"
                                                                     alt="User profile picture"
                                                                     style="width: 100%;">
                                                             @endif

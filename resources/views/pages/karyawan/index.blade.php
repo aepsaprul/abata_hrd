@@ -112,18 +112,22 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             @if (in_array("lihat", $current_data_navigasi))
                                                                 <a
-                                                                    href="{{ route('karyawan.show', [$item->id]) }}"
-                                                                    class="dropdown-item border-bottom btn-show text-indigo"
-                                                                    data-id="{{ $item->id }}">
+                                                                    href="{{ route('karyawan.show', [encrypt($item->id)]) }}"
+                                                                    class="dropdown-item border-bottom btn-show text-indigo">
                                                                         <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Lihat
                                                                 </a>
                                                             @endif
                                                             @if (in_array("ubah", $current_data_navigasi))
                                                                 <a
-                                                                    href="{{ route('karyawan.edit', [$item->id]) }}"
-                                                                    class="dropdown-item border-bottom btn-edit text-indigo"
-                                                                    data-id="{{ $item->id }}">
+                                                                    href="{{ route('karyawan.edit', [encrypt($item->id)]) }}"
+                                                                    class="dropdown-item border-bottom btn-edit text-indigo">
                                                                         <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                                                                </a>
+                                                                <a
+                                                                    href="#"
+                                                                    class="dropdown-item border-bottom btn-resetpassword text-indigo"
+                                                                    data-id="{{ $item->id }}">
+                                                                        <i class="fas fa-lock text-center mr-2" style="width: 20px;"></i> Reset Password
                                                                 </a>
                                                             @endif
                                                             @if (in_array("hapus", $current_data_navigasi))
@@ -360,6 +364,32 @@
             </form>
         </div>
     </div>
+</div>
+
+{{-- modal reset password --}}
+<div class="modal fade modal-resetpassword" id="modal-default">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <form id="form-resetpassword">
+              <input type="hidden" id="resetpassword_id" name="id">
+              <div class="modal-header">
+                  <h5 class="modal-title">Yakin akan reset password <span class="modal-nama"></span> ?</h5>
+              </div>
+              <div class="modal-footer justify-content-between">
+                  <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;"><span aria-hidden="true">Tidak</span></button>
+                  <button class="btn btn-primary btn-resetpassword-spinner d-none" disabled style="width: 130px;">
+                      <span class="spinner-grow spinner-grow-sm"></span>
+                      Loading...
+                  </button>
+                  <button type="submit" class="btn btn-primary btn-resetpassword-save text-center" style="width: 130px;">
+                      Ya
+                  </button>
+              </div>
+          </form>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
 </div>
 
 {{-- modal delete --}}
@@ -698,6 +728,64 @@
                 }
             });
         });
+
+      // reset password
+      $(document).on('click', '.btn-resetpassword', function () {
+        var id = $(this).attr('data-id');
+        var url = "{{ route('karyawan.resetpassword_btn', ':id') }}";
+        url = url.replace(':id', id);
+
+        var formData = {
+          id: id
+        }
+
+        $.ajax({
+          url: url,
+          type: 'GET',
+          data: formData,
+          success: function (response) {
+            $('#resetpassword_id').val(response.karyawan.id);
+            $('.modal-nama').html(response.karyawan.nama_lengkap.toLowerCase());
+            $('.modal-resetpassword').modal('show');
+            document.querySelector('.modal-nama').style.color = "red";
+          }
+        });
+      });
+
+      $(document).on('submit', '#form-resetpassword', function (e) {
+        e.preventDefault();
+        let formData = new FormData($('#form-resetpassword')[0]);
+
+        $.ajax({
+          url: "{{ URL::route('karyawan.resetpassword') }}",
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          beforeSend: function () {
+            $('.btn-resetpassword-spinner').removeClass('d-none');
+            $('.btn-resetpassword-save').addClass('d-none');
+          },
+          success: function (response) {
+            Toast.fire({
+              icon: 'success',
+              title: 'Password berhasil direset'
+            });
+
+            setTimeout( () => {
+              window.location.reload(1);
+            }, 1000);
+          },
+          error: function(xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + error
+
+            Toast.fire({
+              icon: 'error',
+              title: 'Error - ' + errorMessage
+            });
+          }
+        });
+      });
     });
 </script>
 

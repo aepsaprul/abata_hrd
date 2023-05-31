@@ -247,6 +247,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('karyawan/ubah_status', [MasterKaryawanController::class, 'ubahStatus'])->name('karyawan.ubah_status');
     Route::put('karyawan/{id}/update_foto', [MasterKaryawanController::class, 'updateFoto'])->name('karyawan.update_foto');
     Route::post('karyawan/karyawan_store', [MasterKaryawanController::class, 'karyawanStore'])->name('karyawan.karyawan_store');
+    Route::get('karyawan/{id}/resetpassword_btn', [MasterKaryawanController::class, 'resetPasswordBtn'])->name('karyawan.resetpassword_btn');
+    Route::post('karyawan/resetpassword', [MasterKaryawanController::class, 'resetPassword'])->name('karyawan.resetpassword');
 
         // biodata
         Route::get('karyawan/{id}/biodata', [MasterKaryawanController::class, 'biodata'])->name('karyawan.biodata');
