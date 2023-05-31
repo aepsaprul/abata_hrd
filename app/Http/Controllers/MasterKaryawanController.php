@@ -29,9 +29,9 @@ class MasterKaryawanController extends Controller
    */
   public function index()
   {
-      $karyawans = MasterKaryawan::with('masterJabatan')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
+    $karyawans = MasterKaryawan::with('masterJabatan')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
 
-      return view('pages.karyawan.index', ['karyawans' => $karyawans]);
+    return view('pages.karyawan.index', ['karyawans' => $karyawans]);
   }
 
   /**
@@ -41,17 +41,17 @@ class MasterKaryawanController extends Controller
    */
   public function create()
   {
-      $cabangs = MasterCabang::get();
-      $jabatans = MasterJabatan::get();
-      $divisis = MasterDivisi::get();
-      $role = MasterRole::get();
+    $cabangs = MasterCabang::get();
+    $jabatans = MasterJabatan::get();
+    $divisis = MasterDivisi::get();
+    $role = MasterRole::get();
 
-      return response()->json([
-          'cabangs' => $cabangs,
-          'jabatans' => $jabatans,
-          'divisis' => $divisis,
-          'roles' => $role
-      ]);
+    return response()->json([
+      'cabangs' => $cabangs,
+      'jabatans' => $jabatans,
+      'divisis' => $divisis,
+      'roles' => $role
+    ]);
   }
 
   /**
@@ -219,12 +219,12 @@ class MasterKaryawanController extends Controller
     $divisis = MasterDivisi::get();
     $role = MasterRole::get();
 
-    $medsos = HcMedsos::where('karyawan_id', $karyawan->id)->first();
-    $keluarga_sebelum_menikah = HcKeluargaSebelumMenikah::where('karyawan_id', $karyawan->id)->get();
-    $keluarga_setelah_menikah = HcKeluargaSetelahMenikah::where('karyawan_id', $karyawan->id)->get();
-    $kerabat_darurat = HcKerabatDarurat::where('karyawan_id', $karyawan->id)->first();
-    $pendidikan = HcPendidikan::where('karyawan_id', $karyawan->id)->first();
-    $kontraks = HcKontrak::where('karyawan_id', $karyawan->id)->orderBy('id', 'desc')->get();
+    $medsos = HcMedsos::where('karyawan_id', $decrypt_id)->first();
+    $keluarga_sebelum_menikah = HcKeluargaSebelumMenikah::where('karyawan_id', $decrypt_id)->get();
+    $keluarga_setelah_menikah = HcKeluargaSetelahMenikah::where('karyawan_id', $decrypt_id)->get();
+    $kerabat_darurat = HcKerabatDarurat::where('karyawan_id', $decrypt_id)->first();
+    $pendidikan = HcPendidikan::where('karyawan_id', $decrypt_id)->first();
+    $kontraks = HcKontrak::where('karyawan_id', $decrypt_id)->orderBy('id', 'desc')->get();
 
     return view('pages.karyawan.edit', [
       'karyawan' => $karyawan,
@@ -243,11 +243,11 @@ class MasterKaryawanController extends Controller
 
   public function deleteBtn($id)
   {
-      $karyawan = MasterKaryawan::find($id);
+    $karyawan = MasterKaryawan::find($id);
 
-      return response()->json([
-          'id' => $karyawan->id
-      ]);
+    return response()->json([
+      'id' => $karyawan->id
+    ]);
   }
 
   public function delete(Request $request)
