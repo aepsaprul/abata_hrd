@@ -36,15 +36,15 @@
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Piutang Bulan Berjalan</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Piutang Terbayar</th>
         <th style="background-color: lightblue; font-weight: bold; text-align: center;">Sales</th>
-        {{-- <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Omzet Sales</th>
-        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Cash Sales</th> --}}
+        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Omzet Sales</th>
+        <th style="background-color: lightblue; font-weight: bold; text-align: center;">Pencapaian Cash Sales</th>
       </tr>
     </thead>
     <tbody>
       @foreach ($omzet as $key => $item)
         <tr>
-          <td>{{ $key + 1 }}</td>
-          <td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $key + 1 }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">
             @if ($item->karyawan)
               {{ $item->karyawan->nama_lengkap }}
             @else
@@ -53,7 +53,7 @@
               @endif
             @endif
           </td>
-          <td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">
             @if ($item->cabang)
               {{ $item->cabang->nama_cabang }}
             @endif
@@ -62,46 +62,55 @@
             $tanggal_omset = date('Y-m-d', strtotime($item->tanggal));
             $tanggal_input = date('Y-m-d', strtotime($item->created_at));
           @endphp
-          <td>{{ $tanggal_input }}</td>
-          <td>{{ $tanggal_omset }}</td>
-          <td>{{ $item->transaksi }}</td>
-          <td>{{ $item->traffic_online }}</td>
-          <td>{{ $item->traffic_offline }}</td>
-          <td>{{ $item->retail }}</td>
-          <td>{{ $item->instansi }}</td>
-          <td>{{ $item->reseller }}</td>
-          <td>{{ $item->cabang_rp }}</td>
-          <td>{{ $item->omzet_harian }}</td>
-          <td>{{ $item->omzet_terbayar }}</td>
-          <td>{{ $item->leads }}</td>
-          <td>{{ $item->konsumen_bertanya }}</td>
-          <td>{{ $item->cetak_banner_harian }}</td>
-          <td>{{ $item->cetak_a3_harian }}</td>
-          <td>{{ $item->print_outdoor }}</td>
-          <td>{{ $item->print_indoor }}</td>
-          <td>{{ $item->offset }}</td>
-          <td>{{ $item->merchandise }}</td>
-          <td>{{ $item->akrilik }}</td>
-          <td>{{ $item->design }}</td>
-          <td>{{ $item->laminasi_dingin }}</td>
-          <td>{{ $item->laminasi_a3 }}</td>
-          <td>{{ $item->fotocopy }}</td>
-          <td>{{ $item->dtf }}</td>
-          <td>{{ $item->uv }}</td>
-          <td>{{ $item->advertising_produk }}</td>
-          <td>{{ $item->advertising_jasa }}</td>
-          <td>{{ $item->cash_harian }}</td>
-          <td>{{ $item->piutang_bulan_berjalan }}</td>
-          <td>{{ $item->piutang_terbayar }}</td>
-          <td>
-            @if ($item->detailSales)
-              @foreach ($item->detailSales as $item_detail_sales)
-                {{ $item_detail_sales->karyawan->nama_panggilan }} (omzet: {{ $item_detail_sales->pencapaian_omzet }}, cash: {{ $item_detail_sales->pencapaian_cash }})
-              @endforeach
-            @endif
-          </td>
-          {{-- <td>{{ $item->pencapaian_omset_sales }}</td>
-          <td>{{ $item->pencapaian_cash_sales }}</td> --}}
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $tanggal_input }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $tanggal_omset }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->transaksi }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->traffic_online }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->traffic_offline }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->retail }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->instansi }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->reseller }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->cabang_rp }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->omzet_harian }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->omzet_terbayar }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->leads }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->konsumen_bertanya }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->cetak_banner_harian }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->cetak_a3_harian }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->print_outdoor }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->print_indoor }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->offset }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->merchandise }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->akrilik }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->design }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->laminasi_dingin }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->laminasi_a3 }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->fotocopy }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->dtf }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->uv }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->advertising_produk }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->advertising_jasa }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->cash_harian }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->piutang_bulan_berjalan }}</td>
+          <td rowspan="{{ count($item->detailSales) > 1 ? count($item->detailSales) : '1' }}">{{ $item->piutang_terbayar }}</td>
+          @if (count($item->detailSales) > 0)
+            @foreach($item->detailSales as $key_sales => $item_sales)
+              @if ($key_sales == 0)
+                <td>{{ $item_sales->karyawan->nama_lengkap }}</td>
+                <td>{{ $item_sales->pencapaian_omzet }}</td>
+                <td>{{ $item_sales->pencapaian_cash }}</td>
+              @else
+              <tr>
+                <td>{{ $item_sales->karyawan->nama_lengkap }}</td>
+                <td>{{ $item_sales->pencapaian_omzet }}</td>
+                <td>{{ $item_sales->pencapaian_cash }}</td>
+              @endif
+            @endforeach
+          @else
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          @endif
         </tr>
       @endforeach
     </tbody>
