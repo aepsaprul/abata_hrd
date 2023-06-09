@@ -80,7 +80,7 @@
           <td>{{ $item->print_outdoor }}</td>
           <td>{{ $item->print_indoor }}</td>
           <td>{{ $item->offset }}</td>
-          <td>{{ $item->merchandhise }}</td>
+          <td>{{ $item->merchandise }}</td>
           <td>{{ $item->akrilik }}</td>
           <td>{{ $item->design }}</td>
           <td>{{ $item->laminasi_dingin }}</td>
