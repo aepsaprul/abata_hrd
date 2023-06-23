@@ -43,6 +43,7 @@
                                 <i class="fas fa-plus"></i> Tambah
                               </button>
                             @endif
+                            @if (in_array("video", $current_data_navigasi))
                             <a href="{{ url(env('BASE_URL')) }}video_training/standard_penampilan_abata.mp4" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
                               Video Standard Penampilan
                             </a>
@@ -52,6 +53,7 @@
                             <a href="{{ url(env('BASE_URL')) }}video_training/company_profile_dan_motivasi_kerja.mp4" target="_blank" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
                               Video Company Profile
                             </a>
+                            @endif
                           </h3>
                       </div>
                         <div class="card-body">
