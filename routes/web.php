@@ -583,10 +583,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('compro/slide/update', [ComproController::class, 'slideUpdate'])->name('compro.slide.update');
     Route::post('compro/slide/delete', [ComproController::class, 'slideDelete'])->name('compro.slide.delete');
 
-
     // abdul
-    Route::get('abdul', [AbdulController::class, 'index'])->name('abdul.index');
-    Route::get('abdul/form_pengajuan', [AbdulController::class, 'formPengajuan'])->name('abdul.form_pengajuan');
-    Route::get('abdul/tampil', [AbdulController::class, 'tampil'])->name('abdul.tampil');
+    Route::get('abdul', [AbdulController::class, 'index'])->name('abdul');
+    Route::get('abdul/{id}/show', [AbdulController::class, 'show'])->name('abdul.show');
+    Route::get('abdul/create', [AbdulController::class, 'create'])->name('abdul.create');
     Route::post('abdul/store', [AbdulController::class, 'store'])->name('abdul.store');
+    Route::post('abdul/delete', [AbdulController::class, 'delete'])->name('abdul.delete');
+    Route::get('abdul/approver', [AbdulController::class, 'approver'])->name('abdul.approver');
+    Route::get('abdul/approver/data', [AbdulController::class, 'approverData'])->name('abdul.approver.data');
+    Route::get('abdul/approver/create', [AbdulController::class, 'approverCreate'])->name('abdul.approver.create');
+    Route::post('abdul/approver/store', [AbdulController::class, 'approverStore'])->name('abdul.approver.store');
+    Route::post('abdul/approver/update_approver', [AbdulController::class, 'approverUpdate'])->name('abdul.approver.update');
+    Route::post('abdul/approver/add_approver', [AbdulController::class, 'approverAdd'])->name('abdul.approver.add');
+    Route::get('abdul/approver/{id}/delete_btn', [AbdulController::class, 'approverDeleteAllBtn'])->name('abdul.approver.delete_all_btn');
+    Route::post('abdul/approver/delete', [AbdulController::class, 'approverDeleteAll'])->name('abdul.approver.delete_all');
+    Route::get('abdul/approver/{id}/delete_btn_approver', [AbdulController::class, 'approverDeleteBtn'])->name('abdul.approver.delete_btn');
+    Route::post('abdul/approver/delete_approver', [AbdulController::class, 'approverDelete'])->name('abdul.approver.delete');
+    Route::post('abdul/approved', [AbdulController::class, 'approved'])->name('abdul.approved');
+    Route::post('abdul/disapproved', [AbdulController::class, 'disapproved'])->name('abdul.disapproved');
+    Route::get('abdul/{id}/sp3', [AbdulController::class, 'sp3'])->name('abdul.sp3');
+    Route::get('abdul/{id}/akad', [AbdulController::class, 'akad'])->name('abdul.akad');
 });

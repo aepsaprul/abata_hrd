@@ -18,6 +18,7 @@ class CabangController extends Controller
     {
         $cabang = new MasterCabang;
         $cabang->nama_cabang = $request->nama;
+        $cabang->alias = $request->alias;
         $cabang->save();
 
         // activity_log($cabang, "cabang", "created");
@@ -33,7 +34,7 @@ class CabangController extends Controller
 
         return response()->json([
             'id' => $cabang->id,
-            'nama' => $cabang->nama_cabang
+            'cabang' => $cabang
         ]);
     }
 
@@ -41,6 +42,7 @@ class CabangController extends Controller
     {
         $cabang = MasterCabang::find($id);
         $cabang->nama_cabang = $request->nama;
+        $cabang->alias = $request->alias;
         $cabang->save();
 
         // activity_log($cabang, "cabang", "updated");

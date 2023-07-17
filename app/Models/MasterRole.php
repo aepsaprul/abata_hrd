@@ -15,14 +15,15 @@ class MasterRole extends Model
     protected static $logName = 'master_role';
 
     public function approveCuti() {
-        return $this->hasMany(CutiApprover::class, 'role_id', 'id');
+      return $this->hasMany(CutiApprover::class, 'role_id', 'id');
     }
-
     public function approveResign() {
-        return $this->hasMany(ResignApprover::class, 'role_id', 'id');
+      return $this->hasMany(ResignApprover::class, 'role_id', 'id');
     }
-
     public function approvePenggajian() {
-        return $this->hasMany(PenggajianApprover::class, 'role_id', 'id');
+      return $this->hasMany(PenggajianApprover::class, 'role_id', 'id');
+    }
+    public function approveAbdul() {
+      return $this->hasMany(AbdulApprover::class, 'role_id', 'id');
     }
 }
