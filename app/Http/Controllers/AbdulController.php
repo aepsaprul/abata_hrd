@@ -17,18 +17,25 @@ class AbdulController extends Controller
 {
   public function index()
   {
-    if (Auth::user()->master_karyawan_id == 0 || Auth::user()->masterKaryawan->master_cabang_id == 1) {
+    if (Auth::user()->master_karyawan_id == 0) {
       $pengajuan = AbdulPengajuan::orderBy('id', 'desc')->limit(30)->get();
     } else {
-      $pengajuan_approvers = AbdulApprover::where('atasan_id', 'like', '%'.Auth::user()->master_karyawan_id.'%')->get();
+      $pengajuan_approvers = AbdulPengajuanApprover::where('atasan', 'like', '%'.Auth::user()->master_karyawan_id.'%')->get();
       if (count($pengajuan_approvers) > 0) {
-        $pengajuan = AbdulPengajuan::with('karyawan')
-          ->whereHas('karyawan', function ($query) {
-              $query->where('master_cabang_id', Auth::user()->masterKaryawan->master_cabang_id);
-          })
-          ->orderBy('id', 'desc')
-          ->limit(30)
-          ->get();
+        if (Auth::user()->masterKaryawan->master_cabang_id == 1) {
+          $pengajuan = AbdulPengajuan::with('karyawan')
+            ->orderBy('id', 'desc')
+            ->limit(30)
+            ->get();
+        } else {
+          $pengajuan = AbdulPengajuan::with('karyawan')
+            ->whereHas('karyawan', function ($query) {
+                $query->where('master_cabang_id', Auth::user()->masterKaryawan->master_cabang_id);
+            })
+            ->orderBy('id', 'desc')
+            ->limit(30)
+            ->get();
+        }
       } else {
         $pengajuan = AbdulPengajuan::where('karyawan_id', Auth::user()->master_karyawan_id)
           ->orderBy('id', 'desc')

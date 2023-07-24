@@ -147,8 +147,15 @@
 <script>
   let pinjaman_val = document.getElementById("pinjaman");
   pinjaman_val.addEventListener("keyup", function(e) {
-    pinjaman_val.value = formatRupiahTitik(this.value, "");
+    const angka = Number(pinjaman_val.value.replace(/\./g, ''));
+    if (angka > 5000000) {
+      pinjaman_val.value = format_rupiah_titik(5000000);      
+    } else {
+      pinjaman_val.value = formatRupiahTitik(this.value, "");
+    }
+    
   });
+  
   let gaji_val = document.getElementById("gaji");
   gaji_val.addEventListener("keyup", function(e) {
     gaji_val.value = formatRupiahTitik(this.value, "");

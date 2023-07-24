@@ -61,7 +61,7 @@
         Bahwa, berdasarkan surat permohonan pengajuan pinjaman karyawan tanggal {{ tglCarbon($pengajuan->created_at, 'd F Y') }}, <span style="font-weight: bold;">PEMINJAM</span> telah mengajukan permohonan kepada ABATA PEDULI untuk menyediakan fasilitas Al-Qardh dalam rangka <span style="font-weight: bold; text-transform: capitalize;">{{ $pengajuan->keperluan }}</span>.
       </li>
       <li style="text-align: justify;">
-        Bahwa ABATA PEDULI telah menyatakan persetujuannya untuk memberikan fasilitas Al-Qardh kepada <span style="font-weight: bold;">PEMINJAM</span> sebagaimana tertuang dalam Surat Persetujuan Pinjaman tanggal <span style="font-weight: bold;">11 Mei 2023</span>.
+        Bahwa ABATA PEDULI telah menyatakan persetujuannya untuk memberikan fasilitas Al-Qardh kepada <span style="font-weight: bold;">PEMINJAM</span> sebagaimana tertuang dalam Surat Persetujuan Pinjaman tanggal <span style="font-weight: bold;">{{ tglCarbon($pengajuan->created_at, 'd F Y') }}</span>.
       </li>
     </ol>
   </div>
@@ -134,7 +134,8 @@
   <div>
     <ol style="padding-left: 18px;">
       <li style="text-align: justify;">
-        Akad ini berlangsung untuk jangka waktu {{ $pengajuan->angsuran }} (<span style="text-transform: capitalize;">{{ terbilang($pengajuan->angsuran) }}</span>) bulan, terhitung sejak tanggal <span style="font-weight: bold;">{{ tglCarbon($pengajuan->tanggal_bayar, 'd F Y') }}</span> sampai dengan tanggal <span style="font-weight: bold;">{{ tglCarbon(date('Y-m-d', strtotime('+'.$pengajuan->angsuran.' month', strtotime($pengajuan->tanggal_bayar))), 'd F Y') }}</span>.
+        @php $jml_angsuran = $pengajuan->angsuran - 1; @endphp
+        Akad ini berlangsung untuk jangka waktu {{ $pengajuan->angsuran }} (<span style="text-transform: capitalize;">{{ terbilang($pengajuan->angsuran) }}</span>) bulan, terhitung sejak tanggal <span style="font-weight: bold;">{{ tglCarbon($pengajuan->tanggal_bayar, 'd F Y') }}</span> sampai dengan tanggal <span style="font-weight: bold;">{{ tglCarbon(date('Y-m-d', strtotime('+'.$jml_angsuran.' month', strtotime($pengajuan->tanggal_bayar))), 'd F Y') }}</span>.
       </li>
       <li style="text-align: justify;">
         PEMINJAM wajib melunasi fasilitas Al-Qardh selambat-lambatnya pada akhir jangka waktu Akad ini.
