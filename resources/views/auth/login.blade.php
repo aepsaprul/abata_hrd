@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{ asset('public/themes/dist/img/logo-daun.png') }}" rel="icon" type="image/x-icon">
+    <link href="{{ asset(env('APP_PUBLIC') . 'themes/dist/img/logo-daun.png') }}" rel="icon" type="image/x-icon">
     <title>{{ config('app.name', 'Abata') }}</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="{{ asset('public/themes/plugins/font-google/font-google.css') }}">
+    <link rel="stylesheet" href="{{ asset(env('APP_PUBLIC') . 'themes/plugins/font-google/font-google.css') }}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('public/themes/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset(env('APP_PUBLIC') . 'themes/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('public/themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset(env('APP_PUBLIC') . 'themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('public/themes/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset(env('APP_PUBLIC') . 'themes/dist/css/adminlte.min.css') }}">
 
     <style>
         .login-page {
@@ -86,7 +86,7 @@
                 </form>
 
                 <div class="social-auth-links text-center mt-4 mb-3">
-                    <img src="{{ asset('public/themes/dist/img/logo-biru.png') }}" alt="logo-abata" style="max-width: 100px;">
+                    <img src="{{ asset(env('APP_PUBLIC') . 'themes/dist/img/logo-biru.png') }}" alt="logo-abata" style="max-width: 100px;">
                     <span class="text-info text-uppercase font-weight-bold">Human Capital</span>
                 </div>
                 <!-- /.social-auth-links -->
@@ -107,11 +107,11 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{ asset('public/themes/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset(env('APP_PUBLIC') . 'themes/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
-    <script src="{{ asset('public/themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset(env('APP_PUBLIC') . 'themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
-    <script src="{{ asset('public/themes/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset(env('APP_PUBLIC') . 'themes/dist/js/adminlte.min.js') }}"></script>
 
     <script>
       const togglePassword = document.querySelector("#togglePassword");

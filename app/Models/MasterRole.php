@@ -26,4 +26,7 @@ class MasterRole extends Model
     public function approveAbdul() {
       return $this->hasMany(AbdulApprover::class, 'role_id', 'id');
     }
+    public function approvePersetujuan() {
+      return $this->hasMany(PersetujuanApprover::class, 'role_id', 'id');
+    }
 }

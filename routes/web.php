@@ -43,6 +43,7 @@ use App\Http\Controllers\SlipGajiController;
 use App\Http\Controllers\SlipGajiKaryawanController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PersetujuanController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -603,4 +604,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('abdul/disapproved', [AbdulController::class, 'disapproved'])->name('abdul.disapproved');
     Route::get('abdul/{id}/sp3', [AbdulController::class, 'sp3'])->name('abdul.sp3');
     Route::get('abdul/{id}/akad', [AbdulController::class, 'akad'])->name('abdul.akad');
+
+    // persetujuan
+    Route::get('persetujuan', [PersetujuanController::class, 'index'])->name('persetujuan');
+    Route::get('persetujuan/create', [PersetujuanController::class, 'create'])->name('persetujuan.create');
+    Route::post('persetujuan/store', [PersetujuanController::class, 'store'])->name('persetujuan.store');
+    Route::get('persetujuan/{id}/show', [PersetujuanController::class, 'show'])->name('persetujuan.show');
+    Route::get('persetujuan/{id}/delete', [PersetujuanController::class, 'delete'])->name('persetujuan.delete');
+    Route::get('persetujuan/approver', [PersetujuanController::class, 'approver'])->name('persetujuan.approver');
+    Route::get('persetujuan/approver/data', [PersetujuanController::class, 'approverData'])->name('persetujuan.approver.data');
+    Route::get('persetujuan/approver/create', [PersetujuanController::class, 'approverCreate'])->name('persetujuan.approver.create');
+    Route::post('persetujuan/approver/store', [PersetujuanController::class, 'approverStore'])->name('persetujuan.approver.store');
+    Route::post('persetujuan/approver/update_approver', [PersetujuanController::class, 'approverUpdate'])->name('persetujuan.approver.update');
+    Route::post('persetujuan/approver/add_approver', [PersetujuanController::class, 'approverAdd'])->name('persetujuan.approver.add');
+    Route::get('persetujuan/approver/{id}/delete_btn', [PersetujuanController::class, 'approverDeleteAllBtn'])->name('persetujuan.approver.delete_all_btn');
+    Route::post('persetujuan/approver/delete', [PersetujuanController::class, 'approverDeleteAll'])->name('persetujuan.approver.delete_all');
+    Route::get('persetujuan/approver/{id}/delete_btn_approver', [PersetujuanController::class, 'approverDeleteBtn'])->name('persetujuan.approver.delete_btn');
+    Route::post('persetujuan/approver/delete_approver', [PersetujuanController::class, 'approverDelete'])->name('persetujuan.approver.delete');
+    Route::post('persetujuan/approved', [PersetujuanController::class, 'approved'])->name('persetujuan.approved');
+    Route::post('persetujuan/disapproved', [PersetujuanController::class, 'disapproved'])->name('persetujuan.disapproved');
 });

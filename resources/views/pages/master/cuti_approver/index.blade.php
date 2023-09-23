@@ -3,8 +3,8 @@
 @section('style')
 
 <!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG').'themes/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG').'themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
 @endsection
 
@@ -118,7 +118,7 @@
 @section('script')
 
 <!-- Select2 -->
-<script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/select2/js/select2.full.min.js') }}"></script>
 
 <script>
     $(document).ready(function () {
