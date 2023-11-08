@@ -71,7 +71,7 @@ use Spatie\Activitylog\Models\Activity;
     function terbilang($i){
       $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
       
-      if ($i < 12) return " " . $huruf[$i];
+      if ($i < 10) return " " . $huruf[$i];
       elseif ($i < 20) return terbilang($i - 10) . " belas";
       elseif ($i < 100) return terbilang($i / 10) . " puluh" . terbilang($i % 10);
       elseif ($i < 200) return " seratus" . terbilang($i - 100);

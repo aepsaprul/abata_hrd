@@ -14,7 +14,7 @@
     “Hai orang-orang yang beriman, janganlah kamu mengkhianati Allah dan Rasul dan juga janganlah kamu <br> mengkhianati amanah-amanah yang dipercayakan kepada kamu, sedang kamu mengetahui” <br> (QS. Al-Anfaal: 27).
   </div>
   <div>
-    <p style="text-align: justify;">Pada hari ini {{ tglCarbon(date('Y-m-d'), 'l') }}, tanggal <span style="text-transform: capitalize;">{{ terbilang(date('d')) }}</span> bulan {{ tglCarbon(date('Y-m-d'), 'F') }} tahun <span style="text-transform: capitalize;">{{ terbilang(date('Y')) }}</span> ({{ tglCarbon(date('Y-m-d'), 'd-m-Y') }}), yang bertandatangan di bawah ini :</p>
+    <p style="text-align: justify;">Pada hari ini {{ tglCarbon(date('Y-m-d'), 'l') }}, tanggal <span style="text-transform: capitalize;">{{ terbilang(date('j')) }}</span> bulan {{ tglCarbon(date('Y-m-d'), 'F') }} tahun <span style="text-transform: capitalize;">{{ terbilang(date('Y')) }}</span> ({{ tglCarbon(date('Y-m-d'), 'd-m-Y') }}), yang bertandatangan di bawah ini :</p>
   </div>
   <div>
     <ol style="list-style-type: upper-roman; padding-left: 18px;">
