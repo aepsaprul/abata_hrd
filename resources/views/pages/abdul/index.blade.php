@@ -153,6 +153,12 @@
                               @if (in_array("dokumen", $current_data_navigasi))
                                 @if($item->approved_percentage >= 100)
                                   <a
+                                    href="{{ route('abdul.download', [$item->id]) }}"
+                                    target="blank"
+                                    class="dropdown-item">
+                                      <i class="fas fa-download pr-1"></i> Download
+                                  </a>
+                                  <a
                                     href="{{ route('abdul.sp3', [$item->id]) }}"
                                     target="_blank"
                                     class="dropdown-item">

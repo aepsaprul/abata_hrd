@@ -604,6 +604,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('abdul/disapproved', [AbdulController::class, 'disapproved'])->name('abdul.disapproved');
     Route::get('abdul/{id}/sp3', [AbdulController::class, 'sp3'])->name('abdul.sp3');
     Route::get('abdul/{id}/akad', [AbdulController::class, 'akad'])->name('abdul.akad');
+    Route::get('abdul/{id}/download', [AbdulController::class, 'download'])->name('abdul.download');
 
     // persetujuan
     Route::get('persetujuan', [PersetujuanController::class, 'index'])->name('persetujuan');

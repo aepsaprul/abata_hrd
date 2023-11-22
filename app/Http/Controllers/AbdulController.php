@@ -365,4 +365,12 @@ class AbdulController extends Controller
 
     return view('pages.abdul.akad', ['pengajuan' => $pengajuan]);
   }
+
+  // download
+  public function download($id)
+  {
+    $pengajuan = AbdulPengajuan::find($id);
+
+    return view('pages.abdul.download', ['pengajuan' => $pengajuan]);
+  }
 }
