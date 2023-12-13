@@ -7,7 +7,14 @@
   <title>Document</title>
 </head>
 <body>
-  <div>
+  <div style="z-index: 1; position: absolute; text-align: center;">
+    <img src="{{ asset('public/assets/abdul-wm.png') }}" alt="watermark" style="width: 60%; margin-top: 30%;">
+  </div>
+  <div style="z-index: 3; position: absolute;">
+    <div style="margin-bottom: 20px; display: flex; justify-content: space-between;">
+      <img src="{{ asset('public/assets/abdul-logo.png') }}" alt="logo" style="max-width: 150px; height: 80px;">
+      <img src="{{ asset('public/assets/abdul-kop-surat.png') }}" alt="logo" style="max-width: 70px;">
+    </div>
     <div>
       <table>
         <tr>

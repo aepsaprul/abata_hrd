@@ -576,9 +576,9 @@
   <div style="text-align: justify;">
     Demikian Akad ini dibuat dan ditandatangani oleh Para Pihak pada hari, tanggal dan tempat sebagaimana disebutkan pada awal Akad ini .
   </div>
-
+  <div style="width: 100%; height: 100px;"></div>
   <!-- tertanda -->
-  <div style="display: flex; justify-content: space-between; margin-bottom: 20px; margin-top: 50px;">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px; margin-top: 450px;">
     <div style="display: flex; justify-content: center; width: 50%;">
       <div>
         <div style="margin-bottom: 110px; text-align: center;">ABATA PEDULI,</div>
