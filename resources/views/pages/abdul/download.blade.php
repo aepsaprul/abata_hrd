@@ -100,7 +100,8 @@
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Atasan Langsung</div>
-            <div style="margin-top: 80px;">{{ $pengajuan->approvedLeader->nama_lengkap }}</div>
+            <div style="display: flex; justify-content: center;"><img src="{{ asset('public/assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="margin-top: 10px;">{{ $pengajuan->approvedLeader->nama_lengkap }}</div>
           </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center;">
@@ -115,13 +116,15 @@
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Finance Accounting Manager</div>
-            <div style="margin-top: 80px; text-align: center;">ANDHIKA SUKMA PUTRA</div>
+            <div style="display: flex; justify-content: center;"><img src="{{ asset('public/assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="margin-top: 10px; text-align: center;">ANDHIKA SUKMA PUTRA</div>
           </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Operation Development Manager</div>
-            <div style="margin-top: 80px; text-align: center;">ANDI TRIONO TARSUN</div>
+            <div style="display: flex; justify-content: center;"><img src="{{ asset('public/assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="margin-top: 10px; text-align: center;">ANDI TRIONO TARSUN</div>
           </div>
         </div>
       </div>
