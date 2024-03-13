@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbdulController;
+use App\Http\Controllers\ApproverController;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\ApprovalPenggajianController;
 use App\Http\Controllers\ApproveController;
@@ -624,4 +625,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('persetujuan/approver/delete_approver', [PersetujuanController::class, 'approverDelete'])->name('persetujuan.approver.delete');
     Route::post('persetujuan/approved', [PersetujuanController::class, 'approved'])->name('persetujuan.approved');
     Route::post('persetujuan/disapproved', [PersetujuanController::class, 'disapproved'])->name('persetujuan.disapproved');
+
+    // approver
+    Route::get('master/approver', [ApproverController::class, 'index'])->name('approver');
+    Route::post('master/approver/data', [ApproverController::class, 'data'])->name('approver.data');
+    Route::post('master/approver/create', [ApproverController::class, 'create'])->name('approver.create');
+    Route::post('master/approver/store', [ApproverController::class, 'store'])->name('approver.store');
+    Route::get('master/approver/{id}/delete', [ApproverController::class, 'delete'])->name('approver.delete');
+    Route::get('master/approver/{id}/createApprover', [ApproverController::class, 'createApprover'])->name('approver.createApprover');
+    Route::post('master/approver/storeApprover', [ApproverController::class, 'storeApprover'])->name('approver.storeApprover');
+    Route::get('master/approver/{id}/deleteAllApproverDetail', [ApproverController::class, 'deleteAllApproverDetail'])->name('approver.deleteAllApproverDetail');
 });
