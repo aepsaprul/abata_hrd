@@ -48,7 +48,7 @@ class PenggajianController extends Controller
     if($request->hasFile('create_file')) {
       $file = $request->file('create_file');
       $extension = $file->getClientOriginalExtension();
-      $filename = $file->getClientOriginalName() . "_" . date('ymdhi');
+      $filename = $file->getClientOriginalName();
       $file->move(env('APP_URL_IMG') . 'file/pengajuan/', $filename);
       $penggajian->file = $filename;
     }
