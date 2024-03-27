@@ -299,6 +299,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
     Route::post('cuti/approved', [CutiController::class, 'approved'])->name('cuti.approved');
     Route::post('cuti/disapproved', [CutiController::class, 'disapproved'])->name('cuti.disapproved');
+    Route::post('cuti/detailApprover', [CutiController::class, 'detailApprover'])->name('cuti.detailApprover');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');
@@ -342,7 +343,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
     Route::get('penggajian/{id}/delete_btn', [PenggajianController::class, 'deleteBtn'])->name('penggajian.delete_btn');
     Route::post('penggajian/delete', [PenggajianController::class, 'delete'])->name('penggajian.delete');
-    Route::get('penggajian/{id}/approved', [PenggajianController::class, 'approved'])->name('penggajian.approved');
+    Route::post('penggajian/approved', [PenggajianController::class, 'approved'])->name('penggajian.approved');
     Route::post('penggajian/disapproved', [PenggajianController::class, 'disapproved'])->name('penggajian.disapproved');
 
     // slip gaji
