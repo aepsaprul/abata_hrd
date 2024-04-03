@@ -57,7 +57,7 @@
                 <div class="tab-pane fade show active" id="custom-tabs-four-cuti" role="tabpanel" aria-labelledby="custom-tabs-four-cuti-tab">
                   <div class="row">
                     <div class="col">
-                      <button class="btn btn-primary btn-sm btn-tambah-cuti px-3" data-jenis="cuti"><i class="fas fa-plus me-2"></i> Tambah Approver Ruti</button>
+                      <button class="btn btn-primary btn-sm btn-tambah-cuti px-3" data-jenis="cuti"><i class="fas fa-plus me-2"></i> Tambah Approver Cuti</button>
                     </div>
                   </div>
                   <div class="row">

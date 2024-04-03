@@ -311,6 +311,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('resign/{id}/resign_approved', [ResignController::class, 'resignApproved'])->name('resign.resign_approved');
     Route::get('resign/{id}/resign_disapproved', [ResignController::class, 'resignDisapproved'])->name('resign.resign_disapproved');
     Route::get('resign/{id}/paklaring', [ResignController::class, 'paklaring'])->name('resign.paklaring');
+    Route::post('resign/approved', [ResignController::class, 'approved'])->name('resign.approved');
+    Route::post('resign/disapproved', [ResignController::class, 'disapproved'])->name('resign.disapproved');
+    Route::post('resign/detailApprover', [ResignController::class, 'detailApprover'])->name('resign.detailApprover');
 
     // approval
     Route::get('approval', [ApprovalController::class, 'index'])->name('approval.index');
@@ -626,6 +629,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('persetujuan/approver/delete_approver', [PersetujuanController::class, 'approverDelete'])->name('persetujuan.approver.delete');
     Route::post('persetujuan/approved', [PersetujuanController::class, 'approved'])->name('persetujuan.approved');
     Route::post('persetujuan/disapproved', [PersetujuanController::class, 'disapproved'])->name('persetujuan.disapproved');
+    Route::post('persetujuan/detailApprover', [PersetujuanController::class, 'detailApprover'])->name('persetujuan.detailApprover');
 
     // approver
     Route::get('master/approver', [ApproverController::class, 'index'])->name('approver');

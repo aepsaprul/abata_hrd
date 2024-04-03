@@ -194,7 +194,8 @@ class CutiController extends Controller
     $cuti_detail = CutiDetail::where('cuti_id', $request->status)->where('hirarki', $request->hirarki)
       ->update([
         'status' => 1,
-        'approved_keterangan' => $request->keterangan
+        'approved_keterangan' => $request->keterangan,
+        'approved_date' => date('Y-m-d H:i:s')
       ]);
 
     $cuti_detail_confirm = CutiDetail::where('cuti_id', $request->status)->where('atasan_id', $request->confirm)
@@ -213,7 +214,8 @@ class CutiController extends Controller
     $cuti_detail = CutiDetail::where('cuti_id', $request->status)->where('hirarki', $request->hirarki)
     ->update([
       'status' => 0,
-      'approved_keterangan' => $request->keterangan
+      'approved_keterangan' => $request->keterangan,
+      'approved_date' => date('Y-m-d H:i:s')
     ]);
 
     $cuti_detail_confirm = CutiDetail::where('cuti_id', $request->status)->where('atasan_id', $request->confirm)

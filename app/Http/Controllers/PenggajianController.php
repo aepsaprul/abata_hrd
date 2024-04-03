@@ -23,7 +23,7 @@ class PenggajianController extends Controller
       ->orderBy('id', 'desc')
       ->get();
 
-    $penggajian_detail = PenggajianDetail::with('penggajian')->where('atasan', $karyawan_id)->orderBy('id', 'desc')->get();
+    $penggajian_detail = PenggajianDetail::with('penggajian')->where('atasan_id', $karyawan_id)->orderBy('id', 'desc')->get();
 
     return view('pages.penggajian.index', [
       'penggajians' => $penggajian,
