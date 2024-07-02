@@ -3,9 +3,9 @@
 @section('style')
 
 <!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
 @endsection
 
@@ -90,7 +90,6 @@
                             <table id="tabel_karyawan_kontrak" class="table table-bordered" style="font-size: 13px; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th class="text-center text-indigo">No</th>
                                         <th class="text-center text-indigo">Nama</th>
                                         <th class="text-center text-indigo">Mulai Kontrak</th>
                                         <th class="text-center text-indigo">Akhir Kontrak</th>
@@ -116,7 +115,6 @@
                                             @if ($diff->days < 90 && $diff->days > 1)
                                               @if ($item->karyawan)
                                                 <tr>
-                                                    <td class="text-center">{{ $nomor++ }}</td>
                                                     <td><a href="#" class="btn-detail" data-id="{{ $item->karyawan->id }}">{{ $item->karyawan->nama_lengkap }}</a></td>
                                                     <td class="text-center">{{ $item->mulai_kontrak }}</td>
                                                     <td class="text-center">{{ $item->akhir_kontrak }}</td>
@@ -226,9 +224,9 @@
                                                 @if ($item->masterKaryawan)
                                                     {{ $item->masterKaryawan->nama_lengkap }}
                                                     <br>
-                                                    @if (file_exists('public/image/' . $item->masterKaryawan->foto))
+                                                    @if (file_exists(env('APP_URL_IMG').'image/' . $item->masterKaryawan->foto))
                                                         @if ($item->masterKaryawan->foto)
-                                                            <img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;">
+                                                            <img src="{{ asset(env('APP_URL_IMG').'image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;">
                                                         @endif
                                                     @endif
                                                 @endif
@@ -300,9 +298,9 @@
                                                     @endif
 
                                                     <br>
-                                                    @if (file_exists('public/image/' . $item->masterKaryawan->foto))
+                                                    @if (file_exists(env('APP_URL_IMG').'image/' . $item->masterKaryawan->foto))
                                                         @if ($item->masterKaryawan->foto)
-                                                            <center><img src="{{ asset('public/image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;"></center>
+                                                            <center><img src="{{ asset(env('APP_URL_IMG').'image/' . $item->masterKaryawan->foto) }}" alt="img" style="max-width: 100px;"></center>
                                                         @endif
                                                     @endif
                                                 @endif
@@ -428,26 +426,27 @@
 @section('script')
 
 <!-- DataTables  & Plugins -->
-<script src="{{ asset('public/themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('public/themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 {{-- moment js --}}
-<script src="{{ asset('public/themes/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/moment/moment.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 
 <script>
     $(function () {
         $("#tabel_karyawan_kontrak").DataTable({
-            'responsive': true
+            'responsive': true,
+            'order': [[2, 'asc']]
         });
         $("#tabel_karyawan_aktif").DataTable({
             'responsive': true
