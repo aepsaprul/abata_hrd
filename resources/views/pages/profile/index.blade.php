@@ -31,6 +31,7 @@
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link active" href="#biodata" data-toggle="tab">Biodata</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#kontrak" data-toggle="tab">Kontrak</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#medsos" data-toggle="tab">Medsos</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#sebelum_menikah" data-toggle="tab">Sebelum Menikah</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#setelah_menikah" data-toggle="tab">Setelah Menikah</a></li>
@@ -111,6 +112,24 @@
                                             </div>
                                         </div>
                                     </form>
+                                </div>
+
+                                {{-- kontrak --}}
+                                <div class="tab-pane" id="kontrak">
+                                  <div style="overflow-x: auto;">
+                                    <table id="tabel_kontrak" class="table table-bordered table-striped" style="font-size: 14px; width: 100%;">
+                                      <thead>
+                                        <tr class="bg-primary">
+                                          <th class="text-center">Mulai Kontrak</th>
+                                          <th class="text-center">Akhir Kontrak</th>
+                                          <th class="text-center">Lama Kontrak</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="data_kontrak">
+                                        {{-- kontrak data di jquery --}}
+                                      </tbody>
+                                    </table>
+                                  </div>
                                 </div>
 
                                 {{-- medsos --}}
@@ -971,6 +990,39 @@
                 });
             }
         });
+
+        // kontrak
+        kontrak();
+        function kontrak() {
+            var id = $('#id').val();
+            var url = '{{ route("karyawan.kontrak", ":id") }}';
+            url = url.replace(':id', id );
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    var kontrak_data = "";
+
+                    if (response.kontraks.length == 0) {
+                        kontrak_data += "" +
+                            "<tr>" +
+                                "<td class=\"text-center\" colspan=\"3\">Kosong</td>";
+                            "</tr>";
+                    } else {
+                        $.each(response.kontraks, function(index, value) {
+                            kontrak_data += "" +
+                                    "<tr>" +
+                                        "<td class=\"text-center\">" + tanggalIndo(value.mulai_kontrak) + "</td>" +
+                                        "<td class=\"text-center\">" + tanggalIndo(value.akhir_kontrak) + "</td>" +
+                                        "<td class=\"text-center\">" + value.lama_kontrak + "</td>" +
+                                    "</tr>";
+                        });
+                    }
+                    $('#data_kontrak').append(kontrak_data);
+                }
+            });
+        }
 
         // medsos
         medsos();
