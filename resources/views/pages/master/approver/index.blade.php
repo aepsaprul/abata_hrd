@@ -93,7 +93,7 @@
                                           $textColor = "text-warning";
                                         }
                                       @endphp
-                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan->nama_panggilan }}</span>
+                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan ? $detail->dataKaryawan->nama_panggilan : 'Nama Panggilan Harus Diisi' }}</span>
                                     @endforeach
                                   </div>
                                   <div class="col-2">
@@ -154,7 +154,7 @@
                                           $textColor = "text-warning";
                                         }
                                       @endphp
-                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan->nama_panggilan }}</span>
+                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan ? $detail->dataKaryawan->nama_panggilan : 'Nama Panggilan Harus Diisi' }}</span>
                                     @endforeach
                                   </div>
                                   <div class="col-2">
@@ -215,7 +215,7 @@
                                           $textColor = "text-warning";
                                         }
                                       @endphp
-                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan->nama_panggilan }}</span>
+                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan ? $detail->dataKaryawan->nama_panggilan : 'Nama Panggilan Harus Diisi' }}</span>
                                     @endforeach
                                   </div>
                                   <div class="col-2">
@@ -276,7 +276,7 @@
                                           $textColor = "text-warning";
                                         }
                                       @endphp
-                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan->nama_panggilan }}</span>
+                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan ? $detail->dataKaryawan->nama_panggilan : 'Nama Panggilan Harus Diisi' }}</span>
                                     @endforeach
                                   </div>
                                   <div class="col-2">
