@@ -7,6 +7,40 @@
 <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG').'themes/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  #backToTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: #d10000;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 50%;
+  opacity: 0; /* Awalnya tidak terlihat */
+  transition: opacity 0.5s ease, visibility 0.5s ease; /* Tambahkan transisi pada opacity dan visibility */
+  }
+
+  #backToTop.show {
+  display: block;
+  opacity: 1; /* Muncul secara bertahap */
+  visibility: visible; /* Pastikan tombol terlihat */
+  }
+
+  #backToTop:hover {
+    background-color: #333;
+  }
+
+</style>
+
 @endsection
 
 @section('content')
@@ -38,9 +72,8 @@
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box">
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-tie"></i></span>
-
                         <div class="info-box-content">
-                            <span class="info-box-text">Karyawan Aktif</span>
+                            <span class="info-box-text"><a href="#to_tabel_karyawan_aktif" class="text-dark">Karyawan Aktif</a></span>
                             <span class="info-box-number">{{ $count_karyawan_aktif }}</span>
                         </div>
                     </div>
@@ -48,20 +81,17 @@
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-user-tie"></i></span>
-
                         <div class="info-box-content">
-                            <span class="info-box-text">Karyawan Nonaktif</span>
+                            <span class="info-box-text"><a href="#to_tabel_karyawan_nonaktif" class="text-dark">Karyawan Nonaktif</a></span>
                             <span class="info-box-number">{{ $count_karyawan_nonaktif }}</span>
                         </div>
                     </div>
                 </div>
-                <div class="clearfix hidden-md-up"></div>
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-success elevation-1"><i class="fas fa-mug-hot"></i></span>
-
                         <div class="info-box-content">
-                            <span class="info-box-text">Pengajuan Cuti</span>
+                            <span class="info-box-text"><a href="#to_tabel_cuti" class="text-dark">Pengajuan Cuti</a></span>
                             <span class="info-box-number">{{ $count_cuti }}</span>
                         </div>
                     </div>
@@ -69,9 +99,8 @@
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-handshake"></i></span>
-
                         <div class="info-box-content">
-                            <span class="info-box-text">Pengajuan Resign</span>
+                            <span class="info-box-text"><a href="#to_tabel_resign" class="text-dark">Pengajuan Resign</a></span>
                             <span class="info-box-number">{{ $count_resign }}</span>
                         </div>
                     </div>
@@ -79,10 +108,49 @@
             </div>
 
             <div class="row">
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-indigo elevation-1"><i class="fas fa-male"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Karyawan Pria</span>
+                    <span class="info-box-number">{{ count($karyawan_pria) }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-maroon elevation-1"><i class="fas fa-female"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Karyawan Wanita</span>
+                    <span class="info-box-number">{{ count($karyawan_wanita) }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-lime elevation-1"><i class="fas fa-file-signature"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text"><a href="#to_tabel_kontrak" class="text-dark">Habis Kontrak</a></span>
+                    <span class="info-box-number">{{ $total_karyawan_kontrak }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-orange elevation-1"><i class="fas fa-file-signature"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text"><a href="#to_tabel_lewat_kontrak" class="text-dark">Belum PKWT</a></span>
+                    <span class="info-box-number">{{ $total_karyawan_lewat_kontrak }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-12">
 
                     {{-- karyawan kontrak --}}
-                    <div class="card">
+                    <div id="to_tabel_kontrak" class="card">
                         <div class="card-header">
                             <h5 class="card-title font-weight-bold text-uppercase">Karyawan Kontrak</h5>
                         </div>
@@ -93,14 +161,21 @@
                                         <th class="text-center text-indigo">Nama</th>
                                         <th class="text-center text-indigo">Mulai Kontrak</th>
                                         <th class="text-center text-indigo">Akhir Kontrak</th>
-                                        <th class="text-center text-indigo">Batas Kontrak</th>
+                                        <th class="text-center text-indigo">Hari Tersisa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  @php
-                                      $nomor = 1;
-                                  @endphp
-                                    @foreach ($karyawan_kontrak as $key => $item)
+                                  @foreach($karyawan_kontraks as $kontrak)
+                                    @if($kontrak->akhir_kontrak) {{-- Pastikan ada kontrak --}}
+                                      <tr>
+                                        <td>{{ $kontrak->nama_lengkap }}</td>
+                                        <td class="text-center">{{ $kontrak->kontrak[0]->mulai_kontrak }}</td>
+                                        <td class="text-center">{{ $kontrak->akhir_kontrak }}</td>
+                                        <td class="text-right"><strong>{{ $kontrak->hari_tersisa }}</strong> hari</td>
+                                      </tr>
+                                    @endif
+                                  @endforeach
+                                    {{-- @foreach ($karyawan_kontrak as $key => $item)
                                         @php
                                             $waktu_sekarang  = Date('Y-m-d');
                                             $akhir_kontrak = Date($item->akhir_kontrak);
@@ -129,14 +204,43 @@
                                               @endif
                                             @endif
                                         @endif
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
+                    {{-- karyawan lewat kontrak --}}
+                    <div id="to_tabel_lewat_kontrak" class="card">
+                      <div class="card-header">
+                        <h5 class="card-title font-weight-bold text-uppercase">Karyawan Lewat Kontrak</h5>
+                      </div>
+                      <div class="card-body">
+                        <table id="tabel_karyawan_lewat_kontrak" class="table table-bordered" style="font-size: 13px; width: 100%;">
+                          <thead>
+                            <tr>
+                              <th class="text-center text-indigo">Nama</th>
+                              <th class="text-center text-indigo">Mulai Kontrak</th>
+                              <th class="text-center text-indigo">Akhir Kontrak</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach($karyawan_lewat_kontraks as $lewat_kontrak)
+                              @if($lewat_kontrak->kontrak->isNotEmpty()) {{-- Pastikan ada kontrak --}}
+                                <tr>
+                                  <td>{{ $lewat_kontrak->nama_lengkap }}</td>
+                                  <td class="text-center">{{ $lewat_kontrak->kontrak->first()->mulai_kontrak }}</td>
+                                  <td class="text-center">{{ $lewat_kontrak->kontrak->first()->akhir_kontrak }}</td>
+                                </tr>
+                              @endif
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
                     {{-- karyawan aktif --}}
-                    <div class="card">
+                    <div id="to_tabel_karyawan_aktif" class="card">
                         <div class="card-header">
                             <h5 class="card-title font-weight-bold text-uppercase">Karyawan Aktif</h5>
                         </div>
@@ -171,7 +275,7 @@
                     </div>
 
                     {{-- karyawan nonaktif --}}
-                    <div class="card">
+                    <div id="to_tabel_karyawan_nonaktif" class="card">
                         <div class="card-header">
                             <h5 class="card-title font-weight-bold text-uppercase" style="font-weight: 600;">Karyawan Nonaktif</h5>
                         </div>
@@ -202,7 +306,7 @@
                     </div>
 
                     {{-- cuti --}}
-                    <div class="card">
+                    <div id="to_tabel_cuti" class="card">
                         <div class="card-header">
                             <h5 class="card-title font-weight-bold text-uppercase"><strong>Pengajuan Cuti</strong></h5>
                         </div>
@@ -265,7 +369,7 @@
                     </div>
 
                     {{-- resign --}}
-                    <div class="card">
+                    <div id="to_tabel_resign" class="card">
                         <div class="card-header">
                             <h5 class="card-title font-weight-bold text-uppercase">Pengajuan Resign</h5>
                         </div>
@@ -342,6 +446,9 @@
         </div>
     </section>
 </div>
+
+{{-- back to top --}}
+<button id="backToTop" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 
 {{-- modal show --}}
 <div class="modal fade modal-show" id="modal-default">
@@ -443,10 +550,37 @@
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 
 <script>
+  // back to top
+  // Ambil elemen tombol
+  let backToTopButton = document.getElementById("backToTop");
+
+  // Ketika pengguna menggulir 20px dari atas dokumen, tampilkan tombol
+  window.onscroll = function() {
+    scrollFunction();
+  };
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      backToTopButton.classList.add("show"); // Tambahkan kelas show
+    } else {
+      backToTopButton.classList.remove("show"); // Hapus kelas show
+    }
+  }
+
+  // Ketika pengguna mengklik tombol, gulirkan ke atas halaman
+  backToTopButton.addEventListener('click', function() {
+    document.body.scrollTop = 0; // Untuk Safari
+    document.documentElement.scrollTop = 0; // Untuk Chrome, Firefox, IE, dan Opera
+  });
+
     $(function () {
         $("#tabel_karyawan_kontrak").DataTable({
             'responsive': true,
             'order': [[2, 'asc']]
+        });
+        
+        $("#tabel_karyawan_lewat_kontrak").DataTable({
+            'responsive': true
         });
         $("#tabel_karyawan_aktif").DataTable({
             'responsive': true

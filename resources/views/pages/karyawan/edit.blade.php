@@ -3,8 +3,8 @@
 @section('style')
 
 <!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/select2/css/select2.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
 
 @endsection
 
@@ -190,6 +190,7 @@
                                                     <th class="text-center">Mulai Kontrak</th>
                                                     <th class="text-center">Akhir Kontrak</th>
                                                     <th class="text-center">Lama Kontrak</th>
+                                                    <th class="text-center">Satus Approve</th>
                                                     <th class="text-center">Aksi</th>
                                                 </tr>
                                             </thead>
@@ -685,12 +686,12 @@
 
 @section('script')
 
-<script src="{{ asset('public/themes/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/moment/moment.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 <!-- Select2 -->
-<script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/select2/js/select2.full.min.js') }}"></script>
 <!-- Bootstrap Switch -->
-<script src="{{ asset('public/themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 
 <script type="text/javascript">
 
@@ -1108,22 +1109,27 @@
 
                     if (response.kontraks.length == 0) {
                         kontrak_data += "" +
-                            "<tr>" +
-                                "<td class=\"text-center\" colspan=\"4\">Kosong</td>";
-                            "</tr>";
+                          "<tr>" +
+                            "<td class=\"text-center\" colspan=\"4\">Kosong</td>";
+                          "</tr>";
                     } else {
                         $.each(response.kontraks, function(index, value) {
-                            kontrak_data += "" +
-                                    "<tr>" +
-                                        "<td class=\"text-center\">" + tanggalIndo(value.mulai_kontrak) + "</td>" +
-                                        "<td class=\"text-center\">" + tanggalIndo(value.akhir_kontrak) + "</td>" +
-                                        "<td class=\"text-center\">" + value.lama_kontrak + "</td>" +
-                                        "<td class=\"text-center\">" +
-                                            "<button class=\"kontrak_btn_delete border-0 bg-transparent text-danger\" title=\"hapus\" data-id=\"" + value.id + "\">" +
-                                                    "<i class=\"fa fa-trash\"></i>" +
-                                            "</button>" +
-                                        "</td>" +
-                                    "</tr>";
+                            kontrak_data += `
+                              <tr>
+                                <td class="text-center">${tanggalIndo(value.mulai_kontrak)}</td>
+                                <td class="text-center">${tanggalIndo(value.akhir_kontrak)}</td>
+                                <td class="text-center">${value.lama_kontrak}</td>
+                                <td class="text-center">${value.status}
+                                  <div class="custom-control custom-switch custom-switch-on-success">
+                                    <input type="checkbox" name="status" class="custom-control-input" id="status_${value.id}" data-id="${value.id}" ${value.status === 1 ? "checked" : ""}>
+                                  </div>  
+                                </td>
+                                <td class="text-center">
+                                  <button class="kontrak_btn_delete border-0 bg-transparent text-danger" title="hapus" data-id="${value.id}">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </td>
+                              </tr>`;
                         });
                     }
                     $('#data_kontrak').append(kontrak_data);
