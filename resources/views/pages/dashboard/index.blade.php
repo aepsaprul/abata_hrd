@@ -336,31 +336,7 @@
                                                 @endif
                                             </td>
                                             <td>{{ $item->alasan }}</td>
-                                            <td>
-                                                @if ($item->approved_percentage > 100)
-                                                    @php
-                                                        $percent = 100;
-                                                    @endphp
-                                                @else
-                                                    @php
-                                                        $percent = $item->approved_percentage
-                                                    @endphp
-                                                @endif
-                                                <div class="progress">
-                                                    <div
-                                                        class="progress-bar bg-{{ $item->approved_background }}"
-                                                        role="progressbar"
-                                                        aria-valuenow="40"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="width: {{ $percent }}%">
-                                                            <span class="">{{ $percent }}%</span>
-                                                    </div>
-                                                </div>
-                                                <span style="font-size: 14px;">
-                                                    {{ $item->approved_text }} {{ $item->approvedLeader ? $item->approvedLeader->nama_panggilan : "" }}
-                                                </span>
-                                            </td>
+                                            <td class="text-capitalize">{{ $item->status_approve }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -410,31 +386,7 @@
                                                 @endif
                                             </td>
                                             <td>{{ $item->alasan }}</td>
-                                            <td>
-                                                @if ($item->approved_percentage > 100)
-                                                    @php
-                                                        $percent = 100;
-                                                    @endphp
-                                                @else
-                                                    @php
-                                                        $percent = $item->approved_percentage
-                                                    @endphp
-                                                @endif
-                                                <div class="progress">
-                                                    <div
-                                                        class="progress-bar bg-{{ $item->approved_background }}"
-                                                        role="progressbar"
-                                                        aria-valuenow="40"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="width: {{ $percent }}%">
-                                                            <span class="">{{ $percent }}%</span>
-                                                    </div>
-                                                </div>
-                                                <span style="font-size: 14px;">
-                                                    {{ $item->approved_text }} {{ $item->approvedLeader ? $item->approvedLeader->nama_panggilan : "" }}
-                                                </span>
-                                            </td>
+                                            <td class="text-capitalize">{{ $item->status_approve }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

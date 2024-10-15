@@ -19,7 +19,7 @@ class CutiController extends Controller
   public function index()
   {
     if (Auth::user()->master_karyawan_id == 0 || Auth::user()->masterKaryawan->master_cabang_id == 1) {
-      $cuti = HcCuti::orderBy('id', 'desc')->limit(30)->get();
+      $cuti = HcCuti::orderBy('id', 'desc')->limit(100)->get();
     } else {
       $cuti_detail = CutiDetail::where('atasan_id', Auth::user()->master_karyawan_id)->get();
       if (count($cuti_detail) > 0) {
@@ -156,6 +156,7 @@ class CutiController extends Controller
         $cuti->alasan = $request->alasan;
         $cuti->tanggal = date("Y-m-d");
         $cuti->status = 1;
+        $cuti->status_approve = 'pending';
         $cuti->save();
 
         foreach ($request->cuti_tanggal as $key => $value) {
@@ -203,9 +204,29 @@ class CutiController extends Controller
         'confirm' => 1
       ]);
 
+    $hirarki = CutiDetail::where('cuti_id', $request->status)
+      ->groupBy('hirarki')
+      ->count();
+
+    $confirm = CutiDetail::where('cuti_id', $request->status)
+      ->where('confirm', 1)
+      ->count();
+
+    if ($confirm >= $hirarki) {
+      $cuti = HcCuti::find($request->status);
+      $cuti->status_approve = 'complete';
+      $cuti->save();
+    } else {
+      $cuti = HcCuti::find($request->status);
+      $cuti->status_approve = 'pending';
+      $cuti->save();
+    }
+
     return response()->json([
       'status' => 200,
-      'message' => 'sukses'
+      'message' => 'sukses',
+      'data' => $confirm,
+      'hirarki' => $hirarki
     ]);
   }
 
@@ -222,6 +243,24 @@ class CutiController extends Controller
       ->update([
         'confirm' => 1
       ]);
+
+    $hirarki = CutiDetail::where('cuti_id', $request->status)
+      ->groupBy('hirarki')
+      ->count();
+
+    $confirm = CutiDetail::where('cuti_id', $request->status)
+      ->where('confirm', 1)
+      ->count();
+
+    if ($confirm >= $hirarki) {
+      $cuti = HcCuti::find($request->status);
+      $cuti->status_approve = 'complete';
+      $cuti->save();
+    } else {
+      $cuti = HcCuti::find($request->status);
+      $cuti->status_approve = 'pending';
+      $cuti->save();
+    }
 
     return response()->json([
       'status' => 200,

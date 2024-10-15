@@ -100,8 +100,8 @@
                                     @else
                                       @foreach ($item->cutiDetail as $cuti_detail_2)
                                         @if ($cuti_detail_2->dataAtasan->id == Auth::user()->master_karyawan_id && $cuti_detail_2->hirarki == $cuti_detail->hirarki)
-                                          <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_approved" class="btn btn-sm btn-success my-1" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" style="width: 40px;"><i id="btn_approved" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" class="fas fa-check"></i></button></th>
-                                          <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_disapproved" class="btn btn-sm btn-danger my-1" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" style="width: 40px;"><i id="btn_disapproved" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" class="fas fa-times"></i></button></th>
+                                          <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_approved" class="btn btn-sm btn-success my-1" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" data-detailid={{ $cuti_detail->id }} style="width: 40px;"><i id="btn_approved" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" data-detailid="{{ $cuti_detail->id }}" class="fas fa-check"></i></button></th>
+                                          <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_disapproved" class="btn btn-sm btn-danger my-1" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" data-detailid={{ $cuti_detail->id }} style="width: 40px;"><i id="btn_disapproved" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $cuti_detail->hirarki }}" data-detailid="{{ $cuti_detail->id }}" class="fas fa-times"></i></button></th>
                                         @endif
                                       @endforeach
                                     @endif
@@ -330,6 +330,7 @@
         </div>
         <div class="modal-body">
           <input type="hidden" name="status" id="status">
+          <input type="hidden" name="detail_id" id="detail_id">
           <input type="hidden" name="confirm" id="confirm">
           <input type="hidden" name="hirarki" id="hirarki">
           <div class="mb-3">
@@ -621,10 +622,12 @@
       const dataStatus = e.target.dataset.status;
       const dataConfirm = e.target.dataset.confirm;
       const dataHirarki = e.target.dataset.hirarki;
+      const dataDetailId = e.target.dataset.detailid;
 
       if (!id) return;
 
       if (id == "btn_approved") {
+        $('#modal_approved #detail_id').val(dataDetailId);
         $('#modal_approved #status').val(dataStatus);
         $('#modal_approved #confirm').val(dataConfirm);
         $('#modal_approved #hirarki').val(dataHirarki);
@@ -716,71 +719,71 @@
     //   $('.modal_approved').modal('show');
     // })
 
-    $(document).on('submit', '#form_approved', function (e) {
-      e.preventDefault();
+    // $(document).on('submit', '#form_approved', function (e) {
+    //   e.preventDefault();
 
-      let formData = {
-        id: $('#approved_id').val(),
-        keterangan: $('#approved_keterangan').val()
-      }
+    //   let formData = {
+    //     id: $('#approved_id').val(),
+    //     keterangan: $('#approved_keterangan').val()
+    //   }
 
-      $.ajax({
-        url: "{{ URL::route('cuti.approved') }}",
-        type: 'post',
-        data: formData,
-        beforeSend: function () {
-          $('.btn-approved-spinner').removeClass('d-none');
-          $('.btn-approved-save').addClass('d-none');
-        },
-        success: function (response) {
-          Toast.fire({
-            icon: 'success',
-            title: 'Cuti telah disetujui'
-          });
+    //   $.ajax({
+    //     url: "{{ URL::route('cuti.approved') }}",
+    //     type: 'post',
+    //     data: formData,
+    //     beforeSend: function () {
+    //       $('.btn-approved-spinner').removeClass('d-none');
+    //       $('.btn-approved-save').addClass('d-none');
+    //     },
+    //     success: function (response) {
+    //       Toast.fire({
+    //         icon: 'success',
+    //         title: 'Cuti telah disetujui'
+    //       });
 
-          setTimeout( () => {
-            window.location.reload(1);
-          }, 1000);
-        }
-      });
-    });
+    //       setTimeout( () => {
+    //         window.location.reload(1);
+    //       }, 1000);
+    //     }
+    //   });
+    // });
 
     // btn disapprove cuti
-    $(document).on('click', '.btn-disapprove', function (e) {
-      e.preventDefault();
-      let id = $(this).attr('data-id');
-      $('#disapproved_id').val(id);
-      $('.modal_disapproved').modal('show');
-    })
+    // $(document).on('click', '.btn-disapprove', function (e) {
+    //   e.preventDefault();
+    //   let id = $(this).attr('data-id');
+    //   $('#disapproved_id').val(id);
+    //   $('.modal_disapproved').modal('show');
+    // })
 
-    $(document).on('submit', '#form_disapproved', function (e) {
-      e.preventDefault();
+    // $(document).on('submit', '#form_disapproved', function (e) {
+    //   e.preventDefault();
 
-      let formData = {
-        id: $('#disapproved_id').val(),
-        keterangan: $('#disapproved_keterangan').val()
-      }
+    //   let formData = {
+    //     id: $('#disapproved_id').val(),
+    //     keterangan: $('#disapproved_keterangan').val()
+    //   }
 
-      $.ajax({
-        url: "{{ URL::route('cuti.disapproved') }}",
-        type: 'post',
-        data: formData,
-        beforeSend: function () {
-          $('.btn-disapproved-spinner').removeClass('d-none');
-          $('.btn-disapproved-save').addClass('d-none');
-        },
-        success: function (response) {
-          Toast.fire({
-            icon: 'success',
-            title: 'Cuti tidak disetujui'
-          });
+    //   $.ajax({
+    //     url: "{{ URL::route('cuti.disapproved') }}",
+    //     type: 'post',
+    //     data: formData,
+    //     beforeSend: function () {
+    //       $('.btn-disapproved-spinner').removeClass('d-none');
+    //       $('.btn-disapproved-save').addClass('d-none');
+    //     },
+    //     success: function (response) {
+    //       Toast.fire({
+    //         icon: 'success',
+    //         title: 'Cuti tidak disetujui'
+    //       });
 
-          setTimeout( () => {
-            window.location.reload(1);
-          }, 1000);
-        }
-      });
-    });
+    //       setTimeout( () => {
+    //         window.location.reload(1);
+    //       }, 1000);
+    //     }
+    //   });
+    // });
 
     // detail
     $(document).on('click', '.btn-detail', function (e) {

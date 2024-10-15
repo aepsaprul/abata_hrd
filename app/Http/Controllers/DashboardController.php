@@ -29,7 +29,7 @@ class DashboardController extends Controller
         $query->orderBy('akhir_kontrak', 'desc')
             ->whereBetween('akhir_kontrak', [$today, $thirtyDaysLater]);
           }])
-          ->get()
+          ->where('status', 'Aktif')->get()
           ->map(function ($k) use ($today) {
             // Ambil kontrak terakhir
             $kontrak_terakhir = $k->kontrak->first();
@@ -84,10 +84,10 @@ class DashboardController extends Controller
         $karyawan_nonaktif = MasterKaryawan::where('status', 'nonaktif')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
         $count_karyawan_nonaktif = count($karyawan_nonaktif);
 
-        $cuti = HcCuti::where('approved_percentage', '<', 100)->orderBy('id', 'desc')->get();
+        $cuti = HcCuti::where('status_approve', '!=', 'complete')->orderBy('id', 'desc')->get();
         $count_cuti = count($cuti);
 
-        $resign = HcResign::where('approved_percentage', '<', 100)->orderBy('id', 'desc')->get();
+        $resign = HcResign::where('status_approve', '!=', 'complete')->orderBy('id', 'desc')->get();
         $count_resign = count($resign);
 
         return view('pages.dashboard.index', [
