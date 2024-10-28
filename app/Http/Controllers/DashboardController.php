@@ -70,15 +70,6 @@ class DashboardController extends Controller
         // Hitung total karyawan yang kontraknya sudah lewat tanpa kontrak baru
         $total_karyawan_lewat_kontrak = $karyawan_lewat_kontrak->count();
 
-        // $karyawan_kontrak = HcKontrak::with(['karyawan' => function ($query) {
-        //       $query->where('status', 'Aktif');
-        //     }])
-        //     ->where('karyawan_id', '!=', null)
-        //     ->select(DB::raw('max(id) as id'),'karyawan_id', DB::raw('max(mulai_kontrak) as mulai_kontrak'), DB::raw('max(akhir_kontrak) as akhir_kontrak'))
-        //     ->groupBy('karyawan_id')
-        //     ->orderBy('id', 'desc')
-        //     ->get();
-
         $count_karyawan_aktif = count($karyawan_aktif);
 
         $karyawan_nonaktif = MasterKaryawan::where('status', 'nonaktif')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
@@ -106,6 +97,23 @@ class DashboardController extends Controller
           'karyawan_lewat_kontraks' => $karyawan_lewat_kontrak,
           'total_karyawan_lewat_kontrak' => $total_karyawan_lewat_kontrak
         ]);
+    }
+
+    public function getTotalKaryawanPerBulan()
+    {
+      $year = Carbon::now()->year;
+      $monthlyCounts = [];
+
+      for ($month = 1; $month <= Carbon::now()->month; $month++) {
+        // Set tanggal ke hari terakhir bulan tersebut
+        $lastDayOfMonth = Carbon::create($year, $month)->endOfMonth();
+        
+        // Hitung jumlah karyawan pada akhir bulan tersebut
+        $count = MasterKaryawan::where('status', 'Aktif')->whereDate('created_at', '<=', $lastDayOfMonth)->count();
+        $monthlyCounts[] = $count;
+      }
+
+      return response()->json($monthlyCounts);
     }
 
     public function show($id)

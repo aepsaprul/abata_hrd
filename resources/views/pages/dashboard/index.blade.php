@@ -149,6 +149,15 @@
             <div class="row">
                 <div class="col-md-12">
 
+                  <div class="card">
+                    <div class="card-header">
+                      <h5 class="card-title font-weight-bold text-uppercase">Jumlah Total Karyawan Per Bulan</h5>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="employeeChart"></canvas>
+                    </div>
+                  </div>
+
                     {{-- karyawan kontrak --}}
                     <div id="to_tabel_kontrak" class="card">
                         <div class="card-header">
@@ -175,36 +184,6 @@
                                       </tr>
                                     @endif
                                   @endforeach
-                                    {{-- @foreach ($karyawan_kontrak as $key => $item)
-                                        @php
-                                            $waktu_sekarang  = Date('Y-m-d');
-                                            $akhir_kontrak = Date($item->akhir_kontrak);
-                                        @endphp
-                                        @if (strtotime($waktu_sekarang) < strtotime($akhir_kontrak))
-                                            @php
-                                                $waktuawal  = date_create($akhir_kontrak);
-                                                $waktuakhir = date_create();
-                                                $diff  = date_diff($waktuawal, $waktuakhir);
-                                            @endphp
-
-                                            @if ($diff->days < 90 && $diff->days > 1)
-                                              @if ($item->karyawan)
-                                                <tr>
-                                                    <td><a href="#" class="btn-detail" data-id="{{ $item->karyawan->id }}">{{ $item->karyawan->nama_lengkap }}</a></td>
-                                                    <td class="text-center">{{ $item->mulai_kontrak }}</td>
-                                                    <td class="text-center">{{ $item->akhir_kontrak }}</td>
-                                                    <td>
-                                                        @if ($diff->m > 0)
-                                                            @php echo $diff->format('Kontrak Habis <strong> %m Bulan %d Hari </strong> Lagi') @endphp
-                                                        @else
-                                                            @php echo $diff->format('Kontrak Habis <strong> %d Hari </strong> Lagi') @endphp
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                              @endif
-                                            @endif
-                                        @endif
-                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
@@ -500,6 +479,8 @@
 {{-- moment js --}}
 <script src="{{ asset(env('APP_URL_IMG').'themes/plugins/moment/moment.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+<!-- ChartJS -->
+<script src="{{ asset(env('APP_URL_IMG').'themes/plugins/chart.js/Chart.min.js') }}"></script>
 
 <script>
   // back to top
@@ -526,144 +507,179 @@
   });
 
     $(function () {
-        $("#tabel_karyawan_kontrak").DataTable({
-            'responsive': true,
-            'order': [[2, 'asc']]
-        });
-        
-        $("#tabel_karyawan_lewat_kontrak").DataTable({
-            'responsive': true
-        });
-        $("#tabel_karyawan_aktif").DataTable({
-            'responsive': true
-        });
-        $("#tabel_karyawan_nonaktif").DataTable({
-            'responsive': true
-        });
-        $("#tabel_cuti").DataTable({
-            'responsive': true
-        });
-        $("#tabel_resign").DataTable({
-            'responsive': true
-        });
+      $("#tabel_karyawan_kontrak").DataTable({
+        'responsive': true,
+        'order': [[2, 'asc']]
+      });
+      
+      $("#tabel_karyawan_lewat_kontrak").DataTable({
+        'responsive': true
+      });
+      $("#tabel_karyawan_aktif").DataTable({
+        'responsive': true
+      });
+      $("#tabel_karyawan_nonaktif").DataTable({
+        'responsive': true
+      });
+      $("#tabel_cuti").DataTable({
+        'responsive': true
+      });
+      $("#tabel_resign").DataTable({
+        'responsive': true
+      });
     });
 
     $(document).ready(function () {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
 
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
 
-        $(document).on('click', '.btn-detail', function (e) {
-            e.preventDefault();
-            $('#data_kontrak').empty();
+      $(document).on('click', '.btn-detail', function (e) {
+        e.preventDefault();
+        $('#data_kontrak').empty();
 
-            let id = $(this).attr('data-id');
-            let url = '{{ route("dashboard.show", ":id") }}';
-            url = url.replace(':id', id );
+        let id = $(this).attr('data-id');
+        let url = '{{ route("dashboard.show", ":id") }}';
+        url = url.replace(':id', id );
 
-            $.ajax({
-                url: url,
-                type: "get",
-                success: function (response) {
-                    $('#show_nama_lengkap').val(response.karyawan.nama_lengkap);
-                    $('#show_id').val(response.karyawan.id);
+        $.ajax({
+          url: url,
+          type: "get",
+          success: function (response) {
+            $('#show_nama_lengkap').val(response.karyawan.nama_lengkap);
+            $('#show_id').val(response.karyawan.id);
 
-                    let data_kontrak = "";
-                    $.each(response.karyawan_kontraks, function (index, item) {
-                        data_kontrak += "" +
-                            "<tr>" +
-                                "<td class='text-center'> " + tanggalIndo(item.mulai_kontrak) + " </td>" +
-                                "<td class='text-center'> " + tanggalIndo(item.akhir_kontrak) + " </td>" +
-                                "<td class='text-center'> " + item.lama_kontrak + " </td>" +
-                            "</tr>";
-                    })
-                    $('#data_kontrak').append(data_kontrak);
-
-                    $('.modal-show').modal('show');
-                }
+            let data_kontrak = "";
+            $.each(response.karyawan_kontraks, function (index, item) {
+              data_kontrak += "" +
+                "<tr>" +
+                  "<td class='text-center'> " + tanggalIndo(item.mulai_kontrak) + " </td>" +
+                  "<td class='text-center'> " + tanggalIndo(item.akhir_kontrak) + " </td>" +
+                  "<td class='text-center'> " + item.lama_kontrak + " </td>" +
+                "</tr>";
             })
+            $('#data_kontrak').append(data_kontrak);
+
+            $('.modal-show').modal('show');
+          }
         })
+      })
 
-        $('#mulai_kontrak').on('change', function() {
-            if ($('#akhir_kontrak').val() != "") {
-                kontrakCalculate();
-            }
-        });
+      $('#mulai_kontrak').on('change', function() {
+        if ($('#akhir_kontrak').val() != "") {
+          kontrakCalculate();
+        }
+      });
 
-        $('#akhir_kontrak').on('change', function() {
-            if ($('#mulai_kontrak').val() != "") {
-                kontrakCalculate();
-            }
-        });
+      $('#akhir_kontrak').on('change', function() {
+        if ($('#mulai_kontrak').val() != "") {
+          kontrakCalculate();
+        }
+      });
 
-        function kontrakCalculate() {
-            var a = moment($('#mulai_kontrak').val());
-            var b = moment($('#akhir_kontrak').val());
-            diff = moment.preciseDiff(a, b, true);
+      function kontrakCalculate() {
+        var a = moment($('#mulai_kontrak').val());
+        var b = moment($('#akhir_kontrak').val());
+        diff = moment.preciseDiff(a, b, true);
 
-            intervals = ['years', 'months'];
-            intervalse = ['TAHUN', 'BULAN'];
-            output = [];
+        intervals = ['years', 'months'];
+        intervalse = ['TAHUN', 'BULAN'];
+        output = [];
 
-            for(var i = 0; i < intervals.length; i++) {
-                var e = diff[intervals[i]];
-                var d = e < 10 ? '' + e : e;
-                output.push(d + ' ' + intervalse[i] + ' ');
-            }
-
-            $('#lama_kontrak').val(output);
+        for(var i = 0; i < intervals.length; i++) {
+          var e = diff[intervals[i]];
+          var d = e < 10 ? '' + e : e;
+          output.push(d + ' ' + intervalse[i] + ' ');
         }
 
-        $('#kontrak_form').submit(function(e) {
-            e.preventDefault();
-            if ($('#mulai_kontrak').val() == "" || $('#akhir_kontrak').val() == "") {
-                alert('Tanggal tidak boleh kosong');
-            } else {
-                var formData = {
-                    id: $('#show_id').val(),
-                    mulai_kontrak: $('#mulai_kontrak').val(),
-                    akhir_kontrak: $('#akhir_kontrak').val(),
-                    lama_kontrak: $('#lama_kontrak').val()
-                }
+        $('#lama_kontrak').val(output);
+      }
 
-                $.ajax({
-                    url: "{{ URL::route('dashboard.store') }}",
-                    type: 'POST',
-                    data: formData,
-                    beforeSend: function() {
-                        $('.btn-kontrak-spinner').removeClass('d-none');
-                        $('.btn-kontrak-save').addClass('d-none');
+      $('#kontrak_form').submit(function(e) {
+        e.preventDefault();
+        if ($('#mulai_kontrak').val() == "" || $('#akhir_kontrak').val() == "") {
+            alert('Tanggal tidak boleh kosong');
+        } else {
+          var formData = {
+            id: $('#show_id').val(),
+            mulai_kontrak: $('#mulai_kontrak').val(),
+            akhir_kontrak: $('#akhir_kontrak').val(),
+            lama_kontrak: $('#lama_kontrak').val()
+          }
+
+          $.ajax({
+            url: "{{ URL::route('dashboard.store') }}",
+            type: 'POST',
+            data: formData,
+            beforeSend: function() {
+              $('.btn-kontrak-spinner').removeClass('d-none');
+              $('.btn-kontrak-save').addClass('d-none');
+            },
+            success: function(response) {
+              Toast.fire({
+                icon: 'success',
+                title: 'Kontrak behasil diperbaharui'
+              });
+
+              setTimeout(() => {
+                window.location.reload(1);
+              }, 1000);
+            },
+            error: function(xhr, status, error) {
+              var errorMessage = xhr.status + ': ' + error
+
+              Toast.fire({
+                icon: 'error',
+                title: 'Error - ' + errorMessage
+              });
+            }
+          });
+        }
+      });
+
+      totalKaryawanPerBulan();
+      function totalKaryawanPerBulan() {
+        $.ajax({
+            url: "{{ URL::route('dashboard.getTotalKaryawanPerBulan') }}",
+            method: "GET",
+            success: function(data) {
+                const ctx = document.getElementById('employeeChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line', // Bisa diubah ke 'bar' atau jenis chart lain
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: 'Jumlah Karyawan',
+                            data: data,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            fill: true,
+                        }]
                     },
-                    success: function(response) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Kontrak behasil diperbaharui'
-                        });
-
-                        setTimeout(() => {
-                            window.location.reload(1);
-                        }, 1000);
-                    },
-                    error: function(xhr, status, error) {
-                        var errorMessage = xhr.status + ': ' + error
-
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'Error - ' + errorMessage
-                        });
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
                     }
                 });
+            },
+            error: function(xhr, status, error) {
+                console.error("Gagal mengambil data:", error);
             }
         });
+      }
     })
 </script>
 @endsection
