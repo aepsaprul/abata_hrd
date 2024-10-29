@@ -289,6 +289,7 @@
                                                         $slip_detail->premi_bpjs_kes +
                                                         $slip_detail->premi_bpjs_tk +
                                                         $slip_detail->pot_alpha_ijin +
+                                                        $slip_detail->pot_sakit +
                                                         $slip_detail->pot_abata_peduli +
                                                         $slip_detail->pph21 +
                                                         $slip_detail->pot_lain;

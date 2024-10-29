@@ -41,7 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-indigo">No</th>
-                                        <th class="text-center text-indigo">Tahun</th>
+                                        <th class="text-center text-indigo">Tahun123</th>
                                         <th class="text-center text-indigo">Bulan</th>
                                         <th class="text-center text-indigo">Periode</th>
                                         <th class="text-center text-indigo">Detail</th>

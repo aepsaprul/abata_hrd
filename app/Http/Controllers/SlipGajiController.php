@@ -223,6 +223,7 @@ class SlipGajiController extends Controller
         DB::raw('sum(premi_bpjs_kes) as premi_bpjs_kes'),
         DB::raw('sum(premi_bpjs_tk) as premi_bpjs_tk'),
         DB::raw('sum(pot_alpha_ijin) as pot_alpha_ijin'),
+        DB::raw('sum(pot_alpha_ijin) as pot_sakit'),
         DB::raw('sum(pot_abata_peduli) as pot_abata_peduli'),
         DB::raw('sum(pph21) as pph21'),
         DB::raw('sum(pot_lain) as pot_lain'),

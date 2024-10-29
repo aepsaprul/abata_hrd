@@ -60,6 +60,7 @@
               $item->premi_bpjs_kes +
               $item->premi_bpjs_tk +
               $item->pot_alpha_ijin +
+              $item->pot_sakit +
               $item->pot_abata_peduli +
               $item->pph21 +
               $item->pot_lain;
