@@ -380,6 +380,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('training/delete', [TrainingController::class, 'delete'])->name('training.delete');
     Route::get('training/modul/{file_modul}', [TrainingController::class, 'modul'])->name('training.modul');
 
+    // training training
+    Route::get('training/training', [TrainingController::class, 'training'])->name('training');
+    Route::get('training/training/create', [TrainingController::class, 'trainingCreate'])->name('training.training.create');
+    Route::get('training/training/getKaryawan', [TrainingController::class, 'getKaryawan'])->name('training.getKaryawan');
+    Route::get('training/training/getModul', [TrainingController::class, 'getModul'])->name('training.getModul');
+    Route::post('training/training/store', [TrainingController::class, 'trainingStore'])->name('training.training.store');
+    Route::get('training/training/{id}/show', [TrainingController::class, 'trainingShow'])->name('training.training.show');
+    Route::get('training/training/{id}/edit', [TrainingController::class, 'trainingEdit'])->name('training.training.edit');
+    Route::put('training/training/{id}/update', [TrainingController::class, 'trainingUpdate'])->name('training.training.update');
+    Route::get('training/training/{id}/delete', [TrainingController::class, 'trainingDelete'])->name('training.training.delete');
+    Route::get('training/training/modul', [TrainingController::class, 'moduls'])->name('training.moduls');
+    Route::get('training/training/modul/create', [TrainingController::class, 'modulCreate'])->name('training.modul.create');
+    Route::post('training/training/modul/store', [TrainingController::class, 'modulStore'])->name('training.modul.store');
+    Route::get('training/training/modul/{id}/edit', [TrainingController::class, 'modulEdit'])->name('training.modul.edit');
+    Route::put('training/training/modul/{id}/update', [TrainingController::class, 'modulUpdate'])->name('training.modul.update');
+    Route::get('training/training/modul/{id}/delete', [TrainingController::class, 'modulDelete'])->name('training.modul.delete');
+
     // pengajuan
         // cuti
         Route::get('pengajuan/cuti', [PengajuanCutiController::class, 'index'])->name('pengajuan_cuti.index');
