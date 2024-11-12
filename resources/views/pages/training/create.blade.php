@@ -32,7 +32,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <form action="{{ route('training.training.store') }}" method="POST">
+              <form action="{{ route('training.store') }}" method="POST">
                 @csrf
                 <div class="row">
                   <div class="col-md-3 col-12 mb-3">

@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\HcKontrak;
-use App\Models\HcPendidikan;
-use App\Models\MasterCabang;
-use Illuminate\Http\Request;
-use App\Models\MasterJabatan;
-use App\Models\MasterKaryawan;
-use App\Models\HcKerabatDarurat;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\HcKeluargaSebelumMenikah;
 use App\Models\HcKeluargaSetelahMenikah;
+use App\Models\HcKerabatDarurat;
+use App\Models\HcKontrak;
 use App\Models\HcMedsos;
+use App\Models\HcPendidikan;
+use App\Models\MasterCabang;
 use App\Models\MasterDivisi;
+use App\Models\MasterJabatan;
+use App\Models\MasterKaryawan;
 use App\Models\MasterRole;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Training;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class MasterKaryawanController extends Controller
 {
@@ -191,6 +192,35 @@ class MasterKaryawanController extends Controller
     // source status level karyawan
     $kontrak_pertama = HcKontrak::where('karyawan_id', $decrypt_id)->orderBy('id', 'asc')->first();
 
+    // training
+    $karyawanId = $karyawan->id;
+    $training = Training::whereHas('dataPeserta', function($q) use ($karyawanId) {
+      $q->where('master_karyawan_id', $karyawanId);
+    })->get();
+
+    $total_durasi_training = $training->sum(function($q) {
+      return $q->durasi;
+    });
+
+    // ------------------------------------------------------
+
+    // Jika user tidak ditemukan, kembalikan respon error
+    if (!$karyawan) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    // Ambil modul-modul yang diikuti user melalui training
+    $moduls = $karyawan->trainings()
+        ->with('moduls')  // Memuat relasi moduls dari training
+        ->get()
+        ->pluck('moduls') // Mengambil data modul dari setiap training
+        ->flatten()       // Menggabungkan modul dari semua training
+        ->unique('id');   // Menghilangkan duplikat berdasarkan ID modul
+
+    // dd($moduls);
+
+    // ------------------------------------------------------------
+
     return view('pages.karyawan.show', [
       'karyawan' => $karyawan,
       'kontraks' => $kontrak,
@@ -199,7 +229,9 @@ class MasterKaryawanController extends Controller
       'setelah_menikahs' => $setelah_menikah,
       'kerabat_darurats' => $kerabat_darurat,
       'pendidikans' => $pendidikan,
-      'kontrak_pertama' => $kontrak_pertama
+      'kontrak_pertama' => $kontrak_pertama,
+      'total_durasi_training' => $total_durasi_training,
+      'training_moduls' => $moduls
     ]);
   }
 

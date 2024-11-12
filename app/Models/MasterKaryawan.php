@@ -110,4 +110,9 @@ class MasterKaryawan extends Model
     public function slipGaji() {
         return $this->hasMany(HcSlipGajiTemplate::class, 'karyawan_id', 'id');
     }
+
+    public function trainings()
+    {
+        return $this->belongsToMany(Training::class, 'training_pesertas');
+    }
 }

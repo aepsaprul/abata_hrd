@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Modul extends Model
 {
-    use HasFactory;
+  use HasFactory;
+
+  public function trainings()
+  {
+    return $this->belongsToMany(Training::class, 'training_moduls');
+  }
 }

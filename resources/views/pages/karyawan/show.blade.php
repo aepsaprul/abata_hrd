@@ -1,32 +1,27 @@
 @extends('layouts.app')
-
 @section('style')
-
 <!-- Select2 -->
 <link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
-
 @endsection
-
 @section('content')
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h4>Lihat Profile</h4>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('karyawan.index') }}">Karyawan</a></li>
-                        <li class="breadcrumb-item active">Lihat Profile</li>
-                    </ol>
-                </div>
-            </div>
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h4>Lihat Profile</h4>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{{ route('karyawan.index') }}">Karyawan</a></li>
+              <li class="breadcrumb-item active">Lihat Profile</li>
+            </ol>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Main content -->
@@ -278,6 +273,31 @@
                       </div>
                   </div>
               </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <strong class="text-uppercase">Training</strong>
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <div class="row mb-3">
+                    <div class="col-12">
+                      <div><span class="font-weight-bold">Durasi:</span> {{ $total_durasi_training }} Jam</div>
+                      <div><span class="font-weight-bold">Modul</span>
+                        <ul>
+                          @foreach ($training_moduls as $modul)
+                            <li>{{ $modul->nama }}</li>
+                          @endforeach
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
       </div>
     </section>

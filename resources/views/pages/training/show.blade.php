@@ -88,7 +88,7 @@
                         <select name="peserta[]" class="form-control select2_peserta" style="pointer-events: none; appearance: none; background-color: #f0f0f0; color: #555;" required>
                           <option value="">Pilih Peserta</option>
                           @foreach ($karyawans as $karyawan_peserta)
-                            <option value="{{ $karyawan_peserta->id }}" {{ $karyawan_peserta->id == $peserta->karyawan_id ? 'selected' : '' }}>{{ $karyawan_peserta->nama_lengkap }}</option>
+                            <option value="{{ $karyawan_peserta->id }}" {{ $karyawan_peserta->id == $peserta->master_karyawan_id ? 'selected' : '' }}>{{ $karyawan_peserta->nama_lengkap }}</option>
                           @endforeach
                         </select>
                       </div>
