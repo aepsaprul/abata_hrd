@@ -8,6 +8,7 @@ use App\Models\HcKerabatDarurat;
 use App\Models\HcKontrak;
 use App\Models\HcMedsos;
 use App\Models\HcPendidikan;
+use App\Models\HistoriJabatan;
 use App\Models\MasterCabang;
 use App\Models\MasterDivisi;
 use App\Models\MasterJabatan;
@@ -202,24 +203,21 @@ class MasterKaryawanController extends Controller
       return $q->durasi;
     });
 
-    // ------------------------------------------------------
-
     // Jika user tidak ditemukan, kembalikan respon error
     if (!$karyawan) {
-        return response()->json(['message' => 'User not found'], 404);
+      return response()->json(['message' => 'User not found'], 404);
     }
 
     // Ambil modul-modul yang diikuti user melalui training
     $moduls = $karyawan->trainings()
-        ->with('moduls')  // Memuat relasi moduls dari training
-        ->get()
-        ->pluck('moduls') // Mengambil data modul dari setiap training
-        ->flatten()       // Menggabungkan modul dari semua training
-        ->unique('id');   // Menghilangkan duplikat berdasarkan ID modul
+      ->with('moduls')  // Memuat relasi moduls dari training
+      ->get()
+      ->pluck('moduls') // Mengambil data modul dari setiap training
+      ->flatten()       // Menggabungkan modul dari semua training
+      ->unique('id');   // Menghilangkan duplikat berdasarkan ID modul
 
-    // dd($moduls);
-
-    // ------------------------------------------------------------
+    // histori jabatan
+    $historiJabatan = HistoriJabatan::where('master_karyawan_id', $karyawanId)->get();
 
     return view('pages.karyawan.show', [
       'karyawan' => $karyawan,
@@ -231,7 +229,8 @@ class MasterKaryawanController extends Controller
       'pendidikans' => $pendidikan,
       'kontrak_pertama' => $kontrak_pertama,
       'total_durasi_training' => $total_durasi_training,
-      'training_moduls' => $moduls
+      'training_moduls' => $moduls,
+      'histori_jabatans' => $historiJabatan
     ]);
   }
 
@@ -247,7 +246,7 @@ class MasterKaryawanController extends Controller
 
     $karyawan = MasterKaryawan::find($decrypt_id);
     $cabangs = MasterCabang::get();
-    $jabatans = MasterJabatan::get();
+    $jabatans = MasterJabatan::orderBy('nama_jabatan', 'asc')->get();
     $divisis = MasterDivisi::get();
     $role = MasterRole::get();
 
@@ -257,6 +256,9 @@ class MasterKaryawanController extends Controller
     $kerabat_darurat = HcKerabatDarurat::where('karyawan_id', $decrypt_id)->first();
     $pendidikan = HcPendidikan::where('karyawan_id', $decrypt_id)->first();
     $kontraks = HcKontrak::where('karyawan_id', $decrypt_id)->orderBy('id', 'desc')->get();
+
+    // histori jabatan
+    $historiJabatan = HistoriJabatan::where('master_karyawan_id', $karyawan->id)->get();
 
     return view('pages.karyawan.edit', [
       'karyawan' => $karyawan,
@@ -269,7 +271,8 @@ class MasterKaryawanController extends Controller
       'keluarga_setelah_menikahs' => $keluarga_setelah_menikah,
       'kerabat_darurat' => $kerabat_darurat,
       'pendidikan' => $pendidikan,
-      'kontraks' => $kontraks
+      'kontraks' => $kontraks,
+      'histori_jabatans' => $historiJabatan
     ]);
   }
 
@@ -362,112 +365,122 @@ class MasterKaryawanController extends Controller
 
   public function biodataUpdate(Request $request)
   {
-      $messages = [
-          'nik.required' => 'NIK harus diisi',
-          'nama_lengkap.required' => 'Nama lengkap harus diisi',
-          'nama_panggilan.required' => 'Nama panggilan harus diisi',
-          'email.required' => 'Email harus diisi',
-          'email.email' => 'Email harus diisi dengan tipe email',
-          'email.max' => 'Email diisi makasimal 50 karakter',
-          'telepon.required' => 'Telepon harus diisi',
-          'telepon.max' => 'Telepon diisi maksimal 15 karakter',
-          'nomor_ktp.required' => 'Nomor KTP harus diisi',
-          'nomor_ktp.max' => 'Nomor KTP diisi maksimal 16 karakter',
-          'status_perkawinan.required' => 'Status perkawinan harus diisi',
-          'master_cabang_id.required' => 'Cabang harus diisi',
-          'master_jabatan_id.required' => 'Jabatan harus diisi',
-          'master_divisi_id.required' => 'Divisi harus diisi',
-          'role.required' => 'Role harus diisi',
-          'agama.required' => 'Agama harus diisi',
-          'agama.max' => 'Agama diisi maksimal 10 karakter',
-          'jenis_kelamin.required' => 'Jenis kelamin harus diisi',
-          'jenis_kelamin.max' => 'Jenis kelamin diisi maksimal 1 karakter',
-          'tempat_lahir.required' => 'Tempat lahir harus diisi',
-          'tempat_lahir.max' => 'Tempat lahir diisi maksimal 30 karakter',
-          'tanggal_lahir.required' => 'Tanggal lahir harus diisi',
-          'tanggal_lahir.date' => 'Tanggal lahir harus diisi dengan tipe date',
-          'alamat_asal.required' => 'Alamat asal harus diisi',
-          'alamat_domisili.required' => 'Alamat domisili harus diisi',
-          'foto.image' => 'foto harus diisi dengan tipe gambar',
-          'foto.mimes' => 'foto harus diisi dengan format jpg/jpeg/png',
-          'foto.max' => 'foto maksimal 2 Mb'
-      ];
+    $messages = [
+      'nik.required' => 'NIK harus diisi',
+      'nama_lengkap.required' => 'Nama lengkap harus diisi',
+      'nama_panggilan.required' => 'Nama panggilan harus diisi',
+      'email.required' => 'Email harus diisi',
+      'email.email' => 'Email harus diisi dengan tipe email',
+      'email.max' => 'Email diisi makasimal 50 karakter',
+      'telepon.required' => 'Telepon harus diisi',
+      'telepon.max' => 'Telepon diisi maksimal 15 karakter',
+      'nomor_ktp.required' => 'Nomor KTP harus diisi',
+      'nomor_ktp.max' => 'Nomor KTP diisi maksimal 16 karakter',
+      'status_perkawinan.required' => 'Status perkawinan harus diisi',
+      'master_cabang_id.required' => 'Cabang harus diisi',
+      'master_jabatan_id.required' => 'Jabatan harus diisi',
+      'master_divisi_id.required' => 'Divisi harus diisi',
+      'role.required' => 'Role harus diisi',
+      'agama.required' => 'Agama harus diisi',
+      'agama.max' => 'Agama diisi maksimal 10 karakter',
+      'jenis_kelamin.required' => 'Jenis kelamin harus diisi',
+      'jenis_kelamin.max' => 'Jenis kelamin diisi maksimal 1 karakter',
+      'tempat_lahir.required' => 'Tempat lahir harus diisi',
+      'tempat_lahir.max' => 'Tempat lahir diisi maksimal 30 karakter',
+      'tanggal_lahir.required' => 'Tanggal lahir harus diisi',
+      'tanggal_lahir.date' => 'Tanggal lahir harus diisi dengan tipe date',
+      'alamat_asal.required' => 'Alamat asal harus diisi',
+      'alamat_domisili.required' => 'Alamat domisili harus diisi',
+      'foto.image' => 'foto harus diisi dengan tipe gambar',
+      'foto.mimes' => 'foto harus diisi dengan format jpg/jpeg/png',
+      'foto.max' => 'foto maksimal 2 Mb'
+    ];
 
-      $validator = Validator::make($request->all(), [
-          'nik' => 'required',
-          'nama_lengkap' => 'required',
-          'nama_panggilan' => 'required',
-          'email' => 'required|email|max:50',
-          'telepon' => 'required|max:15',
-          'nomor_ktp' => 'required|max:16',
-          'status_perkawinan' => 'required',
-          'master_cabang_id' => 'required',
-          'master_jabatan_id' => 'required',
-          'master_divisi_id' => 'required',
-          'role' => 'required',
-          'agama' => 'required|max:10',
-          'jenis_kelamin' => 'required|max:1',
-          'tempat_lahir' => 'required|max:30',
-          'tanggal_lahir' => 'required|date',
-          'alamat_asal' => 'required',
-          'alamat_domisili' => 'required',
-          'foto' => 'image|mimes:jpg,png,jpeg|max:2048'
-      ], $messages);
+    $validator = Validator::make($request->all(), [
+      'nik' => 'required',
+      'nama_lengkap' => 'required',
+      'nama_panggilan' => 'required',
+      'email' => 'required|email|max:50',
+      'telepon' => 'required|max:15',
+      'nomor_ktp' => 'required|max:16',
+      'status_perkawinan' => 'required',
+      'master_cabang_id' => 'required',
+      'master_jabatan_id' => 'required',
+      'master_divisi_id' => 'required',
+      'role' => 'required',
+      'agama' => 'required|max:10',
+      'jenis_kelamin' => 'required|max:1',
+      'tempat_lahir' => 'required|max:30',
+      'tanggal_lahir' => 'required|date',
+      'alamat_asal' => 'required',
+      'alamat_domisili' => 'required',
+      'foto' => 'image|mimes:jpg,png,jpeg|max:2048'
+    ], $messages);
 
-      if ($validator->fails()) {
-          return response()->json([
-              'status' => 400,
-              'errors' => $validator->errors()
-          ]);
-      } else {
-          $user = User::where('master_karyawan_id', $request->id)->first();
-          if($user) {
-              $user->email = $request->email;
-              $user->save();
-          }
-
-          $karyawan = MasterKaryawan::find($request->id);
-          $karyawan->nik = $request->nik;
-          $karyawan->nama_lengkap = $request->nama_lengkap;
-          $karyawan->nama_panggilan = $request->nama_panggilan;
-          $karyawan->email = $request->email;
-          $karyawan->telepon = $request->telepon;
-          $karyawan->jenis_sim = $request->jenis_sim;
-          $karyawan->nomor_sim = $request->nomor_sim;
-          $karyawan->nomor_ktp = $request->nomor_ktp;
-          $karyawan->alamat_asal = $request->alamat_asal;
-          $karyawan->alamat_domisili = $request->alamat_domisili;
-          $karyawan->tempat_lahir = $request->tempat_lahir;
-          $karyawan->tanggal_lahir = $request->tanggal_lahir;
-          $karyawan->jenis_kelamin = $request->jenis_kelamin;
-          $karyawan->status_perkawinan = $request->status_perkawinan;
-          $karyawan->agama = $request->agama;
-          $karyawan->master_cabang_id = $request->master_cabang_id;
-          $karyawan->master_jabatan_id = $request->master_jabatan_id;
-          $karyawan->master_divisi_id = $request->master_divisi_id;
-          $karyawan->role = $request->role;
-          $karyawan->rekening_nomor = $request->rekening_nomor;
-          $karyawan->total_cuti = $request->total_cuti;
-
-          if($request->hasFile('foto')) {
-              if (file_exists(env('APP_URL_IMG') . 'image/' . $karyawan->foto)) {
-                  File::delete(env('APP_URL_IMG') . 'image/' . $karyawan->foto);
-              }
-              $file = $request->file('foto');
-              $extension = $file->getClientOriginalExtension();
-              $filename = time() . "." . $extension;
-              $file->move(env('APP_URL_IMG') . 'image/', $filename);
-              $karyawan->foto = $filename;
-          }
-
-          $karyawan->save();
-
-          // activity_log($karyawan, "karyawan", "update_biodata");
-
-          return response()->json([
-              'status' => 'Data berhasil diperbaharui'
-          ]);
+    if ($validator->fails()) {
+      return response()->json([
+        'status' => 400,
+        'errors' => $validator->errors()
+      ]);
+    } else {
+      $user = User::where('master_karyawan_id', $request->id)->first();
+      if($user) {
+        $user->email = $request->email;
+        $user->save();
       }
+
+      $karyawan = MasterKaryawan::find($request->id);
+      $karyawan->nik = $request->nik;
+      $karyawan->nama_lengkap = $request->nama_lengkap;
+      $karyawan->nama_panggilan = $request->nama_panggilan;
+      $karyawan->email = $request->email;
+      $karyawan->telepon = $request->telepon;
+      $karyawan->jenis_sim = $request->jenis_sim;
+      $karyawan->nomor_sim = $request->nomor_sim;
+      $karyawan->nomor_ktp = $request->nomor_ktp;
+      $karyawan->alamat_asal = $request->alamat_asal;
+      $karyawan->alamat_domisili = $request->alamat_domisili;
+      $karyawan->tempat_lahir = $request->tempat_lahir;
+      $karyawan->tanggal_lahir = $request->tanggal_lahir;
+      $karyawan->jenis_kelamin = $request->jenis_kelamin;
+      $karyawan->status_perkawinan = $request->status_perkawinan;
+      $karyawan->agama = $request->agama;
+      $karyawan->master_cabang_id = $request->master_cabang_id;
+
+      $karyawan->master_jabatan_id = $request->master_jabatan_id;
+      // jika jabatan berubah
+      if ($karyawan->isDirty('master_jabatan_id')) {
+        $karyawan->master_jabatan_id = $request->master_jabatan_id;
+
+        $historiJabatan = new HistoriJabatan;
+        $historiJabatan->master_karyawan_id = $karyawan->id;
+        $historiJabatan->master_jabatan_id = $request->master_jabatan_id;
+        $historiJabatan->tanggal = date('Y-m-d H:i:s');
+        $historiJabatan->save();
+      }
+
+      $karyawan->master_divisi_id = $request->master_divisi_id;
+      $karyawan->role = $request->role;
+      $karyawan->rekening_nomor = $request->rekening_nomor;
+      $karyawan->total_cuti = $request->total_cuti;
+
+      if($request->hasFile('foto')) {
+        if (file_exists(env('APP_URL_IMG') . 'image/' . $karyawan->foto)) {
+          File::delete(env('APP_URL_IMG') . 'image/' . $karyawan->foto);
+        }
+        $file = $request->file('foto');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . "." . $extension;
+        $file->move(env('APP_URL_IMG') . 'image/', $filename);
+        $karyawan->foto = $filename;
+      }
+
+      $karyawan->save();
+
+      return response()->json([
+        'status' => 'Data berhasil diperbaharui'
+      ]);
+    }
   }
 
   public function kontrak($id)
@@ -754,6 +767,29 @@ class MasterKaryawanController extends Controller
 
     return response()->json([
       'status' => 200
+    ]);
+  }
+
+  public function historiJabatanStore(Request $request)
+  {
+    $historiJabatan = new HistoriJabatan;
+    $historiJabatan->master_karyawan_id = $request->master_karyawan_id;
+    $historiJabatan->master_jabatan_id = $request->master_jabatan_id;
+    $historiJabatan->tanggal = $request->tanggal;
+    $historiJabatan->save();
+
+    return response()->json([
+      'data' => 'sukses'
+    ]);
+  }
+
+  public function historiJabatanDelete($id)
+  {
+    $historiJabatan = HistoriJabatan::find($id);
+    $historiJabatan->delete();
+
+    return response()->json([
+      'data' => 'sukses'
     ]);
   }
 }

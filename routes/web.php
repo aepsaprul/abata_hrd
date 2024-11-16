@@ -287,6 +287,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('karyawan/pendidikan/store', [MasterKaryawanController::class, 'pendidikanStore'])->name('karyawan.pendidikan_store');
         Route::get('karyawan/{id}/pendidikan_delete', [MasterKaryawanController::class, 'pendidikanDelete'])->name('karyawan.pendidikan_delete');
 
+        // histori jabatan
+        Route::post('karyawan/histori_jabatan', [MasterKaryawanController::class, 'historiJabatanStore'])->name('karyawan.histori.jabatan.store');
+        Route::get('karyawan/histori_jabatan/{id}/hapus', [MasterKaryawanController::class, 'historiJabatanDelete'])->name('karyawan.histori.jabatan.delete');
+
     // cuti
     Route::get('cuti', [CutiController::class, 'index'])->name('cuti.index');
     Route::get('cuti/create', [CutiController::class, 'create'])->name('cuti.create');
@@ -294,10 +298,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cuti/{id}/show', [CutiController::class, 'show'])->name('cuti.show');
     Route::get('cuti/{id}/delete_btn', [CutiController::class, 'deleteBtn'])->name('cuti.delete_btn');
     Route::post('cuti/delete', [CutiController::class, 'delete'])->name('cuti.delete');
-    Route::get('cuti/{id}/atasan_approve', [CutiController::class, 'atasanApprove'])->name('cuti.atasan_approve');
-    Route::get('cuti/{id}/atasan_tolak', [CutiController::class, 'atasanTolak'])->name('cuti.atasan_tolak');
-    Route::get('cuti/{id}/hc_approve', [CutiController::class, 'hcApprove'])->name('cuti.hc_approve');
-    Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
+    // Route::get('cuti/{id}/atasan_approve', [CutiController::class, 'atasanApprove'])->name('cuti.atasan_approve');
+    // Route::get('cuti/{id}/atasan_tolak', [CutiController::class, 'atasanTolak'])->name('cuti.atasan_tolak');
+    // Route::get('cuti/{id}/hc_approve', [CutiController::class, 'hcApprove'])->name('cuti.hc_approve');
+    // Route::get('cuti/{id}/hc_tolak', [CutiController::class, 'hcTolak'])->name('cuti.hc_tolak');
     Route::post('cuti/approved', [CutiController::class, 'approved'])->name('cuti.approved');
     Route::post('cuti/disapproved', [CutiController::class, 'disapproved'])->name('cuti.disapproved');
     Route::post('cuti/detailApprover', [CutiController::class, 'detailApprover'])->name('cuti.detailApprover');

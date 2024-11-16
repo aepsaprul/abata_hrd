@@ -204,13 +204,15 @@ class CutiController extends Controller
         'confirm' => 1
       ]);
 
-    $hirarki = CutiDetail::where('cuti_id', $request->status)
+      $hirarkiDb = CutiDetail::where('cuti_id', $request->status)
       ->groupBy('hirarki')
-      ->count();
+      ->get();
+    $hirarki = count($hirarkiDb);
 
-    $confirm = CutiDetail::where('cuti_id', $request->status)
+    $confirmDb = CutiDetail::where('cuti_id', $request->status)
       ->where('confirm', 1)
-      ->count();
+      ->get();
+    $confirm = count($confirmDb);
 
     if ($confirm >= $hirarki) {
       $cuti = HcCuti::find($request->status);
@@ -220,6 +222,10 @@ class CutiController extends Controller
       $cuti = HcCuti::find($request->status);
       $cuti->status_approve = 'pending';
       $cuti->save();
+
+      $karyawan = MasterKaryawan::find($cuti->master_karyawan_id);
+      $karyawan->total_cuti = intval($karyawan->total_cuti) - intval($cuti->jml_hari);
+      $karyawan->save();
     }
 
     return response()->json([

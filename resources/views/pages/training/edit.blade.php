@@ -32,7 +32,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <form action="{{ route('training.training.update', [$training->id]) }}" method="POST">
+              <form action="{{ route('training.update', [$training->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="row">

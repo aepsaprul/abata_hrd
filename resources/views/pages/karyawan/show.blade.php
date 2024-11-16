@@ -275,7 +275,7 @@
               </div>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-md-6 col-12">
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">
@@ -293,6 +293,37 @@
                           @endforeach
                         </ul>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <strong class="text-uppercase">Histori Jabatan</strong>
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Jabatan</th>
+                            <th class="text-center">Tanggal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($histori_jabatans as $histori_jabatan)
+                            <tr>
+                              <td>{{ $histori_jabatan->dataJabatan->nama_jabatan }}</td>
+                              <td class="text-center">{{ tglCarbon($histori_jabatan->tanggal, 'd/m/Y') }}</td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
