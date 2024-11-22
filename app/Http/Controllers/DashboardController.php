@@ -18,54 +18,79 @@ class DashboardController extends Controller
         $karyawan_pria = MasterKaryawan::where('status', 'aktif')->where('jenis_kelamin', 'L')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
         $karyawan_wanita = MasterKaryawan::where('status', 'aktif')->where('jenis_kelamin', 'P')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
 
-        $today = Carbon::today();
-
+        
         // *karyawan kontrak
-        $thirtyDaysLater = Carbon::today()->addDays(30);
+        // $today = Carbon::today();
+        // $thirtyDaysLater = Carbon::today()->addDays(30);
+
+        // Set tanggal hari ini ke 10 Oktober 2024
+        // $tanggalHariIni = Carbon::create(2024, 10, 10);
+        
+        // Ambil data karyawan yang kontraknya akan habis dalam 20 hari
+        $today = now()->toDateString(); // Tanggal hari ini
+
+        $karyawan_kontrak = DB::table('hc_kontraks')
+          ->select('master_karyawans.nama_lengkap', 'hc_kontraks.akhir_kontrak', 'hc_kontraks.mulai_kontrak', DB::raw('DATEDIFF(hc_kontraks.akhir_kontrak, CURDATE()) as sisa_hari'))
+          ->join('master_karyawans', 'master_karyawans.id', '=', 'hc_kontraks.karyawan_id')
+          ->where('master_karyawans.status', 'Aktif') // Kondisi untuk karyawan aktif
+          ->whereRaw('DATEDIFF(hc_kontraks.akhir_kontrak, CURDATE()) <= 60') // Sisa hari ≤ 20
+          ->whereRaw('DATEDIFF(hc_kontraks.akhir_kontrak, CURDATE()) >= 0')  // Sisa hari ≥ 0
+          ->whereIn('hc_kontraks.id', function ($query) {
+              $query->select(DB::raw('MAX(id)'))
+                ->from('hc_kontraks')
+                ->groupBy('karyawan_id');
+          })
+          ->orderBy('hc_kontraks.akhir_kontrak', 'asc')
+          ->get();
+          
+        // Hitung total karyawan yang kontraknya hampir habis
+        $total_karyawan_kontrak = $karyawan_kontrak->count();
+
+        // dd($karyawan_kontrak);
 
         // Mengambil karyawan yang kontrak terakhirnya akan berakhir dalam 30 hari
-        $karyawan_kontrak = MasterKaryawan::with(['kontrak' => function($query) use ($today, $thirtyDaysLater) {
-        // Ambil kontrak terakhir
-        $query->orderBy('akhir_kontrak', 'desc')
-            ->whereBetween('akhir_kontrak', [$today, $thirtyDaysLater]);
-          }])
-          ->where('status', 'Aktif')->get()
-          ->map(function ($k) use ($today) {
-            // Ambil kontrak terakhir
-            $kontrak_terakhir = $k->kontrak->first();
+        // $karyawan_kontrak = MasterKaryawan::with(['kontrak' => function($query) use ($today, $thirtyDaysLater) {
+        //   // Ambil kontrak terakhir
+        //   $query->orderBy('akhir_kontrak', 'desc')->whereBetween('akhir_kontrak', [$today, $thirtyDaysLater]);
+        // }])
+        // ->where('status', 'Aktif')->get()
+        // ->map(function ($k) use ($today) {
+        //   // Ambil kontrak terakhir
+        //   $kontrak_terakhir = $k->kontrak->first();
 
-            if ($kontrak_terakhir) {
-              $k->akhir_kontrak = $kontrak_terakhir->akhir_kontrak;
-              $k->hari_tersisa = Carbon::parse($k->akhir_kontrak)->diffInDays($today);
-            }
+        //   if ($kontrak_terakhir) {
+        //     $k->akhir_kontrak = $kontrak_terakhir->akhir_kontrak;
+        //     $k->hari_tersisa = Carbon::parse($k->akhir_kontrak)->diffInDays($today);
+        //   }
 
-            return $k;
-          });
-        
-          // Hitung total karyawan yang kontraknya berakhir
-          $total_karyawan_kontrak = $karyawan_kontrak->filter(function ($k) {
-            return $k->akhir_kontrak !== null;  // Pastikan karyawan memiliki kontrak
-          })->count();
+        //   return $k;
+        // });
+          
+        // // Hitung total karyawan yang kontraknya berakhir
+        // $total_karyawan_kontrak = $karyawan_kontrak->filter(function ($k) {
+        //   return $k->akhir_kontrak !== null;  // Pastikan karyawan memiliki kontrak
+        // })->count();
+            
         
         // *karyawan lewat habis kontrak
         // Mengambil karyawan yang kontrak terakhirnya sudah lewat
         $karyawan_lewat_kontrak = MasterKaryawan::with(['kontrak' => function($query) {
-              // Urutkan berdasarkan tanggal akhir kontrak secara descending untuk mendapatkan kontrak terakhir
-              $query->orderBy('akhir_kontrak', 'desc');
-          }])
-          ->where('status', 'Aktif')->get()
-          ->filter(function ($k) use ($today) {
-              $kontrak_terakhir = $k->kontrak->first(); // Ambil kontrak terakhir
+          // Urutkan berdasarkan tanggal akhir kontrak secara descending untuk mendapatkan kontrak terakhir
+          $query->orderBy('akhir_kontrak', 'desc');
+        }])
+        ->where('status', 'Aktif')->get()
+        ->filter(function ($k) use ($today) {
+          $kontrak_terakhir = $k->kontrak->first(); // Ambil kontrak terakhir
 
-              if ($kontrak_terakhir) {
-                  $kontrak_sudah_lewat = Carbon::parse($kontrak_terakhir->akhir_kontrak)->isPast(); // Cek apakah kontrak sudah lewat
-                  $tidak_ada_kontrak_baru = !$k->kontrak->where('mulai_kontrak', '>', $kontrak_terakhir->akhir_kontrak)->count(); // Cek apakah ada kontrak baru
+          if ($kontrak_terakhir) {
+            $kontrak_sudah_lewat = Carbon::parse($kontrak_terakhir->akhir_kontrak)->isPast(); // Cek apakah kontrak sudah lewat
+            $tidak_ada_kontrak_baru = !$k->kontrak->where('mulai_kontrak', '>', $kontrak_terakhir->akhir_kontrak)->count(); // Cek apakah ada kontrak baru
 
-                  return $kontrak_sudah_lewat && $tidak_ada_kontrak_baru;
-              }
+            return $kontrak_sudah_lewat && $tidak_ada_kontrak_baru;
+          }
 
-              return false;
-          });
+          return false;
+        });
 
         // Hitung total karyawan yang kontraknya sudah lewat tanpa kontrak baru
         $total_karyawan_lewat_kontrak = $karyawan_lewat_kontrak->count();

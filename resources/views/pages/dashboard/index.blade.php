@@ -178,9 +178,9 @@
                                     @if($kontrak->akhir_kontrak) {{-- Pastikan ada kontrak --}}
                                       <tr>
                                         <td>{{ $kontrak->nama_lengkap }}</td>
-                                        <td class="text-center">{{ $kontrak->kontrak[0]->mulai_kontrak }}</td>
+                                        <td class="text-center">{{ $kontrak->mulai_kontrak }}</td>
                                         <td class="text-center">{{ $kontrak->akhir_kontrak }}</td>
-                                        <td class="text-right"><strong>{{ $kontrak->hari_tersisa }}</strong> hari</td>
+                                        <td class="text-right"><strong>{{ $kontrak->sisa_hari }}</strong> hari</td>
                                       </tr>
                                     @endif
                                   @endforeach
