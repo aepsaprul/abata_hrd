@@ -8,12 +8,12 @@
 </head>
 <body>
   <div style="z-index: 1; position: absolute; text-align: center;">
-    <img src="{{ asset('public/assets/abdul-wm.png') }}" alt="watermark" style="width: 60%; margin-top: 30%;">
+    <img src="{{ asset(env('APP_URL_IMG') . 'assets/abdul-wm.png') }}" alt="watermark" style="width: 60%; margin-top: 30%;">
   </div>
   <div style="z-index: 3; position: absolute;">
     <div style="margin-bottom: 20px; display: flex; justify-content: space-between;">
-      <img src="{{ asset('public/assets/abdul-logo.png') }}" alt="logo" style="max-width: 150px; height: 80px;">
-      <img src="{{ asset('public/assets/abdul-kop-surat.png') }}" alt="logo" style="max-width: 70px;">
+      <img src="{{ asset(env('APP_URL_IMG') . 'assets/abdul-logo.png') }}" alt="logo" style="max-width: 150px; height: 80px;">
+      <img src="{{ asset(env('APP_URL_IMG') . 'assets/abdul-kop-surat.png') }}" alt="logo" style="max-width: 70px;">
     </div>
     <div>
       <table>
@@ -100,8 +100,21 @@
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Atasan Langsung</div>
-            <div style="display: flex; justify-content: center;"><img src="{{ asset('public/assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
-            <div style="margin-top: 10px;">{{ $pengajuan->approvedLeader->nama_lengkap }}</div>
+            <div style="display: flex; justify-content: center;"><img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="margin-top: 10px;">
+              @foreach ($pengajuan->pengajuanApprover as $item)
+                @if ($item->hirarki == 1)
+                  {{ $item->approvedLeader->nama_lengkap }}
+                @endif
+              @endforeach
+            </div>
+            <div style="text-align: center;">
+              @foreach ($pengajuan->pengajuanApprover as $item)
+                @if ($item->hirarki == 1)
+                  {{ $item->approved_keterangan }}
+                @endif
+              @endforeach
+            </div>
           </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center;">
@@ -116,20 +129,39 @@
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Finance Accounting Manager</div>
-            <div style="display: flex; justify-content: center;"><img src="{{ asset('public/assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="display: flex; justify-content: center;"><img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
             <div style="margin-top: 10px; text-align: center;">ANDHIKA SUKMA PUTRA</div>
+            <div style="text-align: center;">
+              @foreach ($pengajuan->pengajuanApprover as $item)
+                @if ($item->hirarki == 3)
+                  {{ $item->approved_keterangan }}
+                @endif
+              @endforeach
+            </div>
           </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Operation Development Manager</div>
-            <div style="display: flex; justify-content: center;"><img src="{{ asset('public/assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="display: flex; justify-content: center;"><img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
             <div style="margin-top: 10px; text-align: center;">ANDI TRIONO TARSUN</div>
+            <div style="text-align: center;">
+              @foreach ($pengajuan->pengajuanApprover as $item)
+                @if ($item->hirarki == 2)
+                  {{ $item->approved_keterangan }}
+                @endif
+              @endforeach
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  {{-- {{ $pengajuan->pengajuanApprover }} --}}
+  {{-- <br><br><br>
+  @foreach ($pengajuan->pengajuanApprover as $item)
+    {{ $item->atasan }} - {{ $item->hirarki }} - {{ $item->approved_keterangan }}
+  @endforeach --}}
   <script>
     window.print();
   </script>
