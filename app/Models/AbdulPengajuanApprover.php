@@ -12,7 +12,12 @@ class AbdulPengajuanApprover extends Model
   public function pengajuan() {
     return $this->belongsTo(AbdulPengajuan::class, 'pengajuan_id', 'id');
   }
+
   public function approvedLeader() {
     return $this->belongsTo(MasterKaryawan::class, 'approved_leader', 'id');
+  }
+
+  public function dataAtasan() {
+    return $this->belongsTo(MasterKaryawan::class, 'atasan_id', 'id');
   }
 }

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\AbdulApprover;
 use App\Models\AbdulPengajuan;
 use App\Models\AbdulPengajuanApprover;
+use App\Models\Approver;
 use App\Models\MasterCabang;
 use App\Models\MasterKaryawan;
 use App\Models\MasterRole;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,39 +18,50 @@ class AbdulController extends Controller
 {
   public function index()
   {
+    // if (Auth::user()->master_karyawan_id == 0) {
+    //   $pengajuan = AbdulPengajuan::orderBy('id', 'desc')->limit(30)->get();
+    // } else {
+    //   $pengajuan_detail = AbdulPengajuanApprover::where('atasan_id', Auth::user()->master_karyawan_id)->get();
+    //   if (count($pengajuan_detail) > 0) {
+    //     $pengajuan = AbdulPengajuan::with('karyawan')
+    //       // ->whereHas('karyawan', function ($query) {
+    //       //   $query->where('master_cabang_id', Auth::user()->masterKaryawan->master_cabang_id);
+    //       // })
+    //       ->orderBy('id', 'desc')
+    //       ->limit(30)
+    //       ->get();
+    //   } else {
+    //     $pengajuan = AbdulPengajuan::where('karyawan_id', Auth::user()->master_karyawan_id)
+    //       ->orderBy('id', 'desc')
+    //       ->limit(30)
+    //       ->get();
+    //   }
+    // }
+
+    // $karyawan = MasterKaryawan::get();
+
+    // return view('pages.abdul.index', [
+    //   'pengajuans' => $pengajuan,
+    //   'karyawans' => $karyawan
+    // ]);
+
+    // $userId = Auth::id(); // Assuming authentication is in place
     if (Auth::user()->master_karyawan_id == 0) {
-      $pengajuan = AbdulPengajuan::orderBy('id', 'desc')->limit(30)->get();
+      $pengajuans = AbdulPengajuan::orderBy('id', 'desc')->limit(30)->get();
     } else {
-      $pengajuan_approvers = AbdulPengajuanApprover::where('atasan', 'like', '%'.Auth::user()->master_karyawan_id.'%')->get();
-      if (count($pengajuan_approvers) > 0) {
-        if (Auth::user()->masterKaryawan->master_cabang_id == 1) {
-          $pengajuan = AbdulPengajuan::with('karyawan')
-            ->orderBy('id', 'desc')
-            ->limit(30)
-            ->get();
-        } else {
-          $pengajuan = AbdulPengajuan::with('karyawan')
-            ->whereHas('karyawan', function ($query) {
-                $query->where('master_cabang_id', Auth::user()->masterKaryawan->master_cabang_id);
-            })
-            ->orderBy('id', 'desc')
-            ->limit(30)
-            ->get();
-        }
-      } else {
-        $pengajuan = AbdulPengajuan::where('karyawan_id', Auth::user()->master_karyawan_id)
-          ->orderBy('id', 'desc')
-          ->limit(30)
-          ->get();
-      }
+      $karyawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
+
+      // Retrieve pengajuans made by the current user or where the user is an approver
+      $pengajuans = AbdulPengajuan::where('karyawan_id', $karyawan->id)
+        ->orWhereHas('pengajuanApprover', function ($query) use ($karyawan) {
+          $query->where('atasan_id', $karyawan->id);
+        })
+        ->with('pengajuanApprover')
+        ->orderBy('id', 'desc')
+        ->get();
     }
 
-    $karyawan = MasterKaryawan::get();
-
-    return view('pages.abdul.index', [
-      'pengajuans' => $pengajuan,
-      'karyawans' => $karyawan
-    ]);
+      return view('pages.abdul.index', compact('pengajuans'));
   }
   public function show($id)
   {
@@ -127,22 +139,19 @@ class AbdulController extends Controller
     $pinjaman->save();
 
     $karyawan = MasterKaryawan::find($request->karyawan_id);
-
     $role = MasterRole::where('nama', $karyawan->role)->first();
+    $approver = Approver::where('jenis', 'abdul')->where('role_id', $role->id)->first();
 
-    $approve = AbdulApprover::where('role_id', $role->id)->get();
-
-    foreach ($approve as $key => $value) {
-      $cuti_detail = new AbdulPengajuanApprover;
-      $cuti_detail->pengajuan_id = $pinjaman->id;
-      $cuti_detail->hirarki = $value->hirarki;
-      $cuti_detail->atasan = $value->atasan_id;
-      $cuti_detail->status = 0;
-      $cuti_detail->confirm = 0;
-      $cuti_detail->approved_text = "Pengajuan Pinjaman";
-      $cuti_detail->approved_percentage = "0";
-      $cuti_detail->approved_background = "secondary";
-      $cuti_detail->save();
+    foreach ($approver->dataDetail as $key => $value) {
+      $abdul_detail = new AbdulPengajuanApprover;
+      $abdul_detail->pengajuan_id = $pinjaman->id;
+      $abdul_detail->hirarki = $value->hirarki;
+      $abdul_detail->approver_id = $approver->id;
+      $abdul_detail->jenis = $approver->jenis;
+      $abdul_detail->role = $role->nama;
+      $abdul_detail->atasan_id = $value->karyawan_id;
+      $abdul_detail->atasan_nama = $value->dataKaryawan->nama_panggilan;
+      $abdul_detail->save();
     }
 
     return redirect()->route('abdul');
@@ -162,195 +171,283 @@ class AbdulController extends Controller
   }
   
   // approver
-  public function approver()
-  {
-    return view('pages.abdul.approver');
-  }
-  public function approverData()
-  {
-    $approver = AbdulApprover::with('role')
-      ->select(DB::raw('count(hirarki) as hirarki, role_id'))
-      ->groupBy('role_id')
-      ->orderBy('role_id', 'desc')
-      ->get();
+  // public function approver()
+  // {
+  //   return view('pages.abdul.approver');
+  // }
+  // public function approverData()
+  // {
+  //   $approver = AbdulApprover::with('role')
+  //     ->select(DB::raw('count(hirarki) as hirarki, role_id'))
+  //     ->groupBy('role_id')
+  //     ->orderBy('role_id', 'desc')
+  //     ->get();
 
-    $approver_all = AbdulApprover::get();
+  //   $approver_all = AbdulApprover::get();
 
-    $karyawan = MasterKaryawan::where('status', 'Aktif')->get();
+  //   $karyawan = MasterKaryawan::where('status', 'Aktif')->get();
 
-    return response()->json([
-      'approvers' => $approver,
-      'approve_alls' => $approver_all,
-      'karyawans' => $karyawan
-    ]);
-  }
-  public function approverCreate()
-  {
-    $role = MasterRole::doesntHave('approveAbdul')->orderBy('hirarki', 'asc')->get();
+  //   return response()->json([
+  //     'approvers' => $approver,
+  //     'approve_alls' => $approver_all,
+  //     'karyawans' => $karyawan
+  //   ]);
+  // }
+  // public function approverCreate()
+  // {
+  //   $role = MasterRole::doesntHave('approveAbdul')->orderBy('hirarki', 'asc')->get();
 
-    return response()->json([
-      'roles' => $role
-    ]);
-  }
-  public function approverStore(Request $request)
-  {
-    $approve = new AbdulApprover;
-    $approve->role_id = $request->role_id;
-    $approve->hirarki = 1;
-    $approve->atasan_id = json_encode([""]);
-    $approve->save();
+  //   return response()->json([
+  //     'roles' => $role
+  //   ]);
+  // }
+  // public function approverStore(Request $request)
+  // {
+  //   $approve = new AbdulApprover;
+  //   $approve->role_id = $request->role_id;
+  //   $approve->hirarki = 1;
+  //   $approve->atasan_id = json_encode([""]);
+  //   $approve->save();
 
-    return response()->json([
-      'status' => 200
-    ]);
-  }
-  public function approverUpdate(Request $request)
-  {
-    $approve = AbdulApprover::find($request->id);
+  //   return response()->json([
+  //     'status' => 200
+  //   ]);
+  // }
+  // public function approverUpdate(Request $request)
+  // {
+  //   $approve = AbdulApprover::find($request->id);
 
-    $atasan_array = [];
-    foreach ($request->atasan_id as $key => $value) {
-        $data = explode("_", $value);
-        $atasan_array[] = $data[0];
-    }
+  //   $atasan_array = [];
+  //   foreach ($request->atasan_id as $key => $value) {
+  //       $data = explode("_", $value);
+  //       $atasan_array[] = $data[0];
+  //   }
 
-    $approve->atasan_id = json_encode($atasan_array);
-    $approve->save();
+  //   $approve->atasan_id = json_encode($atasan_array);
+  //   $approve->save();
 
-    return response()->json([
-      'status' => 200
-    ]);
-  }
-  public function approverAdd(Request $request)
-  {
-    $getApprove = AbdulApprover::where('role_id', $request->role_id)->get();
-    $count_hirarki = count($getApprove);
+  //   return response()->json([
+  //     'status' => 200
+  //   ]);
+  // }
+  // public function approverAdd(Request $request)
+  // {
+  //   $getApprove = AbdulApprover::where('role_id', $request->role_id)->get();
+  //   $count_hirarki = count($getApprove);
 
-    $approve = new AbdulApprover;
-    $approve->role_id = $request->role_id;
-    $approve->hirarki = $count_hirarki + 1;
-    $approve->atasan_id = json_encode([""]);
-    $approve->save();
+  //   $approve = new AbdulApprover;
+  //   $approve->role_id = $request->role_id;
+  //   $approve->hirarki = $count_hirarki + 1;
+  //   $approve->atasan_id = json_encode([""]);
+  //   $approve->save();
 
-    return response()->json([
-      'status' => 200
-    ]);
-  }
-  public function approverDeleteAllBtn($id)
-  {
-    return response()->json([
-      'id' => $id
-    ]);
-  }
-  public function approverDeleteAll(Request $request)
-  {
-    $approve = AbdulApprover::where('role_id', $request->id);
-    $approve->delete();
+  //   return response()->json([
+  //     'status' => 200
+  //   ]);
+  // }
+  // public function approverDeleteAllBtn($id)
+  // {
+  //   return response()->json([
+  //     'id' => $id
+  //   ]);
+  // }
+  // public function approverDeleteAll(Request $request)
+  // {
+  //   $approve = AbdulApprover::where('role_id', $request->id);
+  //   $approve->delete();
 
-    return response()->json([
-      'status' => 200
-    ]);
-  }
-  public function approverDeleteBtn($id)
-  {
-    return response()->json([
-      'id' => $id
-    ]);
-  }
-  public function approverDelete(Request $request)
-  {
-    $approve = AbdulApprover::find($request->id);
-    $approve->delete();
+  //   return response()->json([
+  //     'status' => 200
+  //   ]);
+  // }
+  // public function approverDeleteBtn($id)
+  // {
+  //   return response()->json([
+  //     'id' => $id
+  //   ]);
+  // }
+  // public function approverDelete(Request $request)
+  // {
+  //   $approve = AbdulApprover::find($request->id);
+  //   $approve->delete();
 
-    return response()->json([
-      'status' => 200
-    ]);
-  }
+  //   return response()->json([
+  //     'status' => 200
+  //   ]);
+  // }
 
   // approved
   public function approved(Request $request)
   {
-    $abdul_pengajuan_approver = AbdulPengajuanApprover::find($request->id);
+    $abdul_detail = AbdulPengajuanApprover::where('pengajuan_id', $request->status)->where('hirarki', $request->hirarki)
+      ->update([
+        'status' => 1,
+        'approved_keterangan' => $request->keterangan,
+        'approved_date' => date('Y-m-d H:i:s')
+      ]);
 
-    // update status, agar cuti tampil di approver selanjutnya
-    $hirarki = $abdul_pengajuan_approver->hirarki + 1;
+    $abdul_detail_confirm = AbdulPengajuanApprover::where('pengajuan_id', $request->status)->where('atasan_id', $request->confirm)
+      ->update([
+        'confirm' => 1
+      ]);
 
-    $total_pengajuan_approver = count(AbdulPengajuanApprover::where('pengajuan_id', $abdul_pengajuan_approver->pengajuan_id)->get());
+      $hirarkiDb = AbdulPengajuanApprover::where('pengajuan_id', $request->status)
+      ->groupBy('hirarki')
+      ->get();
+    $hirarki = count($hirarkiDb);
 
-    if ($hirarki <= $total_pengajuan_approver) {
-      $abdul_pengajuan_approver_next = AbdulPengajuanApprover::where('pengajuan_id', $abdul_pengajuan_approver->pengajuan_id)->where('hirarki', $hirarki)->first();
-      $abdul_pengajuan_approver_next->status = 1;
-      $abdul_pengajuan_approver_next->save();
-    }
-    // end
+    $confirmDb = AbdulPengajuanApprover::where('pengajuan_id', $request->status)
+      ->where('confirm', 1)
+      ->get();
+    $confirm = count($confirmDb);
 
-    // hitung persentase progress
-    $percentage = ceil(100 / $total_pengajuan_approver);
-    // end
-
-    $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-    if ($karyawan->jenis_kelamin == "L") {
-      $approved_text = "Approved Oleh Pak";
+    if ($confirm >= $hirarki) {
+      $cuti = AbdulPengajuan::find($request->status);
+      $cuti->status_approve = 'complete';
+      $cuti->save();
     } else {
-      $approved_text = "Approved Oleh Bu";
+      $cuti = AbdulPengajuan::find($request->status);
+      $cuti->status_approve = 'pending';
+      $cuti->save();
     }
-
-    $abdul_pengajuan_approver->status = 1;
-    $abdul_pengajuan_approver->confirm = 1;
-    $abdul_pengajuan_approver->approved_date = date('Y-m-d H:i:s');
-    $abdul_pengajuan_approver->approved_leader = Auth::user()->master_karyawan_id;
-    $abdul_pengajuan_approver->approved_text = $approved_text;
-    $abdul_pengajuan_approver->approved_percentage = $abdul_pengajuan_approver->approved_percentage + $percentage;
-    $abdul_pengajuan_approver->approved_background = "primary";
-    $abdul_pengajuan_approver->approved_keterangan = $request->keterangan;
-    $abdul_pengajuan_approver->save();
-
-    $pengajuan = AbdulPengajuan::find($abdul_pengajuan_approver->pengajuan_id);
-    $pengajuan->approved_date = date('Y-m-d H:i:s');
-    $pengajuan->approved_leader = Auth::user()->master_karyawan_id;
-    $pengajuan->approved_text = $approved_text;
-    $pengajuan->approved_percentage = $pengajuan->approved_percentage + $percentage;
-    $pengajuan->approved_background = "primary";
-    $pengajuan->save();
-
-    $percentage_result = $pengajuan->approved_percentage + $percentage;
 
     return response()->json([
-      'status' => 'true'
+      'status' => 200,
+      'message' => 'sukses',
+      'data' => $confirm,
+      'hirarki' => $hirarki
     ]);
   }
+
   public function disapproved(Request $request)
   {
-    $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
-    if ($karyawan->jenis_kelamin == "L") {
-      $approved_text = "Disapproved Oleh Pak";
+    $abdul_detail = AbdulPengajuanApprover::where('pengajuan_id', $request->status)->where('hirarki', $request->hirarki)
+    ->update([
+      'status' => 0,
+      'approved_keterangan' => $request->keterangan,
+      'approved_date' => date('Y-m-d H:i:s')
+    ]);
+
+    $abdul_detail_confirm = AbdulPengajuanApprover::where('pengajuan_id', $request->status)->where('atasan_id', $request->confirm)
+      ->update([
+        'confirm' => 1
+      ]);
+
+    $hirarki = AbdulPengajuanApprover::where('pengajuan_id', $request->status)
+      ->groupBy('hirarki')
+      ->count();
+
+    $confirm = AbdulPengajuanApprover::where('pengajuan_id', $request->status)
+      ->where('confirm', 1)
+      ->count();
+
+    if ($confirm >= $hirarki) {
+      $cuti = AbdulPengajuan::find($request->status);
+      $cuti->status_approve = 'complete';
+      $cuti->save();
     } else {
-      $approved_text = "Disapproved Oleh Bu";
+      $cuti = AbdulPengajuan::find($request->status);
+      $cuti->status_approve = 'pending';
+      $cuti->save();
     }
 
-    $pengajuan_approver = AbdulPengajuanApprover::find($request->id);
-    $pengajuan_approver->status = 1;
-    $pengajuan_approver->confirm = 2;
-    $pengajuan_approver->approved_date = date('Y-m-d H:i:s');
-    $pengajuan_approver->approved_leader = Auth::user()->master_karyawan_id;
-    $pengajuan_approver->approved_text = $approved_text;
-    $pengajuan_approver->approved_percentage = 100;
-    $pengajuan_approver->approved_background = "danger";
-    $pengajuan_approver->approved_keterangan = $request->keterangan;
-    $pengajuan_approver->save();
-
-    $pengajuan = AbdulPengajuan::find($pengajuan_approver->pengajuan_id);
-    $pengajuan->approved_date = date('Y-m-d H:i:s');
-    $pengajuan->approved_leader = Auth::user()->master_karyawan_id;
-    $pengajuan->approved_text = $approved_text;
-    $pengajuan->approved_percentage = 100;
-    $pengajuan->approved_background = "danger";
-    $pengajuan->save();
-
     return response()->json([
-      'status' => 'true'
+      'status' => 200,
+      'message' => 'sukses'
     ]);
   }
+
+  public function detailApprover(Request $request)
+  {
+    $abdul_detail = AbdulPengajuanApprover::with('dataAtasan')->where('pengajuan_id', $request->id)->where('hirarki', $request->hirarki)->get();
+
+    return response()->json([
+      'abdul_detail' => $abdul_detail
+    ]);
+  }
+  // public function approved(Request $request)
+  // {
+  //   $abdul_pengajuan_approver = AbdulPengajuanApprover::find($request->id);
+
+  //   // update status, agar cuti tampil di approver selanjutnya
+  //   $hirarki = $abdul_pengajuan_approver->hirarki + 1;
+
+  //   $total_pengajuan_approver = count(AbdulPengajuanApprover::where('pengajuan_id', $abdul_pengajuan_approver->pengajuan_id)->get());
+
+  //   if ($hirarki <= $total_pengajuan_approver) {
+  //     $abdul_pengajuan_approver_next = AbdulPengajuanApprover::where('pengajuan_id', $abdul_pengajuan_approver->pengajuan_id)->where('hirarki', $hirarki)->first();
+  //     $abdul_pengajuan_approver_next->status = 1;
+  //     $abdul_pengajuan_approver_next->save();
+  //   }
+  //   // end
+
+  //   // hitung persentase progress
+  //   $percentage = ceil(100 / $total_pengajuan_approver);
+  //   // end
+
+  //   $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
+  //   if ($karyawan->jenis_kelamin == "L") {
+  //     $approved_text = "Approved Oleh Pak";
+  //   } else {
+  //     $approved_text = "Approved Oleh Bu";
+  //   }
+
+  //   $abdul_pengajuan_approver->status = 1;
+  //   $abdul_pengajuan_approver->confirm = 1;
+  //   $abdul_pengajuan_approver->approved_date = date('Y-m-d H:i:s');
+  //   $abdul_pengajuan_approver->approved_leader = Auth::user()->master_karyawan_id;
+  //   $abdul_pengajuan_approver->approved_text = $approved_text;
+  //   $abdul_pengajuan_approver->approved_percentage = $abdul_pengajuan_approver->approved_percentage + $percentage;
+  //   $abdul_pengajuan_approver->approved_background = "primary";
+  //   $abdul_pengajuan_approver->approved_keterangan = $request->keterangan;
+  //   $abdul_pengajuan_approver->save();
+
+  //   $pengajuan = AbdulPengajuan::find($abdul_pengajuan_approver->pengajuan_id);
+  //   $pengajuan->approved_date = date('Y-m-d H:i:s');
+  //   $pengajuan->approved_leader = Auth::user()->master_karyawan_id;
+  //   $pengajuan->approved_text = $approved_text;
+  //   $pengajuan->approved_percentage = $pengajuan->approved_percentage + $percentage;
+  //   $pengajuan->approved_background = "primary";
+  //   $pengajuan->save();
+
+  //   $percentage_result = $pengajuan->approved_percentage + $percentage;
+
+  //   return response()->json([
+  //     'status' => 'true'
+  //   ]);
+  // }
+  // public function disapproved(Request $request)
+  // {
+  //   $karyawan = MasterKaryawan::where('id', Auth::user()->master_karyawan_id)->first();
+  //   if ($karyawan->jenis_kelamin == "L") {
+  //     $approved_text = "Disapproved Oleh Pak";
+  //   } else {
+  //     $approved_text = "Disapproved Oleh Bu";
+  //   }
+
+  //   $pengajuan_approver = AbdulPengajuanApprover::find($request->id);
+  //   $pengajuan_approver->status = 1;
+  //   $pengajuan_approver->confirm = 2;
+  //   $pengajuan_approver->approved_date = date('Y-m-d H:i:s');
+  //   $pengajuan_approver->approved_leader = Auth::user()->master_karyawan_id;
+  //   $pengajuan_approver->approved_text = $approved_text;
+  //   $pengajuan_approver->approved_percentage = 100;
+  //   $pengajuan_approver->approved_background = "danger";
+  //   $pengajuan_approver->approved_keterangan = $request->keterangan;
+  //   $pengajuan_approver->save();
+
+  //   $pengajuan = AbdulPengajuan::find($pengajuan_approver->pengajuan_id);
+  //   $pengajuan->approved_date = date('Y-m-d H:i:s');
+  //   $pengajuan->approved_leader = Auth::user()->master_karyawan_id;
+  //   $pengajuan->approved_text = $approved_text;
+  //   $pengajuan->approved_percentage = 100;
+  //   $pengajuan->approved_background = "danger";
+  //   $pengajuan->save();
+
+  //   return response()->json([
+  //     'status' => 'true'
+  //   ]);
+  // }
 
   // sp3
   public function sp3($id)
