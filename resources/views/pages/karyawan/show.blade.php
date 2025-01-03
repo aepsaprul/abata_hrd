@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('style')
 <!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2/css/select2.css') }}">
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/select2/css/select2.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
 @endsection
 @section('content')
 <div class="content-wrapper">
@@ -339,12 +339,12 @@
 
 @section('script')
 
-<script src="{{ asset('public/themes/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/moment/moment.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 <!-- Select2 -->
-<script src="{{ asset('public/themes/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/select2/js/select2.full.min.js') }}"></script>
 <!-- Bootstrap Switch -->
-<script src="{{ asset('public/themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 
 <script type="text/javascript">
 

@@ -2,7 +2,7 @@
 
 @section('style')
 <!-- summernote -->
-<link rel="stylesheet" href="{{ asset('public/themes/plugins/summernote/summernote-bs4.css') }}">
+<link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/summernote/summernote-bs4.css') }}">
 @endsection
 
 @section('content')
@@ -167,7 +167,7 @@
 
 @section('script')
 <!-- Summernote -->
-<script src="{{ asset('public/themes/plugins/summernote/summernote-bs4.js') }}"></script>
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/summernote/summernote-bs4.js') }}"></script>
 <script>
     $(document).ready(function () {
         $.ajaxSetup({
