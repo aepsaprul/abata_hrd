@@ -1,23 +1,13 @@
 <?php
 
 use App\Http\Controllers\AbdulController;
-use App\Http\Controllers\ApproverController;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\ApprovalPenggajianController;
 use App\Http\Controllers\ApproveController;
+use App\Http\Controllers\ApproverController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\ChangePasswordController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HcCirController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\HcLokerController;
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\HcLamaranController;
-use App\Http\Controllers\HcTrainingController;
-use App\Http\Controllers\MasterDivisiController;
-use App\Http\Controllers\MasterKaryawanController;
-use App\Http\Controllers\MasterJabatanController;
-use App\Http\Controllers\MasterCabangController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ComproController;
 use App\Http\Controllers\CutiApproveController;
@@ -25,17 +15,28 @@ use App\Http\Controllers\CutiApproverController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\HcCirController;
+use App\Http\Controllers\HcLamaranController;
+use App\Http\Controllers\HcLokerController;
+use App\Http\Controllers\HcTrainingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LabulController;
 use App\Http\Controllers\LamaranController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LemburController;
 use App\Http\Controllers\LokerController;
+use App\Http\Controllers\MasterCabangController;
+use App\Http\Controllers\MasterDivisiController;
+use App\Http\Controllers\MasterJabatanController;
+use App\Http\Controllers\MasterKaryawanController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\NavigasiController;
 use App\Http\Controllers\PengajuanCutiController;
 use App\Http\Controllers\PengajuanResignController;
 use App\Http\Controllers\PenggajianApproverController;
 use App\Http\Controllers\PenggajianController;
+use App\Http\Controllers\PersetujuanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResignApproverController;
 use App\Http\Controllers\ResignController;
@@ -44,8 +45,9 @@ use App\Http\Controllers\SlipGajiController;
 use App\Http\Controllers\SlipGajiKaryawanController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PersetujuanController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -663,6 +665,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('persetujuan/approved', [PersetujuanController::class, 'approved'])->name('persetujuan.approved');
     Route::post('persetujuan/disapproved', [PersetujuanController::class, 'disapproved'])->name('persetujuan.disapproved');
     Route::post('persetujuan/detailApprover', [PersetujuanController::class, 'detailApprover'])->name('persetujuan.detailApprover');
+
+    // lembur
+    Route::get('lembur', [LemburController::class, 'index'])->name('lembur');
+    Route::get('lembur/create', [LemburController::class, 'create'])->name('lembur.create');
+    Route::get('lembur/create/form', [LemburController::class, 'createForm'])->name('lembur.create.form');
+    Route::post('lembur/store', [LemburController::class, 'store'])->name('lembur.store');
+    Route::get('lembur/{id}/show', [LemburController::class, 'show'])->name('lembur.show');
+    Route::get('lembur/{id}/edit', [LemburController::class, 'edit'])->name('lembur.edit');
+    Route::put('lembur/{id}/update', [LemburController::class, 'update'])->name('lembur.update');
+    Route::get('lembur/{id}/delete', [LemburController::class, 'delete'])->name('lembur.delete');
+
+      // task
+      Route::get('lembur/task', [LemburController::class, 'task'])->name('lembur.task');
+      Route::get('lembur/task/create', [LemburController::class, 'taskCreate'])->name('lembur.task.create');
+      Route::post('lembur/task/store', [LemburController::class, 'taskStore'])->name('lembur.task.store');
+      Route::get('lembur/task/{id}/edit', [LemburController::class, 'taskEdit'])->name('lembur.task.edit');
+      Route::put('lembur/task/{id}/update', [LemburController::class, 'taskUpdate'])->name('lembur.task.update');
+      Route::get('lembur/task/{id}/delete', [LemburController::class, 'taskDelete'])->name('lembur.task.delete');
 
     // approver
     Route::get('master/approver', [ApproverController::class, 'index'])->name('approver');
