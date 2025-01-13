@@ -52,6 +52,7 @@
                     <th class="text-center text-indigo">Tanggal</th>
                     <th class="text-center text-indigo">Yang Mengajukan</th>
                     <th class="text-center text-indigo">Cabang</th>
+                    <th class="text-center text-indigo">Approver</th>
                     <th class="text-center text-indigo">Aksi</th>
                   </tr>
                 </thead>
@@ -62,6 +63,38 @@
                       <td class="text-center">{{ tglCarbon($lembur->created_at, 'd/m/Y') }}</td>
                       <td>{{ $lembur->nama_karyawan }}</td>
                       <td>{{ $lembur->cabang  }}</td>
+                      <td>
+                        <div class="row">
+                          @foreach ($lembur->dataApprover->groupBy('hierarki') as $hirarki => $approvers)
+                            <div class="col">
+                              <table style="border: 1px solid #aaa; width: 100%;">
+                                <tr style="border: 1px solid #aaa;">
+                                  <th id="approver_title" colspan="2" class="text-center" role="button" data-status="{{ $lembur->id }}" data-hirarki="{{ $hirarki }}">Approver {{ $hirarki }} <i id="approver_title" data-status="{{ $lembur->id }}" data-hirarki="{{ $hirarki }}" class="fas fa-eye"></i></th>
+                                </tr>
+                                <tr style="border: 1px solid #aaa;">
+                                  @foreach ($approvers as $approver)
+                                    @if ($approver->status == "1" && $approver->confirm == "1")
+                                      <th class="text-center" style="border: 1px solid #aaa;"><i class="fas fa-check text-success" data-id="{{ $approver->id }}"></i></th>
+                                    @elseif ($approver->status == "0" && $approver->confirm == "1")
+                                      <th class="text-center" style="border: 1px solid #aaa;"><i class="fas fa-times text-danger" data-id="{{ $approver->id }}"></i></th>
+                                    @else
+                                      @if ($approver->atasan_id == Auth::user()->master_karyawan_id && $approver->status != "1")
+                                        <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_approved" class="btn btn-sm btn-success my-1" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_approved" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid="{{ $approver->id }}" class="fas fa-check"></i></button></th>
+                                        <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_disapproved" class="btn btn-sm btn-danger my-1" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_disapproved" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid="{{ $approver->id }}" class="fas fa-times"></i></button></th>
+                                      @endif
+                                    @endif
+                                    @if ($approver->approved_keterangan)
+                                    <tr style="border: 1px solid #aaa;">
+                                      <th style="border: 1px solid #aaa;">{{ $approver->approved_keterangan }}</th>
+                                    </tr>
+                                    @endif
+                                  @endforeach
+                                </tr>
+                              </table>
+                            </div>
+                          @endforeach
+                        </div>
+                      </td>
                       <td class="text-center">
                         <div class="btn-group">
                           <a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -214,6 +247,104 @@
 <script>
   $(document).ready(function() {
     $('#tabel_lembur').DataTable();
+
+    $('#tabel_lembur').on('click', function (e) {
+      const id = e.target.getAttribute('id');
+      const dataStatus = e.target.dataset.status;
+      const dataConfirm = e.target.dataset.confirm;
+      const dataHirarki = e.target.dataset.hirarki;
+      const dataDetailId = e.target.dataset.detailid;
+
+      if (!id) return;
+
+      if (id == "btn_approved") {
+        $('#modal_approved #detail_id').val(dataDetailId);
+        $('#modal_approved #status').val(dataStatus);
+        $('#modal_approved #confirm').val(dataConfirm);
+        $('#modal_approved #hirarki').val(dataHirarki);
+        $('#modal_approved').modal('show');
+      }
+
+      if (id == "btn_disapproved") {
+        $('#modal_disapproved #status').val(dataStatus);
+        $('#modal_disapproved #confirm').val(dataConfirm);
+        $('#modal_disapproved #hirarki').val(dataHirarki);
+        $('#modal_disapproved').modal('show');
+      }
+
+      if(id == "approver_title") {
+        $('#modal_approver_detail #data_approver').empty();
+
+        let formData = {
+          id: dataStatus,
+          hirarki: dataHirarki
+        }
+
+        $.ajax({
+          url: "{{ route('lembur.detailApprover') }}",
+          type: "post",
+          data: formData,
+          success: function(response) {
+            console.log(response);
+            
+            let val = ``;
+            $.each(response.lembur_approver, function(index, item) {
+              val += `
+                <div class="row">
+                  <div class="col">`;
+                  if (item.confirm == 1) {
+                    val += `<span class="text-primary">${item.data_atasan.nama_lengkap}</span>`;
+                  } else {
+                    val += `<span>${item.data_atasan.nama_lengkap}</span>`;
+                  }
+                  val += `</div>
+                </div>
+              `;
+            })
+            $('#modal_approver_detail #data_approver').append(val);
+            $('#modal_approver_detail').modal('show');
+          }
+        })
+      }
+    })
+
+    $('#form_approved').submit(function(e) {
+      e.preventDefault();
+      let formData = {
+        status: $('#modal_approved #status').val(),
+        confirm: $('#modal_approved #confirm').val(),
+        hirarki: $('#modal_approved #hirarki').val(),
+        keterangan: $('#modal_approved #keterangan').val()
+      }
+
+      $.ajax({
+        url: "{{ route('lembur.approved') }}",
+        type: "post",
+        data: formData,
+        success: function(response) {
+          window.location.reload();
+        }
+      })
+    })
+
+    $('#form_disapproved').submit(function(e) {
+      e.preventDefault();
+      let formData = {
+        status: $('#modal_disapproved #status').val(),
+        confirm: $('#modal_disapproved #confirm').val(),
+        hirarki: $('#modal_disapproved #hirarki').val(),
+        keterangan: $('#modal_disapproved #keterangan').val()
+      }
+
+      $.ajax({
+        url: "{{ route('lembur.disapproved') }}",
+        type: "post",
+        data: formData,
+        success: function(response) {
+          window.location.reload();
+        }
+      })
+    })
   });
 </script>
 @endsection

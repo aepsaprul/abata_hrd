@@ -43,12 +43,19 @@ class ApproverController extends Controller
       }])
       ->get();
 
+    $approver_lembur = Approver::where('jenis', 'lembur')
+      ->with(['dataDetail' => function($query) {
+        $query->orderBy('hirarki', 'asc');
+      }])
+      ->get();
+
     return view('pages.master.approver.index', [
       'approver_cutis' => $approver_cuti,
       'approver_resigns' => $approver_resign,
       'approver_penggajians' => $approver_penggajian,
       'approver_direkturs' => $approver_direktur,
-      'approver_abduls' => $approver_abdul
+      'approver_abduls' => $approver_abdul,
+      'approver_lemburs' => $approver_lembur
     ]);
   }
 

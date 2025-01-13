@@ -52,6 +52,9 @@
                 <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-four-abdul-tab" data-toggle="pill" href="#custom-tabs-four-abdul" role="tab" aria-controls="custom-tabs-four-abdul" aria-selected="false">Abdul</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="custom-tabs-four-lembur-tab" data-toggle="pill" href="#custom-tabs-four-lembur" role="tab" aria-controls="custom-tabs-four-lembur" aria-selected="false">Lembur</a>
+                </li>
               </ul>
             </div>
             <div class="card-body">
@@ -366,6 +369,68 @@
                     </div>
                   </div>
                 </div>
+
+                {{-- lembur --}}
+                <div class="tab-pane fade" id="custom-tabs-four-lembur" role="tabpanel" aria-labelledby="custom-tabs-four-lembur-tab">
+                  <div class="row">
+                    <div class="col">
+                      <button class="btn btn-primary btn-sm btn-tambah-lembur px-3" data-jenis="lembur"><i class="fas fa-plus me-2"></i> Tambah Approver Lembur</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div id="tabel_approver_lembur" class="col">
+                      <table class="table table-nowrap mb-0 mt-3">
+                        <thead>
+                          <tr>
+                            <th class="text-center">No</th>
+                            <th>Role</th>
+                            <th>Approver <span class="text-primary">1</span> <span class="text-success">2</span> <span class="text-warning">3</span></th>
+                            <th class="text-center">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($approver_lemburs as $key => $approver_lembur)
+                            <tr>
+                              <td class="text-center">{{ $key + 1 }}</td>
+                              <td>
+                                @if ($approver_lembur->dataRole)
+                                  {{ $approver_lembur->dataRole->nama }}
+                                @endif
+                              </td>
+                              <td>
+                                <div class="row">
+                                  <div class="col-10">
+                                    @foreach ($approver_lembur->dataDetail as $detail)
+                                      @php
+                                        if ($detail->hirarki == "1") {
+                                          $textColor = "text-primary";
+                                        } elseif ($detail->hirarki == "2") {
+                                          $textColor = "text-success";
+                                        } else {
+                                          $textColor = "text-warning";
+                                        }
+                                      @endphp
+                                      <span class="text-decoration-underline px-2 {{ $textColor }}" role="button">{{ $detail->dataKaryawan ? $detail->dataKaryawan->nama_panggilan : 'Nama Panggilan Harus Diisi' }}</span>
+                                    @endforeach
+                                  </div>
+                                  <div class="col-2">
+                                    <i id="btn_tambah_approver_lembur" data-id="{{ $approver_lembur->id }}" role="button" class="fas fa-plus text-primary px-2" title="Tambah Approver"></i>
+                                    @if (count($approver_lembur->dataDetail) > 0)
+                                      <i id="btn_hapus_all_approver_lembur" data-id="{{ $approver_lembur->id }}" role="button" class="fas fa-times text-danger px-2" title="Hapus Approver"></i>
+                                    @endif
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="text-center">
+                                <i id="btn_hapus_role" data-id="{{ $approver_lembur->id }}" role="button" class="fas fa-trash-alt text-danger" title="Hapus Role"></i>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -457,6 +522,7 @@
     const btnTambahPenggajian = $('.btn-tambah-penggajian');
     const btnTambahDirektur = $('.btn-tambah-direktur');
     const btnTambahAbdul = $('.btn-tambah-abdul');
+    const btnTambahLembur = $('.btn-tambah-lembur');
 
     const modalCreateSelectRole = $('#modal_create #select_role');
     const modalCreateInpJenis = $('#modal_create #jenis');
@@ -468,6 +534,7 @@
     const tabelApproverPenggajian = $('#tabel_approver_penggajian');
     const tabelApproverDirektur = $('#tabel_approver_direktur');
     const tabelApproverAbdul = $('#tabel_approver_abdul');
+    const tabelApproverLembur = $('#tabel_approver_lembur');
 
     function tabel_data(jenis) {
       if (jenis == "cuti") {
@@ -484,6 +551,9 @@
       }
       if (jenis == "abdul") {
         tabelApproverAbdul.empty()
+      }
+      if (jenis == "lembur") {
+        tabelApproverLembur.empty()
       }
 
       let formData = {
@@ -789,6 +859,65 @@
             `;
             tabelApproverAbdul.append(val_abdul);
           }
+
+          // lembur
+          if (jenis == "lembur") {
+            let val_lembur = `
+              <table class="table table-nowrap mb-0 mt-3">
+                <thead>
+                  <tr>
+                    <th class="text-center">No</th>
+                    <th>Role</th>
+                    <th>Approver <span class="text-primary">1</span> <span class="text-success">2</span> <span class="text-warning">3</span></th>
+                    <th class="text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>`;
+                $.each(response.approvers, function(index, approver) {
+                  val_lembur += `
+                    <tr>
+                      <td class="text-center">${index + 1}</td>
+                      <td>`;
+                        if (approver.data_role) {
+                          val_lembur += `${approver.data_role.nama}`;
+                        }
+                        val_lembur += `
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-10">`;
+                            $.each(approver.data_detail, function(index_detail, approver_detail) {
+                              let textColor;
+                              if (approver_detail.hirarki == "1") {
+                                textColor = "text-primary";
+                              } else if (approver_detail.hirarki == "2") {
+                                textColor = "text-success";
+                              } else {
+                                textColor = "text-warning";
+                              }
+                              val_lembur += `<span class="text-decoration-underline px-2 ${textColor}">${approver_detail.data_karyawan.nama_panggilan}</span>`;
+                            })
+                            val_lembur += `
+                          </div>
+                          <div class="col-2">
+                            <i id="btn_tambah_approver_lembur" data-id="${approver.id}" role="button" class="fas fa-plus text-primary px-2"></i>`;
+                            if (approver.data_detail.length > 0) {
+                              val_lembur += `<i id="btn_hapus_all_approver_lembur" data-id="${approver.id}" role="button" class="fas fa-times text-danger px-2"></i>`;
+                            }
+                          val_lembur += `</div>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <i id="btn_hapus_role" data-id="${approver.id}" role="button" class="fas fa-trash-alt text-danger" title="Hapus Role"></i>
+                      </td>
+                    </tr>`;
+                })
+                val_lembur += `
+                </tbody>
+              </table>
+            `;
+            tabelApproverLembur.append(val_lembur);
+          }
         }
       })
     }
@@ -896,6 +1025,30 @@
     })
 
     btnTambahAbdul.on('click', function(e) {
+      e.preventDefault();
+      modalCreateSelectRole.empty();
+      const jenis = $(this).attr('data-jenis');
+      let formData = {
+        jenis: jenis
+      }
+
+      $.ajax({
+        url: "{{ route('approver.create') }}",
+        type: "post",
+        data: formData,
+        success: function(response) {
+          let role_val = `<option value="">Pilih Role</option>`;
+          $.each(response.roles, function(index, role) {
+            role_val += `<option value="${role.id}">${role.nama}</option>`;
+          })
+          modalCreateSelectRole.append(role_val);
+          modalCreateInpJenis.val(response.jenis);
+          $('#modal_create').modal('show');
+        }
+      });
+    })
+
+    btnTambahLembur.on('click', function(e) {
       e.preventDefault();
       modalCreateSelectRole.empty();
       const jenis = $(this).attr('data-jenis');
@@ -1308,6 +1461,87 @@
       
       // btn hapus all approver abdul
       if (id === "btn_hapus_all_approver_abdul") {
+        let teks = "Yakin akan menghapus approver?";
+        if (confirm(teks) == true) {
+          let url = "{{ route('approver.deleteAllApproverDetail', ':id') }}";
+          url = url.replace(":id", dataId);
+
+          $.ajax({
+            url: url,
+            type: "get",
+            success: function(response) {
+              tabel_data(response.jenis);
+              $('#modal_create_approver').modal('hide');
+            }
+          })
+        }
+      }
+
+      // btn hapus role
+      if (id === "btn_hapus_role") {
+        let teks = "Yakin akan menghapus role?";
+        if (confirm(teks) == true) {
+          let url = "{{ route('approver.delete', ':id') }}";
+          url = url.replace(":id", dataId);
+
+          $.ajax({
+            url: url,
+            type: "get",
+            success: function(response) {
+              tabel_data(response.jenis);
+              $('#modal_create_approver').modal('hide');
+            }
+          })
+        }
+      }
+    })
+
+    $('#tabel_approver_lembur').on('click', function(e) {
+      const id = e.target.getAttribute('id');
+      const dataId = e.target.dataset.id;
+
+      if (!id) return;
+
+      // btn tambah approver lembur
+      if (id === "btn_tambah_approver_lembur") {
+        $('#modal_create_approver #form_approver').empty();
+  
+        let url = "{{ route('approver.createApprover', ':id') }}";
+        url = url.replace(":id", dataId);
+  
+        $.ajax({
+          url: url,
+          type: "get",
+          success: function(response) {
+            let form_val = `
+            <div class="row my-3">
+              <div class="col-6">
+                <select name="karyawan_id" id="karyawan_id_0" class="karyawan form-control">
+                  <option value="">Pilih Approver</option>`;
+                  $.each(response.karyawans, function(index, karyawan) {
+                    form_val += `<option value="${karyawan.id}">${karyawan.nama_lengkap}</option>`;
+                  })
+                form_val += `
+                  </select>
+              </div>
+              <div class="col-6">
+                <input type="number" name="hirarki" id="hirarki" class="hirarki form-control" placeholder="Approver Ke">
+              </div>
+            </div>`;
+  
+            $('#modal_create_approver').modal('show');
+            $('#modal_create_approver #approver_id').val(response.id);
+            $('#modal_create_approver #form_approver').append(form_val);
+            $('#modal_create_approver #karyawan_id_0').select2({
+              dropdownParent: $('#modal_create_approver'),
+              theme: 'bootstrap4'
+            });
+          }
+        })
+      }
+      
+      // btn hapus all approver lembur
+      if (id === "btn_hapus_all_approver_lembur") {
         let teks = "Yakin akan menghapus approver?";
         if (confirm(teks) == true) {
           let url = "{{ route('approver.deleteAllApproverDetail', ':id') }}";

@@ -675,6 +675,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lembur/{id}/edit', [LemburController::class, 'edit'])->name('lembur.edit');
     Route::put('lembur/{id}/update', [LemburController::class, 'update'])->name('lembur.update');
     Route::get('lembur/{id}/delete', [LemburController::class, 'delete'])->name('lembur.delete');
+    Route::post('lembur/approved', [LemburController::class, 'approved'])->name('lembur.approved');
+    Route::post('lembur/disapproved', [LemburController::class, 'disapproved'])->name('lembur.disapproved');
+    Route::post('lembur/detailApprover', [LemburController::class, 'detailApprover'])->name('lembur.detailApprover');
 
       // task
       Route::get('lembur/task', [LemburController::class, 'task'])->name('lembur.task');

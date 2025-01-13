@@ -61,7 +61,7 @@ class AbdulController extends Controller
         ->get();
     }
 
-      return view('pages.abdul.index', compact('pengajuans'));
+    return view('pages.abdul.index', compact('pengajuans'));
   }
   public function show($id)
   {
