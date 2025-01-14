@@ -104,7 +104,7 @@
             <div style="margin-top: 10px;">
               @foreach ($pengajuan->pengajuanApprover as $item)
                 @if ($item->hirarki == 1)
-                  {{ $item->approvedLeader->nama_lengkap }}
+                  {{ $item->dataAtasan->nama_lengkap }}
                 @endif
               @endforeach
             </div>

@@ -125,7 +125,7 @@
                                 </a>
                               @endif
                               @if (in_array("dokumen", $current_data_navigasi))
-                                @if($item->approved_percentage >= 100)
+                                @if($item->status_approve == "complete")
                                   <a
                                     href="{{ route('abdul.download', [$item->id]) }}"
                                     target="blank"

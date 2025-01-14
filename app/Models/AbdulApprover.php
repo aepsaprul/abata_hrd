@@ -12,4 +12,8 @@ class AbdulApprover extends Model
   public function role() {
     return $this->belongsTo(MasterRole::class, 'role_id', 'id');
   }
+
+  public function dataAtasan() {
+    return $this->belongsTo(MasterKaryawan::class, 'atasan_id', 'id');
+  }
 }
