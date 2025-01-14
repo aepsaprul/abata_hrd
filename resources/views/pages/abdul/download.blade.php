@@ -100,7 +100,15 @@
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Atasan Langsung</div>
-            <div style="display: flex; justify-content: center;"><img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="display: flex; justify-content: center;">
+              @foreach ($pengajuan->pengajuanApprover as $item)
+                @if ($item->hirarki == 1 && $item->status == 1 && $item->confirm == "1")
+                  <img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;">
+                @elseif ($item->hirarki == 1 && $item->status == 0 && $item->confirm == "1")
+                  <img src="{{ asset(env('APP_URL_IMG') . 'assets/disapproved.png') }}" alt="img" style="width: 100px;">
+                @endif
+              @endforeach
+            </div>
             <div style="margin-top: 10px;">
               @foreach ($pengajuan->pengajuanApprover as $item)
                 @if ($item->hirarki == 1)
@@ -110,7 +118,7 @@
             </div>
             <div style="text-align: center;">
               @foreach ($pengajuan->pengajuanApprover as $item)
-                @if ($item->hirarki == 1)
+                @if ($item->hirarki == 1 && $item->confirm == "1")
                   {{ $item->approved_keterangan }}
                 @endif
               @endforeach
@@ -129,11 +137,19 @@
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Finance Accounting Manager</div>
-            <div style="display: flex; justify-content: center;"><img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="display: flex; justify-content: center;">
+              @foreach ($pengajuan->pengajuanApprover as $item)
+                @if ($item->hirarki == 3 && $item->status == 1 && $item->confirm == "1")
+                  <img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;">
+                @elseif ($item->hirarki == 3 && $item->status == 0 && $item->confirm == "1")
+                  <img src="{{ asset(env('APP_URL_IMG') . 'assets/disapproved.png') }}" alt="img" style="width: 100px;">
+                @endif
+              @endforeach
+            </div>
             <div style="margin-top: 10px; text-align: center;">ANDHIKA SUKMA PUTRA</div>
             <div style="text-align: center;">
               @foreach ($pengajuan->pengajuanApprover as $item)
-                @if ($item->hirarki == 3)
+                @if ($item->hirarki == 3 && $item->confirm == "1")
                   {{ $item->approved_keterangan }}
                 @endif
               @endforeach
@@ -143,11 +159,19 @@
         <div style="width: 100%; display: flex; justify-content: center;">
           <div>
             <div style="text-align: center;">Operation Development Manager</div>
-            <div style="display: flex; justify-content: center;"><img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;"></div>
+            <div style="display: flex; justify-content: center;">
+              @foreach ($pengajuan->pengajuanApprover as $item)
+                @if ($item->hirarki == 2 && $item->status == 1 && $item->confirm == "1")
+                  <img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px;">
+                @elseif ($item->hirarki == 2 && $item->status == 0 && $item->confirm == "1")
+                  <img src="{{ asset(env('APP_URL_IMG') . 'assets/disapproved.png') }}" alt="img" style="width: 100px;">
+                @endif
+              @endforeach
+            </div>
             <div style="margin-top: 10px; text-align: center;">ANDI TRIONO TARSUN</div>
             <div style="text-align: center;">
               @foreach ($pengajuan->pengajuanApprover as $item)
-                @if ($item->hirarki == 2)
+                @if ($item->hirarki == 2 && $item->confirm == "1")
                   {{ $item->approved_keterangan }}
                 @endif
               @endforeach

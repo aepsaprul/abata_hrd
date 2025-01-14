@@ -93,7 +93,7 @@
                                         <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_disapproved" class="btn btn-sm btn-danger my-1" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hirarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_disapproved" data-status="{{ $item->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hirarki }}" data-detailid="{{ $approver->id }}" class="fas fa-times"></i></button></th>
                                       @endif
                                     @endif
-                                    @if ($approver->approved_keterangan)
+                                    @if ($approver->approved_keterangan && $approver->confirm == "1")
                                     <tr style="border: 1px solid #aaa;">
                                       <th style="border: 1px solid #aaa;">{{ $approver->approved_keterangan }}</th>
                                     </tr>
