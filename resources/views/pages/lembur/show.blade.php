@@ -62,9 +62,9 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $detail->nama_karyawan }}</td>
                         <td>{{ $detail->jabatan }}</td>
-                        <td>{{ $detail->mulai ? tglCarbon($detail->mulai, 'd/m/Y H:i') : '' }}</td>
-                        <td>{{ $detail->selesai ? tglCarbon($detail->selesai, 'd/m/Y H:i') : '' }}</td>
-                        <td>
+                        <td class="text-center">{{ $detail->mulai ? tglCarbon($detail->mulai, 'd/m/Y H:i') : '' }}</td>
+                        <td class="text-center">{{ $detail->selesai ? tglCarbon($detail->selesai, 'd/m/Y H:i') : '' }}</td>
+                        <td class="text-right">
                           @if ($detail->mulai && $detail->selesai)
                             @php
                               $datetime1 = Carbon\Carbon::parse($detail->mulai);
@@ -82,6 +82,40 @@
                     @endforeach
                   </tbody>
                 </table>
+              </div>
+              <div class="row">
+                @foreach ($lembur->dataApprover as $approver)
+                  @if ($approver->confirm == 1)
+                    <div class="col-3">
+                      <div class="text-center">Approver {{ $approver->hierarki }}</div>
+                      <div class="d-flex justify-content-center">
+                        @if ($approver->status == 1 && $approver->confirm == "1")
+                          <img src="{{ asset(env('APP_URL_IMG') . 'assets/approved.jpeg') }}" alt="img" style="width: 100px; height: 50px;">
+                        @elseif ($approver->status == 0 && $approver->confirm == "1")
+                          <img src="{{ asset(env('APP_URL_IMG') . 'assets/disapproved.png') }}" alt="img" style="width: 100px; height: 50px;">
+                        @endif
+                      </div>
+                      <div style="margin-top: 10px; text-align: center;">
+                        {{ $approver->dataAtasan->nama_lengkap }}
+                      </div>
+                      <div class="text-center">
+                        {{ $approver->dataAtasan->masterJabatan->nama_jabatan }}
+                      </div>
+                    </div>
+                  @endif
+                @endforeach
+                <div class="col-3">
+                  <div class="text-center">Diajukan Oleh,</div>
+                  <div class="d-flex justify-content-center">
+                    
+                  </div>
+                  <div style="margin-top: 60px; text-align: center;">
+                    {{ $lembur->nama_karyawan }}
+                  </div>
+                  <div class="text-center">
+                    {{ $lembur->jabatan }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

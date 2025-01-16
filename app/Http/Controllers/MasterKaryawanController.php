@@ -32,8 +32,12 @@ class MasterKaryawanController extends Controller
   public function index()
   {
     $karyawans = MasterKaryawan::with('masterJabatan')->whereNull('deleted_at')->orderBy('id', 'desc')->get();
+    $cabangs = MasterCabang::orderBy('grup', 'desc')->get();
 
-    return view('pages.karyawan.index', ['karyawans' => $karyawans]);
+    return view('pages.karyawan.index', [
+      'karyawans' => $karyawans,
+      'cabangs' => $cabangs
+    ]);
   }
 
   /**
@@ -790,6 +794,28 @@ class MasterKaryawanController extends Controller
 
     return response()->json([
       'data' => 'sukses'
+    ]);
+  }
+
+  public function filter(Request $request)
+  {
+    $cabang = $request->input('filter_cabang', []);
+    $status = $request->input('filter_status', []);
+
+    $query = MasterKaryawan::query();
+
+    if (!empty($cabang)) {
+      $query->whereIn('master_cabang_id', $cabang);
+    }
+
+    if (!empty($status)) {
+      $query->whereIn('status', $status);
+    }
+
+    return response()->json([
+      'karyawans' => $query->with(['masterJabatan', 'masterCabang', 'masterDivisi'])->get(),
+      'cabang' => $cabang,
+      'status' => $status
     ]);
   }
 }

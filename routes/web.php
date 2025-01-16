@@ -254,6 +254,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('karyawan/karyawan_store', [MasterKaryawanController::class, 'karyawanStore'])->name('karyawan.karyawan_store');
     Route::get('karyawan/{id}/resetpassword_btn', [MasterKaryawanController::class, 'resetPasswordBtn'])->name('karyawan.resetpassword_btn');
     Route::post('karyawan/resetpassword', [MasterKaryawanController::class, 'resetPassword'])->name('karyawan.resetpassword');
+    Route::post('karyawan/filter', [MasterKaryawanController::class, 'filter'])->name('karyawan.filter');
 
         // biodata
         Route::get('karyawan/{id}/biodata', [MasterKaryawanController::class, 'biodata'])->name('karyawan.biodata');
