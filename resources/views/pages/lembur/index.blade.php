@@ -83,7 +83,7 @@
                                         <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_disapproved" class="btn btn-sm btn-danger my-1" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_disapproved" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid="{{ $approver->id }}" class="fas fa-times"></i></button></th>
                                       @endif
                                     @endif
-                                    @if ($approver->approved_keterangan)
+                                    @if ($approver->approved_keterangan && $approver->confirm == "1")
                                     <tr style="border: 1px solid #aaa;">
                                       <th style="border: 1px solid #aaa;">{{ $approver->approved_keterangan }}</th>
                                     </tr>
@@ -104,7 +104,19 @@
                             <a href="{{ route('lembur.show', [$lembur->id]) }}" class="dropdown-item border-bottom">
                               <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
                             </a>
-                            <a href="{{ route('lembur.edit', [$lembur->id]) }}" class="dropdown-item border-bottom">
+                            <a href="{{ route('lembur.edit', [$lembur->id]) }}"
+                              @foreach ($lembur->dataApprover->groupBy('hierarki') as $hirarki => $approvers)
+                                @foreach ($approvers as $approver)
+                                  @if ($approver->hierarki == 1 && $approver->confirm == "1" && $lembur->user_id == Auth::user()->id)
+                                    class="dropdown-item border-bottom d-none"
+                                  @elseif ($approver->hierarki == 1 && $approver->confirm == "1" && $approver->atasan_id == Auth::user()->master_karyawan_id)
+                                    class="dropdown-item border-bottom d-none"
+                                  @else
+                                    class="dropdown-item border-bottom"
+                                  @endif
+                                @endforeach
+                              @endforeach
+                            >
                               <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
                             </a>
                             <a href="{{ route('lembur.delete', [$lembur->id]) }}" class="dropdown-item" onclick="return confirm('Yakin akan dihapus?')">
