@@ -19,7 +19,7 @@ class LemburController extends Controller
   public function index()
   {
     if (Auth::user()->master_karyawan_id == 0) {
-      $lemburs = Lembur::orderBy('id', 'desc')->limit(30)->get();
+      $lemburs = Lembur::orderBy('id', 'desc')->limit(500)->get();
     } else {
       $karyawan = MasterKaryawan::find(Auth::user()->master_karyawan_id);
 

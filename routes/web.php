@@ -21,6 +21,7 @@ use App\Http\Controllers\HcLokerController;
 use App\Http\Controllers\HcTrainingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\KonsultasiController;
 use App\Http\Controllers\LabulController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\LaporanController;
@@ -47,6 +48,7 @@ use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -688,6 +690,15 @@ Route::group(['middleware' => 'auth'], function () {
       Route::put('lembur/task/{id}/update', [LemburController::class, 'taskUpdate'])->name('lembur.task.update');
       Route::get('lembur/task/{id}/delete', [LemburController::class, 'taskDelete'])->name('lembur.task.delete');
 
+    // konsultasi
+    Route::get('konsultasi', [KonsultasiController::class, 'index'])->name('konsultasi');
+    Route::get('konsultasi/create', [KonsultasiController::class, 'create'])->name('konsultasi.create');
+    Route::post('konsultasi/store', [KonsultasiController::class, 'store'])->name('konsultasi.store');
+    Route::get('konsultasi/{id}/show', [KonsultasiController::class, 'show'])->name('konsultasi.show');
+    Route::get('konsultasi/{id}/edit', [KonsultasiController::class, 'edit'])->name('konsultasi.edit');
+    Route::put('konsultasi/{id}/update', [KonsultasiController::class, 'update'])->name('konsultasi.update');
+    Route::get('konsultasi/{id}/delete', [KonsultasiController::class, 'delete'])->name('konsultasi.delete');
+    
     // approver
     Route::get('master/approver', [ApproverController::class, 'index'])->name('approver');
     Route::post('master/approver/data', [ApproverController::class, 'data'])->name('approver.data');
