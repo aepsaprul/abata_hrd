@@ -13,7 +13,7 @@ class Lembur extends Model
     return $this->hasMany(LemburDetail::class, 'lembur_id', 'id');
   }
 
-  public function karyawan() {
+  public function dataKaryawan() {
     return $this->belongsTo(MasterKaryawan::class, 'karyawan_id', 'id');
   }
   public function approvedLeader() {

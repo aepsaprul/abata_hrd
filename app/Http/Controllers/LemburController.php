@@ -33,8 +33,10 @@ class LemburController extends Controller
         ->limit(500)
         ->get();
     }
+    
+    $cabangs = MasterCabang::orderBy('grup', 'desc')->get();
 
-    return view('pages.lembur.index', compact('lemburs'));
+    return view('pages.lembur.index', compact(['lemburs', 'cabangs']));
   }
 
   public function create()
@@ -90,6 +92,7 @@ class LemburController extends Controller
 
     $lembur = new Lembur;
     $lembur->user_id = $user->id;
+    $lembur->karyawan_id = $karyawan->id;
     $lembur->nama_karyawan = $karyawan->nama_lengkap;
     $lembur->jabatan = $jabatan->nama_jabatan;
     $lembur->cabang = $cabang->nama_cabang;
@@ -307,6 +310,30 @@ class LemburController extends Controller
 
     return response()->json([
       'lembur_approver' => $lembur_approver
+    ]);
+  }
+
+  public function filter(Request $request)
+  {
+    $startDate = $request->start_date . " 00:00:00";
+    $endDate = $request->end_date . " 23:59:00";
+    $cabang = $request->input('filter_cabang', []);
+
+    $query = Lembur::query();
+
+    if (!empty($startDate)) {
+      $query->whereBetween('created_at', [$startDate, $endDate]);
+    }
+
+    if (!empty($cabang)) {
+      $query->whereHas('dataKaryawan', function ($q) use ($cabang) {
+        $q->whereIn('master_cabang_id', $cabang);
+      });
+    }
+
+    return response()->json([
+      'lemburs' => $query->get(),
+      'cabang' => $cabang
     ]);
   }
 }

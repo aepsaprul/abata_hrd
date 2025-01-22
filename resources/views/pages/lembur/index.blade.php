@@ -42,93 +42,129 @@
                 <a href="{{ route('lembur.task') }}" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
                   <i class="fas fa-copy"></i> Data Aktivitas
                 </a>
+                <button type="button" id="btn-create" class="btn btn-outline-primary btn-sm px-3" data-toggle="collapse" data-target="#form_filter" style="width: 120px;">
+                  <i class="fas fa-filter"></i> Filter
+                </button>
               </h3>
             </div>
+            <form id="filterForm" class="mx-4">
+              <div id="form_filter" class="row collapse mt-3">
+                <div class="col-12 mb-3">
+                  <div class="font-weight-bold border-bottom mb-2 pb-2">Tanggal</div>
+                  <div class="row">
+                    <div class="col-3">
+                      <label for="start_date">Mulai</label>
+                      <input type="date" name="start_date" id="start_date" class="form-control" value="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="col-3">
+                      <label for="end_date">Selesai</label>
+                      <input type="date" name="end_date" id="end_date" class="form-control" value="{{ date('Y-m-d') }}">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 mb-3">
+                  <div class="font-weight-bold border-bottom mb-2 pb-2">Cabang</div>
+                  @foreach ($cabangs as $cabang)
+                    <div class="form-check">
+                      <input type="checkbox" name="filter_cabang[]" value="{{ $cabang->id }}" id="cabang-{{ $cabang->nama_cabang }}" class="form-check-input" {{ in_array($cabang->nama_cabang, $selectedFilters['cabang'] ?? []) ? 'checked' : '' }}>
+                      <label class="form-check-label" for="cabang-{{ $cabang->nama_cabang }}">
+                        {{ $cabang->nama_cabang }}
+                      </label>
+                    </div>
+                  @endforeach
+                </div>
+                <div class="col-12">
+                  <button type="button" id="applyFilter" class="btn btn-sm btn-primary px-3"><i class="fas fa-search"></i> Search</button>
+                </div>
+              </div>
+            </form>
             <div class="card-body">
-              <table id="tabel_lembur" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th class="text-center text-indigo">No</th>
-                    <th class="text-center text-indigo">Tanggal</th>
-                    <th class="text-center text-indigo">Yang Mengajukan</th>
-                    <th class="text-center text-indigo">Cabang</th>
-                    <th class="text-center text-indigo">Approver</th>
-                    <th class="text-center text-indigo">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($lemburs as $key => $lembur)
+              <div id="tabel_wrap">
+                <table id="tabel_lembur" class="table table-bordered table-striped">
+                  <thead>
                     <tr>
-                      <td class="text-center">{{ $key + 1 }}</td>
-                      <td class="text-center">{{ tglCarbon($lembur->created_at, 'd/m/Y') }}</td>
-                      <td>{{ $lembur->nama_karyawan }}</td>
-                      <td>{{ $lembur->cabang  }}</td>
-                      <td>
-                        <div class="row">
-                          @foreach ($lembur->dataApprover->groupBy('hierarki') as $hirarki => $approvers)
-                            <div class="col">
-                              <table style="border: 1px solid #aaa; width: 100%;">
-                                <tr style="border: 1px solid #aaa;">
-                                  <th id="approver_title" colspan="2" class="text-center" role="button" data-status="{{ $lembur->id }}" data-hirarki="{{ $hirarki }}">Approver {{ $hirarki }} <i id="approver_title" data-status="{{ $lembur->id }}" data-hirarki="{{ $hirarki }}" class="fas fa-eye"></i></th>
-                                </tr>
-                                <tr style="border: 1px solid #aaa;">
-                                  @foreach ($approvers as $approver)
-                                    @if ($approver->status == "1" && $approver->confirm == "1")
-                                      <th class="text-center" style="border: 1px solid #aaa;"><i class="fas fa-check text-success" data-id="{{ $approver->id }}"></i></th>
-                                    @elseif ($approver->status == "0" && $approver->confirm == "1")
-                                      <th class="text-center" style="border: 1px solid #aaa;"><i class="fas fa-times text-danger" data-id="{{ $approver->id }}"></i></th>
-                                    @else
-                                      @if ($approver->atasan_id == Auth::user()->master_karyawan_id && $approver->status != "1")
-                                        <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_approved" class="btn btn-sm btn-success my-1" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_approved" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid="{{ $approver->id }}" class="fas fa-check"></i></button></th>
-                                        <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_disapproved" class="btn btn-sm btn-danger my-1" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_disapproved" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid="{{ $approver->id }}" class="fas fa-times"></i></button></th>
+                      <th class="text-center text-indigo">No</th>
+                      <th class="text-center text-indigo">Tanggal</th>
+                      <th class="text-center text-indigo">Yang Mengajukan</th>
+                      <th class="text-center text-indigo">Cabang</th>
+                      <th class="text-center text-indigo">Approver</th>
+                      <th class="text-center text-indigo">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($lemburs as $key => $lembur)
+                      <tr>
+                        <td class="text-center">{{ $key + 1 }}</td>
+                        <td class="text-center">{{ tglCarbon($lembur->created_at, 'd/m/Y') }}</td>
+                        <td>{{ $lembur->nama_karyawan }}</td>
+                        <td>{{ $lembur->cabang  }}</td>
+                        <td>
+                          <div class="row">
+                            @foreach ($lembur->dataApprover->groupBy('hierarki') as $hirarki => $approvers)
+                              <div class="col">
+                                <table style="border: 1px solid #aaa; width: 100%;">
+                                  <tr style="border: 1px solid #aaa;">
+                                    <th id="approver_title" colspan="2" class="text-center" role="button" data-status="{{ $lembur->id }}" data-hirarki="{{ $hirarki }}">Approver {{ $hirarki }} <i id="approver_title" data-status="{{ $lembur->id }}" data-hirarki="{{ $hirarki }}" class="fas fa-eye"></i></th>
+                                  </tr>
+                                  <tr style="border: 1px solid #aaa;">
+                                    @foreach ($approvers as $approver)
+                                      @if ($approver->status == "1" && $approver->confirm == "1")
+                                        <th class="text-center" style="border: 1px solid #aaa;"><i class="fas fa-check text-success" data-id="{{ $approver->id }}"></i></th>
+                                      @elseif ($approver->status == "0" && $approver->confirm == "1")
+                                        <th class="text-center" style="border: 1px solid #aaa;"><i class="fas fa-times text-danger" data-id="{{ $approver->id }}"></i></th>
+                                      @else
+                                        @if ($approver->atasan_id == Auth::user()->master_karyawan_id && $approver->status != "1")
+                                          <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_approved" class="btn btn-sm btn-success my-1" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_approved" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid="{{ $approver->id }}" class="fas fa-check"></i></button></th>
+                                          <th class="text-center" style="border: 1px solid #aaa;"><button id="btn_disapproved" class="btn btn-sm btn-danger my-1" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid={{ $approver->id }} style="width: 40px;"><i id="btn_disapproved" data-status="{{ $lembur->id }}" data-confirm="{{ Auth::user()->master_karyawan_id }}" data-hirarki="{{ $approver->hierarki }}" data-detailid="{{ $approver->id }}" class="fas fa-times"></i></button></th>
+                                        @endif
                                       @endif
-                                    @endif
-                                    @if ($approver->approved_keterangan && $approver->confirm == "1")
-                                    <tr style="border: 1px solid #aaa;">
-                                      <th style="border: 1px solid #aaa;">{{ $approver->approved_keterangan }}</th>
-                                    </tr>
+                                      @if ($approver->approved_keterangan && $approver->confirm == "1")
+                                      <tr style="border: 1px solid #aaa;">
+                                        <th style="border: 1px solid #aaa;">{{ $approver->approved_keterangan }}</th>
+                                      </tr>
+                                      @endif
+                                    @endforeach
+                                  </tr>
+                                </table>
+                              </div>
+                            @endforeach
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="btn-group">
+                            <a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-cog"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                              <a href="{{ route('lembur.show', [$lembur->id]) }}" class="dropdown-item border-bottom">
+                                <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                              </a>
+                              <a href="{{ route('lembur.edit', [$lembur->id]) }}"
+                                @foreach ($lembur->dataApprover->groupBy('hierarki') as $hirarki => $approvers)
+                                  @foreach ($approvers as $approver)
+                                    @if ($approver->hierarki == 1 && $approver->confirm == "1" && $lembur->user_id == Auth::user()->id)
+                                      class="dropdown-item border-bottom d-none"
+                                    @elseif ($approver->hierarki == 1 && $approver->confirm == "1" && $approver->atasan_id == Auth::user()->master_karyawan_id)
+                                      class="dropdown-item border-bottom d-none"
+                                    @else
+                                      class="dropdown-item border-bottom"
                                     @endif
                                   @endforeach
-                                </tr>
-                              </table>
-                            </div>
-                          @endforeach
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        <div class="btn-group">
-                          <a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-cog"></i>
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a href="{{ route('lembur.show', [$lembur->id]) }}" class="dropdown-item border-bottom">
-                              <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
-                            </a>
-                            <a href="{{ route('lembur.edit', [$lembur->id]) }}"
-                              @foreach ($lembur->dataApprover->groupBy('hierarki') as $hirarki => $approvers)
-                                @foreach ($approvers as $approver)
-                                  @if ($approver->hierarki == 1 && $approver->confirm == "1" && $lembur->user_id == Auth::user()->id)
-                                    class="dropdown-item border-bottom d-none"
-                                  @elseif ($approver->hierarki == 1 && $approver->confirm == "1" && $approver->atasan_id == Auth::user()->master_karyawan_id)
-                                    class="dropdown-item border-bottom d-none"
-                                  @else
-                                    class="dropdown-item border-bottom"
-                                  @endif
                                 @endforeach
-                              @endforeach
-                            >
-                              <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
-                            </a>
-                            <a href="{{ route('lembur.delete', [$lembur->id]) }}" class="dropdown-item" onclick="return confirm('Yakin akan dihapus?')">
-                              <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
-                            </a>
+                              >
+                                <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
+                              </a>
+                              <a href="{{ route('lembur.delete', [$lembur->id]) }}" class="dropdown-item" onclick="return confirm('Yakin akan dihapus?')">
+                                <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-              </table>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -255,6 +291,8 @@
 <script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<!-- moment js -->
+<script src="{{ asset(env('APP_URL_IMG') . 'themes/plugins/moment/moment.min.js') }}"></script>
 
 <script>
   $(document).ready(function() {
@@ -319,6 +357,84 @@
         })
       }
     })
+
+    // filter
+    $('#applyFilter').click(function () {
+      // Ambil data filter
+      let formData = $('#filterForm').serialize();
+      
+      // Kirim data ke server menggunakan AJAX
+      $.ajax({
+        url: "{{ route('lembur.filter') }}",
+        type: "POST",
+        data: formData,
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        success: function (response) { 
+          console.log(response);
+          // Kosongkan tabel sebelumnya
+          $('#tabel_wrap').empty();
+
+          // Periksa apakah ada data
+          if (response.lemburs.length === 0) {
+            $('#tabel_wrap').append('<div class="text-center">-data tidak ada-</div>');
+          } else {
+            // Tampilkan data ke tabel
+            let data = `
+              <table id="tabel_lembur" class="table table-bordered table-striped" style="font-size: 13px; width: 100%;">
+                <thead>
+                  <th class="text-center text-indigo">No</th>
+                  <th class="text-center text-indigo">Tanggal</th>
+                  <th class="text-center text-indigo">Yang Mengajukan</th>
+                  <th class="text-center text-indigo">Cabang</th>
+                  <th class="text-center text-indigo">Approver</th>
+                  <th class="text-center text-indigo">Aksi</th>
+                </thead>
+                <tbody>
+            `;
+            $.each(response.lemburs, function (index_lembur, item) {
+              data += `
+                <tr>
+                  <td class="text-center">${index_lembur + 1}</td>
+                  <td class="text-center">${moment(item.created_at).format('DD/MM/Y')}</td>
+                  <td>${item.nama_karyawan}</td>
+                  <td>${item.cabang}</td>
+                  <td></td>
+                  <td class="text-center">
+                    <div class="btn-group">
+                      <a href="#" class="dropdown-toggle btn bg-gradient-primary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cog"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a href="{{ route('lembur.show', [$lembur->id]) }}" class="dropdown-item border-bottom">
+                          <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
+                        </a>
+                        <a href="{{ route('lembur.delete', [$lembur->id]) }}" class="dropdown-item" onclick="return confirm('Yakin akan dihapus?')">
+                          <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
+                        </a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            });
+            data += `
+              </tbody>
+            `;
+
+            $('#tabel_wrap').append(data);
+            $('#tabel_lembur').DataTable({
+              "ordering": false,
+              "responsive": true,
+            });
+          }
+        },
+        error: function (xhr, status, error) {
+          alert("Terjadi kesalahan. Silakan coba lagi.");
+        }
+      });
+    });
 
     $('#form_approved').submit(function(e) {
       e.preventDefault();

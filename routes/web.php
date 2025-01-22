@@ -681,6 +681,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('lembur/approved', [LemburController::class, 'approved'])->name('lembur.approved');
     Route::post('lembur/disapproved', [LemburController::class, 'disapproved'])->name('lembur.disapproved');
     Route::post('lembur/detailApprover', [LemburController::class, 'detailApprover'])->name('lembur.detailApprover');
+    Route::post('lembur/filter', [LemburController::class, 'filter'])->name('lembur.filter');
 
       // task
       Route::get('lembur/task', [LemburController::class, 'task'])->name('lembur.task');
