@@ -407,10 +407,10 @@
                         <i class="fas fa-cog"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right">
-                        <a href="{{ route('lembur.show', [$lembur->id]) }}" class="dropdown-item border-bottom">
+                        <a href="{{ url('lembur/${item.id}/show') }}" class="dropdown-item border-bottom">
                           <i class="fas fa-eye text-center mr-2" style="width: 20px;"></i> Detail
                         </a>
-                        <a href="{{ route('lembur.delete', [$lembur->id]) }}" class="dropdown-item" onclick="return confirm('Yakin akan dihapus?')">
+                        <a href="{{ url('lembur/${item.id}/delete') }}" class="dropdown-item" onclick="return confirm('Yakin akan dihapus?')">
                           <i class="fas fa-trash text-center mr-2" style="width: 20px;"></i> Hapus
                         </a>
                       </div>
@@ -420,7 +420,7 @@
               `;
             });
             data += `
-              </tbody>
+              </tbody> 
             `;
 
             $('#tabel_wrap').append(data);
