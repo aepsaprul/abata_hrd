@@ -50,15 +50,18 @@
                   </div>
                   <div class="col-md-3 col-12 mb-3">
                     <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
-                    <input type="datetime-local" name="waktu_mulai" id="waktu_mulai" class="form-control" required>
+                    <input type="time" name="waktu_mulai" id="waktu_mulai" class="form-control" required>
                   </div>
                   <div class="col-md-3 col-12 mb-3">
                     <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
-                    <input type="datetime-local" name="waktu_selesai" id="waktu_selesai" class="form-control" required>
+                    <input type="time" name="waktu_selesai" id="waktu_selesai" class="form-control" required>
                   </div>
                   <div class="col-md-4 col-12 mb-3">
                     <label for="point" class="form-label">Point Pertemuan</label>
-                    <input type="text" name="point" id="point" class="form-control" required>
+                    <select name="point" id="point" class="form-control">
+                      <option value="kasus">Kasus</option>
+                      <option value="kontrak">Kontrak</option>
+                    </select>
                   </div>
                   <div class="col-md-4 col-12 mb-3">
                     <label for="catatan" class="form-label">Catatan</label>

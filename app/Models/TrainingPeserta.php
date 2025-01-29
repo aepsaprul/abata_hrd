@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class TrainingPeserta extends Model
 {
-    use HasFactory;
+  use HasFactory;
+
+  public function dataTraining() {
+    return $this->belongsTo(Training::class, 'training_id', 'id');
+  }
+
+  public function dataKaryawan() {
+    return $this->belongsTo(MasterKaryawan::class, 'master_karyawan_id', 'id');
+  }
 }

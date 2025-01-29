@@ -13,6 +13,10 @@ class Training extends Model
     return $this->hasMany(TrainingPeserta::class, 'training_id', 'id');
   }
 
+  public function dataPengisi() {
+    return $this->hasMany(TrainingPengisi::class, 'training_id', 'id');
+  }
+
   public function dataModul() {
     return $this->hasMany(TrainingModul::class, 'training_id', 'id');
   }

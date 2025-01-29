@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanTraining;
 use App\Models\HcTraining;
 use App\Models\MasterDivisi;
 use App\Models\MasterKaryawan;
@@ -13,6 +14,7 @@ use App\Models\TrainingPeserta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TrainingController extends Controller
 {
@@ -190,6 +192,14 @@ class TrainingController extends Controller
     $training->delete();
 
     return redirect()->route('training')->with('message', 'Data berhasil dihapus.');
+  }
+
+  public function laporan(Request $request)
+  {
+    $tahun = $request->tahun;
+    $bulan = $request->bulan;
+
+    return Excel::download(new LaporanTraining($tahun, $bulan), 'laporan.xlsx');
   }
 
   // public function create()

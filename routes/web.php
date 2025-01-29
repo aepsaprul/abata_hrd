@@ -395,6 +395,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('training/modul/{id}/edit', [TrainingController::class, 'modulEdit'])->name('training.modul.edit');
     Route::put('training/modul/{id}/update', [TrainingController::class, 'modulUpdate'])->name('training.modul.update');
     Route::get('training/modul/{id}/delete', [TrainingController::class, 'modulDelete'])->name('training.modul.delete');
+    Route::post('training/laporan', [TrainingController::class, 'laporan'])->name('training.laporan');
     // Route::get('training/{id}/delete_btn', [TrainingController::class, 'deleteBtn'])->name('training.delete_btn');
     // Route::post('training/delete', [TrainingController::class, 'delete'])->name('training.delete');
     // Route::get('training/modul/{file_modul}', [TrainingController::class, 'modul'])->name('training.modul');

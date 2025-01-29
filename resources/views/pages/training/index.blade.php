@@ -39,8 +39,50 @@
                 <a href="{{ route('training.moduls') }}" class="btn bg-gradient-info btn-sm px-3">
                   <i class="fas fa-copy"></i> Halaman Modul
                 </a>
+                <button type="button" id="btn-create" class="btn btn-outline-primary btn-sm px-3" data-toggle="collapse" data-target="#form_filter" style="width: 120px;">
+                  <i class="fas fa-copy"></i> Laporan
+                </button>
               </h3>
             </div>
+            <form action="{{ route('training.laporan') }}" class="mx-4" method="POST">
+              @csrf
+              <div id="form_filter" class="row collapse mt-3">
+                <div class="col-12 mb-3">
+                  <div class="row">
+                    <div class="col-3">
+                      <label for="tahun">Tahun</label>
+                      <select name="tahun" id="tahun" class="form-control">
+                        <option value="">Pilih Tahun</option>
+                        @for ($i = 2010; $i < 2050; $i++)
+                          <option value="{{ $i }}" {{ $i == date('Y') ? 'selected' : '' }}>{{ $i }}</option>
+                        @endfor
+                      </select>
+                    </div>
+                    <div class="col-3">
+                      <label for="bulan">Bulan</label>
+                      <select name="bulan" id="bulan" class="form-control">
+                        <option value="">Pilih Bulan</option>
+                        <option value="01" {{ date('m') == '01' ? 'selected' : ''}}>Januari</option>
+                        <option value="02" {{ date('m') == '02' ? 'selected' : ''}}>Februari</option>
+                        <option value="03" {{ date('m') == '03' ? 'selected' : ''}}>Maret</option>
+                        <option value="04" {{ date('m') == '04' ? 'selected' : ''}}>April</option>
+                        <option value="05" {{ date('m') == '05' ? 'selected' : ''}}>Mei</option>
+                        <option value="06" {{ date('m') == '06' ? 'selected' : ''}}>Juni</option>
+                        <option value="07" {{ date('m') == '07' ? 'selected' : ''}}>Juli</option>
+                        <option value="08" {{ date('m') == '08' ? 'selected' : ''}}>Agustus</option>
+                        <option value="09" {{ date('m') == '09' ? 'selected' : ''}}>September</option>
+                        <option value="10" {{ date('m') == '10' ? 'selected' : ''}}>Oktober</option>
+                        <option value="11" {{ date('m') == '11' ? 'selected' : ''}}>November</option>
+                        <option value="12" {{ date('m') == '12' ? 'selected' : ''}}>Desember</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" id="btn_excel" class="btn btn-sm btn-primary px-3"><i class="fas fa-paper-plane"></i> Excel</button>
+                </div>
+              </div>
+            </form>
             <div class="card-body">
               {{-- @if (Auth::user()->master_karyawan_id != 0)
                 <div class="row mb-3">

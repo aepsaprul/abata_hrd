@@ -38,11 +38,11 @@
                 </div>
                 <div class="col-md-3 col-12 mb-3">
                   <label class="form-label">Waktu Mulai</label>
-                  <input type="datetime-local" class="form-control" value="{{ $konsultasi->waktu_mulai }}" readonly>
+                  <input type="text" class="form-control" value="{{ $konsultasi->waktu_mulai }}" readonly>
                 </div>
                 <div class="col-md-3 col-12 mb-3">
                   <label class="form-label">Waktu Selesai</label>
-                  <input type="datetime-local" class="form-control" value="{{ $konsultasi->waktu_selesai }}" readonly>
+                  <input type="text" class="form-control" value="{{ $konsultasi->waktu_selesai }}" readonly>
                 </div>
                 <div class="col-md-4 col-12 mb-3">
                   <label class="form-label">Point Pertemuan</label>

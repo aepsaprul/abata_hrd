@@ -51,15 +51,18 @@
                   </div>
                   <div class="col-md-3 col-12 mb-3">
                     <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
-                    <input type="datetime-local" name="waktu_mulai" id="waktu_mulai" class="form-control" value="{{ $konsultasi->waktu_mulai }}" required>
+                    <input type="time" name="waktu_mulai" id="waktu_mulai" class="form-control" value="{{ $konsultasi->waktu_mulai }}" required>
                   </div>
                   <div class="col-md-3 col-12 mb-3">
                     <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
-                    <input type="datetime-local" name="waktu_selesai" id="waktu_selesai" class="form-control" value="{{ $konsultasi->waktu_selesai }}" required>
+                    <input type="time" name="waktu_selesai" id="waktu_selesai" class="form-control" value="{{ $konsultasi->waktu_selesai }}" required>
                   </div>
                   <div class="col-md-4 col-12 mb-3">
                     <label for="point" class="form-label">Point Pertemuan</label>
-                    <input type="text" name="point" id="point" class="form-control" value="{{ $konsultasi->point }}" required>
+                    <select name="point" id="point" class="form-control">
+                      <option value="kasus" {{ $konsultasi->point == "kasuk" ? 'selected' : '' }}>Kasus</option>
+                      <option value="kontrak" {{ $konsultasi->point == "kontrak" ? 'selected' : '' }}>Kontrak</option>
+                    </select>
                   </div>
                   <div class="col-md-4 col-12 mb-3">
                     <label for="catatan" class="form-label">Catatan</label>
