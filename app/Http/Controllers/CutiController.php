@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Approver;
 use App\Events\EventPengajuan;
+use App\Exports\LaporanCuti;
+use App\Models\Approver;
 use App\Models\CutiApprover;
 use App\Models\CutiDetail;
 use App\Models\HcCuti;
@@ -13,6 +14,7 @@ use App\Models\MasterRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CutiController extends Controller
 {
@@ -281,5 +283,13 @@ class CutiController extends Controller
     return response()->json([
       'cuti_detail' => $cuti_detail
     ]);
+  }
+
+  public function laporan(Request $request)
+  {
+    $start_date = $request->start_date;
+    $end_date = $request->end_date;
+
+    return Excel::download(new LaporanCuti($start_date, $end_date), 'laporan.xlsx');
   }
 }

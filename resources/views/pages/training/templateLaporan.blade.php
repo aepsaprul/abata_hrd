@@ -50,7 +50,7 @@
     @foreach ($pesertas as $key => $peserta)
       <tr>
         <td>{{ $key + 1 }}</td>
-        <td>{{ tglCarbon($peserta->created_at, 'd/m/Y') }}</td>
+        <td>{{ tglCarbon($peserta->dataTraining->tanggal, 'd/m/Y') }}</td>
         <td>{{ $peserta->dataTraining->judul }}</td>
         <td>{{ $peserta->dataKaryawan ? $peserta->dataKaryawan->nama_lengkap : '' }}</td>
         <td>{{ $peserta->dataKaryawan ? $peserta->dataKaryawan->masterCabang->nama_cabang : '' }}</td>

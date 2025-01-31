@@ -41,8 +41,31 @@
                   <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm pl-3 pr-3">
                     <i class="fas fa-plus"></i> Tambah
                   </button>
+                  <button type="button" id="btn-create" class="btn btn-outline-primary btn-sm px-3" data-toggle="collapse" data-target="#form_filter" style="width: 120px;">
+                    <i class="fas fa-copy"></i> Laporan
+                  </button>
                 </h3>
               </div>
+              <form action="{{ route('cuti.laporan') }}" class="mx-4" method="POST">
+                @csrf
+                <div id="form_filter" class="row collapse mt-3">
+                  <div class="col-12 mb-3">
+                    <div class="row">
+                      <div class="col-3">
+                        <label for="start_date">Start Date</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control" required>
+                      </div>
+                      <div class="col-3">
+                        <label for="end_date">End Date</label>
+                        <input type="date" name="end_date" id="end_date" class="form-control" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" id="btn_excel" class="btn btn-sm btn-primary px-3"><i class="fas fa-paper-plane"></i> Excel</button>
+                  </div>
+                </div>
+              </form>
             @endif
             <div class="card-body" style="overflow: auto;">
               <table id="tabel_cuti" class="table table-bordered" style="font-size: 13px;">

@@ -310,6 +310,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('cuti/approved', [CutiController::class, 'approved'])->name('cuti.approved');
     Route::post('cuti/disapproved', [CutiController::class, 'disapproved'])->name('cuti.disapproved');
     Route::post('cuti/detailApprover', [CutiController::class, 'detailApprover'])->name('cuti.detailApprover');
+    Route::post('cuti/laporan', [CutiController::class, 'laporan'])->name('cuti.laporan');
 
     // resign
     Route::get('resign', [ResignController::class, 'index'])->name('resign.index');

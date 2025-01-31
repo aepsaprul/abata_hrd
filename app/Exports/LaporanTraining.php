@@ -17,11 +17,16 @@ class LaporanTraining implements FromView
 
   public function view(): View
   {
+    $tahun = $this->tahun;
+    $bulan = $this->bulan;
+
     return view('pages.training.templateLaporan', [
       'tahun' => $this->tahun,
       'bulan' => $this->bulan,
-      'trainings' => Training::whereYear('created_at', $this->tahun)->whereMonth('created_at', $this->bulan)->get(),
-      'pesertas' => TrainingPeserta::with('dataTraining')->whereYear('created_at', $this->tahun)->whereMonth('created_at', $this->bulan)->get()
+      'trainings' => Training::whereYear('tanggal', $this->tahun)->whereMonth('tanggal', $this->bulan)->get(),
+      'pesertas' => TrainingPeserta::whereHas('dataTraining', function ($q) use ($tahun, $bulan) {
+          $q->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan);
+        })->get()
     ]);
   }
 }
