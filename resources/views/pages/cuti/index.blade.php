@@ -74,7 +74,6 @@
                     <th class="text-center text-indigo">No</th>
                     <th class="text-center text-indigo">Nama Karyawan</th>
                     <th class="text-center text-indigo">Cabang</th>
-                    {{-- <th class="text-center text-indigo">Status</th> --}}
                     <th class="text-center text-indigo">Tgl Pengajuan</th>
                     <th class="text-center text-indigo">Approver</th>
                     <th class="text-center text-indigo">Aksi</th>
