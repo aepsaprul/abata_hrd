@@ -72,7 +72,7 @@
           <th style="text-align: center; font-weight: bold;">Total Cuti</th>
           <th style="text-align: center; font-weight: bold;">Sisa Cuti</th>
           <th style="text-align: center; font-weight: bold;">Alasan Cuti</th>
-          <th style="text-align: center; font-weight: bold;">Pengajuan Cuti</th>
+          <th style="text-align: center; font-weight: bold;"></th>
       </tr>
   </thead>
   <tbody>
@@ -106,7 +106,7 @@
             <td rowspan="{{ $cutis->count() }}" style="text-align: center; vertical-align: middle;">{{ $cutis->count() }}</td>
             <td rowspan="{{ $cutis->count() }}" style="text-align: center; vertical-align: middle;">{{ $cutis->first()->totalcuti }}</td>
             <td rowspan="{{ $cutis->count() }}" style="vertical-align: middle;">{{ $cutis->first()->alasan }}</td>
-            <td rowspan="{{ $cutis->count() }}" style="text-align: center; vertical-align: middle;">{{ tglCarbon($tanggal_pengajuan, 'd/m/Y') }}</td>
+            <td rowspan="{{ $cutis->count() }}" style="text-align: center; vertical-align: middle;"></td>
         </tr>
         @foreach ($cutis->slice(1) as $cuti)
           <tr>
