@@ -165,7 +165,7 @@
     <div class="modal-content">
       <form id="form-create" method="post" enctype="multipart/form-data">
         <div class="modal-body">
-          <dxiv class="row">
+          <div class="row">
             <div class="col-md-3">
               <div class="card card-primary card-outline pb-1">
                 <div class="card-body box-profile">
@@ -340,18 +340,20 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;">
-            <span aria-hidden="true"><i class="fas fa-times"></i> Tutup</span>
-          </button>
-          <button class="btn btn-primary btn-create-spinner d-none" disabled style="width: 130px;">
-            <span class="spinner-grow spinner-grow-sm"></span>
-            Loading...
-          </button>
-          <button type="submit" class="btn btn-primary btn-create-save" style="width: 130px;">
-            <i class="fas fa-save"></i> Simpan
-          </button>
+          <div class="d-flex justify-content-between m-3">
+            <button class="btn btn-danger" type="button" data-dismiss="modal" style="width: 130px;">
+              <span aria-hidden="true"><i class="fas fa-times"></i> Tutup</span>
+            </button>
+            <div>
+              <button class="btn btn-primary btn-create-spinner d-none" disabled style="width: 130px;">
+                <span class="spinner-grow spinner-grow-sm"></span>
+                Loading...
+              </button>
+              <button type="submit" class="btn btn-primary btn-create-save" style="width: 130px;">
+                <i class="fas fa-save"></i> Simpan
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
