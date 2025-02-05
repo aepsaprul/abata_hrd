@@ -158,7 +158,7 @@ class CutiController extends Controller
         $cuti->karyawan_pengganti = $request->pengganti;
         $cuti->alasan = $request->alasan;
         $cuti->tanggal = date("Y-m-d");
-        $cuti->status = 1;
+        // $cuti->status = 1;
         $cuti->status_approve = 'pending';
         $cuti->save();
 
@@ -217,9 +217,14 @@ class CutiController extends Controller
       ->get();
     $confirm = count($confirmDb);
 
-    if ($confirm >= $hirarki) {
+    $cuti_detail_atasan = CutiDetail::where('cuti_id', $request->status)->where('atasan_id', Auth::user()->master_karyawan_id)->first();
+    $hierarki_atasan = $cuti_detail_atasan->hirarki;
+
+    // cuti complete jika approver terakhir yg appreved
+    if ($hierarki_atasan >= $hirarki) {
       $cuti = HcCuti::find($request->status);
       $cuti->status_approve = 'complete';
+      $cuti->status = 1; // approved
       $cuti->save();
     } else {
       $cuti = HcCuti::find($request->status);
@@ -261,9 +266,11 @@ class CutiController extends Controller
       ->where('confirm', 1)
       ->count();
 
-    if ($confirm >= $hirarki) {
+    // cuti complete jika approver terakhir yg appreved
+    if ($hierarki_atasan >= $hirarki) {
       $cuti = HcCuti::find($request->status);
       $cuti->status_approve = 'complete';
+      $cuti->status = 0; // disapproved
       $cuti->save();
     } else {
       $cuti = HcCuti::find($request->status);

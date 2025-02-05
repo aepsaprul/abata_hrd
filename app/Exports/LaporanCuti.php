@@ -41,6 +41,7 @@ class LaporanCuti implements FromView
           'master_karyawans.total_cuti',
           'hc_cuti_tgls.tanggal'
         )
+        // ->where('status_approve', 'complete')
         ->orderBy('hc_cuti_tgls.tanggal', 'ASC')
         ->get()
     ]);
