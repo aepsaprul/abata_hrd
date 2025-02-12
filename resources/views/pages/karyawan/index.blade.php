@@ -77,45 +77,22 @@
                   <thead>
                     <tr>
                       <th class="text-center text-indigo">No</th>
+                      <th class="text-center text-indigo">Aksi</th>
                       <th class="text-center text-indigo">Nama</th>
+                      <th class="text-center text-indigo">BPJS TK</th>
+                      <th class="text-center text-indigo">BPJS Kes</th>
                       <th class="text-center text-indigo">Telepon</th>
                       <th class="text-center text-indigo">Email</th>
+                      <th class="text-center text-indigo">Status</th>
                       <th class="text-center text-indigo">Jabatan</th>
                       <th class="text-center text-indigo">Divisi</th>
                       <th class="text-center text-indigo">Cabang</th>
-                      <th class="text-center text-indigo">Status</th>
-                      <th class="text-center text-indigo">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
                     @foreach ($karyawans as $key => $item)
                       <tr>
                         <td class="text-center">{{ $key + 1 }}</td>
-                        <td>{{ $item->nama_lengkap }}</td>
-                        <td>{{ $item->telepon }}</td>
-                        <td>{{ $item->email }}</td>
-                        <td>
-                          @if ($item->masterJabatan)
-                            {{ $item->masterJabatan->nama_jabatan }}
-                          @endif
-                        </td>
-                        <td>
-                          @if ($item->masterDivisi)
-                            {{ $item->masterDivisi->nama }}
-                          @endif
-                        </td>
-                        <td>
-                          @if ($item->masterCabang)
-                            {{ $item->masterCabang->nama_cabang }}
-                          @endif
-                        </td>
-                        <td class="text-center">
-                          <div class="custom-control custom-switch custom-switch-on-success">
-                            <input type="checkbox" name="status" class="custom-control-input" id="status_{{ $item->id }}" data-id="{{ $item->id }}" {{ $item->status == "Aktif" ? "checked" : "" }}>
-                            <label class="custom-control-label" for="status_{{ $item->id }}"></label>
-                          </div>
-                          <span class="status_title_{{ $item->id }}" style="font-size: 12px;">{{ $item->status }}</span>
-                        </td>
                         <td class="text-center">
                           @if (in_array("lihat", $current_data_navigasi) || in_array("ubah", $current_data_navigasi) || in_array("hapus", $current_data_navigasi))
                             <div class="btn-group">
@@ -143,6 +120,45 @@
                                 @endif
                               </div>
                             </div>
+                          @endif
+                        </td>
+                        <td>{{ $item->nama_lengkap }}</td>
+                        <td class="text-center">
+                          <div class="custom-control custom-switch custom-switch-on-success">
+                            <input type="checkbox" name="bpjs_tk" class="custom-control-input" id="bpjs_tk_{{ $item->id }}" data-id="{{ $item->id }}" {{ $item->bpjs_tk == "sudah" ? "checked" : "" }}>
+                            <label class="custom-control-label" for="bpjs_tk_{{ $item->id }}"></label>
+                          </div>
+                          <span class="bpjs_tk_title_{{ $item->id }}" style="font-size: 12px;">{{ $item->bpjs_tk }}</span>
+                        </td>
+                        <td class="text-center">
+                          <div class="custom-control custom-switch custom-switch-on-success">
+                            <input type="checkbox" name="bpjs_kes" class="custom-control-input" id="bpjs_kes_{{ $item->id }}" data-id="{{ $item->id }}" {{ $item->bpjs_kes == "Aktif" ? "checked" : "" }}>
+                            <label class="custom-control-label" for="bpjs_kes_{{ $item->id }}"></label>
+                          </div>
+                          <span class="bpjs_kes_title_{{ $item->id }}" style="font-size: 12px;">{{ $item->bpjs_kes }}</span>
+                        </td>
+                        <td>{{ $item->telepon }}</td>
+                        <td>{{ $item->email }}</td>
+                        <td class="text-center">
+                          <div class="custom-control custom-switch custom-switch-on-success">
+                            <input type="checkbox" name="status" class="custom-control-input" id="status_{{ $item->id }}" data-id="{{ $item->id }}" {{ $item->status == "Aktif" ? "checked" : "" }}>
+                            <label class="custom-control-label" for="status_{{ $item->id }}"></label>
+                          </div>
+                          <span class="status_title_{{ $item->id }}" style="font-size: 12px;">{{ $item->status }}</span>
+                        </td>
+                        <td>
+                          @if ($item->masterJabatan)
+                            {{ $item->masterJabatan->nama_jabatan }}
+                          @endif
+                        </td>
+                        <td>
+                          @if ($item->masterDivisi)
+                            {{ $item->masterDivisi->nama }}
+                          @endif
+                        </td>
+                        <td>
+                          @if ($item->masterCabang)
+                            {{ $item->masterCabang->nama_cabang }}
                           @endif
                         </td>
                       </tr>
@@ -556,6 +572,72 @@
           });
 
           $('.status_title_' + response.id).append(response.title);
+        }
+      });
+    });
+
+    // ubath bpjs tk
+    $(document).on('change', 'input[name="bpjs_tk"]', function () {
+      let id = $(this).attr('data-id');
+      let val_state;
+
+      if ($('#bpjs_tk_' + id).is(":checked")) {
+        val_state = "sudah";
+      } else {
+        val_state = "belum";
+      }
+
+      $('.bpjs_tk_title_' + id).empty();
+
+      var formData = {
+        id: $(this).attr('data-id'),
+        bpjs_tk: val_state
+      }
+
+      $.ajax({
+        type: "post",
+        url: "{{ URL::route('karyawan.ubah_bpjs_tk') }}",
+        data: formData,
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'BPJS TK berhasil diubah'
+          });
+
+          $('.bpjs_tk_title_' + response.id).append(response.title);
+        }
+      });
+    });
+
+    // ubath bpjs kes
+    $(document).on('change', 'input[name="bpjs_kes"]', function () {
+      let id = $(this).attr('data-id');
+      let val_state;
+
+      if ($('#bpjs_kes_' + id).is(":checked")) {
+        val_state = "sudah";
+      } else {
+        val_state = "belum";
+      }
+
+      $('.bpjs_kes_title_' + id).empty();
+
+      var formData = {
+        id: $(this).attr('data-id'),
+        bpjs_kes: val_state
+      }
+
+      $.ajax({
+        type: "post",
+        url: "{{ URL::route('karyawan.ubah_bpjs_kes') }}",
+        data: formData,
+        success: function (response) {
+          Toast.fire({
+            icon: 'success',
+            title: 'BPJS Kesehatan berhasil diubah'
+          });
+
+          $('.bpjs_kes_title_' + response.id).append(response.title);
         }
       });
     });

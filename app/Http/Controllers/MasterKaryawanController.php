@@ -818,4 +818,30 @@ class MasterKaryawanController extends Controller
       'status' => $status
     ]);
   }
+
+  public function ubahBpjsTk(Request $request)
+  {
+    $karyawan = MasterKaryawan::find($request->id);
+    $karyawan->bpjs_tk = $request->bpjs_tk;
+    $karyawan->save();
+
+    return response()->json([
+      'status' => 'true',
+      'id' => $karyawan->id,
+      'title' => $karyawan->bpjs_tk
+    ]);
+  }
+
+  public function ubahBpjsKes(Request $request)
+  {
+    $karyawan = MasterKaryawan::find($request->id);
+    $karyawan->bpjs_kes = $request->bpjs_kes;
+    $karyawan->save();
+
+    return response()->json([
+      'status' => 'true',
+      'id' => $karyawan->id,
+      'title' => $karyawan->bpjs_kes
+    ]);
+  }
 }

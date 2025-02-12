@@ -115,6 +115,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('dashboard/getTotalKaryawanPerBulan', [DashboardController::class, 'getTotalKaryawanPerBulan'])->name('dashboard.getTotalKaryawanPerBulan');
     Route::get('dashboard/{id}/show', [DashboardController::class, 'show'])->name('dashboard.show');
     Route::post('dashboard/store', [DashboardController::class, 'store'])->name('dashboard.store');
+    Route::get('rekap', [DashboardController::class, 'rekap'])->name('rekap');
 
     // master
         // menu
@@ -257,6 +258,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('karyawan/{id}/resetpassword_btn', [MasterKaryawanController::class, 'resetPasswordBtn'])->name('karyawan.resetpassword_btn');
     Route::post('karyawan/resetpassword', [MasterKaryawanController::class, 'resetPassword'])->name('karyawan.resetpassword');
     Route::post('karyawan/filter', [MasterKaryawanController::class, 'filter'])->name('karyawan.filter');
+    Route::post('karyawan/ubah_bpjs_tk', [MasterKaryawanController::class, 'ubahBpjsTk'])->name('karyawan.ubah_bpjs_tk');
+    Route::post('karyawan/ubah_bpjs_kes', [MasterKaryawanController::class, 'ubahBpjsKes'])->name('karyawan.ubah_bpjs_kes');
 
         // biodata
         Route::get('karyawan/{id}/biodata', [MasterKaryawanController::class, 'biodata'])->name('karyawan.biodata');

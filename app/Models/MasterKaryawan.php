@@ -17,102 +17,106 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class MasterKaryawan extends Model
 {
-    use HasFactory, Notifiable, LogsActivity;
+  use HasFactory, Notifiable, LogsActivity;
 
-    protected $fillable = [
-        'nik',
-        'nama_lengkap',
-        'nama_panggilan',
-        'telepon',
-        'email',
-        'nomor_ktp',
-        'jenis_sim',
-        'nomor_sim',
-        'status_ktp',
-        'foto',
-        'master_cabang_id',
-        'master_jabatan_id',
-        'master_divisi_id',
-        'agama',
-        'jenis_kelamin',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'alamat_asal',
-        'alamat_domisili',
-        'status_perkawinan',
-        'tanggal_masuk',
-        'tanggal_keluar',
-        'alasan',
-        'tanggal_pengambilan_ijazah',
-        'status',
-        'role'
-    ];
+  protected $fillable = [
+    'nik',
+    'nama_lengkap',
+    'nama_panggilan',
+    'telepon',
+    'email',
+    'nomor_ktp',
+    'jenis_sim',
+    'nomor_sim',
+    'status_ktp',
+    'foto',
+    'master_cabang_id',
+    'master_jabatan_id',
+    'master_divisi_id',
+    'agama',
+    'jenis_kelamin',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'alamat_asal',
+    'alamat_domisili',
+    'status_perkawinan',
+    'tanggal_masuk',
+    'tanggal_keluar',
+    'alasan',
+    'tanggal_pengambilan_ijazah',
+    'status',
+    'role'
+  ];
 
-    protected static $logAttributes = [
-        'nik',
-        'nama_lengkap',
-        'nama_panggilan',
-        'telepon',
-        'email',
-        'nomor_ktp',
-        'jenis_sim',
-        'nomor_sim',
-        'status_ktp',
-        'foto',
-        'master_cabang_id',
-        'master_jabatan_id',
-        'master_divisi_id',
-        'agama',
-        'jenis_kelamin',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'alamat_asal',
-        'alamat_domisili',
-        'status_perkawinan',
-        'tanggal_masuk',
-        'tanggal_keluar',
-        'alasan',
-        'tanggal_pengambilan_ijazah',
-        'status',
-        'role'
-    ];
+  protected static $logAttributes = [
+    'nik',
+    'nama_lengkap',
+    'nama_panggilan',
+    'telepon',
+    'email',
+    'nomor_ktp',
+    'jenis_sim',
+    'nomor_sim',
+    'status_ktp',
+    'foto',
+    'master_cabang_id',
+    'master_jabatan_id',
+    'master_divisi_id',
+    'agama',
+    'jenis_kelamin',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'alamat_asal',
+    'alamat_domisili',
+    'status_perkawinan',
+    'tanggal_masuk',
+    'tanggal_keluar',
+    'alasan',
+    'tanggal_pengambilan_ijazah',
+    'status',
+    'role'
+  ];
 
-    protected static $logName = 'master_karyawan';
+  protected static $logName = 'master_karyawan';
 
-    public function masterCabang() {
-        return $this->belongsTo(MasterCabang::class, 'master_cabang_id', 'id');
-    }
+  public function masterCabang() {
+    return $this->belongsTo(MasterCabang::class, 'master_cabang_id', 'id');
+  }
 
-    public function masterJabatan() {
-        return $this->belongsTo(MasterJabatan::class, 'master_jabatan_id', 'id');
-    }
+  public function masterJabatan() {
+    return $this->belongsTo(MasterJabatan::class, 'master_jabatan_id', 'id');
+  }
 
-    public function masterDivisi() {
-        return $this->belongsTo(MasterDivisi::class, 'master_divisi_id', 'id');
-    }
+  public function masterDivisi() {
+    return $this->belongsTo(MasterDivisi::class, 'master_divisi_id', 'id');
+  }
 
-    public function user() {
-        return $this->hasOne(User::class, 'master_karyawan_id', 'id');
-    }
+  public function user() {
+    return $this->hasOne(User::class, 'master_karyawan_id', 'id');
+  }
 
-    public function cuti() {
-        return $this->hasMany(HcCuti::class, 'master_karyawan_id', 'id');
-    }
+  public function cuti() {
+    return $this->hasMany(HcCuti::class, 'master_karyawan_id', 'id');
+  }
 
-    public function navAccess() {
-        return $this->hasMany(HcNavAccess::class, 'user_id', 'id');
-    }
+  public function navAccess() {
+    return $this->hasMany(HcNavAccess::class, 'user_id', 'id');
+  }
 
-    public function kontrak() {
-        return $this->hasMany(HcKontrak::class, 'karyawan_id', 'id');
-    }
+  public function kontrak() {
+    return $this->hasMany(HcKontrak::class, 'karyawan_id', 'id');
+  }
 
-    public function slipGaji() {
-        return $this->hasMany(HcSlipGajiTemplate::class, 'karyawan_id', 'id');
-    }
+  public function slipGaji() {
+    return $this->hasMany(HcSlipGajiTemplate::class, 'karyawan_id', 'id');
+  }
 
-    public function trainings()
-    {
-        return $this->belongsToMany(Training::class, 'training_pesertas');
-    }
+  public function trainings()
+  {
+    return $this->belongsToMany(Training::class, 'training_pesertas');
+  }
+
+  public function dataPendidikan() {
+    return $this->hasMany(HcPendidikan::class, 'karyawan_id', 'id');
+  }
 }

@@ -52,6 +52,7 @@
                           <li class="nav-item"><a class="nav-link" href="#setelah_menikah" data-toggle="tab">Setelah Menikah</a></li>
                           <li class="nav-item"><a class="nav-link" href="#kerabat_darurat" data-toggle="tab">Kerabat Darurat</a></li>
                           <li class="nav-item"><a class="nav-link" href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#bpjs" data-toggle="tab">BPJS</a></li>
                           </ul>
                       </div>
                       <div class="card-body">
@@ -660,6 +661,34 @@
                                       </table>
                                   </div>
                               </div>
+
+                              {{-- bpjs --}}
+                              <div class="tab-pane" id="bpjs">
+                                <div class="row">
+                                  <div class="col-lg-3 col-12 mb-3 mr-3 py-3 border rounded">
+                                    <div class="text-center mb-3">BPJS TK</div>
+                                    <div class="d-flex justify-content-around">
+                                      <label for="tk_belum" class="m-0">
+                                        <input type="radio" name="tk_status" id="tk_belum" value="0" class="update-status mr-1" data-id="0"> Belum
+                                      </label>
+                                      <label for="tk_sudah" class="m-0">
+                                        <input type="radio" name="tk_status" id="tk_sudah" value="1" class="update-status mr-1" data-id="1"> Sudah
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-3 col-12 mb-3 py-3 border rounded">
+                                    <div class="text-center mb-3">BPJS Kesehatan</div>
+                                    <div class="d-flex justify-content-around">
+                                      <label for="kes_belum" class="m-0">
+                                        <input type="radio" name="kes_status" id="kes_belum" value="0" class="update-status mr-1" data-id="0"> Belum
+                                      </label>
+                                      <label for="kes_sudah" class="m-0">
+                                        <input type="radio" name="kes_status" id="kes_sudah" value="1" class="update-status mr-1" data-id="1"> Sudah
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
                           </div>
                       </div>
                   </div>
