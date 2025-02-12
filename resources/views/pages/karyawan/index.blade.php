@@ -40,6 +40,9 @@
                   <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm px-3" style="width: 120px;">
                     <i class="fas fa-plus"></i> Tambah
                   </button>
+                  <button type="button" id="btn_rekap" class="btn bg-gradient-primary btn-sm px-3" style="width: 150px;">
+                    <i class="fas fa-file-excel"></i> Download Rekap
+                  </button>
                   <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm px-3" data-toggle="collapse" data-target="#form_filter" style="width: 120px;">
                     <i class="fas fa-filter"></i> Filter
                   </button>
@@ -469,6 +472,10 @@
       showConfirmButton: false,
       timer: 3000
     });
+
+    $('#btn_rekap').on('click', function() {
+      window.open("{{ route('dashboard.rekap.download') }}", "_blank");
+    })
 
     // filter
     $('#applyFilter').click(function () {

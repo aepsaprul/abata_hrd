@@ -115,7 +115,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('dashboard/getTotalKaryawanPerBulan', [DashboardController::class, 'getTotalKaryawanPerBulan'])->name('dashboard.getTotalKaryawanPerBulan');
     Route::get('dashboard/{id}/show', [DashboardController::class, 'show'])->name('dashboard.show');
     Route::post('dashboard/store', [DashboardController::class, 'store'])->name('dashboard.store');
-    Route::get('rekap', [DashboardController::class, 'rekap'])->name('rekap');
+    Route::get('rekap', [DashboardController::class, 'rekap'])->name('dashboard.rekap');
+    Route::get('dashboard/rekap/download', [DashboardController::class, 'rekapDownload'])->name('dashboard.rekap.download');
 
     // master
         // menu

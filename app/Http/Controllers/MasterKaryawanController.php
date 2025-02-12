@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RekapKaryawanExport;
 use App\Models\HcKeluargaSebelumMenikah;
 use App\Models\HcKeluargaSetelahMenikah;
 use App\Models\HcKerabatDarurat;

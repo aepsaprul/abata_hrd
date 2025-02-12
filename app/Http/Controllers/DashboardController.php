@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RekapKaryawanExport;
 use App\Models\HcCuti;
 use App\Models\HcKontrak;
 use App\Models\HcResign;
@@ -10,6 +11,7 @@ use App\Models\MasterKaryawan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -151,7 +153,7 @@ class DashboardController extends Controller
       // $bpjs_tk = $cabang->masterKaryawan->filter(fn($k) => $this->masaKerjaLebihDariEnamBulan($k->created_at))->count();
       // $bpjs_kesehatan = $bpjs_tk; // Asumsinya BPJS TK dan Kesehatan diberikan bersama
 
-      $data = [
+      return [
         'cabang' => $cabang->nama_cabang,
         'jumlah_l' => $jumlah_l,
         'jumlah_p' => $jumlah_p,
@@ -195,8 +197,6 @@ class DashboardController extends Controller
         'bpjs_kes_belum' => $cabang->masterKaryawan->where('bpjs_kes', 'belum')->count(),
         'bpjs_kes_sudah' => $cabang->masterKaryawan->where('bpjs_kes', 'sudah')->count(),
       ];
-
-      return $data;
     });
 
     // Hitung total semua kolom
@@ -238,6 +238,11 @@ class DashboardController extends Controller
 
   private function masaKerjaLebihDariEnamBulan($tanggal_masuk)
   {
-      return Carbon::parse($tanggal_masuk)->diffInMonths(now()) > 6;
+    return Carbon::parse($tanggal_masuk)->diffInMonths(now()) > 6;
+  }
+
+  public function rekapDownload()
+  {
+    return Excel::download(new RekapKaryawanExport, 'rekap.xlsx');
   }
 }
