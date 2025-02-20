@@ -43,6 +43,9 @@
                   <button type="button" id="btn_rekap" class="btn bg-gradient-primary btn-sm px-3" style="width: 150px;">
                     <i class="fas fa-file-excel"></i> Download Rekap
                   </button>
+                  <button type="button" id="btn_rekap_kontrak" class="btn bg-gradient-primary btn-sm px-3" style="width: 200px;">
+                    <i class="fas fa-file-excel"></i> Download Rekap Kontrak
+                  </button>
                   <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm px-3" data-toggle="collapse" data-target="#form_filter" style="width: 120px;">
                     <i class="fas fa-filter"></i> Filter
                   </button>
@@ -475,6 +478,10 @@
 
     $('#btn_rekap').on('click', function() {
       window.open("{{ route('dashboard.rekap.download') }}", "_blank");
+    })
+
+    $('#btn_rekap_kontrak').on('click', function() {
+      window.open("{{ route('dashboard.rekap.kontrak.download') }}", "_blank");
     })
 
     // filter
