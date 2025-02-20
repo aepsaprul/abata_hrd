@@ -78,7 +78,7 @@
                   </table>
                 </div>
                 <div class="my-2">Merupakan karyawan dari Cabang <input type="text" name="cabang" class="border-top-0 border-right-0 border-left-0" value="{{ $user->masterKaryawan ? $user->masterKaryawan->masterCabang->nama_cabang : 'HO' }}" required readonly style="border-style: dotted; outline: none;"></div>
-                <div class="my-2">Berencana untuk mengajukan permohonan Pinjaman sebesar Rp.  <input type="text" name="pinjaman" id="pinjaman" class="border-top-0 border-right-0 border-left-0" required style="border-style: dotted; outline: none;" autocomplete="off"> <span class="text-sm">(maksimal 5 juta)</span></div>
+                <div class="my-2">Berencana untuk mengajukan permohonan Pinjaman sebesar Rp.  <input type="text" name="pinjaman" id="pinjaman" class="border-top-0 border-right-0 border-left-0" required style="border-style: dotted; outline: none;" autocomplete="off"> <span class="text-sm">(maksimal 3 juta)</span></div>
                 <table style="width: 100%;">
                   <tr>
                     <td>Untuk Keperluan</td>
@@ -148,8 +148,8 @@
   let pinjaman_val = document.getElementById("pinjaman");
   pinjaman_val.addEventListener("keyup", function(e) {
     const angka = Number(pinjaman_val.value.replace(/\./g, ''));
-    if (angka > 5000000) {
-      pinjaman_val.value = format_rupiah_titik(5000000);      
+    if (angka > 3000000) {
+      pinjaman_val.value = format_rupiah_titik(3000000);      
     } else {
       pinjaman_val.value = formatRupiahTitik(this.value, "");
     }
