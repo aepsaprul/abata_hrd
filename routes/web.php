@@ -63,11 +63,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function() {
-    return redirect()->route('login');
+  return redirect()->route('login');
+});
+
+Route::get('/version', function () {
+  return view('versi');
 });
 
 Auth::routes([
-    'register' => false
+  'register' => false
 ]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');

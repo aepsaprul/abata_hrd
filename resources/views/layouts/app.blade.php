@@ -7,42 +7,45 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{ asset(env('APP_URL_IMG') . 'themes/dist/img/logo-daun.png') }}" rel="icon" type="image/x-icon">
-    <title>{{ config('app.name', 'HO') }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ asset(env('APP_URL_IMG') . 'themes/dist/img/logo-daun.png') }}" rel="icon" type="image/x-icon">
+  <title>{{ config('app.name', 'HO') }}</title>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/font-google/font-google.css') }}">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/sweetalert2/sweetalert2.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/dist/css/adminlte.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/font-google/font-google.css') }}">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/plugins/sweetalert2/sweetalert2.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ asset(env('APP_URL_IMG') . 'themes/dist/css/adminlte.min.css') }}">
 
-    @yield('style')
+  @yield('style')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed skin-blue">
     <div class="wrapper">
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="{{ asset(env('APP_URL_IMG') . 'themes/dist/img/logo-biru.png') }}" alt="AdminLTELogo" height="60" width="110">
+          <img class="animation__wobble" src="{{ asset(env('APP_URL_IMG') . 'themes/dist/img/logo-biru.png') }}" alt="AdminLTELogo" height="60" width="110">
         </div>
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
+              <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+              </li>
+              <li class="nav-item d-flex align-items-center">
+                <a href="{{ url('/version') }}" target="_blank" class="text-dark" style="font-size: 14px;">Versi 1.7.1</a>
+              </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -118,8 +121,8 @@
         <aside class="main-sidebar sidebar-light-primary elevation-2">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <img src="{{ asset(env('APP_URL_IMG') . 'themes/dist/img/logo-daun.png') }}" alt="AdminLTE Logo" class="brand-image">
-                <span class="brand-text font-weight-light">Abata Group</span>
+              <img src="{{ asset(env('APP_URL_IMG') . 'themes/dist/img/logo-daun.png') }}" alt="AdminLTE Logo" class="brand-image">
+              <span class="brand-text font-weight-light">Abata Group</span>
             </a>
 
             <!-- Sidebar -->
