@@ -43,6 +43,6 @@ class User extends Authenticatable
     ];
 
     public function masterKaryawan() {
-        return $this->belongsTo(MasterKaryawan::class);
+      return $this->belongsTo(MasterKaryawan::class);
     }
 }

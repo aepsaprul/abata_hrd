@@ -623,8 +623,6 @@
         tanggal_fix = tanggal;
       }
 
-      console.log(bulan_fix+'-'+tanggal_fix);
-
       for (let index = 1; index <= jml_hari; index++) {
 
         var form_tanggal = '<br>' +
@@ -633,13 +631,39 @@
               '<label for="">Tanggal ' + index + '</label>' +
             '</div>' +
             '<div class="col-md-9">' +
-              '<input type="date" name="cuti_tanggal[]" id="cuti_tanggal_' + index + '" class="form-control"  onkeydown="return false" min="' + tahun + '-' + bulan_fix + '-' + tanggal_fix + '" autocomplete="off" required>' +
+              '<input type="date" name="cuti_tanggal[]" id="cuti_tanggal_'+index+'" class="form-control" data-id="'+index+'" data-tanggal="cuti_tanggal"  onkeydown="return false" min="' + tahun + '-' + bulan_fix + '-' + tanggal_fix + '" autocomplete="off" required>' +
             '</div>' +
           '</div>';
 
         $('#form_tanggal').append(form_tanggal);
       }
     });
+
+    $('#form_tanggal').on('click', function(e) {
+      const id = e.target.dataset.tanggal;
+      const index = e.target.dataset.id;
+      
+      if (!id) return;
+
+      if (id === "cuti_tanggal") {
+        let today = new Date();
+        let disabledDates = [];
+
+        // Tambahkan 7 hari ke depan dari hari ini ke dalam array disabledDates
+        for (let i = 1; i <= 7; i++) {
+          let newDate = new Date();
+          newDate.setDate(today.getDate() + i);
+          disabledDates.push(newDate.toISOString().split('T')[0]); // Format YYYY-MM-DD
+        }
+
+        document.getElementById("cuti_tanggal_"+index).addEventListener("input", function() {
+          if (disabledDates.includes(this.value)) {
+            alert("Minimal 8 hari dari pengajuan");
+            this.value = ""; // Reset input jika tanggal tidak valid
+          }
+        });
+      }
+    })
 
     $('#tabel_cuti').on('click', function (e) {
       const id = e.target.getAttribute('id');
