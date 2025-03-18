@@ -74,7 +74,7 @@
                   </table>
                 </div>
                 <div class="my-2">Merupakan karyawan dari Cabang <span class="font-weight-bold">{{ $pengajuan->cabang }}</span></div>
-                <div class="my-2">Berencana untuk mengajukan permohonan Pinjaman sebesar Rp.  <span class="font-weight-bold">{{ rupiah($pengajuan->pinjaman) }}</span> <span class="text-sm">(maksimal 5 juta)</span></div>
+                <div class="my-2">Berencana untuk mengajukan permohonan Pinjaman sebesar Rp.  <span class="font-weight-bold">{{ rupiah($pengajuan->pinjaman) }}</span> <span class="text-sm">(maksimal 3 juta)</span></div>
                 <table>
                   <tr>
                     <td>Untuk Keperluan</td>
