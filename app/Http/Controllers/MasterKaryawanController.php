@@ -17,6 +17,7 @@ use App\Models\MasterKaryawan;
 use App\Models\MasterRole;
 use App\Models\Training;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -800,10 +801,65 @@ class MasterKaryawanController extends Controller
 
   public function filter(Request $request)
   {
+    // // Ambil filter lama kontrak (3, 6, 12, 24 bulan)
+    // $filter_bulan = $request->input('bulan');
+
+    // $karyawans = MasterKaryawan::with(['kontrakTerakhir' => function ($query) {
+    //     $query->select('id', 'karyawan_id', 'mulai_kontrak', 'akhir_kontrak')->latest('akhir_kontrak');
+    // }])->get();
+
+    // // Filter berdasarkan lama kontrak
+    // if ($filter_bulan) {
+    //     $karyawans = $karyawans->filter(function ($karyawan) use ($filter_bulan) {
+    //         if ($karyawan->kontrakTerakhir) {
+    //             $lama_kontrak = \Carbon\Carbon::parse($karyawan->kontrakTerakhir->mulai_kontrak)->diffInMonths(\Carbon\Carbon::parse($karyawan->kontrakTerakhir->akhir_kontrak));
+    //             return $lama_kontrak == $filter_bulan;
+    //         }
+    //         return false;
+    //     });
+    // }
+
+    // ====================================================================
+    
+    // $cabang = $request->input('filter_cabang', []);
+    // $status = $request->input('filter_status', []);
+
+    // $query = MasterKaryawan::query();
+
+    // if (!empty($cabang)) {
+    //   $query->whereIn('master_cabang_id', $cabang);
+    // }
+
+    // if (!empty($status)) {
+    //   $query->whereIn('status', $status);
+    // }
+
+    // $karyawans = $query->with(['masterJabatan', 'masterCabang', 'masterDivisi'])->get();
+
+    // return response()->json([
+    //   'karyawans' => $karyawans,
+    //   'cabang' => $cabang,
+    //   'status' => $status
+    // ]);
+    // return response()->json([
+    //   'karyawans' => $karyawans,
+    //   'filter_bulan' => $filter_bulan
+    // ]);
+
+    // =======================================================================
+
     $cabang = $request->input('filter_cabang', []);
     $status = $request->input('filter_status', []);
+    $filter_bulan = $request->input('bulan');
 
-    $query = MasterKaryawan::query();
+    $query = MasterKaryawan::with([
+      'masterJabatan', 
+      'masterCabang', 
+      'masterDivisi',
+      'kontrakTerakhir' => function ($query) {
+        $query->latest('akhir_kontrak');
+      }
+    ]);
 
     if (!empty($cabang)) {
       $query->whereIn('master_cabang_id', $cabang);
@@ -813,8 +869,21 @@ class MasterKaryawanController extends Controller
       $query->whereIn('status', $status);
     }
 
+    $karyawans = $query->get();
+
+    // Filter lama kontrak berdasarkan bulan
+    if ($filter_bulan) {
+      $karyawans = $karyawans->filter(function ($karyawan) use ($filter_bulan) {
+          if ($karyawan->kontrakTerakhir) {
+              $lama_kontrak = Carbon::parse($karyawan->kontrakTerakhir->mulai_kontrak)->diffInMonths(Carbon::parse($karyawan->kontrakTerakhir->akhir_kontrak));
+              return $lama_kontrak == $filter_bulan;
+          }
+          return false;
+      });
+  }
+
     return response()->json([
-      'karyawans' => $query->with(['masterJabatan', 'masterCabang', 'masterDivisi'])->get(),
+      'karyawans' => $karyawans,
       'cabang' => $cabang,
       'status' => $status
     ]);

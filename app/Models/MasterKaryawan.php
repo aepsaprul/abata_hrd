@@ -107,6 +107,12 @@ class MasterKaryawan extends Model
     return $this->hasMany(HcKontrak::class, 'karyawan_id', 'id');
   }
 
+  // Ambil kontrak terakhir berdasarkan akhir_kontrak
+  public function kontrakTerakhir()
+  {
+    return $this->hasOne(HcKontrak::class, 'karyawan_id', 'id')->latest('akhir_kontrak');
+  }
+
   public function slipGaji() {
     return $this->hasMany(HcSlipGajiTemplate::class, 'karyawan_id', 'id');
   }

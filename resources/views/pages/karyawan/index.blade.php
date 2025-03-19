@@ -52,6 +52,7 @@
                   <form id="filterForm">
                     <div id="form_filter" class="row collapse mt-3">
                       <div class="col-12">
+                        {{-- filter cabang --}}
                         <div class="font-weight-bold border-bottom mb-2 pb-2">Cabang</div>
                         @foreach ($cabangs as $cabang)
                           <div class="form-check">
@@ -61,6 +62,7 @@
                             </label>
                           </div>
                         @endforeach
+                        {{-- filter status --}}
                         <div class="font-weight-bold border-bottom mb-2 pb-2">Status</div>
                         <label for="status_aktif" class="mr-3" style="font-weight: 400;">
                           <input type="checkbox" name="filter_status[]" id="status_aktif" class="mr-1" value="Aktif"> Aktif
@@ -68,8 +70,17 @@
                         <label for="status_nonaktif" class="mr-3" style="font-weight: 400;">
                           <input type="checkbox" name="filter_status[]" id="status_nonaktif" class="mr-1" value="Nonaktif"> Nonaktif
                         </label>
+                        {{-- filter kontrak --}}
+                        <div class="font-weight-bold border-bottom mb-2 pb-2">Kontrak</div>
+                        <select name="bulan" id="bulan" class="form-control">
+                          <option value="">-- Pilih --</option>
+                          <option value="3" {{ request('bulan') == '3' ? 'selected' : '' }}>3 Bulan</option>
+                          <option value="6" {{ request('bulan') == '6' ? 'selected' : '' }}>6 Bulan</option>
+                          <option value="12" {{ request('bulan') == '12' ? 'selected' : '' }}>12 Bulan</option>
+                          <option value="24" {{ request('bulan') == '24' ? 'selected' : '' }}>24 Bulan</option>
+                        </select>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12 mt-3">
                         <button type="button" id="applyFilter" class="btn btn-sm btn-primary px-3"><i class="fas fa-search"></i> Search</button>
                       </div>
                     </div>
@@ -82,17 +93,19 @@
                 <table id="tabel_karyawan" class="table table-bordered table-striped" style="font-size: 13px; width: 100%;">
                   <thead>
                     <tr>
-                      <th class="text-center text-indigo">No</th>
-                      <th class="text-center text-indigo">Aksi</th>
-                      <th class="text-center text-indigo">Nama</th>
-                      <th class="text-center text-indigo">BPJS TK</th>
-                      <th class="text-center text-indigo">BPJS Kes</th>
-                      <th class="text-center text-indigo">Telepon</th>
-                      <th class="text-center text-indigo">Email</th>
-                      <th class="text-center text-indigo">Status</th>
-                      <th class="text-center text-indigo">Jabatan</th>
-                      <th class="text-center text-indigo">Divisi</th>
-                      <th class="text-center text-indigo">Cabang</th>
+                      <th class="text-center">No</th>
+                      <th class="text-center">Aksi</th>
+                      <th class="text-center">Nama</th>
+                      <th class="text-center">BPJS TK</th>
+                      <th class="text-center">BPJS Kes</th>
+                      <th class="text-center">Telepon</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Status</th>
+                      <th class="text-center">Akhir Kontrak</th>
+                      <th class="text-center">Lama Kontrak</th>
+                      <th class="text-center">Jabatan</th>
+                      <th class="text-center">Divisi</th>
+                      <th class="text-center">Cabang</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -138,7 +151,7 @@
                         </td>
                         <td class="text-center">
                           <div class="custom-control custom-switch custom-switch-on-success">
-                            <input type="checkbox" name="bpjs_kes" class="custom-control-input" id="bpjs_kes_{{ $item->id }}" data-id="{{ $item->id }}" {{ $item->bpjs_kes == "Aktif" ? "checked" : "" }}>
+                            <input type="checkbox" name="bpjs_kes" class="custom-control-input" id="bpjs_kes_{{ $item->id }}" data-id="{{ $item->id }}" {{ $item->bpjs_kes == "sudah" ? "checked" : "" }}>
                             <label class="custom-control-label" for="bpjs_kes_{{ $item->id }}"></label>
                           </div>
                           <span class="bpjs_kes_title_{{ $item->id }}" style="font-size: 12px;">{{ $item->bpjs_kes }}</span>
@@ -152,6 +165,8 @@
                           </div>
                           <span class="status_title_{{ $item->id }}" style="font-size: 12px;">{{ $item->status }}</span>
                         </td>
+                        <td>{{ $item->kontrak->last() ? tglCarbon($item->kontrak->last()->akhir_kontrak, "d/m/Y") : '' }}</td>
+                        <td>{{ $item->kontrak->last() ? $item->kontrak->last()->lama_kontrak : '' }}</td>
                         <td>
                           @if ($item->masterJabatan)
                             {{ $item->masterJabatan->nama_jabatan }}
@@ -497,7 +512,9 @@
         headers: {
           'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        success: function (response) {          
+        success: function (response) {   
+          console.log(response);
+          
           // Kosongkan tabel sebelumnya
           $('#tabel_wrap').empty();
 
@@ -510,14 +527,18 @@
               <table id="tabel_karyawan" class="table table-bordered table-striped" style="font-size: 13px; width: 100%;">
                 <thead>
                   <tr>
-                    <th class="text-center text-indigo">No</th>
-                    <th class="text-center text-indigo">Nama</th>
-                    <th class="text-center text-indigo">Telepon</th>
-                    <th class="text-center text-indigo">Email</th>
-                    <th class="text-center text-indigo">Jabatan</th>
-                    <th class="text-center text-indigo">Divisi</th>
-                    <th class="text-center text-indigo">Cabang</th>
-                    <th class="text-center text-indigo">Status</th>
+                    <th class="text-center">No</th>
+                    <th class="text-center">Nama</th>
+                    <th class="text-center">BPJS TK</th>
+                    <th class="text-center">BPJS Kes</th>
+                    <th class="text-center">Telepon</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Jabatan</th>
+                    <th class="text-center">Divisi</th>
+                    <th class="text-center">Cabang</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Akhir Kontrak</th>
+                    <th class="text-center">Lama Kontrak</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -527,12 +548,34 @@
                 <tr>
                   <td>${index_karyawan + 1}</td>
                   <td>${item.nama_lengkap}</td>
+                  <td class="text-center">
+                    <div class="custom-control custom-switch custom-switch-on-success">
+                      <input type="checkbox" name="bpjs_tk" class="custom-control-input" id="bpjs_tk_${item.id}" data-id="${item.id}" ${item.bpjs_tk == "sudah" ? "checked" : ""}>
+                      <label class="custom-control-label" for="bpjs_tk_${item.id}"></label>
+                    </div>
+                    <span class="bpjs_tk_title_${item.id}" style="font-size: 12px;">${item.bpjs_tk}</span>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-switch custom-switch-on-success">
+                      <input type="checkbox" name="bpjs_kes" class="custom-control-input" id="bpjs_kes_${item.id}" data-id="${item.id}" ${item.bpjs_kes == "sudah" ? "checked" : ""}>
+                      <label class="custom-control-label" for="bpjs_kes_${item.id}"></label>
+                    </div>
+                  <span class="bpjs_kes_title_${item.id}" style="font-size: 12px;">${item.bpjs_kes}</span>
+                  </td>
                   <td class="text-center">${item.telepon}</td>
                   <td>${item.email}</td>
                   <td>${item.master_jabatan ? item.master_jabatan.nama_jabatan : ''}</td>
                   <td>${item.master_divisi ? item.master_divisi.nama : ''}</td>
                   <td>${item.master_cabang ? item.master_cabang.nama_cabang : ''}</td>
-                  <td class="text-center">${item.status}</td>
+                  <td class="text-center">
+                    <div class="custom-control custom-switch custom-switch-on-success">
+                      <input type="checkbox" name="status" class="custom-control-input" id="status_${item.id}" data-id="${item.id}" ${item.status == "Aktif" ? "checked" : ""}>
+                      <label class="custom-control-label" for="status_${item.id}"></label>
+                    </div>
+                    <span class="status_title_${item.id}" style="font-size: 12px;">${item.status}</span>
+                  </td>
+                  <td class="text-center">${item.kontrak_terakhir ? item.kontrak_terakhir.akhir_kontrak : ''}</td>
+                  <td class="text-right">${item.kontrak_terakhir ? item.kontrak_terakhir.lama_kontrak : ''}</td>
                 </tr>
               `;
             });
