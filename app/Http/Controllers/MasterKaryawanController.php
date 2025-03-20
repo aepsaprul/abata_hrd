@@ -349,24 +349,28 @@ class MasterKaryawanController extends Controller
 
   public function biodata($id)
   {
-      $karyawan = MasterKaryawan::with([
-          'masterJabatan',
-          'masterCabang',
-          'masterDivisi'
-        ])
-        ->find($id);
-      $cabangs = MasterCabang::get();
-      $jabatans = MasterJabatan::get();
-      $divisis = MasterDivisi::get();
-      $role = MasterRole::get();
+    $karyawan = MasterKaryawan::with([
+      'masterJabatan',
+      'masterCabang',
+      'masterDivisi',
+      'kontrak' => function ($query) {
+        $query->first('mulai_kontrak');
+      }
+    ])
+    ->find($id);
 
-      return response()->json([
-          'karyawan' => $karyawan,
-          'cabangs' => $cabangs,
-          'jabatans' => $jabatans,
-          'divisis' => $divisis,
-          'roles' => $role
-      ]);
+    $cabangs = MasterCabang::get();
+    $jabatans = MasterJabatan::get();
+    $divisis = MasterDivisi::get();
+    $role = MasterRole::get();
+
+    return response()->json([
+      'karyawan' => $karyawan,
+      'cabangs' => $cabangs,
+      'jabatans' => $jabatans,
+      'divisis' => $divisis,
+      'roles' => $role
+    ]);
   }
 
   public function biodataUpdate(Request $request)
