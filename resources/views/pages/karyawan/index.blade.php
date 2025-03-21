@@ -40,6 +40,9 @@
                   <button type="button" id="btn-create" class="btn bg-gradient-primary btn-sm px-3" style="width: 120px;">
                     <i class="fas fa-plus"></i> Tambah
                   </button>
+                  <a href="{{ route('dashboard.rekap.karyawan') }}" class="btn bg-gradient-primary btn-sm px-3" style="width: 150px;">
+                    <i class="fas fa-eye"></i> Tampil Rekap
+                  </a>
                   <button type="button" id="btn_rekap" class="btn bg-gradient-primary btn-sm px-3" style="width: 150px;">
                     <i class="fas fa-file-excel"></i> Download Rekap
                   </button>

@@ -124,6 +124,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('rekap', [DashboardController::class, 'rekap'])->name('dashboard.rekap');
   Route::get('dashboard/rekap/download', [DashboardController::class, 'rekapDownload'])->name('dashboard.rekap.download');
   Route::get('dashboard/rekap/kontrak/download', [DashboardController::class, 'rekapKontrakDownload'])->name('dashboard.rekap.kontrak.download');
+  Route::get('dashboard/rekapKaryawan', [DashboardController::class, 'rekapKaryawan'])->name('dashboard.rekap.karyawan');
 
   // master
       // menu

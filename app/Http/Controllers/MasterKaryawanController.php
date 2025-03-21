@@ -805,53 +805,6 @@ class MasterKaryawanController extends Controller
 
   public function filter(Request $request)
   {
-    // // Ambil filter lama kontrak (3, 6, 12, 24 bulan)
-    // $filter_bulan = $request->input('bulan');
-
-    // $karyawans = MasterKaryawan::with(['kontrakTerakhir' => function ($query) {
-    //     $query->select('id', 'karyawan_id', 'mulai_kontrak', 'akhir_kontrak')->latest('akhir_kontrak');
-    // }])->get();
-
-    // // Filter berdasarkan lama kontrak
-    // if ($filter_bulan) {
-    //     $karyawans = $karyawans->filter(function ($karyawan) use ($filter_bulan) {
-    //         if ($karyawan->kontrakTerakhir) {
-    //             $lama_kontrak = \Carbon\Carbon::parse($karyawan->kontrakTerakhir->mulai_kontrak)->diffInMonths(\Carbon\Carbon::parse($karyawan->kontrakTerakhir->akhir_kontrak));
-    //             return $lama_kontrak == $filter_bulan;
-    //         }
-    //         return false;
-    //     });
-    // }
-
-    // ====================================================================
-    
-    // $cabang = $request->input('filter_cabang', []);
-    // $status = $request->input('filter_status', []);
-
-    // $query = MasterKaryawan::query();
-
-    // if (!empty($cabang)) {
-    //   $query->whereIn('master_cabang_id', $cabang);
-    // }
-
-    // if (!empty($status)) {
-    //   $query->whereIn('status', $status);
-    // }
-
-    // $karyawans = $query->with(['masterJabatan', 'masterCabang', 'masterDivisi'])->get();
-
-    // return response()->json([
-    //   'karyawans' => $karyawans,
-    //   'cabang' => $cabang,
-    //   'status' => $status
-    // ]);
-    // return response()->json([
-    //   'karyawans' => $karyawans,
-    //   'filter_bulan' => $filter_bulan
-    // ]);
-
-    // =======================================================================
-
     $cabang = $request->input('filter_cabang', []);
     $status = $request->input('filter_status', []);
     $filter_bulan = $request->input('bulan');
@@ -917,5 +870,10 @@ class MasterKaryawanController extends Controller
       'id' => $karyawan->id,
       'title' => $karyawan->bpjs_kes
     ]);
+  }
+
+  public function rekapShowAll()
+  {
+    return 'a';
   }
 }
