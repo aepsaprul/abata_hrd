@@ -87,14 +87,14 @@
                 <hr>
                 <div class="row">
                   <div class="col-md-4 col-12 mt-3">
-                    <button type="button" id="btn_tambah_peserta" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Peserta</button>
-                    <div id="peserta_wrap">
-                      @foreach ($training_pesertas as $peserta)
+                    <button type="button" id="btn_tambah_modul" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Modul</button>
+                    <div id="modul_wrap">
+                      @foreach ($training_moduls as $modul)
                         <div class="input-group mb-3">
-                          <select name="peserta[]" class="form-control select2_peserta" style="pointer-events: none; appearance: none; background-color: #f0f0f0; color: #555;" required>
-                            <option value="">Pilih Peserta</option>
-                            @foreach ($karyawans as $karyawan_peserta)
-                              <option value="{{ $karyawan_peserta->id }}" {{ $karyawan_peserta->id == $peserta->karyawan_id ? 'selected' : '' }}>{{ $karyawan_peserta->nama_lengkap }}</option>
+                          <select name="modul[]" class="form-control select2_modul" style="pointer-events: none; appearance: none; background-color: #f0f0f0; color: #555;" required>
+                            <option value="">Pilih Modul</option>
+                            @foreach ($moduls as $data_modul)
+                              <option value="{{ $data_modul->id }}" {{ $data_modul->id == $modul->modul_id ? 'selected' : '' }}>{{ $data_modul->nama }}</option>
                             @endforeach
                           </select>
                           <div class="input-group-append">
@@ -123,14 +123,14 @@
                     </div>
                   </div>
                   <div class="col-md-4 col-12 mt-3">
-                    <button type="button" id="btn_tambah_modul" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Modul</button>
-                    <div id="modul_wrap">
-                      @foreach ($training_moduls as $modul)
+                    <button type="button" id="btn_tambah_peserta" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Peserta</button>
+                    <div id="peserta_wrap">
+                      @foreach ($training_pesertas as $peserta)
                         <div class="input-group mb-3">
-                          <select name="modul[]" class="form-control select2_modul" style="pointer-events: none; appearance: none; background-color: #f0f0f0; color: #555;" required>
-                            <option value="">Pilih Modul</option>
-                            @foreach ($moduls as $data_modul)
-                              <option value="{{ $data_modul->id }}" {{ $data_modul->id == $modul->modul_id ? 'selected' : '' }}>{{ $data_modul->nama }}</option>
+                          <select name="peserta[]" class="form-control select2_peserta" style="pointer-events: none; appearance: none; background-color: #f0f0f0; color: #555;" required>
+                            <option value="">Pilih Peserta</option>
+                            @foreach ($karyawans as $karyawan_peserta)
+                              <option value="{{ $karyawan_peserta->id }}" {{ $karyawan_peserta->id == $peserta->master_karyawan_id ? 'selected' : '' }}>{{ $karyawan_peserta->nama_lengkap }}</option>
                             @endforeach
                           </select>
                           <div class="input-group-append">

@@ -43,7 +43,7 @@
                     </select>
                   </div>
                   <div class="col-md-3 col-12 mb-3">
-                    <label for="judul" class="form-label">Judul</label>
+                    <label for="judul" class="form-label">Modul</label>
                     <input type="text" name="judul" id="judul" class="form-control" required>
                   </div>
                   <div class="col-md-3 col-12 mb-3">
@@ -86,16 +86,16 @@
                 <hr>
                 <div class="row">
                   <div class="col-md-4 col-12 mt-3">
-                    <button type="button" id="btn_tambah_peserta" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Peserta</button>
-                    <div id="peserta_wrap"></div>
+                    <button type="button" id="btn_tambah_modul" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Modul</button>
+                    <div id="modul_wrap"></div>
                   </div>
                   <div class="col-md-4 col-12 mt-3">
                     <button type="button" id="btn_tambah_pengisi" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Pengisi</button>
                     <div id="pengisi_wrap"></div>
                   </div>
                   <div class="col-md-4 col-12 mt-3">
-                    <button type="button" id="btn_tambah_modul" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Modul</button>
-                    <div id="modul_wrap"></div>
+                    <button type="button" id="btn_tambah_peserta" class="btn bg-gradient-secondary px-3 mb-3"><i class="fas fa-plus"></i> Tambah Peserta</button>
+                    <div id="peserta_wrap"></div>
                   </div>
                 </div>
                 <hr>
