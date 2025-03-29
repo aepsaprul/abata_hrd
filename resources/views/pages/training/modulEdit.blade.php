@@ -12,13 +12,13 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">
-          <h4>Tambah Modul</h4>
+          <h4>Ubah Modul</h4>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('training.moduls') }}">Modul</a></li>
-            <li class="breadcrumb-item active">Tambah</li>
+            <li class="breadcrumb-item active">Ubah</li>
           </ol>
         </div>
       </div>
@@ -42,12 +42,12 @@
                   </div>
                   <div class="col-md-6 col-12 mb-3">
                     <label for="file" class="form-label">Ganti File</label>
-                    <input type="file" name="file" id="file" class="form-control" required>
+                    <input type="file" name="file" id="file" class="form-control">
                   </div>
                 </div>
                 <div class="row">
                   <div class="col text-right">
-                    <button type="submit" class="btn bg-gradient-primary" style="width: 150px;"><i class="fas fa-save"></i> Simpan</button>
+                    <button type="submit" class="btn bg-gradient-primary" style="width: 150px;"><i class="fas fa-save"></i> Perbaharui</button>
                   </div>
                 </div>
               </form>

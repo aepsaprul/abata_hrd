@@ -63,6 +63,9 @@
                             <i class="fas fa-cog"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{{ route('training.modul.materi', [$item->id]) }}" class="dropdown-item border-bottom">
+                              <i class="fas fa-file-alt text-center mr-2" style="width: 20px;"></i> Materi
+                            </a>
                             <a href="{{ route('training.modul.edit', [$item->id]) }}" class="dropdown-item border-bottom">
                               <i class="fas fa-pencil-alt text-center mr-2" style="width: 20px;"></i> Ubah
                             </a>

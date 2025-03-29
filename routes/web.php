@@ -409,37 +409,24 @@ Route::group(['middleware' => 'auth'], function () {
   Route::put('training/modul/{id}/update', [TrainingController::class, 'modulUpdate'])->name('training.modul.update');
   Route::get('training/modul/{id}/delete', [TrainingController::class, 'modulDelete'])->name('training.modul.delete');
   Route::post('training/laporan', [TrainingController::class, 'laporan'])->name('training.laporan');
-  // Route::get('training/{id}/delete_btn', [TrainingController::class, 'deleteBtn'])->name('training.delete_btn');
-  // Route::post('training/delete', [TrainingController::class, 'delete'])->name('training.delete');
-  // Route::get('training/modul/{file_modul}', [TrainingController::class, 'modul'])->name('training.modul');
 
-  // training training
-  // Route::get('training/training', [TrainingController::class, 'training'])->name('training');
-  // Route::get('training/training/create', [TrainingController::class, 'trainingCreate'])->name('training.training.create');
-  // Route::get('training/training/getKaryawan', [TrainingController::class, 'getKaryawan'])->name('training.getKaryawan');
-  // Route::get('training/training/getModul', [TrainingController::class, 'getModul'])->name('training.getModul');
-  // Route::post('training/training/store', [TrainingController::class, 'trainingStore'])->name('training.training.store');
-  // Route::get('training/training/{id}/show', [TrainingController::class, 'trainingShow'])->name('training.training.show');
-  // Route::get('training/training/{id}/edit', [TrainingController::class, 'trainingEdit'])->name('training.training.edit');
-  // Route::put('training/training/{id}/update', [TrainingController::class, 'trainingUpdate'])->name('training.training.update');
-  // Route::get('training/training/{id}/delete', [TrainingController::class, 'trainingDelete'])->name('training.training.delete');
-  // Route::get('training/training/modul', [TrainingController::class, 'moduls'])->name('training.moduls');
-  // Route::get('training/training/modul/create', [TrainingController::class, 'modulCreate'])->name('training.modul.create');
-  // Route::post('training/training/modul/store', [TrainingController::class, 'modulStore'])->name('training.modul.store');
-  // Route::get('training/training/modul/{id}/edit', [TrainingController::class, 'modulEdit'])->name('training.modul.edit');
-  // Route::put('training/training/modul/{id}/update', [TrainingController::class, 'modulUpdate'])->name('training.modul.update');
-  // Route::get('training/training/modul/{id}/delete', [TrainingController::class, 'modulDelete'])->name('training.modul.delete');
+  // materi
+  Route::get('training/modul/{id}/materi', [TrainingController::class, 'materi'])->name('training.modul.materi');
+  Route::post('training/modul/materi/store', [TrainingController::class, 'materiStore'])->name('training.modul.materi.store');
+  Route::get('training/modul/materi/{id}/edit', [TrainingController::class, 'materiEdit'])->name('training.modul.materi.edit');
+  Route::put('training/modul/materi/{id}/update', [TrainingController::class, 'materiUpdate'])->name('training.modul.materi.update');
+  Route::get('training/modul/materi/{id}/delete', [TrainingController::class, 'materiDelete'])->name('training.modul.materi.delete');
 
   // pengajuan
-      // cuti
-      Route::get('pengajuan/cuti', [PengajuanCutiController::class, 'index'])->name('pengajuan_cuti.index');
-      Route::get('pengajuan/cuti/create', [PengajuanCutiController::class, 'create'])->name('pengajuan_cuti.create');
-      Route::post('pengajuan/cuti/store', [PengajuanCutiController::class, 'store'])->name('pengajuan_cuti.store');
+    // cuti
+    Route::get('pengajuan/cuti', [PengajuanCutiController::class, 'index'])->name('pengajuan_cuti.index');
+    Route::get('pengajuan/cuti/create', [PengajuanCutiController::class, 'create'])->name('pengajuan_cuti.create');
+    Route::post('pengajuan/cuti/store', [PengajuanCutiController::class, 'store'])->name('pengajuan_cuti.store');
 
-      // resign
-      Route::get('pengajuan/resign', [PengajuanResignController::class, 'index'])->name('pengajuan_resign.index');
-      Route::get('pengajuan/resign/create', [PengajuanResignController::class, 'create'])->name('pengajuan_resign.create');
-      Route::post('pengajuan/resign/store', [PengajuanResignController::class, 'store'])->name('pengajuan_resign.store');
+    // resign
+    Route::get('pengajuan/resign', [PengajuanResignController::class, 'index'])->name('pengajuan_resign.index');
+    Route::get('pengajuan/resign/create', [PengajuanResignController::class, 'create'])->name('pengajuan_resign.create');
+    Route::post('pengajuan/resign/store', [PengajuanResignController::class, 'store'])->name('pengajuan_resign.store');
 
   // complaint
   Route::get('complaint', [ComplaintController::class, 'index'])->name('complaint.index');
